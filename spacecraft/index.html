@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpaceCraft Blueprint Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=4">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="eyebrow-row">
+      <p class="eyebrow">SpaceCraft // Blueprint Index</p>
+      <div class="theme-picker" id="themePicker">
+        <button class="theme-dot" data-theme="default" title="ToobsTube (default)"></button>
+        <button class="theme-dot" data-theme="refinery" title="Refinery"></button>
+        <button class="theme-dot" data-theme="cold" title="Cold Vacuum"></button>
+      </div>
+    </div>
+    <h1>What do I need to build that?</h1>
+
+    <div class="search-wrap">
+      <span class="prompt-caret" aria-hidden="true">&gt;</span>
+      <input id="search" type="text" placeholder="search items…" autocomplete="off" />
+    </div>
+
+    <div class="category-wrap">
+      <label class="category-label" for="category-select">Category</label>
+      <div class="category-row">
+        <select class="category-select" id="category-select">
+          <option value="All">All</option>
+          <option value="Base Building">Base Building</option>
+          <option value="Ship Parts">Ship Parts</option>
+          <option value="Components">Components</option>
+          <option value="Resources">Resources</option>
+        </select>
+        <button class="plan-button" id="plan-button" type="button">Plan <span class="plan-count" id="plan-count">0</span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="plan-overlay" id="plan-overlay" hidden>
+    <div class="plan-modal">
+      <div class="plan-modal-head">
+        <h2>Build plan</h2>
+        <button class="plan-close" id="plan-close" aria-label="Close">&times;</button>
+      </div>
+      <div class="plan-modal-body" id="plan-modal-body"></div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <main id="list" class="list"></main>
+    <aside id="detail" class="detail-panel">
+      <div class="detail-empty">Tap any item to see its full recipe and complete raw-materials breakdown here.</div>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <p>Hand-maintained from in-game play + community sources. EA build, May 20 2026 — recheck after patches.
+      <span id="count"></span>
+    </p>
+  </footer>
+
+<script src="app.js?v=4"></script>
+</body>
+</html>

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ToobsTube</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --hull: #0a0d10;
+    --panel: #10151a;
+    --panel-line: #1c242b;
+    --green: #28ec13;
+    --green-dim: #1a9c0c;
+    --purple: #b026ff;
+    --text: #e4e9ec;
+    --text-dim: #6b7480;
+    --text-mid: #9aa3ad;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--hull);
+    background-image:
+      linear-gradient(var(--panel-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--panel-line) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-attachment: fixed;
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---- Top bar ---- */
+  header {
+    border-bottom: 1px solid var(--panel-line);
+    background: rgba(10, 13, 16, 0.85);
+    backdrop-filter: blur(6px);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+  }
+
+  .logo .bolt {
+    color: var(--green);
+    font-size: 20px;
+    filter: drop-shadow(0 0 6px rgba(40,236,19,0.6));
+  }
+
+  nav {
+    display: flex;
+    gap: 28px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-mid);
+  }
+
+  nav a { transition: color 0.15s ease; }
+  nav a:hover { color: var(--green); }
+
+  /* ---- Hero: console readout ---- */
+  .hero {
+    padding: 90px 24px 70px;
+    position: relative;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--green);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px rgba(40,236,19,0.9);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+
+  h1 {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: clamp(36px, 6vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -1px;
+    max-width: 820px;
+  }
+
+  h1 span {
+    color: var(--green);
+    text-shadow: 0 0 24px rgba(40,236,19,0.35);
+  }
+
+  .hero-sub {
+    margin-top: 22px;
+    max-width: 560px;
+    font-size: 17px;
+    color: var(--text-mid);
+  }
+
+  .hero-actions {
+    margin-top: 36px;
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 13px 22px;
+    border-radius: 3px;
+    border: 1px solid var(--panel-line);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.15s ease;
+  }
+
+  .btn-primary {
+    background: var(--green);
+    color: #06170a;
+    border-color: var(--green);
+    font-weight: 700;
+  }
+  .btn-primary:hover { box-shadow: 0 0 20px rgba(40,236,19,0.45); transform: translateY(-1px); }
+
+  .btn-ghost { color: var(--text); }
+  .btn-ghost:hover { border-color: var(--purple); color: var(--purple); }
+
+  /* ---- Section labels ---- */
+  .section {
+    padding: 70px 24px;
+    border-top: 1px solid var(--panel-line);
+  }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .section-title {
+    font-family: var(--mono);
+    font-size: 26px;
+    font-weight: 700;
+    margin-top: 6px;
+  }
+
+  /* ---- Systems grid (signature element) ---- */
+  .systems {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--panel-line);
+    border: 1px solid var(--panel-line);
+  }
+
+  .system-card {
+    background: var(--panel);
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+    transition: background 0.2s ease;
+  }
+
+  .system-card:hover { background: #131a20; }
+
+  .system-card.linked { cursor: pointer; }
+
+  .status-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .status-tag {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 4px 9px;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+
+  .status-tag.online {
+    color: var(--green);
+    border-color: rgba(40,236,19,0.4);
+    background: rgba(40,236,19,0.06);
+  }
+  .status-tag.dev {
+    color: var(--purple);
+    border-color: rgba(176,38,255,0.4);
+    background: rgba(176,38,255,0.06);
+  }
+  .status-tag .dot { width: 5px; height: 5px; }
+  .status-tag.online .dot { background: var(--green); box-shadow: 0 0 6px rgba(40,236,19,0.8); }
+  .status-tag.dev .dot { background: var(--purple); box-shadow: 0 0 6px rgba(176,38,255,0.8); animation: pulse 1.4s ease-in-out infinite; }
+
+  .system-id { color: var(--text-dim); }
+
+  .system-name {
+    font-family: var(--mono);
+    font-size: 19px;
+    font-weight: 700;
+  }
+
+  .system-desc {
+    color: var(--text-mid);
+    font-size: 14px;
+    flex-grow: 1;
+  }
+
+  .system-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    padding-top: 8px;
+    border-top: 1px solid var(--panel-line);
+  }
+
+  .system-footer .go { color: var(--green); }
+  .system-card.linked:hover .go { text-decoration: underline; }
+
+  /* ---- Latest transmission (video) ---- */
+  .transmission {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  @media (max-width: 720px) {
+    .transmission { grid-template-columns: 1fr; }
+  }
+
+  .video-frame {
+    aspect-ratio: 16/9;
+    background: var(--panel);
+    border: 1px solid var(--panel-line);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .video-frame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(40,236,19,0.06), rgba(176,38,255,0.08));
+  }
+
+  .play-btn {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background: rgba(40,236,19,0.12);
+    border: 1px solid var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    transition: all 0.2s ease;
+  }
+
+  .play-btn:hover { background: var(--green); box-shadow: 0 0 30px rgba(40,236,19,0.5); }
+  .play-btn svg { fill: var(--green); transition: fill 0.2s ease; }
+  .play-btn:hover svg { fill: #06170a; }
+
+  .transmission-meta .eyebrow { margin-bottom: 16px; }
+
+  .transmission h3 {
+    font-family: var(--mono);
+    font-size: 24px;
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+
+  .transmission p { color: var(--text-mid); font-size: 15px; margin-bottom: 20px; }
+
+  /* ---- Footer ---- */
+  footer {
+    border-top: 1px solid var(--panel-line);
+    padding: 40px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .footer-links { display: flex; gap: 20px; }
+  .footer-links a:hover { color: var(--green); }
+
+  @media (max-width: 600px) {
+    nav { display: none; }
+    .hero { padding: 60px 20px 50px; }
+    .section { padding: 50px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="topbar">
+    <div class="logo"><span class="bolt">⚡</span>TOOBS<span style="color:var(--purple)">TUBE</span></div>
+    <nav>
+      <a href="#systems">Systems</a>
+      <a href="#latest">Latest</a>
+      <a href="https://www.youtube.com/@ToobsTube" target="_blank">YouTube</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>All systems operational</div>
+    <h1>Tools built between <span>hotshot runs</span> and long nights in survival games.</h1>
+    <p class="hero-sub">Trucker by trade, tinkerer by habit. This is where the community resources, mod managers, and calculators I build for the games I play go live.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#systems">View deployed systems</a>
+      <a class="btn btn-ghost" href="https://www.youtube.com/@ToobsTube" target="_blank">Watch on YouTube</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="systems">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-label">Deployed &amp; in development</div>
+        <div class="section-title">System status</div>
+      </div>
+    </div>
+
+    <div class="systems">
+
+      <a class="system-card linked" href="/spacecraft" style="color:inherit;">
+        <div class="status-row">
+          <span class="system-id">SYS-01</span>
+          <span class="status-tag online"><span class="dot"></span>Online</span>
+        </div>
+        <div class="system-name">SpaceCraft Blueprint Index</div>
+        <div class="system-desc">Full crafting reference for SpaceCraft — recipes, raw material breakdowns, station taxes, and a build planner with save/load.</div>
+        <div class="system-footer">
+          <span>Web app</span>
+          <span class="go">Open →</span>
+        </div>
+      </a>
+
+      <div class="system-card">
+        <div class="status-row">
+          <span class="system-id">SYS-02</span>
+          <span class="status-tag dev"><span class="dot"></span>In development</span>
+        </div>
+        <div class="system-name">Tidekeeper</div>
+        <div class="system-desc">A Rust/Tauri mod manager for Subnautica 2, with Nexus OAuth integration and NXM protocol handling.</div>
+        <div class="system-footer">
+          <span>Desktop app</span>
+          <span>Coming soon</span>
+        </div>
+      </div>
+
+      <div class="system-card">
+        <div class="status-row">
+          <span class="system-id">SYS-03</span>
+          <span class="status-tag dev"><span class="dot"></span>Planned</span>
+        </div>
+        <div class="system-name">Ship Builder</div>
+        <div class="system-desc">A SpaceCraft ship planner covering heat, power, and hull layout — built as a companion page to the Blueprint Index.</div>
+        <div class="system-footer">
+          <span>Web app</span>
+          <span>Roadmap</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section" id="latest">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-label">Incoming</div>
+        <div class="section-title">Latest transmission</div>
+      </div>
+    </div>
+
+    <div class="transmission">
+      <a class="video-frame" href="https://www.youtube.com/@ToobsTube" target="_blank">
+        <div class="play-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+      </a>
+      <div class="transmission-meta">
+        <div class="eyebrow"><span class="dot"></span>New on the channel</div>
+        <h3>Catch the latest run, build, or breakdown</h3>
+        <p>Drop into the channel for gameplay from the space and survival MMOs I'm currently deep in, plus the occasional dev-log on whatever tool I'm building.</p>
+        <a class="btn btn-primary" href="https://www.youtube.com/@ToobsTube" target="_blank">Go to channel</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>© 2026 ToobsTube — built between shifts.</div>
+  <div class="footer-links">
+    <a href="https://www.youtube.com/@ToobsTube" target="_blank">YouTube</a>
+    <a href="/spacecraft">SpaceCraft Index</a>
+  </div>
+</footer>
+
+</body>
+</html>

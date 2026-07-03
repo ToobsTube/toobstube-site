@@ -1,0 +1,4292 @@
+[
+  {
+    "id": "command-tower",
+    "name": "Command Tower",
+    "category": "Base Building",
+    "group": "Base Building",
+    "station": "Construction Tool",
+    "type": "build",
+    "verified": true,
+    "source": "in-game screenshot",
+    "build_info": {
+      "description": "This building allows a base to expand over a Level 2 land area, doubling its maximum footprint and unlocking experience thresholds up to 800 points.",
+      "xp_bonus": 10
+    },
+    "ingredients": [
+      {
+        "item": "Stainless Plate",
+        "qty": 50
+      },
+      {
+        "item": "Structural Beam",
+        "qty": 25
+      },
+      {
+        "item": "Magnetic Coil",
+        "qty": 80
+      },
+      {
+        "item": "Concrete",
+        "qty": 250
+      }
+    ]
+  },
+  {
+    "id": "extractor",
+    "name": "Extractor",
+    "category": "Base Building",
+    "group": "Base Building",
+    "station": "Construction Tool",
+    "type": "build",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Must be placed over a resource deposit",
+    "build_info": {
+      "fp_cost": 5,
+      "description": "This building can only be assembled over a resource deposit, which it will then drill into to extract raw ore automatically."
+    },
+    "ingredients": [
+      {
+        "item": "Motor",
+        "qty": 1
+      },
+      {
+        "item": "Concrete",
+        "qty": 4
+      }
+    ]
+  },
+  {
+    "id": "solar-plant",
+    "name": "Solar Plant",
+    "category": "Base Building",
+    "group": "Base Building",
+    "station": "Construction Tool",
+    "type": "build",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Distinct from the Small/Medium Solar Panel ship modules — this is the base power-grid structure",
+    "build_info": {
+      "fp_cost": 4,
+      "description": "This building converts electromagnetic radiation into electric current, supplying the base's power grid. It takes up space and must be oriented correctly, but it operates without fuel."
+    },
+    "ingredients": [
+      {
+        "item": "Structural Beam",
+        "qty": 1
+      },
+      {
+        "item": "Stainless Plate",
+        "qty": 9
+      },
+      {
+        "item": "Solar Cell",
+        "qty": 36
+      }
+    ]
+  },
+  {
+    "id": "pylon",
+    "name": "Pylon",
+    "category": "Base Building",
+    "group": "Base Building",
+    "station": "Construction Tool",
+    "type": "build",
+    "verified": true,
+    "source": "in-game screenshot",
+    "build_info": {
+      "description": "This pole can support electric cables and connect the base's power grid to another building. To plug a cable into it, target the top of the pylon and press E."
+    },
+    "ingredients": [
+      {
+        "item": "Magnetic Coil",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "id": "smelter",
+    "name": "Smelter",
+    "category": "Base Building",
+    "group": "Base Building",
+    "station": "Construction Tool",
+    "type": "build",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "This is the automated base Smelter — matches the 3-minute auto_craft_time_sec already logged on Copper/Aluminum Ingot. The fast 5s manual time corresponds to the Micro-Furnace, not this building.",
+    "build_info": {
+      "fp_cost": 3,
+      "description": "This building converts raw ore into industrial ingots. As an automated alternative to the manual smelter, it can function continuously with no human input, which makes it appropriate for large-scale production."
+    },
+    "ingredients": [
+      {
+        "item": "Stainless Plate",
+        "qty": 1
+      },
+      {
+        "item": "Concrete",
+        "qty": 10
+      }
+    ]
+  },
+  {
+    "id": "micro-furnace",
+    "name": "Micro-Furnace",
+    "category": "Base Building",
+    "group": "Base Building",
+    "station": "Construction Tool",
+    "type": "build",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Likely the source of the fast 5s manual smelting times already logged on Copper/Aluminum/Iron Ingot — smaller and faster than the automated Smelter building, meant for hands-on play.",
+    "build_info": {
+      "fp_cost": 1,
+      "xp_bonus": 3,
+      "description": "Meitner & Karls have refined the process of turning ore into ingots with this micro-furnace. Smaller and faster than a regular smelter, it's the perfect accessory for your days of heavy manual crafting."
+    },
+    "ingredients": [
+      {
+        "item": "Stainless Plate",
+        "qty": 2
+      },
+      {
+        "item": "Concrete",
+        "qty": 5
+      },
+      {
+        "item": "Calcite",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "id": "assembler",
+    "name": "Assembler",
+    "category": "Base Building",
+    "group": "Base Building",
+    "station": "Construction Tool",
+    "type": "build",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Automated alternative to the manual Workshop — likely has its own slower cycle times for Workshop-type items (Wire, Nut and Bolt, etc.), not yet confirmed",
+    "build_info": {
+      "fp_cost": 3,
+      "xp_bonus": 9,
+      "description": "This building assembles basic resources into industrial compounds. As an automated alternative to the manual workshop, it can function continuously with no human input, which makes it appropriate for large-scale production."
+    },
+    "ingredients": [
+      {
+        "item": "Structural Beam",
+        "qty": 4
+      },
+      {
+        "item": "Stainless Plate",
+        "qty": 8
+      },
+      {
+        "item": "Concrete",
+        "qty": 40
+      },
+      {
+        "item": "Motor",
+        "qty": 3
+      }
+    ]
+  },
+  {
+    "id": "warehouse",
+    "name": "Warehouse",
+    "category": "Base Building",
+    "group": "Base Building",
+    "station": "Construction Tool",
+    "type": "build",
+    "verified": true,
+    "source": "in-game screenshot",
+    "build_info": {
+      "fp_cost": 3,
+      "description": "This building is suitable for storing solid materials, which can be easily moved in and out by drones."
+    },
+    "ingredients": [
+      {
+        "item": "Metal Sheet",
+        "qty": 50
+      },
+      {
+        "item": "Structural Beam",
+        "qty": 4
+      },
+      {
+        "item": "Stainless Plate",
+        "qty": 4
+      },
+      {
+        "item": "Concrete",
+        "qty": 20
+      }
+    ]
+  },
+  {
+    "id": "drone-dispatcher",
+    "name": "Drone Dispatcher",
+    "category": "Base Building",
+    "group": "Base Building",
+    "station": "Construction Tool",
+    "type": "build",
+    "verified": true,
+    "source": "in-game screenshot",
+    "build_info": {
+      "fp_cost": 1,
+      "description": "This building can monitor multiple drone routes and merge them into full-fledged production chains. The backbone of a well-organized pipeline."
+    },
+    "ingredients": [
+      {
+        "item": "Metal Sheet",
+        "qty": 1
+      },
+      {
+        "item": "Stainless Plate",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "id": "landing-pad",
+    "name": "Landing Pad",
+    "category": "Base Building",
+    "group": "Base Building",
+    "station": "Construction Tool",
+    "type": "build",
+    "verified": true,
+    "source": "in-game screenshot",
+    "build_info": {
+      "fp_cost": 1,
+      "description": "This platform allows a ship to dock on the base and connect to its distribution system to transfer fuel or other fluids."
+    },
+    "ingredients": [
+      {
+        "item": "Stainless Plate",
+        "qty": 8
+      },
+      {
+        "item": "Concrete",
+        "qty": 40
+      }
+    ]
+  },
+  {
+    "id": "copper-ore",
+    "name": "Copper Ore",
+    "category": "Extraction",
+    "group": "Resources",
+    "station": "Extractor",
+    "type": "extract",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Extractor processing cycle is 60s. The '20' next to Output is the max the output buffer will hold before it needs clearing (confirmed) — not a yield rate. The 62m next to the logistics route is drone travel time for that specific route, which depends on base layout, not a fixed extractor stat. Same item also has a 'copper-ore-gathering' entry under the Gathering tab covering the hand-gather/Material encyclopedia stats (value, weight, deposit yields) — split into two entries since they cover different mechanics.",
+    "extraction_info": {
+      "cycle_time_sec": 60,
+      "storage_capacity_su": 100,
+      "output_buffer_max": 20,
+      "energy_consumption_ma": 20
+    }
+  },
+  {
+    "id": "aluminum-ore",
+    "name": "Aluminum Ore",
+    "category": "Extraction",
+    "group": "Resources",
+    "station": "Extractor",
+    "type": "extract",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Extractor processing cycle is 60s. The '20' next to Output is the max the output buffer will hold before it needs clearing (confirmed) — not a yield rate. The 40m next to the logistics route is drone travel time for that specific route, which depends on base layout, not a fixed extractor stat. Same item also has a 'aluminum-ore-gathering' entry under the Gathering tab covering the hand-gather/Material encyclopedia stats (value, weight, deposit yields) — split into two entries since they cover different mechanics.",
+    "extraction_info": {
+      "cycle_time_sec": 60,
+      "storage_capacity_su": 100,
+      "output_buffer_max": 20,
+      "energy_consumption_ma": 20
+    }
+  },
+  {
+    "id": "drone",
+    "name": "Drone",
+    "category": "Other",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "More items expected in 'Other' as more unlock — very little accessible here so far",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Motor",
+            "qty": 1
+          },
+          {
+            "item": "Microchip",
+            "qty": 1
+          },
+          {
+            "item": "Metal Sheet",
+            "qty": 1
+          },
+          {
+            "item": "Nut and Bolt",
+            "qty": 6
+          }
+        ],
+        "craft_time_sec": 2,
+        "storage_units": 1,
+        "added_value": 11.22,
+        "tax": {
+          "workshop": 0.61
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 79,
+      "subcategory": "Robotic Agents",
+      "description": "This autonomous vehicle carries loads from one point to another along a predefined route.",
+      "stats": {
+        "Solid Storage": "10.0 su"
+      }
+    }
+  },
+  {
+    "id": "brick-cockpit",
+    "name": "\"Brick\" Cockpit",
+    "category": "Ship Part",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Stainless Plate",
+            "qty": 10
+          },
+          {
+            "item": "Wire",
+            "qty": 50
+          },
+          {
+            "item": "Motor",
+            "qty": 2
+          }
+        ],
+        "craft_time_sec": 30,
+        "storage_units": 20,
+        "added_value": 46,
+        "tax": {
+          "workshop": 2.3
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 415,
+      "subcategory": "Cockpit",
+      "description": "The Company's entry-level cockpit, mostly equipped on test vehicles.",
+      "stats": {
+        "System Support": "200 SP",
+        "Frame": "20",
+        "Weight": "40.0 t",
+        "Heat Capacity": "40 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK"
+      }
+    }
+  },
+  {
+    "id": "pathfinder-cockpit",
+    "name": "\"Pathfinder\" Cockpit",
+    "category": "Ship Part",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Requires 'Small Steel Part Casing' and 'Support Hardware' — neither has a confirmed recipe yet",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Magnetic Coil",
+            "qty": 8
+          },
+          {
+            "item": "Wire",
+            "qty": 20
+          },
+          {
+            "item": "Support Hardware",
+            "qty": 6
+          },
+          {
+            "item": "Small Steel Part Casing",
+            "qty": 3
+          }
+        ],
+        "craft_time_sec": 30,
+        "storage_units": 20
+      }
+    ],
+    "module_info": {
+      "sell_price": 1050,
+      "subcategory": "Cockpit",
+      "description": "Aegir's individual cockpit is streamlined to reduce the probability of critical damage during FTL jumps. It also comes with a small but highly efficient power battery.",
+      "stats": {
+        "System Support": "200 SP",
+        "Frame": "48",
+        "Weight": "40.0 t",
+        "Heat Capacity": "40 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK",
+        "Power Storage": "1000 MAs",
+        "Max Charge Speed": "100.0 MA",
+        "Theoretical Efficiency": "100.0%",
+        "Self-Discharge": "0.0%/s",
+        "FTL Crit Chance": "-50%"
+      }
+    }
+  },
+  {
+    "id": "beaver-cockpit",
+    "name": "\"Beaver\" Cockpit",
+    "category": "Ship Part",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Requires 'Small Steel Part Casing' and 'Support Hardware' — neither has a confirmed recipe yet",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Steel Part Casing",
+            "qty": 3
+          },
+          {
+            "item": "Support Hardware",
+            "qty": 6
+          },
+          {
+            "item": "Metal Sheet",
+            "qty": 20
+          },
+          {
+            "item": "Nut and Bolt",
+            "qty": 40
+          }
+        ],
+        "craft_time_sec": 30,
+        "storage_units": 20,
+        "added_value": 145,
+        "tax": {
+          "workshop": 5.32
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 1020,
+      "subcategory": "Cockpit",
+      "description": "Meitner & Karls' individual cockpit is optimized for storage space and collision resistance, making it the perfect pick for transporting cargo through asteroid fields.",
+      "stats": {
+        "System Support": "100 SP",
+        "Frame": "48",
+        "Weight": "40.0 t",
+        "Heat Capacity": "40 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK",
+        "Solid Storage": "300.0 su",
+        "Hull Impact Damage": "-40%"
+      }
+    }
+  },
+  {
+    "id": "cocoon-cockpit",
+    "name": "\"Cocoon\" Cockpit",
+    "category": "Ship Part",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Requires 'Small Steel Part Casing' and 'Support Hardware' — neither has a confirmed recipe yet",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Steel Part Casing",
+            "qty": 3
+          },
+          {
+            "item": "Support Hardware",
+            "qty": 6
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 20
+          }
+        ],
+        "craft_time_sec": 30,
+        "storage_units": 20,
+        "added_value": 110.6,
+        "tax": {
+          "workshop": 5.32
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 1020,
+      "subcategory": "Cockpit",
+      "description": "Damona's individual cockpit is a feat of insulation engineering that makes it less vulnerable to outside temperatures, but also slows down laser cooling. It also comes with a small radiator to help the ship evacuate excess heat or generate some when it gets cold.",
+      "stats": {
+        "System Support": "200 SP",
+        "Frame": "48",
+        "Weight": "40.0 t",
+        "Heat Capacity": "40 MJ/K",
+        "Material Heat Conductivity": "40.0 W/aK",
+        "Heat Dissipation": "300.0 MW",
+        "Heat Generation": "4000.0 MW"
+      }
+    }
+  },
+  {
+    "id": "cart-pusher-thruster",
+    "name": "\"Cart Pusher\" Thruster",
+    "category": "Ship Part",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Stainless Plate",
+            "qty": 10
+          },
+          {
+            "item": "Wire",
+            "qty": 40
+          },
+          {
+            "item": "Hall Alternator",
+            "qty": 1
+          }
+        ],
+        "craft_time_sec": 20,
+        "storage_units": 20,
+        "added_value": 34.8,
+        "tax": {
+          "workshop": 1.8
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 315,
+      "subcategory": "Thruster",
+      "description": "This electric propulsion device can provide thrust and lift to a spaceship without requiring any combustion or non-renewable fuel.",
+      "stats": {
+        "System Requirements": "300 SP",
+        "Material Heat Conductivity": "60.0 W/aK",
+        "Force": "300.0 t",
+        "Thrust": "50.0 np/s",
+        "Power Consumption": "35.0 MA",
+        "Steering Strength": "8.0",
+        "Boost Thrust": "100.0",
+        "Boost Power Consumption": "100.0 MA",
+        "Boost Heat Generation": "1000.0 MW"
+      }
+    }
+  },
+  {
+    "id": "spot-light",
+    "name": "Spot Light",
+    "category": "External Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Metal Sheet",
+            "qty": 2
+          },
+          {
+            "item": "Wire",
+            "qty": 3
+          }
+        ],
+        "craft_time_sec": 2,
+        "storage_units": 1,
+        "added_value": 0.96,
+        "tax": {
+          "workshop": 0.23
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 13.2,
+      "subcategory": "Light",
+      "description": "A good light, used to open a path of vision in the darkness.",
+      "stats": {
+        "Luminous Power": "4.0 lm",
+        "Light Range": "200.0 np",
+        "Power Usage": "0.05 MA"
+      }
+    }
+  },
+  {
+    "id": "light-strip",
+    "name": "Light Strip",
+    "category": "External Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Metal Sheet",
+            "qty": 2
+          },
+          {
+            "item": "Wire",
+            "qty": 3
+          }
+        ],
+        "craft_time_sec": 2,
+        "storage_units": 1,
+        "added_value": 0.96,
+        "tax": {
+          "workshop": 0.23
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 13.2,
+      "subcategory": "Light",
+      "description": "A good light, used to open a path of vision in the darkness.",
+      "stats": {
+        "Luminous Power": "0.5 lm",
+        "Light Range": "200.0 np",
+        "Power Usage": "0.05 MA"
+      }
+    }
+  },
+  {
+    "id": "headlight",
+    "name": "Headlight",
+    "category": "External Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Metal Sheet",
+            "qty": 2
+          },
+          {
+            "item": "Wire",
+            "qty": 3
+          }
+        ],
+        "craft_time_sec": 2,
+        "storage_units": 1,
+        "added_value": 0.96,
+        "tax": {
+          "workshop": 0.23
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 13.2,
+      "subcategory": "Light",
+      "description": "A good light, used to open a path of vision in the darkness.",
+      "stats": {
+        "Luminous Power": "1.0 lm",
+        "Light Range": "400.0 np",
+        "Power Usage": "0.08 MA"
+      }
+    }
+  },
+  {
+    "id": "small-module-kit",
+    "name": "Small Module Kit",
+    "category": "Ship Component",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Shares a breadcrumb (Manufactured > Kit and Casing) with Factory Kit items, but lives in its own menu section — more Ship Component items expected as more unlock",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Nut and Bolt",
+            "qty": 20
+          },
+          {
+            "item": "Wire",
+            "qty": 10
+          }
+        ],
+        "craft_time_sec": 10,
+        "storage_units": 10,
+        "added_value": 2.9,
+        "tax": {
+          "workshop": 0.39
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 38.5,
+      "subcategory": "Kit and Casing",
+      "description": "A universal standard serving as a basis for all \"Reliant Spaceship Modules\". Anchors the RSM to its associated ship using B-Switch electropermanent magnets."
+    },
+    "value": 38.5
+  },
+  {
+    "id": "base-deploy-kit",
+    "name": "Base Deploy Kit",
+    "category": "Factory Kit",
+    "group": "Base Building",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Base Core Drive",
+            "qty": 1
+          },
+          {
+            "item": "Stainless Plate",
+            "qty": 4
+          },
+          {
+            "item": "Metal Sheet",
+            "qty": 20
+          },
+          {
+            "item": "Wire",
+            "qty": 20
+          },
+          {
+            "item": "Concrete",
+            "qty": 20
+          }
+        ],
+        "craft_time_sec": 2,
+        "storage_units": 10,
+        "added_value": 56.6,
+        "tax": {
+          "workshop": 1.83
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 322,
+      "subcategory": "Kit and Casing",
+      "description": "This autonomous device can deploy a planetary base in a matter of seconds. Its use is reserved for authorized associates selected by The Company."
+    }
+  },
+  {
+    "id": "small-cargo-hold",
+    "name": "Small Cargo Hold",
+    "category": "Internal Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Internal Module list is partial — only what's currently unlocked",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Module Kit",
+            "qty": 1
+          },
+          {
+            "item": "Metal Sheet",
+            "qty": 6
+          },
+          {
+            "item": "Silicone Gel",
+            "qty": 4
+          }
+        ],
+        "craft_time_sec": 10,
+        "storage_units": 10,
+        "added_value": 6.42,
+        "tax": {
+          "workshop": 0.53
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 65,
+      "subcategory": "Storage Module",
+      "description": "This storage module is suitable for solid materials. Its magnetic stabilization system protects its load from collisions, regardless of the ship's movements.",
+      "stats": {
+        "System Requirements": "100 SP",
+        "Solid Storage": "100.0 su"
+      }
+    }
+  },
+  {
+    "id": "ftl-engine-eco",
+    "name": "FTL Engine - Eco",
+    "category": "Internal Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Module Kit",
+            "qty": 1
+          },
+          {
+            "item": "Crystalline Focuser",
+            "qty": 1
+          },
+          {
+            "item": "Wire",
+            "qty": 7
+          },
+          {
+            "item": "Silicone Gel",
+            "qty": 2
+          }
+        ],
+        "craft_time_sec": 10,
+        "storage_units": 10,
+        "added_value": 12.8,
+        "tax": {
+          "workshop": 0.66
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 90,
+      "subcategory": "FTL Module",
+      "description": "Regarded as the greatest invention of the United Planets era, this category of modules can contract and expand space, making faster-than-light travel possible.",
+      "tag": "Travel",
+      "stats": {
+        "Required Exploration Level": "1",
+        "System Requirements": "50 SP",
+        "Patch Slots": "1",
+        "Mag-Plasma Storage": "200.0 L",
+        "FTL Engine Class": "1"
+      }
+    }
+  },
+  {
+    "id": "cosmic-navigator",
+    "name": "Cosmic Navigator",
+    "category": "Internal Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Module Kit",
+            "qty": 1
+          },
+          {
+            "item": "Microchip",
+            "qty": 5
+          }
+        ],
+        "craft_time_sec": 10,
+        "storage_units": 10,
+        "added_value": 3.6,
+        "tax": {
+          "workshop": 0.45
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 48.8,
+      "subcategory": "FTL Module",
+      "description": "This module use complex algorithms and precise spatial coordinates to help the distracted contractor plan a route across the stars.",
+      "tag": "Unlock path planning",
+      "stats": {
+        "System Requirements": "50 SP"
+      }
+    }
+  },
+  {
+    "id": "flywheel-battery",
+    "name": "Flywheel Battery",
+    "category": "Internal Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Module Kit",
+            "qty": 1
+          },
+          {
+            "item": "Motor",
+            "qty": 1
+          },
+          {
+            "item": "Concrete",
+            "qty": 2
+          }
+        ],
+        "craft_time_sec": 10,
+        "storage_units": 10,
+        "added_value": 12,
+        "tax": {
+          "workshop": 0.77
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 110,
+      "subcategory": "Battery",
+      "description": "This module can store kinetic energy with a rotating wheel to power other RSMs while avoiding the disadvantages of chemical batteries.",
+      "stats": {
+        "System Requirements": "100 SP",
+        "Patch Slots": "1",
+        "Power Storage": "500 MAs",
+        "Max Charge Speed": "500.0 MA",
+        "Theoretical Efficiency": "100.0%",
+        "Self-Discharge": "0.8%/s"
+      }
+    }
+  },
+  {
+    "id": "h-crystal-matrix",
+    "name": "h-Crystal Matrix",
+    "category": "Crystal Geometry",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "From Quartz",
+        "ingredients": [
+          {
+            "item": "Quartz",
+            "qty": 1
+          }
+        ],
+        "output_qty": 11,
+        "craft_time_sec": 2,
+        "storage_units": 0.1,
+        "added_value": -5.5,
+        "tax": {
+          "workshop": 0.25
+        }
+      },
+      {
+        "label": "From Graphite Crystal",
+        "ingredients": [
+          {
+            "item": "Graphite Crystal",
+            "qty": 1
+          }
+        ],
+        "output_qty": 9,
+        "craft_time_sec": 2,
+        "storage_units": 0.1,
+        "added_value": -4.5,
+        "tax": {
+          "workshop": 0.21
+        }
+      },
+      {
+        "label": "From Aquamarine",
+        "ingredients": [
+          {
+            "item": "Aquamarine",
+            "qty": 1
+          }
+        ],
+        "output_qty": 12,
+        "craft_time_sec": 2,
+        "storage_units": 0.1,
+        "added_value": -6,
+        "tax": {
+          "workshop": 0.28
+        }
+      }
+    ],
+    "value": 0.5
+  },
+  {
+    "id": "c-crystal-matrix",
+    "name": "c-Crystal Matrix",
+    "category": "Crystal Geometry",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Only one input path confirmed so far — the category menu suggests more shapes/inputs may exist",
+    "recipes": [
+      {
+        "label": "From Pyrite",
+        "ingredients": [
+          {
+            "item": "Pyrite",
+            "qty": 1
+          }
+        ],
+        "output_qty": 3,
+        "craft_time_sec": 2,
+        "storage_units": 0.1,
+        "added_value": -4,
+        "tax": {
+          "workshop": 0.22
+        }
+      }
+    ],
+    "value": 2.0
+  },
+  {
+    "id": "construction-tool",
+    "name": "Construction Tool",
+    "category": "Contractor Equipment",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Aluminum Ingot",
+            "qty": 1
+          },
+          {
+            "item": "Wire",
+            "qty": 1
+          },
+          {
+            "item": "Silicone Gel",
+            "qty": 1
+          }
+        ],
+        "craft_time_sec": 2,
+        "storage_units": 0.1,
+        "added_value": 1.5,
+        "tax": {
+          "workshop": 0.23
+        }
+      }
+    ],
+    "value": 13.7
+  },
+  {
+    "id": "small-radiator",
+    "name": "Small Radiator",
+    "category": "External Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Module Kit",
+            "qty": 1
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 5
+          },
+          {
+            "item": "Wire",
+            "qty": 50
+          }
+        ],
+        "craft_time_sec": 10,
+        "storage_units": 10,
+        "added_value": 21.5,
+        "tax": {
+          "workshop": 1.19
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 195,
+      "subcategory": "Heat Panel",
+      "description": "This module can release large quantities of thermal energy. It is mostly used to cool off a spaceship's interior by dispersing its heat into space.",
+      "stats": {
+        "System Requirements": "300 SP",
+        "Patch Slots": "1",
+        "Heat Dissipation": "150.0 MW",
+        "Power Usage": "5.0 MA"
+      }
+    }
+  },
+  {
+    "id": "small-solar-panel",
+    "name": "Small Solar Panel",
+    "category": "External Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Module Kit",
+            "qty": 1
+          },
+          {
+            "item": "Solar Cell",
+            "qty": 24
+          }
+        ],
+        "craft_time_sec": 10,
+        "storage_units": 10,
+        "added_value": 14.7,
+        "tax": {
+          "workshop": 1.23
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 202,
+      "subcategory": "Solar Panel",
+      "description": "This module converts electromagnetic radiation into electric current to power other RSMs.",
+      "stats": {
+        "System Requirements": "120 SP",
+        "Power Generation": "40.0 MA"
+      }
+    }
+  },
+  {
+    "id": "medium-solar-panel",
+    "name": "Medium Solar Panel",
+    "category": "External Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Uses 'Module Kit', which requires the [Modular Systems 2] research unlock — not affordable/unlocked yet, so its own recipe is still unconfirmed",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Module Kit",
+            "qty": 1
+          },
+          {
+            "item": "Solar Cell",
+            "qty": 90
+          }
+        ],
+        "craft_time_sec": 16,
+        "storage_units": 25,
+        "added_value": 77,
+        "tax": {
+          "workshop": 5.42
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 1040,
+      "subcategory": "Solar Panel",
+      "description": "This module converts electromagnetic radiation into electric current to power other RSMs.",
+      "stats": {
+        "System Requirements": "360 SP",
+        "Patch Slots": "1",
+        "Power Generation": "150.0 MA"
+      }
+    }
+  },
+  {
+    "id": "simple-mining-laser",
+    "name": "Simple Mining Laser",
+    "category": "External Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Module Kit",
+            "qty": 1
+          },
+          {
+            "item": "Crystalline Focuser",
+            "qty": 2
+          }
+        ],
+        "craft_time_sec": 10,
+        "storage_units": 10,
+        "added_value": 6.3,
+        "tax": {
+          "workshop": 0.67
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 91,
+      "subcategory": "Gathering",
+      "description": "This optical module amplifies light to an intensity that can vaporise many materials. It is currently the most precise way to cut through things.",
+      "tag": "Laser Mining",
+      "stats": {
+        "System Requirements": "100 SP",
+        "Patch Slots": "1"
+      }
+    }
+  },
+  {
+    "id": "overclocked-mining-laser",
+    "name": "Overclocked Mining Laser",
+    "category": "External Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Simple Mining Laser",
+            "qty": 1
+          },
+          {
+            "item": "Crystalline Focuser",
+            "qty": 3
+          },
+          {
+            "item": "Magnetic Coil",
+            "qty": 3
+          }
+        ],
+        "craft_time_sec": 10,
+        "storage_units": 10,
+        "added_value": 23.2,
+        "tax": {
+          "workshop": 1.28
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 212,
+      "subcategory": "Gathering",
+      "description": "This optical module amplifies light to an intensity that can vaporise many materials. It is currently the most precise way to cut through things.",
+      "tag": "Laser Mining",
+      "stats": {
+        "System Requirements": "200 SP",
+        "Patch Slots": "3",
+        "Durability": "1000"
+      }
+    }
+  },
+  {
+    "id": "scanalyzer-alpha",
+    "name": "Scanalyzer Alpha",
+    "category": "External Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Module Kit",
+            "qty": 1
+          },
+          {
+            "item": "Nut and Bolt",
+            "qty": 4
+          },
+          {
+            "item": "Wire",
+            "qty": 2
+          }
+        ],
+        "craft_time_sec": 10,
+        "storage_units": 10,
+        "added_value": 5.38,
+        "tax": {
+          "workshop": 0.46
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 51,
+      "subcategory": "Specialized Tools",
+      "description": "This module identifies the composition of a sample via mass spectrometry. Mining lasers can only be used on resources that were identified through this process.",
+      "tag": "Scan",
+      "stats": {
+        "System Requirements": "50 SP"
+      }
+    }
+  },
+  {
+    "id": "scanalyzer-beta",
+    "name": "Scanalyzer Beta",
+    "category": "External Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Scanalyzer Alpha",
+            "qty": 1
+          },
+          {
+            "item": "Diffraction Grating",
+            "qty": 5
+          },
+          {
+            "item": "c-Crystal Matrix",
+            "qty": 1
+          }
+        ],
+        "craft_time_sec": 10,
+        "storage_units": 10,
+        "added_value": 10.5,
+        "tax": {
+          "workshop": 0.69
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 95,
+      "subcategory": "Specialized Tools",
+      "description": "This module identifies the composition of a sample via mass spectrometry. Mining lasers can only be used on resources that were identified through this process.",
+      "tag": "Scan",
+      "stats": {
+        "Required Exploration Level": "2",
+        "System Requirements": "200 SP"
+      }
+    }
+  },
+  {
+    "id": "simple-resource-detector",
+    "name": "Simple Resource Detector",
+    "category": "External Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Module Kit",
+            "qty": 1
+          },
+          {
+            "item": "Magnetic Coil",
+            "qty": 2
+          }
+        ],
+        "craft_time_sec": 10,
+        "storage_units": 10,
+        "added_value": 4.5,
+        "tax": {
+          "workshop": 0.52
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 62,
+      "subcategory": "Radar",
+      "description": "By emitting electromagnetic waves and interpreting their refraction, this radar can detect and identify metallic objects within a large perimeter.",
+      "tag": "Radar",
+      "stats": {
+        "System Requirements": "100 SP",
+        "Patch Slots": "1"
+      }
+    }
+  },
+  {
+    "id": "spectral-resource-detector",
+    "name": "Spectral Resource Detector",
+    "category": "External Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Simple Resource Detector",
+            "qty": 1
+          },
+          {
+            "item": "Crystalline Focuser",
+            "qty": 1
+          },
+          {
+            "item": "Diffraction Grating",
+            "qty": 3
+          }
+        ],
+        "craft_time_sec": 10,
+        "storage_units": 10,
+        "added_value": 12,
+        "tax": {
+          "workshop": 0.8
+        }
+      }
+    ],
+    "module_info": {
+      "sell_price": 116,
+      "subcategory": "Radar",
+      "description": "Using spectral analysis and comparison with a database of components from afar, this detector can identify known resources.",
+      "tag": "Radar",
+      "stats": {
+        "Required Exploration Level": "2",
+        "System Requirements": "300 SP",
+        "Patch Slots": "1",
+        "Durability": "1000"
+      }
+    }
+  },
+  {
+    "id": "construction-tool-2-0",
+    "name": "Construction Tool 2.0",
+    "category": "Contractor Equipment",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "There may be a third Contractor Equipment tool (lets you reposition placed base items) — not yet unlocked/confirmed",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Construction Tool",
+            "qty": 1
+          },
+          {
+            "item": "Crystalline Focuser",
+            "qty": 2
+          },
+          {
+            "item": "Magnetic Coil",
+            "qty": 2
+          }
+        ],
+        "craft_time_sec": 2,
+        "storage_units": 0.1,
+        "added_value": 9.1,
+        "tax": {
+          "workshop": 0.65
+        }
+      }
+    ],
+    "value": 88.0
+  },
+  {
+    "id": "metal-sheet",
+    "name": "Metal Sheet",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "From Iron Ingot",
+        "ingredients": [
+          {
+            "item": "Iron Ingot",
+            "qty": 1
+          }
+        ],
+        "output_qty": 2,
+        "craft_time_sec": 2,
+        "storage_units": 1,
+        "added_value": 0.2,
+        "tax": {
+          "personal_base": 0,
+          "workshop": 0.2
+        }
+      }
+    ],
+    "value": 3.0
+  },
+  {
+    "id": "thermal-sheet",
+    "name": "Thermal Sheet",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "From Alu-K Ingot",
+        "ingredients": [
+          {
+            "item": "Alu-K Ingot",
+            "qty": 1
+          }
+        ],
+        "output_qty": 2,
+        "craft_time_sec": 2,
+        "storage_units": 1,
+        "added_value": 0.3,
+        "tax": {
+          "workshop": 0.31
+        }
+      }
+    ],
+    "value": 6.2
+  },
+  {
+    "id": "nut-and-bolt",
+    "name": "Nut and Bolt",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "From Iron Ingot",
+        "ingredients": [
+          {
+            "item": "Iron Ingot",
+            "qty": 1
+          }
+        ],
+        "output_qty": 8,
+        "craft_time_sec": 4,
+        "storage_units": 0.1,
+        "added_value": 0.12,
+        "tax": {
+          "workshop": 0.26
+        }
+      }
+    ],
+    "value": 0.74
+  },
+  {
+    "id": "wire",
+    "name": "Wire",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "From Copper Ingot",
+        "ingredients": [
+          {
+            "item": "Copper Ingot",
+            "qty": 1
+          }
+        ],
+        "output_qty": 4,
+        "craft_time_sec": 2,
+        "storage_units": 0.5,
+        "added_value": 0.32,
+        "tax": {
+          "workshop": 0.31
+        }
+      }
+    ],
+    "value": 2.08
+  },
+  {
+    "id": "silicone-gel",
+    "name": "Silicone Gel",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "From Silicon Ingot",
+        "ingredients": [
+          {
+            "item": "Silicon Ingot",
+            "qty": 1
+          }
+        ],
+        "output_qty": 20,
+        "craft_time_sec": 8,
+        "storage_units": 0.5,
+        "added_value": 0.4,
+        "tax": {
+          "workshop": 0.48
+        }
+      }
+    ],
+    "value": 0.52
+  },
+  {
+    "id": "semiconductor-substrate",
+    "name": "Semiconductor Substrate",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "From Silicon Ingot",
+        "ingredients": [
+          {
+            "item": "Silicon Ingot",
+            "qty": 1
+          }
+        ],
+        "output_qty": 4,
+        "craft_time_sec": 8,
+        "storage_units": 0.5,
+        "added_value": 0.4,
+        "tax": {
+          "workshop": 0.36
+        }
+      }
+    ],
+    "value": 2.6
+  },
+  {
+    "id": "microchip",
+    "name": "Microchip",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "From Semiconductor Substrate",
+        "ingredients": [
+          {
+            "item": "Semiconductor Substrate",
+            "qty": 1
+          }
+        ],
+        "output_qty": 2,
+        "craft_time_sec": 2,
+        "storage_units": 0.5,
+        "added_value": 0.08,
+        "tax": {
+          "workshop": 0.11
+        }
+      }
+    ],
+    "value": 134.0
+  },
+  {
+    "id": "structural-beam",
+    "name": "Structural Beam",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "From Steel Ingot",
+        "ingredients": [
+          {
+            "item": "Steel Ingot",
+            "qty": 2
+          }
+        ],
+        "craft_time_sec": 24,
+        "storage_units": 2,
+        "added_value": 0.8,
+        "tax": {
+          "workshop": 0.29
+        }
+      }
+    ],
+    "value": 21.8
+  },
+  {
+    "id": "stainless-plate",
+    "name": "Stainless Plate",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Aluminum Ingot",
+            "qty": 2
+          },
+          {
+            "item": "Copper Ingot",
+            "qty": 1
+          }
+        ],
+        "output_qty": 2,
+        "craft_time_sec": 4,
+        "storage_units": 2,
+        "added_value": 2.2,
+        "tax": {
+          "workshop": 0.48
+        }
+      }
+    ],
+    "value": 14.7
+  },
+  {
+    "id": "magnetic-coil",
+    "name": "Magnetic Coil",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Wire",
+            "qty": 5
+          },
+          {
+            "item": "Iron Ingot",
+            "qty": 1
+          },
+          {
+            "item": "Nut and Bolt",
+            "qty": 1
+          }
+        ],
+        "output_qty": 2,
+        "craft_time_sec": 5,
+        "storage_units": 1,
+        "added_value": 2.06,
+        "tax": {
+          "workshop": 0.39
+        }
+      }
+    ],
+    "value": 9.5
+  },
+  {
+    "id": "solar-cell",
+    "name": "Solar Cell",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Stainless Plate",
+            "qty": 1
+          },
+          {
+            "item": "Semiconductor Substrate",
+            "qty": 1
+          },
+          {
+            "item": "Wire",
+            "qty": 5
+          }
+        ],
+        "output_qty": 5,
+        "craft_time_sec": 5,
+        "storage_units": 0.5,
+        "added_value": 3.3,
+        "tax": {
+          "workshop": 0.78
+        }
+      }
+    ],
+    "value": 6.2
+  },
+  {
+    "id": "graphene",
+    "name": "Graphene",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "From Graphite Crystal",
+        "ingredients": [
+          {
+            "item": "Graphite Crystal",
+            "qty": 1
+          }
+        ],
+        "output_qty": 4,
+        "craft_time_sec": 2,
+        "storage_units": 0.1,
+        "added_value": 0.36,
+        "tax": {
+          "workshop": 0.33
+        }
+      }
+    ],
+    "value": 2.34
+  },
+  {
+    "id": "crystalline-focuser",
+    "name": "Crystalline Focuser",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Quartz",
+            "qty": 1
+          },
+          {
+            "item": "Wire",
+            "qty": 5
+          }
+        ],
+        "craft_time_sec": 4,
+        "storage_units": 1,
+        "added_value": 1.7,
+        "tax": {
+          "workshop": 0.3
+        }
+      }
+    ],
+    "value": 23.1
+  },
+  {
+    "id": "hall-alternator",
+    "name": "Hall Alternator",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Semiconductor Substrate",
+            "qty": 3
+          },
+          {
+            "item": "Magnetic Coil",
+            "qty": 3
+          },
+          {
+            "item": "Metal Sheet",
+            "qty": 3
+          }
+        ],
+        "craft_time_sec": 12,
+        "storage_units": 1,
+        "added_value": 4.7,
+        "tax": {
+          "workshop": 0.45
+        }
+      }
+    ],
+    "value": 50.0
+  },
+  {
+    "id": "diffraction-grating",
+    "name": "Diffraction Grating",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Aluminum Ingot",
+            "qty": 2
+          },
+          {
+            "item": "Silicon Ingot",
+            "qty": 1
+          }
+        ],
+        "output_qty": 5,
+        "craft_time_sec": 8,
+        "storage_units": 1,
+        "added_value": 2.3,
+        "tax": {
+          "workshop": 0.78
+        }
+      }
+    ],
+    "value": 6.3
+  },
+  {
+    "id": "motor",
+    "name": "Motor",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Metal Sheet",
+            "qty": 1
+          },
+          {
+            "item": "Magnetic Coil",
+            "qty": 5
+          },
+          {
+            "item": "Silicone Gel",
+            "qty": 5
+          }
+        ],
+        "craft_time_sec": 12.5,
+        "storage_units": 2,
+        "added_value": 5.9,
+        "tax": {
+          "workshop": 0.5
+        }
+      }
+    ],
+    "value": 59.0
+  },
+  {
+    "id": "iron-ingot",
+    "name": "Iron Ingot",
+    "category": "Refining",
+    "group": "Resources",
+    "station": "Smelter",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "From Iron Ore",
+        "ingredients": [
+          {
+            "item": "Iron Ore",
+            "qty": 2
+          }
+        ],
+        "craft_time_sec": 5,
+        "storage_units": 1,
+        "added_value": 1.48,
+        "tax": {
+          "station": 0.58
+        }
+      },
+      {
+        "label": "From Iron Nugget",
+        "ingredients": [
+          {
+            "item": "Iron Nugget",
+            "qty": 4
+          }
+        ],
+        "craft_time_sec": 5,
+        "storage_units": 1,
+        "added_value": 1.24,
+        "tax": {
+          "station": 0.58
+        }
+      }
+    ],
+    "value": 5.8
+  },
+  {
+    "id": "copper-ingot",
+    "name": "Copper Ingot",
+    "category": "Refining",
+    "group": "Resources",
+    "station": "Smelter",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Placed Smelter machine: 8/8 MA power draw, 50 su output capacity, 20 max input ore buffer (same specs seen on the Aluminum line — likely universal to the Smelter machine itself, not per-recipe)",
+    "recipes": [
+      {
+        "label": "From Copper Ore",
+        "ingredients": [
+          {
+            "item": "Copper Ore",
+            "qty": 2
+          }
+        ],
+        "craft_time_sec": 5,
+        "auto_craft_time_sec": 180,
+        "storage_units": 1,
+        "added_value": 2,
+        "tax": {
+          "station": 0.8
+        }
+      },
+      {
+        "label": "From Copper Nugget",
+        "ingredients": [
+          {
+            "item": "Copper Nugget",
+            "qty": 4
+          }
+        ],
+        "craft_time_sec": 5,
+        "storage_units": 1,
+        "added_value": 1.6,
+        "tax": {
+          "station": 0.8
+        }
+      }
+    ],
+    "value": 8.0
+  },
+  {
+    "id": "aluminum-ingot",
+    "name": "Aluminum Ingot",
+    "category": "Refining",
+    "group": "Resources",
+    "station": "Smelter",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Placed Smelter machine: 8/8 MA power draw, 50 su output capacity, 20 max input ore buffer (same specs seen on the Copper line — likely universal to the Smelter machine itself, not per-recipe)",
+    "recipes": [
+      {
+        "label": "From Aluminum Ore",
+        "ingredients": [
+          {
+            "item": "Aluminum Ore",
+            "qty": 2
+          }
+        ],
+        "craft_time_sec": 5,
+        "auto_craft_time_sec": 180,
+        "storage_units": 1,
+        "added_value": 2.44,
+        "tax": {
+          "station": 0.96
+        }
+      },
+      {
+        "label": "From Aluminum Nugget",
+        "ingredients": [
+          {
+            "item": "Aluminum Nugget",
+            "qty": 4
+          }
+        ],
+        "craft_time_sec": 5,
+        "storage_units": 1,
+        "added_value": 1.92,
+        "tax": {
+          "station": 0.96
+        }
+      }
+    ],
+    "value": 9.8
+  },
+  {
+    "id": "titanium-ingot",
+    "name": "Titanium Ingot",
+    "category": "Refining",
+    "group": "Resources",
+    "station": "Smelter",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Titanium Ore version likely exists but hasn't been found/confirmed in-game yet",
+    "recipes": [
+      {
+        "label": "From Titanium Nugget",
+        "ingredients": [
+          {
+            "item": "Titanium Nugget",
+            "qty": 4
+          }
+        ],
+        "craft_time_sec": 5,
+        "storage_units": 1,
+        "added_value": 1.8,
+        "tax": {
+          "station": 0.9
+        }
+      }
+    ],
+    "value": 9.0
+  },
+  {
+    "id": "silicon-ingot",
+    "name": "Silicon Ingot",
+    "category": "Refining",
+    "group": "Resources",
+    "station": "Smelter",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "From Silicate",
+        "ingredients": [
+          {
+            "item": "Silicate",
+            "qty": 12
+          }
+        ],
+        "craft_time_sec": 20,
+        "storage_units": 1,
+        "added_value": 2.56,
+        "tax": {
+          "station": 1
+        }
+      },
+      {
+        "label": "From Quartz Powder",
+        "ingredients": [
+          {
+            "item": "Quartz Powder",
+            "qty": 20
+          }
+        ],
+        "craft_time_sec": 20,
+        "storage_units": 1,
+        "added_value": 2.6,
+        "tax": {
+          "station": 1
+        }
+      },
+      {
+        "label": "From Aquamarine",
+        "ingredients": [
+          {
+            "item": "Aquamarine",
+            "qty": 3
+          }
+        ],
+        "output_qty": 2,
+        "craft_time_sec": 15,
+        "storage_units": 1,
+        "added_value": -6.4,
+        "tax": {
+          "station": 2.96
+        },
+        "additional_outputs": [
+          {
+            "item": "Aluminum Ingot",
+            "qty": 1
+          }
+        ]
+      },
+      {
+        "label": "From Quartz",
+        "ingredients": [
+          {
+            "item": "Quartz",
+            "qty": 1
+          }
+        ],
+        "craft_time_sec": 10,
+        "storage_units": 1,
+        "added_value": -1,
+        "tax": {
+          "station": 1
+        }
+      }
+    ],
+    "value": 10.0
+  },
+  {
+    "id": "sulfur",
+    "name": "Sulfur",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Mineral Ore",
+    "station": "Smelter",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Recategorized from Refining to Gathering — Sulfur's own encyclopedia page shows it as a 'Gathering > Mineral Ore' raw material with a deposit source, not just a Smelter product. The existing Smelter recipe (from Pyrite) is unchanged.",
+    "value": 0.7,
+    "storage_units": 0.1,
+    "deposits": [
+      {
+        "resource": "Sulphuric Stone",
+        "yield": 5.8
+      }
+    ],
+    "recipes": [
+      {
+        "label": "From Pyrite",
+        "ingredients": [
+          {
+            "item": "Pyrite",
+            "qty": 1
+          }
+        ],
+        "output_qty": 4,
+        "craft_time_sec": 8,
+        "storage_units": 0.1,
+        "added_value": -1.4,
+        "tax": {
+          "station": 0.86
+        },
+        "additional_outputs": [
+          {
+            "item": "Iron Ingot",
+            "qty": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "concrete",
+    "name": "Concrete",
+    "category": "Refining",
+    "group": "Resources",
+    "station": "Smelter",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "From Silicate",
+        "ingredients": [
+          {
+            "item": "Silicate",
+            "qty": 2
+          }
+        ],
+        "output_qty": 5,
+        "craft_time_sec": 10,
+        "storage_units": 1,
+        "added_value": 0.01,
+        "tax": {
+          "station": 0.13
+        }
+      }
+    ],
+    "value": 0.25
+  },
+  {
+    "id": "steel-ingot",
+    "name": "Steel Ingot",
+    "category": "Refining",
+    "group": "Resources",
+    "station": "Smelter",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Iron Ingot",
+            "qty": 4
+          },
+          {
+            "item": "a-Carbon",
+            "qty": 4
+          }
+        ],
+        "output_qty": 3,
+        "craft_time_sec": 25,
+        "storage_units": 1,
+        "added_value": 2.3,
+        "tax": {
+          "station": 3.15
+        }
+      }
+    ],
+    "value": 10.5
+  },
+  {
+    "id": "alu-k-ingot",
+    "name": "Alu-K Ingot",
+    "category": "Refining",
+    "group": "Resources",
+    "station": "Smelter",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Aluminum Ingot",
+            "qty": 3
+          },
+          {
+            "item": "Kaolinite",
+            "qty": 1
+          }
+        ],
+        "output_qty": 3,
+        "craft_time_sec": 22.5,
+        "storage_units": 1,
+        "added_value": 2.5,
+        "tax": {
+          "station": 3.63
+        }
+      }
+    ],
+    "value": 12.1
+  },
+  {
+    "id": "pyrite",
+    "name": "Pyrite",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Crystal",
+    "station": "Crystallizer",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Craft time/added value/tax not yet confirmed — Carl hasn't unlocked or built a Crystallizer yet. Likely a placeable base building (like the Smelter/Assembler), which would mean no tax, but that's not confirmed either.",
+    "value": 10,
+    "storage_units": 0.5,
+    "analysis_tiers": [
+      {
+        "tier": "Pyrite I",
+        "unlocked": true
+      },
+      {
+        "tier": "Pyrite II",
+        "unlocked": true
+      },
+      {
+        "tier": "Pyrite III",
+        "unlocked": false,
+        "unlock_requirement": "Analyse x50 at Laboratory"
+      },
+      {
+        "tier": "Pyrite IV",
+        "unlocked": false,
+        "unlock_requirement": "Analyse x200 at Laboratory"
+      }
+    ],
+    "deposits": [
+      {
+        "resource": "Chalcopyrite",
+        "yield": 1.2
+      },
+      {
+        "resource": "Pyrite Formation",
+        "yield": 1.0
+      }
+    ],
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Sulfur",
+            "qty": 200
+          },
+          {
+            "item": "Iron Ingot",
+            "qty": 50
+          },
+          {
+            "item": "c-Crystal Matrix",
+            "qty": 1
+          }
+        ],
+        "output_qty": 40
+      }
+    ]
+  },
+  {
+    "id": "aquamarine",
+    "name": "Aquamarine",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Crystal",
+    "station": "Crystallizer",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "No 'Contained in Resources' section appeared on this item's encyclopedia page — no deposit source confirmed yet, worth double-checking next time you're at the encyclopedia. Craft time/added value/tax for the Crystallizer recipe also unconfirmed — not unlocked/built yet, likely a base building (no tax) once it is.",
+    "value": 12,
+    "storage_units": 0.5,
+    "analysis_tiers": [
+      {
+        "tier": "Aquamarine I",
+        "unlocked": true
+      },
+      {
+        "tier": "Aquamarine II",
+        "unlocked": true
+      },
+      {
+        "tier": "Aquamarine III",
+        "unlocked": false,
+        "unlock_requirement": "Analyse x50 at Laboratory"
+      },
+      {
+        "tier": "Aquamarine IV",
+        "unlocked": false,
+        "unlock_requirement": "Analyse x200 at Laboratory"
+      }
+    ],
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Silicon Ingot",
+            "qty": 32
+          },
+          {
+            "item": "Aluminum Ingot",
+            "qty": 16
+          },
+          {
+            "item": "h-Crystal Matrix",
+            "qty": 1
+          }
+        ],
+        "output_qty": 40
+      }
+    ]
+  },
+  {
+    "id": "quartz",
+    "name": "Quartz",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Crystal",
+    "station": "Crystallizer",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Craft time/added value/tax for the Crystallizer recipe unconfirmed — not unlocked/built yet, likely a base building (no tax) once it is. Same recipe is also logged under Quartz Powder since it shows on both item pages in-game.",
+    "value": 11,
+    "storage_units": 0.5,
+    "analysis_tiers": [
+      {
+        "tier": "Quartz I",
+        "unlocked": true
+      },
+      {
+        "tier": "Quartz II",
+        "unlocked": true
+      },
+      {
+        "tier": "Quartz III",
+        "unlocked": true
+      },
+      {
+        "tier": "Quartz IV",
+        "unlocked": false,
+        "unlock_requirement": "Analyse x200 at Laboratory"
+      }
+    ],
+    "deposits": [
+      {
+        "resource": "Gray Quartz",
+        "yield": 1.0
+      }
+    ],
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Silicon Ingot",
+            "qty": 32
+          },
+          {
+            "item": "h-Crystal Matrix",
+            "qty": 1
+          }
+        ],
+        "output_qty": 25,
+        "additional_outputs": [
+          {
+            "item": "Quartz Powder",
+            "qty": 140
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "graphite-crystal",
+    "name": "Graphite Crystal",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Crystal",
+    "station": "Crystallizer",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Lists 'Carbon Generator' under SPECS — likely a building we haven't logged yet, flagged unconfirmed. Craft time/added value/tax for the Crystallizer recipe also unconfirmed — not unlocked/built yet, likely a base building (no tax) once it is.",
+    "value": 9,
+    "storage_units": 0.5,
+    "specs": [
+      "Carbon Generator"
+    ],
+    "analysis_tiers": [
+      {
+        "tier": "Graphite Crystal I",
+        "unlocked": true
+      },
+      {
+        "tier": "Graphite Crystal II",
+        "unlocked": true
+      },
+      {
+        "tier": "Graphite Crystal III",
+        "unlocked": false,
+        "unlock_requirement": "Analyse x50 at Laboratory"
+      },
+      {
+        "tier": "Graphite Crystal IV",
+        "unlocked": false,
+        "unlock_requirement": "Analyse x200 at Laboratory"
+      }
+    ],
+    "deposits": [
+      {
+        "resource": "Graphite",
+        "yield": 2.5
+      }
+    ],
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "a-Carbon",
+            "qty": 50
+          },
+          {
+            "item": "h-Crystal Matrix",
+            "qty": 1
+          }
+        ],
+        "output_qty": 12
+      }
+    ]
+  },
+  {
+    "id": "calcite",
+    "name": "Calcite",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Mineral Ore",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game screenshot",
+    "value": 3.74,
+    "storage_units": 5,
+    "analysis_tiers": [
+      {
+        "tier": "Calcite I",
+        "unlocked": false,
+        "unlock_requirement": "Analyse x3 at Laboratory"
+      }
+    ],
+    "deposits": [
+      {
+        "resource": "Siderite",
+        "yield": "<1"
+      }
+    ]
+  },
+  {
+    "id": "quartz-powder",
+    "name": "Quartz Powder",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Mineral Ore",
+    "station": "Crystallizer",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Byproduct of the same Crystallizer recipe logged under Quartz (Silicon Ingot + h-Crystal Matrix -> 25 Quartz + 140 Quartz Powder) — the game shows it on both item pages, so it's logged on both here too. No natural deposit shown. Craft time/added value/tax unconfirmed — Crystallizer not unlocked/built yet, likely a base building (no tax) once it is.",
+    "value": 0.37,
+    "storage_units": 0.1,
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Silicon Ingot",
+            "qty": 32
+          },
+          {
+            "item": "h-Crystal Matrix",
+            "qty": 1
+          }
+        ],
+        "output_qty": 140,
+        "additional_outputs": [
+          {
+            "item": "Quartz",
+            "qty": 25
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "silicate",
+    "name": "Silicate",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Mineral Ore",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game screenshot",
+    "value": 0.62,
+    "storage_units": 5,
+    "analysis_tiers": [
+      {
+        "tier": "Silicate I",
+        "unlocked": true
+      }
+    ],
+    "deposits": [
+      {
+        "resource": "Sandstone Mound",
+        "yield": 3.4
+      },
+      {
+        "resource": "White Feldspar Mound",
+        "yield": "<1"
+      },
+      {
+        "resource": "Chalcopyrite",
+        "yield": "<1"
+      },
+      {
+        "resource": "Sandstone Deposit",
+        "yield": "100.0/h"
+      }
+    ]
+  },
+  {
+    "id": "a-carbon",
+    "name": "a-Carbon",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Mineral Ore",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Lists 'Carbon Generator' under SPECS — likely a building we haven't logged yet, flagged unconfirmed.",
+    "value": 1.5,
+    "storage_units": 1,
+    "specs": [
+      "Carbon Generator"
+    ],
+    "deposits": [
+      {
+        "resource": "Coal Clump",
+        "yield": 3.6
+      },
+      {
+        "resource": "Siderite",
+        "yield": 1.6
+      },
+      {
+        "resource": "Coal Deposit",
+        "yield": "40.0/h"
+      }
+    ]
+  },
+  {
+    "id": "elmerium-dust",
+    "name": "Elmerium Dust",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Metal Ore",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game screenshot",
+    "value": 0.3,
+    "storage_units": 0.1,
+    "deposits": [
+      {
+        "resource": "Hollow Outcrop",
+        "yield": 1.8
+      }
+    ]
+  },
+  {
+    "id": "copper-nugget",
+    "name": "Copper Nugget",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Metal Ore",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game screenshot",
+    "value": 1.6,
+    "storage_units": 1,
+    "deposits": [
+      {
+        "resource": "Chalcocite",
+        "yield": 12.41
+      },
+      {
+        "resource": "Brassy Outcrop",
+        "yield": 4.5
+      }
+    ]
+  },
+  {
+    "id": "iron-nugget",
+    "name": "Iron Nugget",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Metal Ore",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game screenshot",
+    "value": 1.14,
+    "storage_units": 1,
+    "deposits": [
+      {
+        "resource": "Ferrous Outcrop",
+        "yield": 4.6
+      }
+    ]
+  },
+  {
+    "id": "iron-ore",
+    "name": "Iron Ore",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Metal Ore",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game screenshot",
+    "value": 2.16,
+    "storage_units": 5,
+    "deposits": [
+      {
+        "resource": "Siderite",
+        "yield": 3.5
+      },
+      {
+        "resource": "Ferric Stone",
+        "yield": 2.4
+      },
+      {
+        "resource": "Ferrous Outcrop",
+        "yield": "<1"
+      },
+      {
+        "resource": "Iron Deposit",
+        "yield": "60.0/h"
+      }
+    ]
+  },
+  {
+    "id": "aluminum-ore-gathering",
+    "name": "Aluminum Ore",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Metal Ore",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Same item as 'aluminum-ore' under Extraction — that entry covers the Extractor building mechanics (cycle time, buffer), this one covers the hand-gather/Material encyclopedia stats (value, weight, deposit yields). Logged as two separate entries since they cover different mechanics.",
+    "value": 3.58,
+    "storage_units": 5,
+    "deposits": [
+      {
+        "resource": "White Feldspar Mound",
+        "yield": 4.7
+      },
+      {
+        "resource": "Aluminum Deposit",
+        "yield": "60.0/h"
+      }
+    ]
+  },
+  {
+    "id": "copper-ore-gathering",
+    "name": "Copper Ore",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Metal Ore",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Same item as 'copper-ore' under Extraction — that entry covers the Extractor building mechanics, this one covers the hand-gather/Material encyclopedia stats. Logged as two separate entries since they cover different mechanics.",
+    "value": 3,
+    "storage_units": 5,
+    "deposits": [
+      {
+        "resource": "Cupric Stone",
+        "yield": 2.4
+      },
+      {
+        "resource": "Chalcocite",
+        "yield": 1.4
+      },
+      {
+        "resource": "Chalcopyrite",
+        "yield": 1.2
+      },
+      {
+        "resource": "Brassy Outcrop",
+        "yield": "<1"
+      },
+      {
+        "resource": "Copper Deposit",
+        "yield": "60.0/h"
+      }
+    ]
+  },
+  {
+    "id": "module-kit",
+    "name": "Module Kit",
+    "category": "Ship Component",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "module_info": {
+      "subcategory": "Kit and Casing"
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Module Kit",
+            "qty": 4
+          },
+          {
+            "item": "Graphene",
+            "qty": 20
+          },
+          {
+            "item": "Strong Metal Sheet",
+            "qty": 20
+          }
+        ],
+        "craft_time_sec": 16,
+        "storage_units": 25,
+        "added_value": 44.2,
+        "tax": {
+          "workshop": 2.25
+        }
+      }
+    ]
+  },
+  {
+    "id": "strong-metal-sheet",
+    "name": "Strong Metal Sheet",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Titanium Ingot",
+            "qty": 1
+          },
+          {
+            "item": "Iron Ingot",
+            "qty": 1
+          }
+        ],
+        "output_qty": 2,
+        "craft_time_sec": 2,
+        "storage_units": 1,
+        "added_value": 1.2,
+        "tax": {
+          "workshop": 0.36
+        }
+      }
+    ],
+    "value": 8.0
+  },
+  {
+    "id": "cargo-hold",
+    "name": "Cargo Hold",
+    "category": "Internal Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Internal Module category confirmed. Subcategory likely 'Storage Module' like Small Cargo Hold, but sell price/description still unconfirmed without a proper encyclopedia screenshot.",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Module Kit",
+            "qty": 1
+          },
+          {
+            "item": "Metal Sheet",
+            "qty": 30
+          },
+          {
+            "item": "Silicone Gel",
+            "qty": 20
+          }
+        ],
+        "craft_time_sec": 16,
+        "storage_units": 25,
+        "added_value": 54.6,
+        "tax": {
+          "workshop": 3.02
+        }
+      }
+    ]
+  },
+  {
+    "id": "hi-pi-laser",
+    "name": "Hi-Pi Laser",
+    "category": "External Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "module_info": {
+      "subcategory": "Gathering"
+    },
+    "note": "Confirmed as a mining laser, same Gathering subcategory as Simple/Overclocked Mining Laser. Sell price/description still unconfirmed without a proper encyclopedia screenshot.",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Module Kit",
+            "qty": 1
+          },
+          {
+            "item": "Hyper Lens",
+            "qty": 3
+          }
+        ],
+        "craft_time_sec": 16,
+        "storage_units": 25,
+        "added_value": 68,
+        "tax": {
+          "workshop": 5.27
+        }
+      }
+    ]
+  },
+  {
+    "id": "overclocked-hi-pi-laser",
+    "name": "Overclocked Hi-Pi Laser",
+    "category": "External Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "module_info": {
+      "subcategory": "Gathering"
+    },
+    "note": "Confirmed mining laser, same Gathering subcategory as Hi-Pi Laser.",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Hi-Pi Laser",
+            "qty": 1
+          },
+          {
+            "item": "Hyper Lens",
+            "qty": 5
+          },
+          {
+            "item": "Magnetic Coil",
+            "qty": 10
+          }
+        ],
+        "craft_time_sec": 25,
+        "storage_units": 25,
+        "added_value": 240,
+        "tax": {
+          "workshop": 11.42
+        }
+      }
+    ]
+  },
+  {
+    "id": "mining-laser-control-mod",
+    "name": "Mining Laser Control Mod",
+    "category": "Internal Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Internal Module category confirmed. 'Control Mod' itself is still a new subcategory with no other precedent in our data yet — exact subcategory label unconfirmed.",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Module Kit",
+            "qty": 1
+          },
+          {
+            "item": "Microchip",
+            "qty": 2
+          }
+        ],
+        "craft_time_sec": 10,
+        "storage_units": 10,
+        "added_value": 3.32,
+        "tax": {
+          "workshop": 0.42
+        }
+      }
+    ]
+  },
+  {
+    "id": "booster-control-mod",
+    "name": "Booster Control Mod",
+    "category": "Internal Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Internal Module category confirmed, same 'Control Mod' subcategory caveat as Mining Laser Control Mod.",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Module Kit",
+            "qty": 1
+          },
+          {
+            "item": "Microchip",
+            "qty": 1
+          },
+          {
+            "item": "Magnetic Coil",
+            "qty": 5
+          }
+        ],
+        "craft_time_sec": 10,
+        "storage_units": 10,
+        "added_value": 10.66,
+        "tax": {
+          "workshop": 0.7
+        }
+      }
+    ]
+  },
+  {
+    "id": "construction-tool-3-0",
+    "name": "Construction Tool 3.0",
+    "category": "Contractor Equipment",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 478.0,
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Construction Tool 2.0",
+            "qty": 1
+          },
+          {
+            "item": "Drone",
+            "qty": 2
+          },
+          {
+            "item": "Hyper Lens",
+            "qty": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "meg-plasma",
+    "name": "Meg Plasma",
+    "category": "Fluid",
+    "group": "Resources",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 0.2,
+    "note": "Fluid resource, used as ingredient in Meg Plasma Bottle. Extraction/gathering method not yet confirmed."
+  },
+  {
+    "id": "meg-plasma-bottle",
+    "name": "Meg Plasma Bottle",
+    "category": "Components",
+    "group": "Components",
+    "station": "Bottling Plant",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 397.0,
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Meg Plasma",
+            "qty": 50
+          },
+          {
+            "item": "Confinement Bottle",
+            "qty": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "azurite-stone",
+    "name": "Azurite Stone",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Mineral Ore",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 45.0
+  },
+  {
+    "id": "malachite-stone",
+    "name": "Malachite Stone",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Mineral Ore",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 40.0
+  },
+  {
+    "id": "steel-scraps",
+    "name": "Steel Scraps",
+    "category": "Gathering",
+    "group": "Resources",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 7.8
+  },
+  {
+    "id": "electronic-scraps",
+    "name": "Electronic Scraps",
+    "category": "Gathering",
+    "group": "Resources",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 8.1
+  },
+  {
+    "id": "wrecked-space-hull",
+    "name": "Wrecked Space Hull",
+    "category": "Gathering",
+    "group": "Resources",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 7.8
+  },
+  {
+    "id": "cloudy-gemstone",
+    "name": "Cloudy Gemstone",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Gemstone",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 3.0
+  },
+  {
+    "id": "beautiful-gemstone",
+    "name": "Beautiful Gemstone",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Gemstone",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 35.0
+  },
+  {
+    "id": "marvelous-gemstone",
+    "name": "Marvelous Gemstone",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Gemstone",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 100.0
+  },
+  {
+    "id": "watertight-pipe",
+    "name": "Watertight Pipe",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 4.16,
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Copper Ingot",
+            "qty": 1
+          }
+        ],
+        "output_qty": 2
+      }
+    ]
+  },
+  {
+    "id": "monomagnetic-sheet",
+    "name": "Monomagnetic Sheet",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 10.5,
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Iron Ingot",
+            "qty": 1
+          },
+          {
+            "item": "Graphene",
+            "qty": 1
+          },
+          {
+            "item": "Elmerium Core",
+            "qty": 1
+          }
+        ],
+        "output_qty": 3
+      }
+    ]
+  },
+  {
+    "id": "elmerium-core",
+    "name": "Elmerium Core",
+    "category": "Components",
+    "group": "Components",
+    "type": "unknown",
+    "verified": false,
+    "source": "in-game encyclopedia",
+    "note": "Referenced as ingredient in Monomagnetic Sheet - value and recipe/source not yet confirmed, needs follow-up."
+  },
+  {
+    "id": "lime",
+    "name": "Lime",
+    "category": "Refining",
+    "group": "Resources",
+    "station": "Smelter",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 1.0,
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Calcite",
+            "qty": 1
+          }
+        ],
+        "output_qty": 5
+      }
+    ]
+  },
+  {
+    "id": "pump",
+    "name": "Pump",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 102.0,
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Strong Metal Sheet",
+            "qty": 3
+          },
+          {
+            "item": "Watertight Pipe",
+            "qty": 3
+          },
+          {
+            "item": "Motor",
+            "qty": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "confinement-chamber",
+    "name": "Confinement Chamber",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 211.0,
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Monomagnetic Sheet",
+            "qty": 15
+          },
+          {
+            "item": "Magnetic Coil",
+            "qty": 4
+          }
+        ],
+        "output_qty": 1
+      }
+    ]
+  },
+  {
+    "id": "chemical-battery",
+    "name": "Chemical Battery",
+    "category": "Components",
+    "group": "Components",
+    "station": "Chemical Factory",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 57.0,
+    "note": "Vanadium Ingot and Sulfuric Acid not yet in the data set - will need their own entries.",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Vanadium Ingot",
+            "qty": 1
+          },
+          {
+            "item": "Graphite Crystal",
+            "qty": 1
+          },
+          {
+            "item": "Stainless Plate",
+            "qty": 1
+          },
+          {
+            "item": "Sulfuric Acid",
+            "qty": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "stainless-bottle",
+    "name": "Stainless Bottle",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 34.0,
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Silicone Gel",
+            "qty": 4
+          },
+          {
+            "item": "Stainless Plate",
+            "qty": 2
+          }
+        ],
+        "output_qty": 1
+      }
+    ]
+  },
+  {
+    "id": "confinement-bottle",
+    "name": "Confinement Bottle",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 387.0,
+    "note": "Ingredient in Meg Plasma Bottle.",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Stainless Plate",
+            "qty": 10
+          },
+          {
+            "item": "Confinement Chamber",
+            "qty": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "support-hardware",
+    "name": "Support Hardware",
+    "category": "Components",
+    "group": "Components",
+    "station": "Assembler",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 28.4,
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Microchip",
+            "qty": 1
+          },
+          {
+            "item": "Wire",
+            "qty": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "small-steel-part-casing",
+    "name": "Small Steel Part Casing",
+    "category": "Components",
+    "group": "Components",
+    "station": "Assembler",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 205.0,
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Stainless Plate",
+            "qty": 4
+          },
+          {
+            "item": "Structural Beam",
+            "qty": 6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "base-core-drive",
+    "name": "Base Core Drive",
+    "category": "Base Building",
+    "group": "Base Building",
+    "type": "buy",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 100.0,
+    "note": "Purchased, not crafted."
+  },
+  {
+    "id": "thermal-suit-chip",
+    "name": "Thermal Suit Chip",
+    "category": "Components",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 21.8,
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Thermal Wool",
+            "qty": 10
+          },
+          {
+            "item": "Metal Sheet",
+            "qty": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "thermal-wool",
+    "name": "Thermal Wool",
+    "category": "Components",
+    "group": "Components",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 1.72,
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Kaolinite",
+            "qty": 1
+          }
+        ],
+        "output_qty": 3
+      }
+    ]
+  },
+  {
+    "id": "crude-mining-laser",
+    "name": "Crude Mining Laser",
+    "category": "External Module",
+    "group": "Ship Parts",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 50.0,
+      "subcategory": "Gathering"
+    },
+    "note": "Recipe not listed in encyclopedia - needs follow-up."
+  },
+  {
+    "id": "crude-resource-detector",
+    "name": "Crude Resource Detector",
+    "category": "External Module",
+    "group": "Ship Parts",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 50.0,
+      "subcategory": "Radar"
+    },
+    "note": "Recipe not listed in encyclopedia - needs follow-up."
+  },
+  {
+    "id": "carbonic-superfuel",
+    "name": "Carbonic Superfuel",
+    "category": "Components",
+    "group": "Resources",
+    "station": "Chemical Factory",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 0.72,
+    "recipes": [
+      {
+        "label": "From a-Carbon",
+        "ingredients": [
+          {
+            "item": "a-Carbon",
+            "qty": 10
+          },
+          {
+            "item": "Water",
+            "qty": 10
+          }
+        ],
+        "output_qty": 28
+      },
+      {
+        "label": "From Graphite Crystal",
+        "ingredients": [
+          {
+            "item": "Graphite Crystal",
+            "qty": 1
+          },
+          {
+            "item": "Water",
+            "qty": 5
+          }
+        ],
+        "output_qty": 5
+      }
+    ]
+  },
+  {
+    "id": "simple-hose-pump",
+    "name": "Simple Hose Pump",
+    "category": "External Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 289.0
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Stainless Plate",
+            "qty": 1
+          },
+          {
+            "item": "Pump",
+            "qty": 2
+          },
+          {
+            "item": "Small Module Kit",
+            "qty": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "small-mag-plasma-tank",
+    "name": "Small Mag-Plasma Tank",
+    "category": "Internal Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 269.0,
+      "subcategory": "FTL Module"
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Confinement Chamber",
+            "qty": 1
+          },
+          {
+            "item": "Small Module Kit",
+            "qty": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "meg-plasma-tank",
+    "name": "Meg Plasma Tank",
+    "category": "Internal Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 1570.0,
+      "subcategory": "FTL Module"
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Confinement Chamber",
+            "qty": 5
+          },
+          {
+            "item": "Module Kit",
+            "qty": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "small-fuel-generator",
+    "name": "Small Fuel Generator",
+    "category": "Internal Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 880.0
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Structural Beam",
+            "qty": 5
+          },
+          {
+            "item": "Watertight Pipe",
+            "qty": 4
+          },
+          {
+            "item": "Motor",
+            "qty": 10
+          },
+          {
+            "item": "Small Module Kit",
+            "qty": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "battery-module",
+    "name": "Battery Module",
+    "category": "Internal Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 740.0,
+      "subcategory": "Battery"
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Chemical Battery",
+            "qty": 5
+          },
+          {
+            "item": "Module Kit",
+            "qty": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "small-liquid-tank",
+    "name": "Small Liquid Tank",
+    "category": "Internal Module",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 442.0,
+      "subcategory": "Storage Module"
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Silicone Gel",
+            "qty": 30
+          },
+          {
+            "item": "Stainless Plate",
+            "qty": 15
+          },
+          {
+            "item": "Watertight Pipe",
+            "qty": 25
+          },
+          {
+            "item": "Small Module Kit",
+            "qty": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "quiet-breeze-thruster",
+    "name": "\"Quiet Breeze\" Thruster",
+    "category": "Ship Part",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 920.0,
+      "subcategory": "Thruster",
+      "stats": {
+        "System Requirements": "1000 SP",
+        "Material Heat Conductivity": "60.0 W/aK",
+        "Force": "700.0 t",
+        "Thrust": "60.0 np/s",
+        "Power Consumption": "15.0 MA",
+        "Steering Strength": "15.0",
+        "Night Power Consumption": "-60"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Motor",
+            "qty": 2
+          },
+          {
+            "item": "Hall Alternator",
+            "qty": 3
+          },
+          {
+            "item": "Support Hardware",
+            "qty": 4
+          },
+          {
+            "item": "Small Steel Part Casing",
+            "qty": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "grasshopper-thruster",
+    "name": "\"Grasshopper\" Thruster",
+    "category": "Ship Part",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 930.0,
+      "subcategory": "Thruster",
+      "stats": {
+        "System Requirements": "600 SP",
+        "Material Heat Conductivity": "1200.0 W/aK",
+        "Force": "600.0 t",
+        "Thrust": "100.0 np/s",
+        "Power Consumption": "80.0 MA",
+        "Steering Strength": "15.0",
+        "Boost Thrust": "150.0",
+        "Boost Power Consumption": "150.0 MA",
+        "Engine Heat Dissipation": "50.0 W/p"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Watertight Pipe",
+            "qty": 15
+          },
+          {
+            "item": "Wire",
+            "qty": 15
+          },
+          {
+            "item": "Hall Alternator",
+            "qty": 3
+          },
+          {
+            "item": "Support Hardware",
+            "qty": 4
+          },
+          {
+            "item": "Small Steel Part Casing",
+            "qty": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "steel-hull-4x3x1",
+    "name": "Steel Hull Part 4x3x1",
+    "category": "Hull Part",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 500.0,
+      "subcategory": "Steel Hull",
+      "stats": {
+        "System Support": "96 SP",
+        "Frame": "40",
+        "Weight": "20.0 t",
+        "Hull": "10",
+        "Heat Capacity": "20 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK",
+        "Decoration Capacity": "4"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Support Hardware",
+            "qty": 2
+          },
+          {
+            "item": "Small Steel Part Casing",
+            "qty": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "steel-hull-6x3x1",
+    "name": "Steel Hull Part 6x3x1",
+    "category": "Hull Part",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 750.0,
+      "subcategory": "Steel Hull",
+      "stats": {
+        "System Support": "144 SP",
+        "Frame": "60",
+        "Weight": "30.0 t",
+        "Hull": "15",
+        "Heat Capacity": "30 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK",
+        "Decoration Capacity": "6"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Support Hardware",
+            "qty": 3
+          },
+          {
+            "item": "Small Steel Part Casing",
+            "qty": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "steel-hull-8x3x1",
+    "name": "Steel Hull Part 8x3x1",
+    "category": "Hull Part",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 1000.0,
+      "subcategory": "Steel Hull",
+      "stats": {
+        "System Support": "192 SP",
+        "Frame": "80",
+        "Weight": "40.0 t",
+        "Hull": "20",
+        "Heat Capacity": "40 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK",
+        "Decoration Capacity": "8"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Support Hardware",
+            "qty": 4
+          },
+          {
+            "item": "Small Steel Part Casing",
+            "qty": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "steel-hull-4x3x2",
+    "name": "Steel Hull Part 4x3x2",
+    "category": "Hull Part",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 560.0,
+      "subcategory": "Steel Hull",
+      "stats": {
+        "System Support": "240 SP",
+        "Frame": "36",
+        "Weight": "30.0 t",
+        "Hull": "15",
+        "Heat Capacity": "30 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK",
+        "Decoration Capacity": "6"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Support Hardware",
+            "qty": 4
+          },
+          {
+            "item": "Small Steel Part Casing",
+            "qty": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "steel-hull-6x3x2",
+    "name": "Steel Hull Part 6x3x2",
+    "category": "Hull Part",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 840.0,
+      "subcategory": "Steel Hull",
+      "stats": {
+        "System Support": "360 SP",
+        "Frame": "54",
+        "Weight": "45.0 t",
+        "Hull": "22",
+        "Heat Capacity": "40 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK",
+        "Decoration Capacity": "9"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Support Hardware",
+            "qty": 6
+          },
+          {
+            "item": "Small Steel Part Casing",
+            "qty": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "steel-hull-8x3x2",
+    "name": "Steel Hull Part 8x3x2",
+    "category": "Hull Part",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 1130.0,
+      "subcategory": "Steel Hull",
+      "stats": {
+        "System Support": "480 SP",
+        "Frame": "72",
+        "Weight": "60.0 t",
+        "Hull": "30",
+        "Heat Capacity": "60 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK",
+        "Decoration Capacity": "12"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Support Hardware",
+            "qty": 8
+          },
+          {
+            "item": "Small Steel Part Casing",
+            "qty": 4
+          }
+        ]
+      }
+    ]
+  }
+]
