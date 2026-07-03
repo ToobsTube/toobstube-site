@@ -3652,7 +3652,8 @@
     "verified": true,
     "source": "in-game encyclopedia",
     "value": 100.0,
-    "note": "Purchased, not crafted."
+    "note": "Purchased, not crafted.",
+    "price": 100.0
   },
   {
     "id": "thermal-suit-chip",
