@@ -312,7 +312,7 @@
   {
     "id": "drone",
     "name": "Drone",
-    "category": "Other",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -350,12 +350,12 @@
     ],
     "module_info": {
       "sell_price": 79,
-      "subcategory": "Robotic Agents",
       "description": "This autonomous vehicle carries loads from one point to another along a predefined route.",
       "stats": {
         "Solid Storage": "10.0 su"
       }
-    }
+    },
+    "subcategory": "Robotic Agents"
   },
   {
     "id": "brick-cockpit",
@@ -393,7 +393,6 @@
     ],
     "module_info": {
       "sell_price": 415,
-      "subcategory": "Cockpit",
       "description": "The Company's entry-level cockpit, mostly equipped on test vehicles.",
       "stats": {
         "System Support": "200 SP",
@@ -402,7 +401,8 @@
         "Heat Capacity": "40 MJ/K",
         "Material Heat Conductivity": "60.0 W/aK"
       }
-    }
+    },
+    "subcategory": "Cockpit"
   },
   {
     "id": "pathfinder-cockpit",
@@ -441,7 +441,6 @@
     ],
     "module_info": {
       "sell_price": 1050,
-      "subcategory": "Cockpit",
       "description": "Aegir's individual cockpit is streamlined to reduce the probability of critical damage during FTL jumps. It also comes with a small but highly efficient power battery.",
       "stats": {
         "System Support": "200 SP",
@@ -455,7 +454,8 @@
         "Self-Discharge": "0.0%/s",
         "FTL Crit Chance": "-50%"
       }
-    }
+    },
+    "subcategory": "Cockpit"
   },
   {
     "id": "beaver-cockpit",
@@ -498,7 +498,6 @@
     ],
     "module_info": {
       "sell_price": 1020,
-      "subcategory": "Cockpit",
       "description": "Meitner & Karls' individual cockpit is optimized for storage space and collision resistance, making it the perfect pick for transporting cargo through asteroid fields.",
       "stats": {
         "System Support": "100 SP",
@@ -509,7 +508,8 @@
         "Solid Storage": "300.0 su",
         "Hull Impact Damage": "-40%"
       }
-    }
+    },
+    "subcategory": "Cockpit"
   },
   {
     "id": "cocoon-cockpit",
@@ -548,7 +548,6 @@
     ],
     "module_info": {
       "sell_price": 1020,
-      "subcategory": "Cockpit",
       "description": "Damona's individual cockpit is a feat of insulation engineering that makes it less vulnerable to outside temperatures, but also slows down laser cooling. It also comes with a small radiator to help the ship evacuate excess heat or generate some when it gets cold.",
       "stats": {
         "System Support": "200 SP",
@@ -559,7 +558,8 @@
         "Heat Dissipation": "300.0 MW",
         "Heat Generation": "4000.0 MW"
       }
-    }
+    },
+    "subcategory": "Cockpit"
   },
   {
     "id": "cart-pusher-thruster",
@@ -597,7 +597,6 @@
     ],
     "module_info": {
       "sell_price": 315,
-      "subcategory": "Thruster",
       "description": "This electric propulsion device can provide thrust and lift to a spaceship without requiring any combustion or non-renewable fuel.",
       "stats": {
         "System Requirements": "300 SP",
@@ -610,7 +609,8 @@
         "Boost Power Consumption": "100.0 MA",
         "Boost Heat Generation": "1000.0 MW"
       }
-    }
+    },
+    "subcategory": "Thruster"
   },
   {
     "id": "spot-light",
@@ -644,14 +644,14 @@
     ],
     "module_info": {
       "sell_price": 13.2,
-      "subcategory": "Light",
       "description": "A good light, used to open a path of vision in the darkness.",
       "stats": {
         "Luminous Power": "4.0 lm",
         "Light Range": "200.0 np",
         "Power Usage": "0.05 MA"
       }
-    }
+    },
+    "subcategory": "Light"
   },
   {
     "id": "light-strip",
@@ -685,14 +685,14 @@
     ],
     "module_info": {
       "sell_price": 13.2,
-      "subcategory": "Light",
       "description": "A good light, used to open a path of vision in the darkness.",
       "stats": {
         "Luminous Power": "0.5 lm",
         "Light Range": "200.0 np",
         "Power Usage": "0.05 MA"
       }
-    }
+    },
+    "subcategory": "Light"
   },
   {
     "id": "headlight",
@@ -726,14 +726,14 @@
     ],
     "module_info": {
       "sell_price": 13.2,
-      "subcategory": "Light",
       "description": "A good light, used to open a path of vision in the darkness.",
       "stats": {
         "Luminous Power": "1.0 lm",
         "Light Range": "400.0 np",
         "Power Usage": "0.08 MA"
       }
-    }
+    },
+    "subcategory": "Light"
   },
   {
     "id": "small-module-kit",
@@ -768,7 +768,6 @@
     ],
     "module_info": {
       "sell_price": 38.5,
-      "subcategory": "Kit and Casing",
       "description": "A universal standard serving as a basis for all \"Reliant Spaceship Modules\". Anchors the RSM to its associated ship using B-Switch electropermanent magnets."
     },
     "value": 38.5,
@@ -818,7 +817,6 @@
     ],
     "module_info": {
       "sell_price": 322,
-      "subcategory": "Kit and Casing",
       "description": "This autonomous device can deploy a planetary base in a matter of seconds. Its use is reserved for authorized associates selected by The Company."
     },
     "subcategory": "Kit and Casing"
@@ -860,13 +858,13 @@
     ],
     "module_info": {
       "sell_price": 65,
-      "subcategory": "Storage Module",
       "description": "This storage module is suitable for solid materials. Its magnetic stabilization system protects its load from collisions, regardless of the ship's movements.",
       "stats": {
         "System Requirements": "100 SP",
         "Solid Storage": "100.0 su"
       }
-    }
+    },
+    "subcategory": "Storage Module"
   },
   {
     "id": "ftl-engine-eco",
@@ -908,7 +906,6 @@
     ],
     "module_info": {
       "sell_price": 90,
-      "subcategory": "FTL Module",
       "description": "Regarded as the greatest invention of the United Planets era, this category of modules can contract and expand space, making faster-than-light travel possible.",
       "tag": "Travel",
       "stats": {
@@ -918,7 +915,8 @@
         "Mag-Plasma Storage": "200.0 L",
         "FTL Engine Class": "1"
       }
-    }
+    },
+    "subcategory": "FTL Module"
   },
   {
     "id": "cosmic-navigator",
@@ -952,13 +950,13 @@
     ],
     "module_info": {
       "sell_price": 48.8,
-      "subcategory": "FTL Module",
       "description": "This module use complex algorithms and precise spatial coordinates to help the distracted contractor plan a route across the stars.",
       "tag": "Unlock path planning",
       "stats": {
         "System Requirements": "50 SP"
       }
-    }
+    },
+    "subcategory": "FTL Module"
   },
   {
     "id": "flywheel-battery",
@@ -996,7 +994,6 @@
     ],
     "module_info": {
       "sell_price": 110,
-      "subcategory": "Battery",
       "description": "This module can store kinetic energy with a rotating wheel to power other RSMs while avoiding the disadvantages of chemical batteries.",
       "stats": {
         "System Requirements": "100 SP",
@@ -1006,7 +1003,8 @@
         "Theoretical Efficiency": "100.0%",
         "Self-Discharge": "0.8%/s"
       }
-    }
+    },
+    "subcategory": "Battery"
   },
   {
     "id": "h-crystal-matrix",
@@ -1173,7 +1171,6 @@
     ],
     "module_info": {
       "sell_price": 195,
-      "subcategory": "Heat Panel",
       "description": "This module can release large quantities of thermal energy. It is mostly used to cool off a spaceship's interior by dispersing its heat into space.",
       "stats": {
         "System Requirements": "300 SP",
@@ -1181,7 +1178,8 @@
         "Heat Dissipation": "150.0 MW",
         "Power Usage": "5.0 MA"
       }
-    }
+    },
+    "subcategory": "Heat Panel"
   },
   {
     "id": "small-solar-panel",
@@ -1215,13 +1213,13 @@
     ],
     "module_info": {
       "sell_price": 202,
-      "subcategory": "Solar Panel",
       "description": "This module converts electromagnetic radiation into electric current to power other RSMs.",
       "stats": {
         "System Requirements": "120 SP",
         "Power Generation": "40.0 MA"
       }
-    }
+    },
+    "subcategory": "Solar Panel"
   },
   {
     "id": "medium-solar-panel",
@@ -1256,14 +1254,14 @@
     ],
     "module_info": {
       "sell_price": 1040,
-      "subcategory": "Solar Panel",
       "description": "This module converts electromagnetic radiation into electric current to power other RSMs.",
       "stats": {
         "System Requirements": "360 SP",
         "Patch Slots": "1",
         "Power Generation": "150.0 MA"
       }
-    }
+    },
+    "subcategory": "Solar Panel"
   },
   {
     "id": "simple-mining-laser",
@@ -1297,14 +1295,14 @@
     ],
     "module_info": {
       "sell_price": 91,
-      "subcategory": "Gathering",
       "description": "This optical module amplifies light to an intensity that can vaporise many materials. It is currently the most precise way to cut through things.",
       "tag": "Laser Mining",
       "stats": {
         "System Requirements": "100 SP",
         "Patch Slots": "1"
       }
-    }
+    },
+    "subcategory": "Gathering"
   },
   {
     "id": "overclocked-mining-laser",
@@ -1342,7 +1340,6 @@
     ],
     "module_info": {
       "sell_price": 212,
-      "subcategory": "Gathering",
       "description": "This optical module amplifies light to an intensity that can vaporise many materials. It is currently the most precise way to cut through things.",
       "tag": "Laser Mining",
       "stats": {
@@ -1350,7 +1347,8 @@
         "Patch Slots": "3",
         "Durability": "1000"
       }
-    }
+    },
+    "subcategory": "Gathering"
   },
   {
     "id": "scanalyzer-alpha",
@@ -1388,13 +1386,13 @@
     ],
     "module_info": {
       "sell_price": 51,
-      "subcategory": "Specialized Tools",
       "description": "This module identifies the composition of a sample via mass spectrometry. Mining lasers can only be used on resources that were identified through this process.",
       "tag": "Scan",
       "stats": {
         "System Requirements": "50 SP"
       }
-    }
+    },
+    "subcategory": "Specialized Tools"
   },
   {
     "id": "scanalyzer-beta",
@@ -1432,14 +1430,14 @@
     ],
     "module_info": {
       "sell_price": 95,
-      "subcategory": "Specialized Tools",
       "description": "This module identifies the composition of a sample via mass spectrometry. Mining lasers can only be used on resources that were identified through this process.",
       "tag": "Scan",
       "stats": {
         "Required Exploration Level": "2",
         "System Requirements": "200 SP"
       }
-    }
+    },
+    "subcategory": "Specialized Tools"
   },
   {
     "id": "simple-resource-detector",
@@ -1473,14 +1471,14 @@
     ],
     "module_info": {
       "sell_price": 62,
-      "subcategory": "Radar",
       "description": "By emitting electromagnetic waves and interpreting their refraction, this radar can detect and identify metallic objects within a large perimeter.",
       "tag": "Radar",
       "stats": {
         "System Requirements": "100 SP",
         "Patch Slots": "1"
       }
-    }
+    },
+    "subcategory": "Radar"
   },
   {
     "id": "spectral-resource-detector",
@@ -1518,7 +1516,6 @@
     ],
     "module_info": {
       "sell_price": 116,
-      "subcategory": "Radar",
       "description": "Using spectral analysis and comparison with a database of components from afar, this detector can identify known resources.",
       "tag": "Radar",
       "stats": {
@@ -1527,7 +1524,8 @@
         "Patch Slots": "1",
         "Durability": "1000"
       }
-    }
+    },
+    "subcategory": "Radar"
   },
   {
     "id": "construction-tool-2-0",
@@ -2989,9 +2987,7 @@
     "type": "craft",
     "verified": true,
     "source": "in-game screenshot",
-    "module_info": {
-      "subcategory": "Kit and Casing"
-    },
+    "module_info": {},
     "recipes": [
       {
         "label": "Standard",
@@ -3087,7 +3083,8 @@
           "workshop": 3.02
         }
       }
-    ]
+    ],
+    "subcategory": "Storage Module"
   },
   {
     "id": "hi-pi-laser",
@@ -3098,9 +3095,7 @@
     "type": "craft",
     "verified": true,
     "source": "in-game screenshot",
-    "module_info": {
-      "subcategory": "Gathering"
-    },
+    "module_info": {},
     "note": "Confirmed as a mining laser, same Gathering subcategory as Simple/Overclocked Mining Laser. Sell price/description still unconfirmed without a proper encyclopedia screenshot.",
     "recipes": [
       {
@@ -3122,7 +3117,8 @@
           "workshop": 5.27
         }
       }
-    ]
+    ],
+    "subcategory": "Gathering"
   },
   {
     "id": "overclocked-hi-pi-laser",
@@ -3133,9 +3129,7 @@
     "type": "craft",
     "verified": true,
     "source": "in-game screenshot",
-    "module_info": {
-      "subcategory": "Gathering"
-    },
+    "module_info": {},
     "note": "Confirmed mining laser, same Gathering subcategory as Hi-Pi Laser.",
     "recipes": [
       {
@@ -3161,7 +3155,8 @@
           "workshop": 11.42
         }
       }
-    ]
+    ],
+    "subcategory": "Gathering"
   },
   {
     "id": "mining-laser-control-mod",
@@ -3193,7 +3188,8 @@
           "workshop": 0.42
         }
       }
-    ]
+    ],
+    "subcategory": "Control Mod"
   },
   {
     "id": "booster-control-mod",
@@ -3229,7 +3225,8 @@
           "workshop": 0.7
         }
       }
-    ]
+    ],
+    "subcategory": "Control Mod"
   },
   {
     "id": "construction-tool-3-0",
@@ -3747,8 +3744,8 @@
   },
   {
     "id": "thermal-suit-chip",
-    "name": "Thermal Suit Chip",
-    "category": "Components",
+    "name": "Thermo Suit Chip",
+    "category": "Contractor Equipment",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -3805,11 +3802,11 @@
     "verified": true,
     "source": "in-game encyclopedia",
     "module_info": {
-      "sell_price": 50.0,
-      "subcategory": "Gathering"
+      "sell_price": 50.0
     },
     "note": "Recipe not listed in encyclopedia - needs follow-up.",
-    "storage_units": 10
+    "storage_units": 10,
+    "subcategory": "Gathering"
   },
   {
     "id": "crude-resource-detector",
@@ -3820,11 +3817,11 @@
     "verified": true,
     "source": "in-game encyclopedia",
     "module_info": {
-      "sell_price": 50.0,
-      "subcategory": "Radar"
+      "sell_price": 50.0
     },
     "note": "Recipe not listed in encyclopedia - needs follow-up.",
-    "storage_units": 10
+    "storage_units": 10,
+    "subcategory": "Radar"
   },
   {
     "id": "carbonic-superfuel",
@@ -3901,7 +3898,8 @@
         ],
         "storage_units": 10
       }
-    ]
+    ],
+    "subcategory": "Gathering"
   },
   {
     "id": "small-mag-plasma-tank",
@@ -3913,8 +3911,7 @@
     "verified": true,
     "source": "in-game encyclopedia",
     "module_info": {
-      "sell_price": 269.0,
-      "subcategory": "FTL Module"
+      "sell_price": 269.0
     },
     "recipes": [
       {
@@ -3931,7 +3928,8 @@
         ],
         "storage_units": 10
       }
-    ]
+    ],
+    "subcategory": "FTL Module"
   },
   {
     "id": "mag-plasma-tank",
@@ -3943,8 +3941,7 @@
     "verified": true,
     "source": "in-game encyclopedia",
     "module_info": {
-      "sell_price": 1570.0,
-      "subcategory": "FTL Module"
+      "sell_price": 1570.0
     },
     "recipes": [
       {
@@ -3961,7 +3958,8 @@
         ],
         "storage_units": 25
       }
-    ]
+    ],
+    "subcategory": "FTL Module"
   },
   {
     "id": "small-fuel-generator",
@@ -3973,7 +3971,14 @@
     "verified": true,
     "source": "in-game encyclopedia",
     "module_info": {
-      "sell_price": 880.0
+      "sell_price": 880.0,
+      "description": "This module consumes carbon-based fuel to produce electric current to power other RSMs.",
+      "tag": "Carbon Generator",
+      "stats": {
+        "Required Technology Level": "3",
+        "System Requirements": "400 SP",
+        "Patch Slots": "2"
+      }
     },
     "recipes": [
       {
@@ -3998,7 +4003,8 @@
         ],
         "storage_units": 10
       }
-    ]
+    ],
+    "subcategory": "Power Module"
   },
   {
     "id": "battery-module",
@@ -4010,8 +4016,7 @@
     "verified": true,
     "source": "in-game encyclopedia",
     "module_info": {
-      "sell_price": 740.0,
-      "subcategory": "Battery"
+      "sell_price": 740.0
     },
     "recipes": [
       {
@@ -4028,7 +4033,8 @@
         ],
         "storage_units": 10
       }
-    ]
+    ],
+    "subcategory": "Battery"
   },
   {
     "id": "small-liquid-tank",
@@ -4040,8 +4046,7 @@
     "verified": true,
     "source": "in-game encyclopedia",
     "module_info": {
-      "sell_price": 442.0,
-      "subcategory": "Storage Module"
+      "sell_price": 442.0
     },
     "recipes": [
       {
@@ -4066,7 +4071,8 @@
         ],
         "storage_units": 10
       }
-    ]
+    ],
+    "subcategory": "Storage Module"
   },
   {
     "id": "quiet-breeze-thruster",
@@ -4079,7 +4085,6 @@
     "source": "in-game encyclopedia",
     "module_info": {
       "sell_price": 920.0,
-      "subcategory": "Thruster",
       "stats": {
         "System Requirements": "1000 SP",
         "Material Heat Conductivity": "60.0 W/aK",
@@ -4113,7 +4118,8 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "subcategory": "Thruster"
   },
   {
     "id": "grasshopper-thruster",
@@ -4126,7 +4132,6 @@
     "source": "in-game encyclopedia",
     "module_info": {
       "sell_price": 930.0,
-      "subcategory": "Thruster",
       "stats": {
         "System Requirements": "600 SP",
         "Material Heat Conductivity": "1200.0 W/aK",
@@ -4166,11 +4171,12 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "subcategory": "Thruster"
   },
   {
-    "id": "steel-hull-4x3x1",
-    "name": "Steel Hull Part 4x3x1",
+    "id": "steel-4x3x1",
+    "name": "Steel 4x3x1",
     "category": "Hull Part",
     "group": "Ship Parts",
     "station": "Workshop",
@@ -4179,7 +4185,6 @@
     "source": "in-game encyclopedia",
     "module_info": {
       "sell_price": 500.0,
-      "subcategory": "Steel Hull",
       "stats": {
         "System Support": "96 SP",
         "Frame": "40",
@@ -4205,11 +4210,12 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "subcategory": "Steel Hull"
   },
   {
-    "id": "steel-hull-6x3x1",
-    "name": "Steel Hull Part 6x3x1",
+    "id": "steel-6x3x1",
+    "name": "Steel 6x3x1",
     "category": "Hull Part",
     "group": "Ship Parts",
     "station": "Workshop",
@@ -4218,7 +4224,6 @@
     "source": "in-game encyclopedia",
     "module_info": {
       "sell_price": 750.0,
-      "subcategory": "Steel Hull",
       "stats": {
         "System Support": "144 SP",
         "Frame": "60",
@@ -4244,11 +4249,12 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "subcategory": "Steel Hull"
   },
   {
-    "id": "steel-hull-8x3x1",
-    "name": "Steel Hull Part 8x3x1",
+    "id": "steel-8x3x1",
+    "name": "Steel 8x3x1",
     "category": "Hull Part",
     "group": "Ship Parts",
     "station": "Workshop",
@@ -4257,7 +4263,6 @@
     "source": "in-game encyclopedia",
     "module_info": {
       "sell_price": 1000.0,
-      "subcategory": "Steel Hull",
       "stats": {
         "System Support": "192 SP",
         "Frame": "80",
@@ -4283,11 +4288,12 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "subcategory": "Steel Hull"
   },
   {
-    "id": "steel-hull-4x3x2",
-    "name": "Steel Hull Part 4x3x2",
+    "id": "steel-4x3x2",
+    "name": "Steel 4x3x2",
     "category": "Hull Part",
     "group": "Ship Parts",
     "station": "Workshop",
@@ -4296,7 +4302,6 @@
     "source": "in-game encyclopedia",
     "module_info": {
       "sell_price": 560.0,
-      "subcategory": "Steel Hull",
       "stats": {
         "System Support": "240 SP",
         "Frame": "36",
@@ -4322,11 +4327,12 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "subcategory": "Steel Hull"
   },
   {
-    "id": "steel-hull-6x3x2",
-    "name": "Steel Hull Part 6x3x2",
+    "id": "steel-6x3x2",
+    "name": "Steel 6x3x2",
     "category": "Hull Part",
     "group": "Ship Parts",
     "station": "Workshop",
@@ -4335,7 +4341,6 @@
     "source": "in-game encyclopedia",
     "module_info": {
       "sell_price": 840.0,
-      "subcategory": "Steel Hull",
       "stats": {
         "System Support": "360 SP",
         "Frame": "54",
@@ -4361,11 +4366,12 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "subcategory": "Steel Hull"
   },
   {
-    "id": "steel-hull-8x3x2",
-    "name": "Steel Hull Part 8x3x2",
+    "id": "steel-8x3x2",
+    "name": "Steel 8x3x2",
     "category": "Hull Part",
     "group": "Ship Parts",
     "station": "Workshop",
@@ -4374,7 +4380,6 @@
     "source": "in-game encyclopedia",
     "module_info": {
       "sell_price": 1130.0,
-      "subcategory": "Steel Hull",
       "stats": {
         "System Support": "480 SP",
         "Frame": "72",
@@ -4400,7 +4405,8 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "subcategory": "Steel Hull"
   },
   {
     "id": "iron-scraps",
@@ -4682,6 +4688,1470 @@
         ],
         "output_qty": 1,
         "storage_units": 25
+      }
+    ]
+  },
+  {
+    "id": "blasting-missile",
+    "name": "Blasting Missile",
+    "category": "Manufactured",
+    "subcategory": "Ammunition",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 3.94,
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Solid Explosive",
+            "qty": 8
+          },
+          {
+            "item": "Small Missile Airframe",
+            "qty": 5
+          }
+        ],
+        "output_qty": 5,
+        "storage_units": 0.1
+      }
+    ]
+  },
+  {
+    "id": "small-cartridge",
+    "name": "Small Cartridge",
+    "category": "Manufactured",
+    "subcategory": "Ammunition",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 0.03,
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Solid Explosive",
+            "qty": 1
+          },
+          {
+            "item": "Metal Sheet",
+            "qty": 1
+          }
+        ],
+        "output_qty": 120,
+        "storage_units": 0.01
+      }
+    ]
+  },
+  {
+    "id": "single-tube-missile-launcher",
+    "name": "Single Tube Missile Launcher",
+    "category": "External Module",
+    "subcategory": "Weapon",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 61.0,
+      "description": "A module used to deliver a single explosive payload to a remote target.",
+      "tag": "Shell Blasting",
+      "stats": {
+        "System Requirements": "150 SP",
+        "Patch Slots": "1"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Module Kit",
+            "qty": 1
+          },
+          {
+            "item": "Metal Sheet",
+            "qty": 3
+          },
+          {
+            "item": "Nut and Bolt",
+            "qty": 10
+          }
+        ],
+        "storage_units": 10
+      }
+    ]
+  },
+  {
+    "id": "reactive-shield",
+    "name": "Reactive Shield",
+    "category": "Internal Module",
+    "subcategory": "Shield",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 1490.0,
+      "description": "Using a pair of Tesla coils, this module generates a bubble of charged plasma that can protect a spaceship from radiation and particles.",
+      "tag": "Shield",
+      "stats": {
+        "System Requirements": "2000 SP",
+        "Patch Slots": "2"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Module Kit",
+            "qty": 1
+          },
+          {
+            "item": "Elmerium Engine",
+            "qty": 4
+          },
+          {
+            "item": "h-Crystal Matrix",
+            "qty": 16
+          },
+          {
+            "item": "c-Crystal Matrix",
+            "qty": 3
+          }
+        ],
+        "storage_units": 25
+      }
+    ]
+  },
+  {
+    "id": "small-reactive-shield",
+    "name": "Small Reactive Shield",
+    "category": "Internal Module",
+    "subcategory": "Shield",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 284.0,
+      "description": "Using a pair of Tesla coils, this module generates a bubble of charged plasma that can protect a spaceship from radiation and particles.",
+      "tag": "Shield",
+      "stats": {
+        "System Requirements": "600 SP",
+        "Patch Slots": "1"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Module Kit",
+            "qty": 1
+          },
+          {
+            "item": "Elmerium Engine",
+            "qty": 1
+          },
+          {
+            "item": "h-Crystal Matrix",
+            "qty": 1
+          }
+        ],
+        "storage_units": 10
+      }
+    ]
+  },
+  {
+    "id": "thermal-steel-hull-4x3x1",
+    "name": "Thermal Steel Hull Part 4x3x1",
+    "category": "Ship Part",
+    "subcategory": "Thermal Steel Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 580.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "96 SP",
+        "Frame": "40",
+        "Weight": "20.0 t",
+        "Hull": "10",
+        "Heat Capacity": "20 MJ/K",
+        "Material Heat Conductivity": "40.0 W/aK",
+        "Decoration Capacity": "4"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Steel 4x3x1",
+            "qty": 1
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 4
+          }
+        ],
+        "storage_units": 20
+      }
+    ]
+  },
+  {
+    "id": "thermal-steel-hull-6x3x1",
+    "name": "Thermal Steel Hull Part 6x3x1",
+    "category": "Ship Part",
+    "subcategory": "Thermal Steel Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 850.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "144 SP",
+        "Frame": "60",
+        "Weight": "30.0 t",
+        "Hull": "15",
+        "Heat Capacity": "30 MJ/K",
+        "Material Heat Conductivity": "40.0 W/aK",
+        "Decoration Capacity": "6"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Steel 6x3x1",
+            "qty": 1
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 6
+          }
+        ],
+        "storage_units": 20
+      }
+    ]
+  },
+  {
+    "id": "thermal-steel-hull-8x3x1",
+    "name": "Thermal Steel Hull Part 8x3x1",
+    "category": "Ship Part",
+    "subcategory": "Thermal Steel Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 1130.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "192 SP",
+        "Frame": "80",
+        "Weight": "40.0 t",
+        "Hull": "20",
+        "Heat Capacity": "40 MJ/K",
+        "Material Heat Conductivity": "40.0 W/aK",
+        "Decoration Capacity": "8"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Steel 8x3x1",
+            "qty": 1
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 8
+          }
+        ],
+        "storage_units": 20
+      }
+    ]
+  },
+  {
+    "id": "thermal-steel-hull-4x3x2",
+    "name": "Thermal Steel Hull Part 4x3x2",
+    "category": "Ship Part",
+    "subcategory": "Thermal Steel Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 640.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "240 SP",
+        "Frame": "36",
+        "Weight": "30.0 t",
+        "Hull": "15",
+        "Heat Capacity": "30 MJ/K",
+        "Material Heat Conductivity": "40.0 W/aK",
+        "Decoration Capacity": "6"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Steel 4x3x2",
+            "qty": 1
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 6
+          }
+        ],
+        "storage_units": 20
+      }
+    ]
+  },
+  {
+    "id": "thermal-steel-hull-6x3x2",
+    "name": "Thermal Steel Hull Part 6x3x2",
+    "category": "Ship Part",
+    "subcategory": "Thermal Steel Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 960.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "360 SP",
+        "Frame": "54",
+        "Weight": "45.0 t",
+        "Hull": "22",
+        "Heat Capacity": "45 MJ/K",
+        "Material Heat Conductivity": "40.0 W/aK",
+        "Decoration Capacity": "9"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Steel 6x3x2",
+            "qty": 1
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 9
+          }
+        ],
+        "storage_units": 20
+      }
+    ]
+  },
+  {
+    "id": "thermal-steel-hull-8x3x2",
+    "name": "Thermal Steel Hull Part 8x3x2",
+    "category": "Ship Part",
+    "subcategory": "Thermal Steel Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 1300.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "480 SP",
+        "Frame": "72",
+        "Weight": "60.0 t",
+        "Hull": "30",
+        "Heat Capacity": "60 MJ/K",
+        "Material Heat Conductivity": "40.0 W/aK",
+        "Decoration Capacity": "12"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Steel 8x3x2",
+            "qty": 1
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 12
+          }
+        ],
+        "storage_units": 20
+      }
+    ]
+  },
+  {
+    "id": "titanium-4x3x1",
+    "name": "Titanium 4x3x1",
+    "category": "Ship Part",
+    "subcategory": "Titanium Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 1330.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "96 SP",
+        "Frame": "40",
+        "Weight": "16.0 t",
+        "Hull": "10",
+        "Heat Capacity": "22 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK",
+        "Decoration Capacity": "4"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Titanium Part Casing",
+            "qty": 2
+          },
+          {
+            "item": "Support Hardware",
+            "qty": 2
+          }
+        ],
+        "storage_units": 20
+      }
+    ]
+  },
+  {
+    "id": "titanium-6x3x1",
+    "name": "Titanium 6x3x1",
+    "category": "Ship Part",
+    "subcategory": "Titanium Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 2000.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "144 SP",
+        "Frame": "60",
+        "Weight": "24.0 t",
+        "Hull": "15",
+        "Heat Capacity": "33 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK",
+        "Decoration Capacity": "6"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Titanium Part Casing",
+            "qty": 3
+          },
+          {
+            "item": "Support Hardware",
+            "qty": 3
+          }
+        ],
+        "storage_units": 20
+      }
+    ]
+  },
+  {
+    "id": "titanium-8x3x1",
+    "name": "Titanium 8x3x1",
+    "category": "Ship Part",
+    "subcategory": "Titanium Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 2670.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "192 SP",
+        "Frame": "80",
+        "Weight": "32.0 t",
+        "Hull": "20",
+        "Heat Capacity": "44 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK",
+        "Decoration Capacity": "8"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Titanium Part Casing",
+            "qty": 4
+          },
+          {
+            "item": "Support Hardware",
+            "qty": 4
+          }
+        ],
+        "storage_units": 20
+      }
+    ]
+  },
+  {
+    "id": "titanium-4x3x2",
+    "name": "Titanium 4x3x2",
+    "category": "Ship Part",
+    "subcategory": "Titanium Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 1390.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "240 SP",
+        "Frame": "36",
+        "Weight": "24.0 t",
+        "Hull": "15",
+        "Heat Capacity": "33 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK",
+        "Decoration Capacity": "6"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Titanium Part Casing",
+            "qty": 2
+          },
+          {
+            "item": "Support Hardware",
+            "qty": 4
+          }
+        ],
+        "storage_units": 20
+      }
+    ]
+  },
+  {
+    "id": "titanium-6x3x2",
+    "name": "Titanium 6x3x2",
+    "category": "Ship Part",
+    "subcategory": "Titanium Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 2090.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "360 SP",
+        "Frame": "54",
+        "Weight": "36.0 t",
+        "Hull": "22",
+        "Heat Capacity": "49 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK",
+        "Decoration Capacity": "9"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Titanium Part Casing",
+            "qty": 3
+          },
+          {
+            "item": "Support Hardware",
+            "qty": 6
+          }
+        ],
+        "storage_units": 20
+      }
+    ]
+  },
+  {
+    "id": "titanium-8x3x2",
+    "name": "Titanium 8x3x2",
+    "category": "Ship Part",
+    "subcategory": "Titanium Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 2790.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "480 SP",
+        "Frame": "72",
+        "Weight": "48.0 t",
+        "Hull": "30",
+        "Heat Capacity": "66 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK",
+        "Decoration Capacity": "12"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Titanium Part Casing",
+            "qty": 4
+          },
+          {
+            "item": "Support Hardware",
+            "qty": 8
+          }
+        ],
+        "storage_units": 20
+      }
+    ]
+  },
+  {
+    "id": "titanium-8x6x2",
+    "name": "Titanium 8x6x2",
+    "category": "Ship Part",
+    "subcategory": "Titanium Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 7100.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "480 SP",
+        "Frame": "256",
+        "Weight": "64.0 t",
+        "Hull": "20",
+        "Heat Capacity": "88 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK",
+        "Decoration Capacity": "16"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Titanium Part Casing",
+            "qty": 2
+          },
+          {
+            "item": "Support Hardware",
+            "qty": 8
+          }
+        ],
+        "storage_units": 50
+      }
+    ]
+  },
+  {
+    "id": "titanium-12x6x2",
+    "name": "Titanium 12x6x2",
+    "category": "Ship Part",
+    "subcategory": "Titanium Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 10700.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "720 SP",
+        "Frame": "384",
+        "Weight": "96.0 t",
+        "Hull": "30",
+        "Heat Capacity": "132 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK",
+        "Decoration Capacity": "24"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Titanium Part Casing",
+            "qty": 3
+          },
+          {
+            "item": "Support Hardware",
+            "qty": 12
+          }
+        ],
+        "storage_units": 50
+      }
+    ]
+  },
+  {
+    "id": "titanium-16x6x2",
+    "name": "Titanium 16x6x2",
+    "category": "Ship Part",
+    "subcategory": "Titanium Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 14300.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "960 SP",
+        "Frame": "512",
+        "Weight": "128.0 t",
+        "Hull": "40",
+        "Heat Capacity": "176 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK",
+        "Decoration Capacity": "32"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Titanium Part Casing",
+            "qty": 4
+          },
+          {
+            "item": "Support Hardware",
+            "qty": 16
+          }
+        ],
+        "storage_units": 50
+      }
+    ]
+  },
+  {
+    "id": "thermal-titanium-hull-4x3x1",
+    "name": "Thermal Titanium Hull 4x3x1",
+    "category": "Ship Part",
+    "subcategory": "Thermal Titanium Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 1460.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "96 SP",
+        "Frame": "40",
+        "Weight": "16.0 t",
+        "Hull": "10",
+        "Heat Capacity": "22 MJ/K",
+        "Material Heat Conductivity": "40.0 W/aK",
+        "Decoration Capacity": "4"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Titanium 4x3x1",
+            "qty": 1
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 4
+          }
+        ],
+        "storage_units": 20
+      }
+    ]
+  },
+  {
+    "id": "thermal-titanium-hull-6x3x1",
+    "name": "Thermal Titanium Hull 6x3x1",
+    "category": "Ship Part",
+    "subcategory": "Thermal Titanium Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 2200.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "144 SP",
+        "Frame": "60",
+        "Weight": "24.0 t",
+        "Hull": "15",
+        "Heat Capacity": "33 MJ/K",
+        "Material Heat Conductivity": "40.0 W/aK",
+        "Decoration Capacity": "6"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Titanium 6x3x1",
+            "qty": 1
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 6
+          }
+        ],
+        "storage_units": 20
+      }
+    ]
+  },
+  {
+    "id": "thermal-titanium-hull-8x3x1",
+    "name": "Thermal Titanium Hull 8x3x1",
+    "category": "Ship Part",
+    "subcategory": "Thermal Titanium Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 2940.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "192 SP",
+        "Frame": "80",
+        "Weight": "32.0 t",
+        "Hull": "20",
+        "Heat Capacity": "44 MJ/K",
+        "Material Heat Conductivity": "40.0 W/aK",
+        "Decoration Capacity": "8"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Titanium 8x3x1",
+            "qty": 1
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 8
+          }
+        ],
+        "storage_units": 20
+      }
+    ]
+  },
+  {
+    "id": "thermal-titanium-hull-4x3x2",
+    "name": "Thermal Titanium Hull 4x3x2",
+    "category": "Ship Part",
+    "subcategory": "Thermal Titanium Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 1540.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "240 SP",
+        "Frame": "36",
+        "Weight": "24.0 t",
+        "Hull": "15",
+        "Heat Capacity": "33 MJ/K",
+        "Material Heat Conductivity": "40.0 W/aK",
+        "Decoration Capacity": "6"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Titanium 4x3x2",
+            "qty": 1
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 6
+          }
+        ],
+        "storage_units": 20
+      }
+    ]
+  },
+  {
+    "id": "thermal-titanium-hull-6x3x2",
+    "name": "Thermal Titanium Hull 6x3x2",
+    "category": "Ship Part",
+    "subcategory": "Thermal Titanium Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 2320.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "360 SP",
+        "Frame": "54",
+        "Weight": "36.0 t",
+        "Hull": "22",
+        "Heat Capacity": "49 MJ/K",
+        "Material Heat Conductivity": "40.0 W/aK",
+        "Decoration Capacity": "9"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Titanium 6x3x2",
+            "qty": 1
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 9
+          }
+        ],
+        "storage_units": 20
+      }
+    ]
+  },
+  {
+    "id": "thermal-titanium-hull-8x3x2",
+    "name": "Thermal Titanium Hull 8x3x2",
+    "category": "Ship Part",
+    "subcategory": "Thermal Titanium Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 3090.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "480 SP",
+        "Frame": "72",
+        "Weight": "48.0 t",
+        "Hull": "30",
+        "Heat Capacity": "66 MJ/K",
+        "Material Heat Conductivity": "40.0 W/aK",
+        "Decoration Capacity": "12"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Titanium 8x3x2",
+            "qty": 1
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 12
+          }
+        ],
+        "storage_units": 20
+      }
+    ]
+  },
+  {
+    "id": "thermal-titanium-hull-8x6x2",
+    "name": "Thermal Titanium Hull 8x6x2",
+    "category": "Ship Part",
+    "subcategory": "Thermal Titanium Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 7700.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "480 SP",
+        "Frame": "256",
+        "Weight": "64.0 t",
+        "Hull": "20",
+        "Heat Capacity": "88 MJ/K",
+        "Material Heat Conductivity": "40.0 W/aK",
+        "Decoration Capacity": "16"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Titanium 8x6x2",
+            "qty": 1
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 16
+          }
+        ],
+        "storage_units": 50
+      }
+    ]
+  },
+  {
+    "id": "thermal-titanium-hull-12x6x2",
+    "name": "Thermal Titanium Hull 12x6x2",
+    "category": "Ship Part",
+    "subcategory": "Thermal Titanium Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 11700.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "720 SP",
+        "Frame": "384",
+        "Weight": "96.0 t",
+        "Hull": "30",
+        "Heat Capacity": "132 MJ/K",
+        "Material Heat Conductivity": "40.0 W/aK",
+        "Decoration Capacity": "24"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Titanium 12x6x2",
+            "qty": 1
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 24
+          }
+        ],
+        "storage_units": 50
+      }
+    ]
+  },
+  {
+    "id": "thermal-titanium-hull-16x6x2",
+    "name": "Thermal Titanium Hull 16x6x2",
+    "category": "Ship Part",
+    "subcategory": "Thermal Titanium Hull",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 15600.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "960 SP",
+        "Frame": "512",
+        "Weight": "128.0 t",
+        "Hull": "40",
+        "Heat Capacity": "176 MJ/K",
+        "Material Heat Conductivity": "40.0 W/aK",
+        "Decoration Capacity": "32"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Titanium 16x6x2",
+            "qty": 1
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 32
+          }
+        ],
+        "storage_units": 50
+      }
+    ]
+  },
+  {
+    "id": "nimbus-spoiler",
+    "name": "\"Nimbus\" Spoiler",
+    "category": "Ship Part",
+    "subcategory": "Wing",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 126.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "19 SP",
+        "Frame": "8",
+        "Weight": "4.0 t",
+        "Hull": "1",
+        "Steering Strength": "20",
+        "Heat Capacity": "5 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Steel Part Casing",
+            "qty": 1
+          },
+          {
+            "item": "Support Hardware",
+            "qty": 1
+          }
+        ],
+        "storage_units": 5,
+        "output_qty": 2
+      }
+    ]
+  },
+  {
+    "id": "catfin-spoiler",
+    "name": "\"Catfin\" Spoiler",
+    "category": "Ship Part",
+    "subcategory": "Wing",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 126.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "19 SP",
+        "Frame": "8",
+        "Weight": "4.0 t",
+        "Hull": "1",
+        "Steering Strength": "20",
+        "Heat Capacity": "5 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Steel Part Casing",
+            "qty": 1
+          },
+          {
+            "item": "Support Hardware",
+            "qty": 1
+          }
+        ],
+        "storage_units": 5,
+        "output_qty": 2
+      }
+    ]
+  },
+  {
+    "id": "warden-wing",
+    "name": "\"Warden\" Wing",
+    "category": "Ship Part",
+    "subcategory": "Wing",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 252.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "38 SP",
+        "Frame": "16",
+        "Weight": "8.0 t",
+        "Hull": "3",
+        "Steering Strength": "40",
+        "Heat Capacity": "10 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Steel Part Casing",
+            "qty": 1
+          },
+          {
+            "item": "Support Hardware",
+            "qty": 1
+          }
+        ],
+        "storage_units": 10
+      }
+    ]
+  },
+  {
+    "id": "thermal-nimbus-spoiler",
+    "name": "Thermal \"Nimbus\" Spoiler",
+    "category": "Ship Part",
+    "subcategory": "Wing",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 148.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "19 SP",
+        "Frame": "8",
+        "Weight": "4.0 t",
+        "Hull": "1",
+        "Steering Strength": "20",
+        "Heat Capacity": "5 MJ/K",
+        "Material Heat Conductivity": "40.0 W/aK"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "\"Nimbus\" Spoiler",
+            "qty": 1
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 1
+          }
+        ],
+        "storage_units": 5
+      }
+    ]
+  },
+  {
+    "id": "thermal-catfin-spoiler",
+    "name": "Thermal \"Catfin\" Spoiler",
+    "category": "Ship Part",
+    "subcategory": "Wing",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 148.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "19 SP",
+        "Frame": "8",
+        "Weight": "4.0 t",
+        "Hull": "1",
+        "Steering Strength": "20",
+        "Heat Capacity": "5 MJ/K",
+        "Material Heat Conductivity": "40.0 W/aK"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "\"Catfin\" Spoiler",
+            "qty": 1
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 1
+          }
+        ],
+        "storage_units": 5
+      }
+    ]
+  },
+  {
+    "id": "thermal-warden-spoiler",
+    "name": "Thermal \"Warden\" Spoiler",
+    "category": "Ship Part",
+    "subcategory": "Wing",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 285.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "38 SP",
+        "Frame": "16",
+        "Weight": "8.0 t",
+        "Hull": "3",
+        "Steering Strength": "40",
+        "Heat Capacity": "10 MJ/K",
+        "Material Heat Conductivity": "40.0 W/aK"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "\"Warden\" Wing",
+            "qty": 1
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 2
+          }
+        ],
+        "storage_units": 5
+      }
+    ]
+  },
+  {
+    "id": "condor-wing",
+    "name": "\"Condor\" Wing",
+    "category": "Ship Part",
+    "subcategory": "Wing",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 7100.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "384 SP",
+        "Frame": "204",
+        "Weight": "512.0 t",
+        "Hull": "12",
+        "Steering Strength": "160",
+        "Heat Capacity": "88 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Titanium Part Casing",
+            "qty": 2
+          },
+          {
+            "item": "Support Hardware",
+            "qty": 8
+          }
+        ],
+        "storage_units": 50
+      }
+    ]
+  },
+  {
+    "id": "thermal-condor-wing",
+    "name": "Thermal \"Condor\" Wing",
+    "category": "Ship Part",
+    "subcategory": "Wing",
+    "group": "Ship Parts",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "module_info": {
+      "sell_price": 7700.0,
+      "description": "Space crafts are composed of three main layers: a voidproof outside layer, made of resistant material, a structurally sound internal skeleton of heavy beams, and the internal systems keeping the ship inhabitable and functioning. Stellar Engineering brings together all three layers in its modular part designs to help you build the ship of your dreams.",
+      "stats": {
+        "System Support": "384 SP",
+        "Frame": "204",
+        "Weight": "512.0 t",
+        "Hull": "12",
+        "Steering Strength": "160",
+        "Heat Capacity": "88 MJ/K",
+        "Material Heat Conductivity": "60.0 W/aK"
+      }
+    },
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "\"Condor\" Wing",
+            "qty": 1
+          },
+          {
+            "item": "Thermal Sheet",
+            "qty": 16
+          }
+        ],
+        "storage_units": 50
       }
     ]
   }
