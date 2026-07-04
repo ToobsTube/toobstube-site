@@ -384,7 +384,7 @@ function buildItemBody(item, idLookup, domId) {
 
   if (item.value != null || item.storage_units != null) {
     const bits = [];
-    if (item.value != null) bits.push(`<strong>${item.value}</strong> value`);
+    if (item.value != null) bits.push(`<strong>${item.value} cr</strong> value`);
     if (item.storage_units != null) bits.push(`${item.storage_units} su`);
     bodyHtml += `<p class="material-stats">${bits.join(' &nbsp;·&nbsp; ')}</p>`;
   }
