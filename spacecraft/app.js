@@ -132,10 +132,17 @@ function renderPlanModal() {
   // combined chain — not gated on a single top-level recipe like the per-item view is.
   const taxBlock = ctx.taxSteps.size ? renderTaxSection(ctx.taxSteps, 'station', 'this plan', depthOf, idLookup) : '';
 
+  const finalItemsMap = new Map(state.plan.filter((p) => idLookup.has(p.id)).map((p) => {
+    const item = state.items.find((i) => i.id === p.id);
+    return [item.name, p.qty];
+  }));
+  const suSummary = renderSuSummary(finalItemsMap, ctx.intermediates, ctx.rawTotals);
+
   body.innerHTML = `
     <p class="section-label">Items in this plan</p>
     <ul class="plan-list">${planRows}</ul>
     ${renderStationsLine(ctx.stations)}
+    ${suSummary}
     ${taxBlock}
     ${renderIntermediatesSection(ctx.intermediates, depthOf, idLookup)}
     ${renderRawMaterialsSection(ctx.rawTotals, idLookup, ctx.cyclic)}
@@ -772,6 +779,64 @@ function stationFor(name) {
   return item && item.recipes && item.recipes.length ? item.station : null;
 }
 
+// Storage units live in one of two spots depending on the item: gathered/raw materials
+// carry it directly on the item (item.storage_units), while crafted items carry it on
+// their recipe (recipe.storage_units), since that reflects the storage size of one unit
+// of the CRAFTED OUTPUT. This looks in both places and returns null if neither has it,
+// so callers can tell "zero space" apart from "we don't know yet".
+function suFor(name) {
+  const item = state.items.find((i) => i.id === slugify(name));
+  if (!item) return null;
+  if (item.storage_units != null) return item.storage_units;
+  if (item.recipes && item.recipes.length && item.recipes[0].storage_units != null) return item.recipes[0].storage_units;
+  return null;
+}
+
+// Sums storage units across a Map of name -> qty, tracking separately which names had
+// no su data available so totals never silently under-count without saying so.
+function sumSu(map) {
+  let total = 0;
+  let hasAny = false;
+  const unknown = [];
+  Array.from(map.entries()).forEach(([name, qty]) => {
+    const su = suFor(name);
+    if (su != null) {
+      total += su * qty;
+      hasAny = true;
+    } else {
+      unknown.push(name);
+    }
+  });
+  return { total, hasAny, unknown };
+}
+
+function renderSuSummary(finalMap, intermediateMap, rawMap) {
+  const final = sumSu(finalMap);
+  const inter = sumSu(intermediateMap);
+  const raw = sumSu(rawMap);
+  const grandTotal = final.total + inter.total + raw.total;
+  const anyKnown = final.hasAny || inter.hasAny || raw.hasAny;
+  if (!anyKnown) return '';
+
+  const allUnknown = Array.from(new Set([...final.unknown, ...inter.unknown, ...raw.unknown]));
+  const unknownNote = allUnknown.length
+    ? `<p class="su-unknown-note">Storage size not logged yet for: ${allUnknown.map(escapeHtml).join(', ')} — total below doesn't include these.</p>`
+    : '';
+
+  return `
+    <div class="su-summary">
+      <p class="section-label">Storage space needed</p>
+      <ul class="su-breakdown">
+        <li><span>Finished items to place</span><span>${final.total.toFixed(1)} su</span></li>
+        <li><span>Sub-crafts along the way</span><span>${inter.total.toFixed(1)} su</span></li>
+        <li><span>Raw/base materials</span><span>${raw.total.toFixed(1)} su</span></li>
+      </ul>
+      <p class="su-grand-total"><strong>${grandTotal.toFixed(1)} su</strong> total across the whole build</p>
+      ${unknownNote}
+    </div>
+  `;
+}
+
 function renderMaterialRows(map, sortFn, idLookup, withStation, cyclicSet) {
   return Array.from(map.entries())
     .sort(sortFn)
@@ -829,10 +894,13 @@ function renderRawBreakdown(itemId, container, qty, mode, location) {
   const stationsLine = renderStationsLine(ctx.stations);
   const taxBlock = topRecipe ? renderTaxSection(ctx.taxSteps, location, `×${qty}`, depthOf, idLookup) : '';
   const intermediateSection = renderIntermediatesSection(ctx.intermediates, depthOf, idLookup);
+  const finalItemsMap = new Map([[topItem.name, qty]]);
+  const suSummary = renderSuSummary(finalItemsMap, ctx.intermediates, ctx.rawTotals);
 
   container.innerHTML = `
     ${timeLine}
     ${stationsLine}
+    ${suSummary}
     ${taxBlock}
     <p class="raw-note">Everything needed for ×${qty}, tracing each sub-recipe down to its base materials (using the first recipe option at each step where there's more than one):</p>
     ${intermediateSection}
