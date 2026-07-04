@@ -137,7 +137,7 @@ function renderPlanModal() {
     ${renderStationsLine(ctx.stations)}
     ${taxBlock}
     ${renderIntermediatesSection(ctx.intermediates, depthOf, idLookup)}
-    ${renderRawMaterialsSection(ctx.rawTotals, idLookup)}
+    ${renderRawMaterialsSection(ctx.rawTotals, idLookup, ctx.cyclic)}
   `;
 
   body.querySelectorAll('.plan-qty-input').forEach((input) => {
@@ -656,6 +656,7 @@ function walkCraftTree(itemId, neededQty, visiting, ctx) {
       ctx.intermediates.set(ing.item, (ctx.intermediates.get(ing.item) || 0) + requiredQty);
       walkCraftTree(slug, requiredQty, visiting, ctx);
     } else {
+      if (cyclic) ctx.cyclic.add(ing.item);
       ctx.rawTotals.set(ing.item, (ctx.rawTotals.get(ing.item) || 0) + requiredQty);
     }
   });
@@ -664,7 +665,7 @@ function walkCraftTree(itemId, neededQty, visiting, ctx) {
 }
 
 function newCraftCtx() {
-  return { rawTotals: new Map(), intermediates: new Map(), taxSteps: new Map(), stations: new Set() };
+  return { rawTotals: new Map(), intermediates: new Map(), taxSteps: new Map(), stations: new Set(), cyclic: new Set() };
 }
 
 // ---- Craft depth (steps removed from raw materials) ----
@@ -754,7 +755,7 @@ function stationFor(name) {
   return item && item.recipes && item.recipes.length ? item.station : null;
 }
 
-function renderMaterialRows(map, sortFn, idLookup, withStation) {
+function renderMaterialRows(map, sortFn, idLookup, withStation, cyclicSet) {
   return Array.from(map.entries())
     .sort(sortFn)
     .map(([name, total]) => {
@@ -765,7 +766,8 @@ function renderMaterialRows(map, sortFn, idLookup, withStation) {
       const displayQty = Math.ceil(total - 1e-9); // tiny epsilon guards against float noise like 6.0000000001
       const station = withStation ? stationFor(name) : null;
       const stationTag = station ? `<span class="station-chip station-chip-inline">${escapeHtml(station)}</span>` : '';
-      return `<li><span class="ing-name${linkClass}"${linkAttrs}>${escapeHtml(name)}</span><span class="ing-qty">${stationTag}×${displayQty}</span></li>`;
+      const cyclicTag = cyclicSet && cyclicSet.has(name) ? `<span class="cyclic-chip" title="This item's own recipe loops back to something above it in the chain, so it can't be fully broken down further. Keep some crafted and on hand to bootstrap the loop.">crafted — circular recipe</span>` : '';
+      return `<li><span class="ing-name${linkClass}"${linkAttrs}>${escapeHtml(name)}</span><span class="ing-qty">${stationTag}${cyclicTag}×${displayQty}</span></li>`;
     })
     .join('');
 }
@@ -776,9 +778,9 @@ function renderIntermediatesSection(intermediates, depthOf, idLookup) {
   return `<p class="section-label">Sub-crafts needed along the way</p><p class="raw-note">Ordered top to bottom: most complex first, basic ingots last — right above the raw materials below.</p><ul class="ingredients raw-list">${rows}</ul>`;
 }
 
-function renderRawMaterialsSection(rawTotals, idLookup) {
-  const rows = renderMaterialRows(rawTotals, (a, b) => b[1] - a[1], idLookup, false);
-  return `<p class="section-label">Base/raw materials</p><ul class="ingredients raw-list">${rows}</ul>`;
+function renderRawMaterialsSection(rawTotals, idLookup, cyclicSet) {
+  const rows = renderMaterialRows(rawTotals, (a, b) => b[1] - a[1], idLookup, false, cyclicSet);
+  return `<p class="section-label">Base/raw materials</p><p class="raw-note">Items tagged "crafted — circular recipe" aren't ores — their own recipe loops back to something earlier in this chain, so keep some pre-made on hand rather than mining them.</p><ul class="ingredients raw-list">${rows}</ul>`;
 }
 
 function renderRawBreakdown(itemId, container, qty, mode, location) {
@@ -816,7 +818,7 @@ function renderRawBreakdown(itemId, container, qty, mode, location) {
     ${taxBlock}
     <p class="raw-note">Everything needed for ×${qty}, tracing each sub-recipe down to its base materials (using the first recipe option at each step where there's more than one):</p>
     ${intermediateSection}
-    ${renderRawMaterialsSection(ctx.rawTotals, idLookup)}
+    ${renderRawMaterialsSection(ctx.rawTotals, idLookup, ctx.cyclic)}
   `;
 
   container.querySelectorAll('.ing-name.linkable').forEach((link) => {
