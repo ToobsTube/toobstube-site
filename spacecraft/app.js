@@ -122,6 +122,7 @@ function renderPlanModal() {
   state.plan.forEach((p) => {
     if (idLookup.has(p.id)) walkCraftTree(p.id, p.qty, new Set(), ctx);
   });
+  reconcileCyclicDuplicates(ctx);
 
   const depthMemo = new Map();
   const depthOf = (name) => getCraftDepth(slugify(name), depthMemo, new Set());
@@ -668,6 +669,22 @@ function newCraftCtx() {
   return { rawTotals: new Map(), intermediates: new Map(), taxSteps: new Map(), stations: new Set(), cyclic: new Set() };
 }
 
+// If an item gets fully expanded as a real intermediate somewhere in the tree, but a
+// *different* branch also hits it as a circular fallback (e.g. h-Crystal Matrix reached
+// properly via Graphite Crystal, but also hit again via Quartz's own circular ingredient),
+// the circular copy is just an artifact of using each item's first recipe everywhere —
+// not something the player actually needs to source separately. Fold it into the real
+// intermediate total and drop the redundant/misleading "raw" entry.
+function reconcileCyclicDuplicates(ctx) {
+  Array.from(ctx.cyclic).forEach((name) => {
+    if (ctx.intermediates.has(name) && ctx.rawTotals.has(name)) {
+      ctx.intermediates.set(name, ctx.intermediates.get(name) + ctx.rawTotals.get(name));
+      ctx.rawTotals.delete(name);
+      ctx.cyclic.delete(name);
+    }
+  });
+}
+
 // ---- Craft depth (steps removed from raw materials) ----
 // Used purely for display ordering. An item crafted directly from raw materials
 // (e.g. Copper Ingot, straight from Copper Ore) has depth 1. An item built from THAT
@@ -789,6 +806,7 @@ function renderRawBreakdown(itemId, container, qty, mode, location) {
   location = location || 'station';
   const ctx = newCraftCtx();
   walkCraftTree(itemId, qty, new Set(), ctx);
+  reconcileCyclicDuplicates(ctx);
   const idLookup = new Set(state.items.map((i) => i.id));
   const depthMemo = new Map();
   const depthOf = (name) => getCraftDepth(slugify(name), depthMemo, new Set());
