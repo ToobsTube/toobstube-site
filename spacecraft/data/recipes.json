@@ -736,7 +736,7 @@
   {
     "id": "small-module-kit",
     "name": "Small Module Kit",
-    "category": "Ship Component",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -769,12 +769,13 @@
       "subcategory": "Kit and Casing",
       "description": "A universal standard serving as a basis for all \"Reliant Spaceship Modules\". Anchors the RSM to its associated ship using B-Switch electropermanent magnets."
     },
-    "value": 38.5
+    "value": 38.5,
+    "subcategory": "Kit and Casing"
   },
   {
     "id": "base-deploy-kit",
     "name": "Base Deploy Kit",
-    "category": "Factory Kit",
+    "category": "Manufactured",
     "group": "Base Building",
     "station": "Workshop",
     "type": "craft",
@@ -817,7 +818,8 @@
       "sell_price": 322,
       "subcategory": "Kit and Casing",
       "description": "This autonomous device can deploy a planetary base in a matter of seconds. Its use is reserved for authorized associates selected by The Company."
-    }
+    },
+    "subcategory": "Kit and Casing"
   },
   {
     "id": "small-cargo-hold",
@@ -1007,7 +1009,7 @@
   {
     "id": "h-crystal-matrix",
     "name": "h-Crystal Matrix",
-    "category": "Crystal Geometry",
+    "category": "Material",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -1063,12 +1065,13 @@
         }
       }
     ],
-    "value": 0.5
+    "value": 0.5,
+    "subcategory": "Crystal Matrix"
   },
   {
     "id": "c-crystal-matrix",
     "name": "c-Crystal Matrix",
-    "category": "Crystal Geometry",
+    "category": "Material",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -1093,7 +1096,8 @@
         }
       }
     ],
-    "value": 2.0
+    "value": 2.0,
+    "subcategory": "Crystal Matrix"
   },
   {
     "id": "construction-tool",
@@ -1563,7 +1567,7 @@
   {
     "id": "metal-sheet",
     "name": "Metal Sheet",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -1588,12 +1592,13 @@
         }
       }
     ],
-    "value": 3.0
+    "value": 3.0,
+    "subcategory": "Simple Product"
   },
   {
     "id": "thermal-sheet",
     "name": "Thermal Sheet",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -1617,12 +1622,13 @@
         }
       }
     ],
-    "value": 6.2
+    "value": 6.2,
+    "subcategory": "Simple Product"
   },
   {
     "id": "nut-and-bolt",
     "name": "Nut and Bolt",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -1646,12 +1652,13 @@
         }
       }
     ],
-    "value": 0.74
+    "value": 0.74,
+    "subcategory": "Simple Product"
   },
   {
     "id": "wire",
     "name": "Wire",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -1675,12 +1682,13 @@
         }
       }
     ],
-    "value": 2.08
+    "value": 2.08,
+    "subcategory": "Simple Product"
   },
   {
     "id": "silicone-gel",
     "name": "Silicone Gel",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -1704,12 +1712,13 @@
         }
       }
     ],
-    "value": 0.52
+    "value": 0.52,
+    "subcategory": "Simple Product"
   },
   {
     "id": "semiconductor-substrate",
     "name": "Semiconductor Substrate",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -1733,12 +1742,13 @@
         }
       }
     ],
-    "value": 2.6
+    "value": 2.6,
+    "subcategory": "Simple Product"
   },
   {
     "id": "microchip",
     "name": "Microchip",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -1762,12 +1772,13 @@
         }
       }
     ],
-    "value": 134.0
+    "value": 134.0,
+    "subcategory": "Contraption"
   },
   {
     "id": "structural-beam",
     "name": "Structural Beam",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -1790,12 +1801,13 @@
         }
       }
     ],
-    "value": 21.8
+    "value": 21.8,
+    "subcategory": "Simple Product"
   },
   {
     "id": "stainless-plate",
     "name": "Stainless Plate",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -1823,12 +1835,13 @@
         }
       }
     ],
-    "value": 14.7
+    "value": 14.7,
+    "subcategory": "Simple Product"
   },
   {
     "id": "magnetic-coil",
     "name": "Magnetic Coil",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -1860,12 +1873,13 @@
         }
       }
     ],
-    "value": 9.5
+    "value": 9.5,
+    "subcategory": "Contraption"
   },
   {
     "id": "solar-cell",
     "name": "Solar Cell",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -1897,12 +1911,13 @@
         }
       }
     ],
-    "value": 6.2
+    "value": 6.2,
+    "subcategory": "Contraption"
   },
   {
     "id": "graphene",
     "name": "Graphene",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -1926,12 +1941,13 @@
         }
       }
     ],
-    "value": 2.34
+    "value": 2.34,
+    "subcategory": "Simple Product"
   },
   {
     "id": "crystalline-focuser",
     "name": "Crystalline Focuser",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -1958,12 +1974,13 @@
         }
       }
     ],
-    "value": 23.1
+    "value": 23.1,
+    "subcategory": "Contraption"
   },
   {
     "id": "hall-alternator",
     "name": "Hall Alternator",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -1994,12 +2011,13 @@
         }
       }
     ],
-    "value": 50.0
+    "value": 50.0,
+    "subcategory": "Contraption"
   },
   {
     "id": "diffraction-grating",
     "name": "Diffraction Grating",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -2027,12 +2045,13 @@
         }
       }
     ],
-    "value": 6.3
+    "value": 6.3,
+    "subcategory": "Contraption"
   },
   {
     "id": "motor",
     "name": "Motor",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -2063,7 +2082,8 @@
         }
       }
     ],
-    "value": 59.0
+    "value": 59.0,
+    "subcategory": "Contraption"
   },
   {
     "id": "iron-ingot",
@@ -2354,7 +2374,7 @@
   {
     "id": "concrete",
     "name": "Concrete",
-    "category": "Refining",
+    "category": "Manufactured",
     "group": "Resources",
     "station": "Smelter",
     "type": "craft",
@@ -2378,7 +2398,8 @@
         }
       }
     ],
-    "value": 0.25
+    "value": 0.25,
+    "subcategory": "Simple Product"
   },
   {
     "id": "steel-ingot",
@@ -2960,7 +2981,7 @@
   {
     "id": "module-kit",
     "name": "Module Kit",
-    "category": "Ship Component",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -2993,12 +3014,13 @@
           "workshop": 2.25
         }
       }
-    ]
+    ],
+    "subcategory": "Kit and Casing"
   },
   {
     "id": "strong-metal-sheet",
     "name": "Strong Metal Sheet",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -3026,7 +3048,8 @@
         }
       }
     ],
-    "value": 8.0
+    "value": 8.0,
+    "subcategory": "Simple Product"
   },
   {
     "id": "cargo-hold",
@@ -3237,20 +3260,21 @@
     ]
   },
   {
-    "id": "meg-plasma",
-    "name": "Meg Plasma",
-    "category": "Fluid",
+    "id": "mag-plasma",
+    "name": "Mag-Plasma",
+    "category": "Material",
     "group": "Resources",
     "type": "gather",
     "verified": true,
     "source": "in-game encyclopedia",
     "value": 0.2,
-    "note": "Fluid resource, used as ingredient in Meg Plasma Bottle. Extraction/gathering method not yet confirmed."
+    "note": "Fluid resource, used as ingredient in Mag-Plasma Bottle. Extraction/gathering method not yet confirmed.",
+    "subcategory": "Fluid"
   },
   {
-    "id": "meg-plasma-bottle",
-    "name": "Meg Plasma Bottle",
-    "category": "Components",
+    "id": "mag-plasma-bottle",
+    "name": "Mag-Plasma Bottle",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Bottling Plant",
     "type": "craft",
@@ -3262,7 +3286,7 @@
         "label": "Standard",
         "ingredients": [
           {
-            "item": "Meg Plasma",
+            "item": "Mag-Plasma",
             "qty": 50
           },
           {
@@ -3271,14 +3295,15 @@
           }
         ]
       }
-    ]
+    ],
+    "subcategory": "Bottle"
   },
   {
     "id": "azurite-stone",
     "name": "Azurite Stone",
     "category": "Gathering",
     "group": "Resources",
-    "subcategory": "Mineral Ore",
+    "subcategory": "Crystal",
     "type": "gather",
     "verified": true,
     "source": "in-game encyclopedia",
@@ -3289,7 +3314,7 @@
     "name": "Malachite Stone",
     "category": "Gathering",
     "group": "Resources",
-    "subcategory": "Mineral Ore",
+    "subcategory": "Crystal",
     "type": "gather",
     "verified": true,
     "source": "in-game encyclopedia",
@@ -3303,34 +3328,38 @@
     "type": "gather",
     "verified": true,
     "source": "in-game encyclopedia",
-    "value": 7.8
+    "value": 7.8,
+    "subcategory": "Scrap"
   },
   {
     "id": "electronic-scraps",
-    "name": "Electronic Scraps",
+    "name": "Huge Electronic Scraps",
     "category": "Gathering",
     "group": "Resources",
     "type": "gather",
     "verified": true,
     "source": "in-game encyclopedia",
-    "value": 8.1
+    "value": 8.1,
+    "note": "Named as found in-game - unclear yet if smaller/other size variants exist (e.g. Small/Medium Electronic Scraps). Update if other sizes are confirmed.",
+    "subcategory": "Scrap"
   },
   {
     "id": "wrecked-space-hull",
-    "name": "Wrecked Space Hull",
+    "name": "Wrecked Hull",
     "category": "Gathering",
     "group": "Resources",
     "type": "gather",
     "verified": true,
     "source": "in-game encyclopedia",
-    "value": 7.8
+    "value": 7.8,
+    "subcategory": "Scrap"
   },
   {
     "id": "cloudy-gemstone",
     "name": "Cloudy Gemstone",
     "category": "Gathering",
     "group": "Resources",
-    "subcategory": "Gemstone",
+    "subcategory": "Luxury Item",
     "type": "gather",
     "verified": true,
     "source": "in-game encyclopedia",
@@ -3341,7 +3370,7 @@
     "name": "Beautiful Gemstone",
     "category": "Gathering",
     "group": "Resources",
-    "subcategory": "Gemstone",
+    "subcategory": "Luxury Item",
     "type": "gather",
     "verified": true,
     "source": "in-game encyclopedia",
@@ -3352,7 +3381,7 @@
     "name": "Marvelous Gemstone",
     "category": "Gathering",
     "group": "Resources",
-    "subcategory": "Gemstone",
+    "subcategory": "Luxury Item",
     "type": "gather",
     "verified": true,
     "source": "in-game encyclopedia",
@@ -3361,7 +3390,7 @@
   {
     "id": "watertight-pipe",
     "name": "Watertight Pipe",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -3379,12 +3408,13 @@
         ],
         "output_qty": 2
       }
-    ]
+    ],
+    "subcategory": "Simple Product"
   },
   {
     "id": "monomagnetic-sheet",
     "name": "Monomagnetic Sheet",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -3410,22 +3440,48 @@
         ],
         "output_qty": 3
       }
-    ]
+    ],
+    "subcategory": "Simple Product"
   },
   {
     "id": "elmerium-core",
     "name": "Elmerium Core",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
-    "type": "unknown",
+    "type": "craft",
     "verified": false,
-    "source": "in-game encyclopedia",
-    "note": "Referenced as ingredient in Monomagnetic Sheet - value and recipe/source not yet confirmed, needs follow-up."
+    "source": "spacecraft.tools (third-party, not yet confirmed in-game)",
+    "note": "Value and recipes sourced from spacecraft.tools, not yet confirmed against the in-game encyclopedia - Elmerium Nugget has not been found/unlocked in-game yet either. Update source to in-game encyclopedia once verified directly.",
+    "station": "Smelter",
+    "subcategory": "Contraption",
+    "value": 20.0,
+    "recipes": [
+      {
+        "label": "From Elmerium Nugget",
+        "ingredients": [
+          {
+            "item": "Elmerium Nugget",
+            "qty": 3
+          }
+        ],
+        "output_qty": 1
+      },
+      {
+        "label": "From Elmerium Dust",
+        "ingredients": [
+          {
+            "item": "Elmerium Dust",
+            "qty": 50
+          }
+        ],
+        "output_qty": 1
+      }
+    ]
   },
   {
     "id": "lime",
     "name": "Lime",
-    "category": "Refining",
+    "category": "Manufactured",
     "group": "Resources",
     "station": "Smelter",
     "type": "craft",
@@ -3443,12 +3499,13 @@
         ],
         "output_qty": 5
       }
-    ]
+    ],
+    "subcategory": "Simple Product"
   },
   {
     "id": "pump",
     "name": "Pump",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -3473,12 +3530,13 @@
           }
         ]
       }
-    ]
+    ],
+    "subcategory": "Contraption"
   },
   {
     "id": "confinement-chamber",
     "name": "Confinement Chamber",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -3500,12 +3558,13 @@
         ],
         "output_qty": 1
       }
-    ]
+    ],
+    "subcategory": "Contraption"
   },
   {
     "id": "chemical-battery",
     "name": "Chemical Battery",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Chemical Factory",
     "type": "craft",
@@ -3535,12 +3594,13 @@
           }
         ]
       }
-    ]
+    ],
+    "subcategory": "Contraption"
   },
   {
     "id": "stainless-bottle",
     "name": "Stainless Bottle",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
@@ -3562,19 +3622,20 @@
         ],
         "output_qty": 1
       }
-    ]
+    ],
+    "subcategory": "Bottle"
   },
   {
     "id": "confinement-bottle",
     "name": "Confinement Bottle",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Workshop",
     "type": "craft",
     "verified": true,
     "source": "in-game encyclopedia",
     "value": 387.0,
-    "note": "Ingredient in Meg Plasma Bottle.",
+    "note": "Ingredient in Mag-Plasma Bottle.",
     "recipes": [
       {
         "label": "Standard",
@@ -3589,12 +3650,13 @@
           }
         ]
       }
-    ]
+    ],
+    "subcategory": "Bottle"
   },
   {
     "id": "support-hardware",
     "name": "Support Hardware",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Assembler",
     "type": "craft",
@@ -3615,12 +3677,13 @@
           }
         ]
       }
-    ]
+    ],
+    "subcategory": "Kit and Casing"
   },
   {
     "id": "small-steel-part-casing",
     "name": "Small Steel Part Casing",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "station": "Assembler",
     "type": "craft",
@@ -3641,19 +3704,21 @@
           }
         ]
       }
-    ]
+    ],
+    "subcategory": "Kit and Casing"
   },
   {
     "id": "base-core-drive",
     "name": "Base Core Drive",
-    "category": "Base Building",
+    "category": "Manufactured",
     "group": "Base Building",
     "type": "buy",
     "verified": true,
     "source": "in-game encyclopedia",
     "value": 100.0,
     "note": "Purchased, not crafted.",
-    "price": 100.0
+    "price": 100.0,
+    "subcategory": "Kit and Casing"
   },
   {
     "id": "thermal-suit-chip",
@@ -3684,7 +3749,7 @@
   {
     "id": "thermal-wool",
     "name": "Thermal Wool",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Components",
     "type": "craft",
     "verified": true,
@@ -3701,7 +3766,8 @@
         ],
         "output_qty": 3
       }
-    ]
+    ],
+    "subcategory": "Simple Product"
   },
   {
     "id": "crude-mining-laser",
@@ -3734,7 +3800,7 @@
   {
     "id": "carbonic-superfuel",
     "name": "Carbonic Superfuel",
-    "category": "Components",
+    "category": "Manufactured",
     "group": "Resources",
     "station": "Chemical Factory",
     "type": "craft",
@@ -3770,7 +3836,8 @@
         ],
         "output_qty": 5
       }
-    ]
+    ],
+    "subcategory": "Simple Product"
   },
   {
     "id": "simple-hose-pump",
@@ -3834,8 +3901,8 @@
     ]
   },
   {
-    "id": "meg-plasma-tank",
-    "name": "Meg Plasma Tank",
+    "id": "mag-plasma-tank",
+    "name": "Mag-Plasma Tank",
     "category": "Internal Module",
     "group": "Ship Parts",
     "station": "Workshop",
@@ -4287,6 +4354,279 @@
             "qty": 4
           }
         ]
+      }
+    ]
+  },
+  {
+    "id": "iron-scraps",
+    "name": "Iron Scraps",
+    "category": "Gathering",
+    "subcategory": "Scrap",
+    "group": "Resources",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 4.34
+  },
+  {
+    "id": "industrial-rubble",
+    "name": "Industrial Rubble",
+    "category": "Gathering",
+    "subcategory": "Scrap",
+    "group": "Resources",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 5.3
+  },
+  {
+    "id": "titanium-nugget",
+    "name": "Titanium Nugget",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Metal Ore",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 1.8
+  },
+  {
+    "id": "aluminum-nugget",
+    "name": "Aluminum Nugget",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Metal Ore",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 1.92
+  },
+  {
+    "id": "b-titanium-ingot",
+    "name": "B-Titanium Ingot",
+    "category": "Refining",
+    "group": "Resources",
+    "station": "Smelter",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 18.3,
+    "note": "Recipe uses Vanadium Ingot, which is not yet logged as its own item in this data set - still needed.",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Titanium Ingot",
+            "qty": 4
+          },
+          {
+            "item": "Vanadium Ingot",
+            "qty": 1
+          }
+        ],
+        "output_qty": 3
+      }
+    ]
+  },
+  {
+    "id": "inert-plate",
+    "name": "Inert Plate",
+    "category": "Manufactured",
+    "subcategory": "Simple Product",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 38.0,
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "B-Titanium Ingot",
+            "qty": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "heavy-duty-beam",
+    "name": "Heavy-Duty Beam",
+    "category": "Manufactured",
+    "subcategory": "Simple Product",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 50.0,
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "B-Titanium Ingot",
+            "qty": 2
+          },
+          {
+            "item": "Steel Ingot",
+            "qty": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "solid-explosive",
+    "name": "Solid Explosive",
+    "category": "Manufactured",
+    "subcategory": "Simple Product",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 1.4,
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Sulfur",
+            "qty": 5
+          },
+          {
+            "item": "a-Carbon",
+            "qty": 2
+          }
+        ],
+        "output_qty": 5
+      }
+    ]
+  },
+  {
+    "id": "elmerium-engine",
+    "name": "Elmerium Engine",
+    "category": "Manufactured",
+    "subcategory": "Contraption",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 214.0,
+    "note": "Uses Elmerium Core, which still has no confirmed value/source of its own - flagged earlier as needing follow-up.",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Metal Sheet",
+            "qty": 6
+          },
+          {
+            "item": "Magnetic Coil",
+            "qty": 14
+          },
+          {
+            "item": "Elmerium Core",
+            "qty": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "small-missile-airframe",
+    "name": "Small Missile Airframe",
+    "category": "Manufactured",
+    "subcategory": "Contraption",
+    "group": "Components",
+    "station": "Workshop",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 1.42,
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Metal Sheet",
+            "qty": 1
+          },
+          {
+            "item": "Silicone Gel",
+            "qty": 1
+          },
+          {
+            "item": "Solid Explosive",
+            "qty": 2
+          }
+        ],
+        "output_qty": 5
+      }
+    ]
+  },
+  {
+    "id": "small-titanium-part-casing",
+    "name": "Small Titanium Part Casing",
+    "category": "Manufactured",
+    "subcategory": "Kit and Casing",
+    "group": "Components",
+    "station": "Assembler",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 590.0,
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Heavy-Duty Beam",
+            "qty": 8
+          },
+          {
+            "item": "Inert Plate",
+            "qty": 4
+          }
+        ],
+        "output_qty": 1,
+        "storage_units": 10
+      }
+    ]
+  },
+  {
+    "id": "titanium-part-casing",
+    "name": "Titanium Part Casing",
+    "category": "Manufactured",
+    "subcategory": "Kit and Casing",
+    "group": "Components",
+    "station": "Factory",
+    "type": "craft",
+    "verified": true,
+    "source": "in-game encyclopedia",
+    "value": 3200.0,
+    "note": "Requires the Factory station, which is not yet unlocked/confirmed in-game - recipe logged from encyclopedia but station details unconfirmed.",
+    "recipes": [
+      {
+        "label": "Standard",
+        "ingredients": [
+          {
+            "item": "Small Titanium Part Casing",
+            "qty": 4
+          },
+          {
+            "item": "Heavy-Duty Beam",
+            "qty": 12
+          }
+        ],
+        "output_qty": 1,
+        "storage_units": 25
       }
     ]
   }
