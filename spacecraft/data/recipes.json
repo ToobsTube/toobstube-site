@@ -288,7 +288,8 @@
       "storage_capacity_su": 100,
       "output_buffer_max": 20,
       "energy_consumption_ma": 20
-    }
+    },
+    "storage_units": 5
   },
   {
     "id": "aluminum-ore",
@@ -305,7 +306,8 @@
       "storage_capacity_su": 100,
       "output_buffer_max": 20,
       "energy_consumption_ma": 20
-    }
+    },
+    "storage_units": 5
   },
   {
     "id": "drone",
@@ -3255,7 +3257,8 @@
             "item": "Hyper Lens",
             "qty": 1
           }
-        ]
+        ],
+        "storage_units": 0.1
       }
     ]
   },
@@ -3268,8 +3271,9 @@
     "verified": true,
     "source": "in-game encyclopedia",
     "value": 0.2,
-    "note": "Fluid resource, used as ingredient in Mag-Plasma Bottle. Extraction/gathering method not yet confirmed.",
-    "subcategory": "Fluid"
+    "note": "Fluid resource, used as ingredient in Mag-Plasma Bottle. Extraction/gathering method not yet confirmed. Storage size (1 su) is per liter, per spacecraft.tools - not yet confirmed directly in-game.",
+    "subcategory": "Fluid",
+    "storage_units": 1
   },
   {
     "id": "mag-plasma-bottle",
@@ -3293,7 +3297,8 @@
             "item": "Confinement Bottle",
             "qty": 1
           }
-        ]
+        ],
+        "storage_units": 25
       }
     ],
     "subcategory": "Bottle"
@@ -3307,7 +3312,8 @@
     "type": "gather",
     "verified": true,
     "source": "in-game encyclopedia",
-    "value": 45.0
+    "value": 45.0,
+    "storage_units": 0.5
   },
   {
     "id": "malachite-stone",
@@ -3318,7 +3324,8 @@
     "type": "gather",
     "verified": true,
     "source": "in-game encyclopedia",
-    "value": 40.0
+    "value": 40.0,
+    "storage_units": 0.5
   },
   {
     "id": "steel-scraps",
@@ -3329,7 +3336,8 @@
     "verified": true,
     "source": "in-game encyclopedia",
     "value": 7.8,
-    "subcategory": "Scrap"
+    "subcategory": "Scrap",
+    "storage_units": 5
   },
   {
     "id": "electronic-scraps",
@@ -3341,7 +3349,8 @@
     "source": "in-game encyclopedia",
     "value": 8.1,
     "note": "Named as found in-game - unclear yet if smaller/other size variants exist (e.g. Small/Medium Electronic Scraps). Update if other sizes are confirmed.",
-    "subcategory": "Scrap"
+    "subcategory": "Scrap",
+    "storage_units": 5
   },
   {
     "id": "wrecked-space-hull",
@@ -3352,7 +3361,8 @@
     "verified": true,
     "source": "in-game encyclopedia",
     "value": 7.8,
-    "subcategory": "Scrap"
+    "subcategory": "Scrap",
+    "storage_units": 5
   },
   {
     "id": "cloudy-gemstone",
@@ -3363,7 +3373,8 @@
     "type": "gather",
     "verified": true,
     "source": "in-game encyclopedia",
-    "value": 3.0
+    "value": 3.0,
+    "storage_units": 0.1
   },
   {
     "id": "beautiful-gemstone",
@@ -3374,7 +3385,8 @@
     "type": "gather",
     "verified": true,
     "source": "in-game encyclopedia",
-    "value": 35.0
+    "value": 35.0,
+    "storage_units": 0.1
   },
   {
     "id": "marvelous-gemstone",
@@ -3385,7 +3397,8 @@
     "type": "gather",
     "verified": true,
     "source": "in-game encyclopedia",
-    "value": 100.0
+    "value": 100.0,
+    "storage_units": 0.1
   },
   {
     "id": "watertight-pipe",
@@ -3406,7 +3419,8 @@
             "qty": 1
           }
         ],
-        "output_qty": 2
+        "output_qty": 2,
+        "storage_units": 1
       }
     ],
     "subcategory": "Simple Product"
@@ -3438,7 +3452,8 @@
             "qty": 1
           }
         ],
-        "output_qty": 3
+        "output_qty": 3,
+        "storage_units": 1
       }
     ],
     "subcategory": "Simple Product"
@@ -3464,7 +3479,8 @@
             "qty": 3
           }
         ],
-        "output_qty": 1
+        "output_qty": 1,
+        "storage_units": 1
       },
       {
         "label": "From Elmerium Dust",
@@ -3474,7 +3490,8 @@
             "qty": 50
           }
         ],
-        "output_qty": 1
+        "output_qty": 1,
+        "storage_units": 1
       }
     ]
   },
@@ -3497,7 +3514,8 @@
             "qty": 1
           }
         ],
-        "output_qty": 5
+        "output_qty": 5,
+        "storage_units": 0.1
       }
     ],
     "subcategory": "Simple Product"
@@ -3528,7 +3546,8 @@
             "item": "Motor",
             "qty": 1
           }
-        ]
+        ],
+        "storage_units": 2
       }
     ],
     "subcategory": "Contraption"
@@ -3556,7 +3575,8 @@
             "qty": 4
           }
         ],
-        "output_qty": 1
+        "output_qty": 1,
+        "storage_units": 5
       }
     ],
     "subcategory": "Contraption"
@@ -3592,7 +3612,8 @@
             "item": "Sulfuric Acid",
             "qty": 20
           }
-        ]
+        ],
+        "storage_units": 2
       }
     ],
     "subcategory": "Contraption"
@@ -3620,7 +3641,8 @@
             "qty": 2
           }
         ],
-        "output_qty": 1
+        "output_qty": 1,
+        "storage_units": 5
       }
     ],
     "subcategory": "Bottle"
@@ -3648,7 +3670,8 @@
             "item": "Confinement Chamber",
             "qty": 1
           }
-        ]
+        ],
+        "storage_units": 25
       }
     ],
     "subcategory": "Bottle"
@@ -3675,7 +3698,8 @@
             "item": "Wire",
             "qty": 12
           }
-        ]
+        ],
+        "storage_units": 10
       }
     ],
     "subcategory": "Kit and Casing"
@@ -3702,7 +3726,8 @@
             "item": "Structural Beam",
             "qty": 6
           }
-        ]
+        ],
+        "storage_units": 10
       }
     ],
     "subcategory": "Kit and Casing"
@@ -3742,7 +3767,8 @@
             "item": "Metal Sheet",
             "qty": 1
           }
-        ]
+        ],
+        "storage_units": 1
       }
     ]
   },
@@ -3764,7 +3790,8 @@
             "qty": 1
           }
         ],
-        "output_qty": 3
+        "output_qty": 3,
+        "storage_units": 0.5
       }
     ],
     "subcategory": "Simple Product"
@@ -3781,7 +3808,8 @@
       "sell_price": 50.0,
       "subcategory": "Gathering"
     },
-    "note": "Recipe not listed in encyclopedia - needs follow-up."
+    "note": "Recipe not listed in encyclopedia - needs follow-up.",
+    "storage_units": 10
   },
   {
     "id": "crude-resource-detector",
@@ -3795,7 +3823,8 @@
       "sell_price": 50.0,
       "subcategory": "Radar"
     },
-    "note": "Recipe not listed in encyclopedia - needs follow-up."
+    "note": "Recipe not listed in encyclopedia - needs follow-up.",
+    "storage_units": 10
   },
   {
     "id": "carbonic-superfuel",
@@ -3820,7 +3849,8 @@
             "qty": 10
           }
         ],
-        "output_qty": 28
+        "output_qty": 28,
+        "storage_units": 0.1
       },
       {
         "label": "From Graphite Crystal",
@@ -3834,7 +3864,8 @@
             "qty": 5
           }
         ],
-        "output_qty": 5
+        "output_qty": 5,
+        "storage_units": 0.1
       }
     ],
     "subcategory": "Simple Product"
@@ -3867,7 +3898,8 @@
             "item": "Small Module Kit",
             "qty": 1
           }
-        ]
+        ],
+        "storage_units": 10
       }
     ]
   },
@@ -3896,7 +3928,8 @@
             "item": "Small Module Kit",
             "qty": 1
           }
-        ]
+        ],
+        "storage_units": 10
       }
     ]
   },
@@ -3925,7 +3958,8 @@
             "item": "Module Kit",
             "qty": 1
           }
-        ]
+        ],
+        "storage_units": 25
       }
     ]
   },
@@ -3961,7 +3995,8 @@
             "item": "Small Module Kit",
             "qty": 1
           }
-        ]
+        ],
+        "storage_units": 10
       }
     ]
   },
@@ -3990,7 +4025,8 @@
             "item": "Module Kit",
             "qty": 1
           }
-        ]
+        ],
+        "storage_units": 10
       }
     ]
   },
@@ -4027,7 +4063,8 @@
             "item": "Small Module Kit",
             "qty": 1
           }
-        ]
+        ],
+        "storage_units": 10
       }
     ]
   },
@@ -4073,7 +4110,8 @@
             "item": "Small Steel Part Casing",
             "qty": 2
           }
-        ]
+        ],
+        "storage_units": 20
       }
     ]
   },
@@ -4125,7 +4163,8 @@
             "item": "Small Steel Part Casing",
             "qty": 2
           }
-        ]
+        ],
+        "storage_units": 20
       }
     ]
   },
@@ -4163,7 +4202,8 @@
             "item": "Small Steel Part Casing",
             "qty": 2
           }
-        ]
+        ],
+        "storage_units": 20
       }
     ]
   },
@@ -4201,7 +4241,8 @@
             "item": "Small Steel Part Casing",
             "qty": 3
           }
-        ]
+        ],
+        "storage_units": 20
       }
     ]
   },
@@ -4239,7 +4280,8 @@
             "item": "Small Steel Part Casing",
             "qty": 4
           }
-        ]
+        ],
+        "storage_units": 20
       }
     ]
   },
@@ -4277,7 +4319,8 @@
             "item": "Small Steel Part Casing",
             "qty": 4
           }
-        ]
+        ],
+        "storage_units": 20
       }
     ]
   },
@@ -4315,7 +4358,8 @@
             "item": "Small Steel Part Casing",
             "qty": 3
           }
-        ]
+        ],
+        "storage_units": 20
       }
     ]
   },
@@ -4353,7 +4397,8 @@
             "item": "Small Steel Part Casing",
             "qty": 4
           }
-        ]
+        ],
+        "storage_units": 20
       }
     ]
   },
@@ -4366,7 +4411,8 @@
     "type": "gather",
     "verified": true,
     "source": "in-game encyclopedia",
-    "value": 4.34
+    "value": 4.34,
+    "storage_units": 5
   },
   {
     "id": "industrial-rubble",
@@ -4377,7 +4423,8 @@
     "type": "gather",
     "verified": true,
     "source": "in-game encyclopedia",
-    "value": 5.3
+    "value": 5.3,
+    "storage_units": 5
   },
   {
     "id": "titanium-nugget",
@@ -4388,7 +4435,8 @@
     "type": "gather",
     "verified": true,
     "source": "in-game encyclopedia",
-    "value": 1.8
+    "value": 1.8,
+    "storage_units": 1
   },
   {
     "id": "aluminum-nugget",
@@ -4399,7 +4447,8 @@
     "type": "gather",
     "verified": true,
     "source": "in-game encyclopedia",
-    "value": 1.92
+    "value": 1.92,
+    "storage_units": 1
   },
   {
     "id": "b-titanium-ingot",
@@ -4425,7 +4474,8 @@
             "qty": 1
           }
         ],
-        "output_qty": 3
+        "output_qty": 3,
+        "storage_units": 1
       }
     ]
   },
@@ -4448,7 +4498,8 @@
             "item": "B-Titanium Ingot",
             "qty": 2
           }
-        ]
+        ],
+        "storage_units": 2
       }
     ]
   },
@@ -4475,7 +4526,8 @@
             "item": "Steel Ingot",
             "qty": 1
           }
-        ]
+        ],
+        "storage_units": 2
       }
     ]
   },
@@ -4503,7 +4555,8 @@
             "qty": 2
           }
         ],
-        "output_qty": 5
+        "output_qty": 5,
+        "storage_units": 0.5
       }
     ]
   },
@@ -4535,7 +4588,8 @@
             "item": "Elmerium Core",
             "qty": 2
           }
-        ]
+        ],
+        "storage_units": 2
       }
     ]
   },
@@ -4567,7 +4621,8 @@
             "qty": 2
           }
         ],
-        "output_qty": 5
+        "output_qty": 5,
+        "storage_units": 0.1
       }
     ]
   },
