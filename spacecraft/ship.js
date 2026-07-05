@@ -69,7 +69,8 @@ function isAccessible(item) {
     return !!state.progress.nodes[item.unlock_node];
   }
   if (item.analysis_tiers && item.analysis_tiers.length) {
-    const required = item.analysis_tiers[0].analyze_count_required || 0;
+    const firstTier = item.analysis_tiers[0];
+    const required = firstTier.analyze_count_required != null ? firstTier.analyze_count_required : 1;
     return (state.progress.analysisCounts[item.name] || 0) >= required;
   }
   return true;
