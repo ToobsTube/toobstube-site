@@ -599,6 +599,19 @@ h1 {
   line-height: 1.5;
 }
 
+.su-breakdown li.su-direct {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.su-direct-note {
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  font-style: italic;
+}
+
 .time-line {
   color: var(--cyan);
   font-family: 'Space Grotesk', sans-serif;
