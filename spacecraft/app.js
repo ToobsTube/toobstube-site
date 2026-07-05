@@ -331,11 +331,12 @@ function isAccessible(item) {
   return true;
 }
 
-// Every distinct resource name that has analysis_tiers, for the progress panel's count
-// inputs — only resources that actually gate on a documented count show up here.
+// Every distinct resource name that has analysis_tiers at all, for the progress
+// panel's count inputs — even ones where tier 1 is free, since later tiers (III, IV)
+// still need a count entered to show correctly.
 function collectAnalysisResources() {
   return state.items
-    .filter((i) => i.analysis_tiers && i.analysis_tiers.length && i.analysis_tiers[0].analyze_count_required)
+    .filter((i) => i.analysis_tiers && i.analysis_tiers.length)
     .map((i) => i.name)
     .sort();
 }
