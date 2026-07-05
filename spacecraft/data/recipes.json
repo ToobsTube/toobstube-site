@@ -403,8 +403,7 @@
       }
     },
     "subcategory": "Cockpit",
-    "unlocked": true,
-    "unlock_requirement": "Research: Modular Structures"
+    "unlock_node": "Modular Structures"
   },
   {
     "id": "pathfinder-cockpit",
@@ -458,8 +457,9 @@
       }
     },
     "subcategory": "Cockpit",
-    "unlocked": true,
-    "unlock_requirement": "Exploration Level 3 (Advanced Spectrometry)"
+    "unlock_track": "Exploration",
+    "unlock_level": 3,
+    "unlock_node": "Advanced Spectrometry"
   },
   {
     "id": "beaver-cockpit",
@@ -514,8 +514,9 @@
       }
     },
     "subcategory": "Cockpit",
-    "unlocked": true,
-    "unlock_requirement": "Technology Level 3 (Economic Expansion)"
+    "unlock_track": "Technology",
+    "unlock_level": 3,
+    "unlock_node": "Economic Expansion"
   },
   {
     "id": "cocoon-cockpit",
@@ -566,8 +567,9 @@
       }
     },
     "subcategory": "Cockpit",
-    "unlocked": true,
-    "unlock_requirement": "Science Level 2 (Molecular Materials)"
+    "unlock_track": "Science",
+    "unlock_level": 2,
+    "unlock_node": "Molecular Materials"
   },
   {
     "id": "cart-pusher-thruster",
@@ -619,8 +621,7 @@
       }
     },
     "subcategory": "Thruster",
-    "unlocked": true,
-    "unlock_requirement": "Research: Modular Structures"
+    "unlock_node": "Modular Structures"
   },
   {
     "id": "spot-light",
@@ -2492,22 +2493,20 @@
     "storage_units": 0.5,
     "analysis_tiers": [
       {
-        "tier": "Pyrite I",
-        "unlocked": true
+        "tier": "Pyrite I"
       },
       {
-        "tier": "Pyrite II",
-        "unlocked": true
+        "tier": "Pyrite II"
       },
       {
         "tier": "Pyrite III",
-        "unlocked": false,
-        "unlock_requirement": "Analyse x50 at Laboratory"
+        "unlock_requirement": "Analyse x50 at Laboratory",
+        "analyze_count_required": 50
       },
       {
         "tier": "Pyrite IV",
-        "unlocked": false,
-        "unlock_requirement": "Analyse x200 at Laboratory"
+        "unlock_requirement": "Analyse x200 at Laboratory",
+        "analyze_count_required": 200
       }
     ],
     "deposits": [
@@ -2556,22 +2555,20 @@
     "storage_units": 0.5,
     "analysis_tiers": [
       {
-        "tier": "Aquamarine I",
-        "unlocked": true
+        "tier": "Aquamarine I"
       },
       {
-        "tier": "Aquamarine II",
-        "unlocked": true
+        "tier": "Aquamarine II"
       },
       {
         "tier": "Aquamarine III",
-        "unlocked": false,
-        "unlock_requirement": "Analyse x50 at Laboratory"
+        "unlock_requirement": "Analyse x50 at Laboratory",
+        "analyze_count_required": 50
       },
       {
         "tier": "Aquamarine IV",
-        "unlocked": false,
-        "unlock_requirement": "Analyse x200 at Laboratory"
+        "unlock_requirement": "Analyse x200 at Laboratory",
+        "analyze_count_required": 200
       }
     ],
     "recipes": [
@@ -2610,21 +2607,18 @@
     "storage_units": 0.5,
     "analysis_tiers": [
       {
-        "tier": "Quartz I",
-        "unlocked": true
+        "tier": "Quartz I"
       },
       {
-        "tier": "Quartz II",
-        "unlocked": true
+        "tier": "Quartz II"
       },
       {
-        "tier": "Quartz III",
-        "unlocked": true
+        "tier": "Quartz III"
       },
       {
         "tier": "Quartz IV",
-        "unlocked": false,
-        "unlock_requirement": "Analyse x200 at Laboratory"
+        "unlock_requirement": "Analyse x200 at Laboratory",
+        "analyze_count_required": 200
       }
     ],
     "deposits": [
@@ -2674,22 +2668,20 @@
     ],
     "analysis_tiers": [
       {
-        "tier": "Graphite Crystal I",
-        "unlocked": true
+        "tier": "Graphite Crystal I"
       },
       {
-        "tier": "Graphite Crystal II",
-        "unlocked": true
+        "tier": "Graphite Crystal II"
       },
       {
         "tier": "Graphite Crystal III",
-        "unlocked": false,
-        "unlock_requirement": "Analyse x50 at Laboratory"
+        "unlock_requirement": "Analyse x50 at Laboratory",
+        "analyze_count_required": 50
       },
       {
         "tier": "Graphite Crystal IV",
-        "unlocked": false,
-        "unlock_requirement": "Analyse x200 at Laboratory"
+        "unlock_requirement": "Analyse x200 at Laboratory",
+        "analyze_count_required": 200
       }
     ],
     "deposits": [
@@ -2729,8 +2721,8 @@
     "analysis_tiers": [
       {
         "tier": "Calcite I",
-        "unlocked": false,
-        "unlock_requirement": "Analyse x3 at Laboratory"
+        "unlock_requirement": "Analyse x3 at Laboratory",
+        "analyze_count_required": 3
       }
     ],
     "deposits": [
@@ -2789,8 +2781,7 @@
     "storage_units": 5,
     "analysis_tiers": [
       {
-        "tier": "Silicate I",
-        "unlocked": true
+        "tier": "Silicate I"
       }
     ],
     "deposits": [
@@ -4130,8 +4121,9 @@
       }
     ],
     "subcategory": "Thruster",
-    "unlocked": true,
-    "unlock_requirement": "Exploration Level 3 (Plasma Containment)"
+    "unlock_track": "Exploration",
+    "unlock_level": 3,
+    "unlock_node": "Plasma Containment"
   },
   {
     "id": "grasshopper-thruster",
@@ -4185,8 +4177,9 @@
       }
     ],
     "subcategory": "Thruster",
-    "unlocked": true,
-    "unlock_requirement": "Technology Level 3 (Combustion Engine)"
+    "unlock_track": "Technology",
+    "unlock_level": 3,
+    "unlock_node": "Combustion Engine"
   },
   {
     "id": "steel-4x3x1",
@@ -4226,8 +4219,7 @@
       }
     ],
     "subcategory": "Steel Hull",
-    "unlocked": true,
-    "unlock_requirement": "Research: Ship of Steel"
+    "unlock_node": "Ship of Steel"
   },
   {
     "id": "steel-6x3x1",
@@ -4267,8 +4259,7 @@
       }
     ],
     "subcategory": "Steel Hull",
-    "unlocked": true,
-    "unlock_requirement": "Research: Ship of Steel"
+    "unlock_node": "Ship of Steel"
   },
   {
     "id": "steel-8x3x1",
@@ -4308,8 +4299,7 @@
       }
     ],
     "subcategory": "Steel Hull",
-    "unlocked": true,
-    "unlock_requirement": "Research: Ship of Steel"
+    "unlock_node": "Ship of Steel"
   },
   {
     "id": "steel-4x3x2",
@@ -4349,8 +4339,7 @@
       }
     ],
     "subcategory": "Steel Hull",
-    "unlocked": true,
-    "unlock_requirement": "Research: Ship of Steel"
+    "unlock_node": "Ship of Steel"
   },
   {
     "id": "steel-6x3x2",
@@ -4390,8 +4379,7 @@
       }
     ],
     "subcategory": "Steel Hull",
-    "unlocked": true,
-    "unlock_requirement": "Research: Ship of Steel"
+    "unlock_node": "Ship of Steel"
   },
   {
     "id": "steel-8x3x2",
@@ -4431,8 +4419,7 @@
       }
     ],
     "subcategory": "Steel Hull",
-    "unlocked": true,
-    "unlock_requirement": "Research: Ship of Steel"
+    "unlock_node": "Ship of Steel"
   },
   {
     "id": "iron-scraps",
@@ -4938,8 +4925,7 @@
         "storage_units": 20
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Ship of Steel"
+    "unlock_node": "Ship of Steel"
   },
   {
     "id": "thermal-steel-hull-6x3x1",
@@ -4980,8 +4966,7 @@
         "storage_units": 20
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Ship of Steel"
+    "unlock_node": "Ship of Steel"
   },
   {
     "id": "thermal-steel-hull-8x3x1",
@@ -5022,8 +5007,7 @@
         "storage_units": 20
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Ship of Steel"
+    "unlock_node": "Ship of Steel"
   },
   {
     "id": "thermal-steel-hull-4x3x2",
@@ -5064,8 +5048,7 @@
         "storage_units": 20
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Ship of Steel"
+    "unlock_node": "Ship of Steel"
   },
   {
     "id": "thermal-steel-hull-6x3x2",
@@ -5106,8 +5089,7 @@
         "storage_units": 20
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Ship of Steel"
+    "unlock_node": "Ship of Steel"
   },
   {
     "id": "thermal-steel-hull-8x3x2",
@@ -5148,8 +5130,7 @@
         "storage_units": 20
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Ship of Steel"
+    "unlock_node": "Ship of Steel"
   },
   {
     "id": "titanium-4x3x1",
@@ -5190,8 +5171,7 @@
         "storage_units": 20
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Better Titanium"
+    "unlock_node": "Better Titanium"
   },
   {
     "id": "titanium-6x3x1",
@@ -5232,8 +5212,7 @@
         "storage_units": 20
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Better Titanium"
+    "unlock_node": "Better Titanium"
   },
   {
     "id": "titanium-8x3x1",
@@ -5274,8 +5253,7 @@
         "storage_units": 20
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Better Titanium"
+    "unlock_node": "Better Titanium"
   },
   {
     "id": "titanium-4x3x2",
@@ -5316,8 +5294,7 @@
         "storage_units": 20
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Better Titanium"
+    "unlock_node": "Better Titanium"
   },
   {
     "id": "titanium-6x3x2",
@@ -5358,8 +5335,7 @@
         "storage_units": 20
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Better Titanium"
+    "unlock_node": "Better Titanium"
   },
   {
     "id": "titanium-8x3x2",
@@ -5400,8 +5376,7 @@
         "storage_units": 20
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Better Titanium"
+    "unlock_node": "Better Titanium"
   },
   {
     "id": "titanium-8x6x2",
@@ -5442,8 +5417,7 @@
         "storage_units": 50
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Better Titanium"
+    "unlock_node": "Better Titanium"
   },
   {
     "id": "titanium-12x6x2",
@@ -5484,8 +5458,7 @@
         "storage_units": 50
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Better Titanium"
+    "unlock_node": "Better Titanium"
   },
   {
     "id": "titanium-16x6x2",
@@ -5526,8 +5499,7 @@
         "storage_units": 50
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Better Titanium"
+    "unlock_node": "Better Titanium"
   },
   {
     "id": "thermal-titanium-hull-4x3x1",
@@ -5568,8 +5540,7 @@
         "storage_units": 20
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Better Titanium"
+    "unlock_node": "Better Titanium"
   },
   {
     "id": "thermal-titanium-hull-6x3x1",
@@ -5610,8 +5581,7 @@
         "storage_units": 20
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Better Titanium"
+    "unlock_node": "Better Titanium"
   },
   {
     "id": "thermal-titanium-hull-8x3x1",
@@ -5652,8 +5622,7 @@
         "storage_units": 20
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Better Titanium"
+    "unlock_node": "Better Titanium"
   },
   {
     "id": "thermal-titanium-hull-4x3x2",
@@ -5694,8 +5663,7 @@
         "storage_units": 20
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Better Titanium"
+    "unlock_node": "Better Titanium"
   },
   {
     "id": "thermal-titanium-hull-6x3x2",
@@ -5736,8 +5704,7 @@
         "storage_units": 20
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Better Titanium"
+    "unlock_node": "Better Titanium"
   },
   {
     "id": "thermal-titanium-hull-8x3x2",
@@ -5778,8 +5745,7 @@
         "storage_units": 20
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Better Titanium"
+    "unlock_node": "Better Titanium"
   },
   {
     "id": "thermal-titanium-hull-8x6x2",
@@ -5820,8 +5786,7 @@
         "storage_units": 50
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Better Titanium"
+    "unlock_node": "Better Titanium"
   },
   {
     "id": "thermal-titanium-hull-12x6x2",
@@ -5862,8 +5827,7 @@
         "storage_units": 50
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Better Titanium"
+    "unlock_node": "Better Titanium"
   },
   {
     "id": "thermal-titanium-hull-16x6x2",
@@ -5904,8 +5868,7 @@
         "storage_units": 50
       }
     ],
-    "unlocked": true,
-    "unlock_requirement": "Research: Better Titanium"
+    "unlock_node": "Better Titanium"
   },
   {
     "id": "nimbus-spoiler",
