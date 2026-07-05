@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpaceCraft Ship Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=7">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="eyebrow-row">
+      <p class="eyebrow">SpaceCraft // Ship Builder</p>
+      <div class="header-links">
+        <a class="header-link" href="index.html">Blueprint Index</a>
+        <a class="header-link" href="https://toobstube.com" target="_blank" rel="noopener">ToobsTube</a>
+      </div>
+    </div>
+    <h1>Design your ship</h1>
+
+    <div class="category-wrap">
+      <label class="category-label" for="subcategory-select">Part type</label>
+      <div class="category-row">
+        <select class="category-select" id="subcategory-select">
+          <option value="All">All</option>
+        </select>
+      </div>
+      <label class="unlocked-toggle-label">
+        <input type="checkbox" id="unlocked-toggle">
+        Only show what I've unlocked
+      </label>
+    </div>
+  </header>
+
+  <div class="layout ship-layout">
+    <main id="parts-list" class="list"></main>
+    <aside id="build-panel" class="detail-panel">
+      <div class="build-panel-inner">
+        <p class="section-label">Your ship</p>
+        <ul id="build-list" class="build-list"></ul>
+        <div id="build-empty" class="detail-empty">Add parts from the list to start your design.</div>
+        <div id="build-totals"></div>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <p>Hand-maintained from in-game play + community sources. EA build, May 20 2026 — recheck after patches.</p>
+  </footer>
+
+<script src="ship.js?v=1"></script>
+</body>
+</html>
