@@ -127,6 +127,85 @@ body {
 }
 .unlocked-toggle-label input { accent-color: var(--green); cursor: pointer; }
 
+.progress-panel-btn {
+  display: block;
+  margin-top: 8px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: var(--text-dim);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+.progress-panel-btn:hover { color: var(--text); border-color: var(--text-dim); }
+
+.progress-panel {
+  margin-top: 8px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+
+.progress-note {
+  margin: 0 0 10px;
+  font-size: 11px;
+  color: var(--text-dim);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.progress-sublabel {
+  margin: 10px 0 6px;
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.progress-levels {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.progress-level {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11.5px;
+  color: var(--text-dim);
+}
+
+.progress-level-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 8px;
+  color: var(--text);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+}
+
+.progress-nodes {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.progress-node {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+.progress-node input { accent-color: var(--green); cursor: pointer; }
+
 .theme-dot {
   width: 20px;
   height: 20px;
