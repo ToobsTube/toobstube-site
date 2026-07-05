@@ -170,7 +170,7 @@ function renderPartCard(item) {
       ${item.module_info && item.module_info.description ? `<p class="part-desc">${escapeHtml(item.module_info.description)}</p>` : ''}
       ${lockReasonHtml}
       <ul class="ingredients part-stats">${statRows}</ul>
-      <a class="header-link gather-link" href="index.html?item=${encodeURIComponent(item.id)}" target="_blank" rel="noopener">Gather materials for this →</a>
+      <a class="gather-link" href="index.html?item=${encodeURIComponent(item.id)}" target="_blank" rel="noopener">Gather materials for this →</a>
     </div>
   `;
 }
