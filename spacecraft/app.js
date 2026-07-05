@@ -4,9 +4,11 @@ const state = {
   category: 'All',
   query: '',
   plan: [],
+  onlyUnlocked: false,
 };
 
 const PLAN_STORAGE_KEY = 'spacecraft-blueprint-plan';
+const UNLOCKED_STORAGE_KEY = 'spacecraft-only-unlocked';
 
 function loadPlan() {
   try {
@@ -66,7 +68,23 @@ async function init() {
   state.plan = loadPlan();
   updatePlanCount();
 
+  try {
+    state.onlyUnlocked = localStorage.getItem(UNLOCKED_STORAGE_KEY) === '1';
+  } catch (e) {
+    state.onlyUnlocked = false;
+  }
+  const unlockedToggle = document.getElementById('unlocked-toggle');
+  if (unlockedToggle) unlockedToggle.checked = state.onlyUnlocked;
+
   render();
+
+  // Deep link from the Ship Builder (or anywhere else): index.html?item=some-id
+  // opens straight to that item's full breakdown so "go gather this" links work.
+  const params = new URLSearchParams(window.location.search);
+  const targetItem = params.get('item');
+  if (targetItem && state.items.some((i) => i.id === targetItem)) {
+    goToItem(targetItem);
+  }
 
   document.getElementById('search').addEventListener('input', (e) => {
     state.query = e.target.value.trim().toLowerCase();
@@ -77,6 +95,18 @@ async function init() {
     state.category = e.target.value;
     render();
   });
+
+  if (unlockedToggle) {
+    unlockedToggle.addEventListener('change', (e) => {
+      state.onlyUnlocked = e.target.checked;
+      try {
+        localStorage.setItem(UNLOCKED_STORAGE_KEY, state.onlyUnlocked ? '1' : '0');
+      } catch (err) {
+        // ignore — not fatal if it can't persist
+      }
+      render();
+    });
+  }
 
   document.getElementById('plan-button').addEventListener('click', openPlanModal);
   document.getElementById('plan-close').addEventListener('click', closePlanModal);
@@ -173,9 +203,26 @@ function renderPlanModal() {
 }
 
 // ---- Filtering ----
+// An item counts as "accessible" if it's not gated behind something not yet unlocked.
+// Two ways an item can be locked:
+//   - item.unlocked === false : a flat, single lock (used for things with no tiers,
+//     e.g. a ship part that just needs one research unlock)
+//   - item.analysis_tiers : Crystallizer/Laboratory-style resources where SOME tier
+//     might already be unlocked (Pyrite I/II) even if later ones aren't (III/IV) —
+//     accessible as long as at least one tier is unlocked
+// Items with no lock data at all are assumed accessible (we just don't know yet).
+function isAccessible(item) {
+  if (item.unlocked === false) return false;
+  if (item.analysis_tiers && item.analysis_tiers.length) {
+    return item.analysis_tiers.some((t) => t.unlocked);
+  }
+  return true;
+}
+
 function matches(item) {
   const inCategory = state.category === 'All' || item.group === state.category;
   if (!inCategory) return false;
+  if (state.onlyUnlocked && !isAccessible(item)) return false;
   if (!state.query) return true;
 
   const haystack = [item.name, item.used_for, ...(item.ingredients || []).map((i) => i.item)]
