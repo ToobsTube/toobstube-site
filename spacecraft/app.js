@@ -313,8 +313,9 @@ function saveProgress() {
 //     specific resource at the Laboratory. Only the first tier's threshold matters for
 //     overall access (later tiers are quality/yield improvements, not access gates) —
 //     accessible once the visitor's own count for that resource meets tier one's
-//     analyze_count_required (tiers with no documented requirement default to 0, i.e.
-//     already free).
+//     analyze_count_required. When that's not documented, assume 1 (never 0) — the
+//     game doesn't show a requirement for tiers already cleared, so "no number shown"
+//     just means whoever entered the data had already passed it, not that it's free.
 // Items with no lock data at all are assumed accessible (we just don't know yet).
 function isAccessible(item) {
   if (item.unlock_track && item.unlock_level != null) {
@@ -325,7 +326,12 @@ function isAccessible(item) {
   }
   if (item.analysis_tiers && item.analysis_tiers.length) {
     const firstTier = item.analysis_tiers[0];
-    const required = firstTier.analyze_count_required || 0;
+    // A missing analyze_count_required doesn't mean free — the game only shows the
+    // requirement text for tiers you HAVEN'T cleared yet, so most tier-1s look
+    // "blank" simply because whoever entered the data had already passed them. The
+    // real minimum is always at least 1 analysis, sometimes more — so default to 1,
+    // not 0, when the exact number isn't documented.
+    const required = firstTier.analyze_count_required != null ? firstTier.analyze_count_required : 1;
     return (state.progress.analysisCounts[item.name] || 0) >= required;
   }
   return true;
@@ -574,8 +580,11 @@ function describeLockReason(item) {
     return `Unlocks via researching: ${item.unlock_node}`;
   }
   if (item.analysis_tiers && item.analysis_tiers.length) {
-    const required = item.analysis_tiers[0].analyze_count_required || 0;
-    return `Unlocks after ${required} analyses of ${item.name} at the Laboratory`;
+    const firstTier = item.analysis_tiers[0];
+    if (firstTier.analyze_count_required != null) {
+      return `Unlocks after ${firstTier.analyze_count_required} analyses of ${item.name} at the Laboratory`;
+    }
+    return `Unlocks after at least 1 analysis of ${item.name} at the Laboratory (exact count unconfirmed)`;
   }
   return null;
 }
