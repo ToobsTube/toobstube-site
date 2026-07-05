@@ -5,6 +5,7 @@ const state = {
   query: '',
   plan: [],
   onlyUnlocked: false,
+  progress: { levels: { Exploration: 0, Science: 0, Technology: 0, Social: 0 }, nodes: {}, analysisCounts: {} },
 };
 
 const PLAN_STORAGE_KEY = 'spacecraft-blueprint-plan';
@@ -75,6 +76,8 @@ async function init() {
   }
   const unlockedToggle = document.getElementById('unlocked-toggle');
   if (unlockedToggle) unlockedToggle.checked = state.onlyUnlocked;
+  state.progress = loadProgress();
+  renderProgressPanel();
 
   render();
 
@@ -108,10 +111,79 @@ async function init() {
     });
   }
 
+  const progressToggleBtn = document.getElementById('progress-panel-toggle');
+  if (progressToggleBtn) {
+    progressToggleBtn.addEventListener('click', () => {
+      const panel = document.getElementById('progress-panel');
+      panel.hidden = !panel.hidden;
+    });
+  }
+
   document.getElementById('plan-button').addEventListener('click', openPlanModal);
   document.getElementById('plan-close').addEventListener('click', closePlanModal);
   document.getElementById('plan-overlay').addEventListener('click', (e) => {
     if (e.target.id === 'plan-overlay') closePlanModal();
+  });
+}
+
+// Renders the level inputs + node checklist into #progress-panel, and wires their
+// change events to update state.progress, persist it, and re-render the list (since
+// the unlocked-only filter depends on this).
+function renderProgressPanel() {
+  const panel = document.getElementById('progress-panel');
+  if (!panel) return;
+
+  const levelInputs = PROGRESS_TRACKS.map((track) => `
+    <label class="progress-level">
+      ${track}
+      <input type="number" min="0" step="1" class="progress-level-input" data-track="${track}" value="${state.progress.levels[track] || 0}">
+    </label>
+  `).join('');
+
+  const nodes = collectUnlockNodes();
+  const nodeChecks = nodes.map((node) => `
+    <label class="progress-node">
+      <input type="checkbox" class="progress-node-input" data-node="${escapeHtml(node)}" ${state.progress.nodes[node] ? 'checked' : ''}>
+      ${escapeHtml(node)}
+    </label>
+  `).join('');
+
+  const analysisResources = collectAnalysisResources();
+  const analysisInputs = analysisResources.map((name) => `
+    <label class="progress-level">
+      ${escapeHtml(name)} analyses
+      <input type="number" min="0" step="1" class="progress-analysis-input" data-resource="${escapeHtml(name)}" value="${state.progress.analysisCounts[name] || 0}">
+    </label>
+  `).join('');
+
+  panel.innerHTML = `
+    <p class="progress-note">Stored only in your own browser — nothing here is shared with anyone else. You don't need to fill any of this in — everything's visible either way, this just lets the "only unlocked" filter work for you specifically.</p>
+    <p class="progress-sublabel">Progression levels</p>
+    <div class="progress-levels">${levelInputs}</div>
+    ${nodes.length ? `<p class="progress-sublabel">Researched tech-tree nodes</p><div class="progress-nodes">${nodeChecks}</div>` : ''}
+    ${analysisResources.length ? `<p class="progress-sublabel">Laboratory analysis counts</p><div class="progress-levels">${analysisInputs}</div>` : ''}
+  `;
+
+  panel.querySelectorAll('.progress-level-input').forEach((input) => {
+    input.addEventListener('change', () => {
+      state.progress.levels[input.dataset.track] = parseInt(input.value, 10) || 0;
+      saveProgress();
+      render();
+    });
+  });
+  panel.querySelectorAll('.progress-node-input').forEach((input) => {
+    input.addEventListener('change', () => {
+      state.progress.nodes[input.dataset.node] = input.checked;
+      saveProgress();
+      render();
+    });
+  });
+  panel.querySelectorAll('.progress-analysis-input').forEach((input) => {
+    input.addEventListener('change', () => {
+      state.progress.analysisCounts[input.dataset.resource] = parseInt(input.value, 10) || 0;
+      saveProgress();
+      render();
+    });
   });
 }
 
@@ -203,21 +275,80 @@ function renderPlanModal() {
 }
 
 // ---- Filtering ----
-// An item counts as "accessible" if it's not gated behind something not yet unlocked.
-// Two ways an item can be locked:
-//   - item.unlocked === false : a flat, single lock. This covers everything with one
-//     unlock point — hulls, cockpits, thrusters, all of it. Pair it with
-//     item.unlock_requirement (a plain string) to say what unlocks it.
-//   - item.analysis_tiers : Crystallizer/Laboratory-style resources where SOME tier
-//     might already be unlocked (Pyrite I/II) even if later ones aren't (III/IV) —
-//     accessible as long as at least one tier is unlocked
+// ---- Visitor's own unlock progress (stored only in their browser — nothing shared) ----
+const PROGRESS_STORAGE_KEY = 'spacecraft-my-progress';
+const PROGRESS_TRACKS = ['Exploration', 'Science', 'Technology', 'Social'];
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(PROGRESS_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : null;
+    return {
+      levels: (parsed && parsed.levels) || { Exploration: 0, Science: 0, Technology: 0, Social: 0 },
+      nodes: (parsed && parsed.nodes) || {},
+      analysisCounts: (parsed && parsed.analysisCounts) || {},
+    };
+  } catch (e) {
+    return { levels: { Exploration: 0, Science: 0, Technology: 0, Social: 0 }, nodes: {}, analysisCounts: {} };
+  }
+}
+
+function saveProgress() {
+  try {
+    localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(state.progress));
+  } catch (e) {
+    // ignore — not fatal if it can't persist
+  }
+}
+
+// An item counts as "accessible" for THIS visitor if it's not gated behind something
+// they haven't reached yet, based on their own entered progress (state.progress) —
+// never anything baked into the data file itself. Three ways an item can be locked:
+//   - item.unlock_track + item.unlock_level : gated by reaching a level in one of the
+//     four progression tracks (Exploration/Science/Technology/Social). Accessible once
+//     the visitor's own level in that track meets or exceeds it.
+//   - item.unlock_node : gated by having individually researched a specific tech-tree
+//     node (not level-based). Accessible once the visitor has checked that node off.
+//   - item.analysis_tiers : gated by how many times the visitor has analyzed THIS
+//     specific resource at the Laboratory. Only the first tier's threshold matters for
+//     overall access (later tiers are quality/yield improvements, not access gates) —
+//     accessible once the visitor's own count for that resource meets tier one's
+//     analyze_count_required (tiers with no documented requirement default to 0, i.e.
+//     already free).
 // Items with no lock data at all are assumed accessible (we just don't know yet).
 function isAccessible(item) {
-  if (item.unlocked === false) return false;
+  if (item.unlock_track && item.unlock_level != null) {
+    return (state.progress.levels[item.unlock_track] || 0) >= item.unlock_level;
+  }
+  if (item.unlock_node) {
+    return !!state.progress.nodes[item.unlock_node];
+  }
   if (item.analysis_tiers && item.analysis_tiers.length) {
-    return item.analysis_tiers.some((t) => t.unlocked);
+    const firstTier = item.analysis_tiers[0];
+    const required = firstTier.analyze_count_required || 0;
+    return (state.progress.analysisCounts[item.name] || 0) >= required;
   }
   return true;
+}
+
+// Every distinct resource name that has analysis_tiers, for the progress panel's count
+// inputs — only resources that actually gate on a documented count show up here.
+function collectAnalysisResources() {
+  return state.items
+    .filter((i) => i.analysis_tiers && i.analysis_tiers.length && i.analysis_tiers[0].analyze_count_required)
+    .map((i) => i.name)
+    .sort();
+}
+
+// Every distinct tech-tree node name seen across the data, so the "My Progress" panel
+// can show a checklist without hardcoding node names — new ones just show up here as
+// items reference them.
+function collectUnlockNodes() {
+  const nodes = new Set();
+  state.items.forEach((i) => {
+    if (i.unlock_node) nodes.add(i.unlock_node);
+  });
+  return Array.from(nodes).sort();
 }
 
 function matches(item) {
@@ -415,19 +546,37 @@ function renderItem(item) {
   const isExtract = item.type === 'extract';
   const isBuild = item.type === 'build';
   const isGather = item.type === 'gather';
+  const locked = !isAccessible(item);
 
   return `
-    <div class="item${isBuy ? ' buy' : ''}${isExtract ? ' extract' : ''}${isBuild ? ' build' : ''}${isGather ? ' gather' : ''}" id="item-${item.id}">
+    <div class="item${isBuy ? ' buy' : ''}${isExtract ? ' extract' : ''}${isBuild ? ' build' : ''}${isGather ? ' gather' : ''}${locked ? ' locked' : ''}" id="item-${item.id}">
       <div class="item-head">
         <span${verifiedDot} title="${item.verified === false ? 'Unverified' : 'Verified in-game'}"></span>
         <span class="item-name">${escapeHtml(item.name)}</span>
         <span class="badge type-${item.type}">${item.type}</span>
         ${item.tier ? `<span class="badge tier">T${item.tier}</span>` : ''}
+        ${locked ? `<span class="lock-badge">🔒 Locked</span>` : ''}
         <span class="chevron">&#9656;</span>
       </div>
       <div class="item-body"><div class="body-inner">${bodyHtml}</div></div>
     </div>
   `;
+}
+
+// Plain-text description of what unlocks an item — used right under the badges in the
+// list, so the reason is visible without opening anything or touching My Progress.
+function describeLockReason(item) {
+  if (item.unlock_track && item.unlock_level != null) {
+    return `Unlocks at ${item.unlock_track} Level ${item.unlock_level}${item.unlock_node ? ` (${item.unlock_node})` : ''}`;
+  }
+  if (item.unlock_node) {
+    return `Unlocks via researching: ${item.unlock_node}`;
+  }
+  if (item.analysis_tiers && item.analysis_tiers.length) {
+    const required = item.analysis_tiers[0].analyze_count_required || 0;
+    return `Unlocks after ${required} analyses of ${item.name} at the Laboratory`;
+  }
+  return null;
 }
 
 function buildItemBody(item, idLookup, domId) {
@@ -442,6 +591,11 @@ function buildItemBody(item, idLookup, domId) {
 
   if (item.verified === false) {
     bodyHtml += `<p class="source-note">⚠ Unverified — pulled from wiki, not confirmed in-game yet.</p>`;
+  }
+
+  const lockReason = describeLockReason(item);
+  if (lockReason && !isAccessible(item)) {
+    bodyHtml += `<p class="lock-reason">${escapeHtml(lockReason)}</p>`;
   }
 
   if (item.subcategory) {
@@ -550,7 +704,7 @@ function buildItemBody(item, idLookup, domId) {
   }
 
   if (item.analysis_tiers && item.analysis_tiers.length) {
-    bodyHtml += renderAnalysisTiers(item.analysis_tiers);
+    bodyHtml += renderAnalysisTiers(item.name, item.analysis_tiers);
   }
 
   if (item.deposits && item.deposits.length) {
@@ -570,17 +724,20 @@ function renderSpecsInfo(specs) {
   return `<p class="section-label">Specs</p><ul class="specs-list">${rows}</ul>`;
 }
 
-function renderAnalysisTiers(tiers) {
+function renderAnalysisTiers(resourceName, tiers) {
+  const myCount = state.progress.analysisCounts[resourceName] || 0;
   const rows = tiers
     .map((t) => {
-      const tierClass = t.unlocked ? 'tier-unlocked' : 'tier-locked';
-      const lockNote = !t.unlocked && t.unlock_requirement
+      const required = t.analyze_count_required || 0;
+      const unlocked = myCount >= required;
+      const tierClass = unlocked ? 'tier-unlocked' : 'tier-locked';
+      const lockNote = !unlocked && t.unlock_requirement
         ? `<span class="lock-note">${escapeHtml(t.unlock_requirement)}</span>`
         : '';
       return `<li class="${tierClass}"><span class="tier-name">${escapeHtml(t.tier)}</span>${lockNote}</li>`;
     })
     .join('');
-  return `<p class="section-label">Analysis (Laboratory)</p><ul class="analysis-list">${rows}</ul>`;
+  return `<p class="section-label">Analysis (Laboratory)</p><ul class="analysis-list">${rows}</ul><p class="progress-note">Tier status above reflects your own analysis count from "My Progress" (defaults to 0 if you haven't entered it).</p>`;
 }
 
 function renderDeposits(deposits) {
