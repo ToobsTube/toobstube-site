@@ -136,9 +136,15 @@ function renderPlanModal() {
     const item = state.items.find((i) => i.id === p.id);
     return [item.name, p.qty];
   }));
+  // "To carry to build site" only makes sense for base buildings — they have no
+  // storage weight of their own once placed, so calling out the direct ingredients
+  // is the useful number. Regular craftable items (cockpits, drones, etc.) already
+  // have their own finished-item weight, so adding this line there would just look
+  // like extra space is needed on top of that, which it isn't.
   const directMap = new Map();
   state.plan.forEach((p) => {
-    if (idLookup.has(p.id)) getDirectIngredients(p.id, p.qty, directMap);
+    const item = idLookup.has(p.id) && state.items.find((i) => i.id === p.id);
+    if (item && item.type === 'build') getDirectIngredients(p.id, p.qty, directMap);
   });
   const suSummary = renderSuSummary(finalItemsMap, ctx.intermediates, ctx.rawTotals, directMap);
 
@@ -935,8 +941,10 @@ function renderRawBreakdown(itemId, container, qty, mode, location) {
   const taxBlock = topRecipe ? renderTaxSection(ctx.taxSteps, location, `×${qty}`, depthOf, idLookup) : '';
   const intermediateSection = renderIntermediatesSection(ctx.intermediates, depthOf, idLookup);
   const finalItemsMap = new Map([[topItem.name, qty]]);
+  // Only base buildings (type: "build") get the "To carry to build site" line —
+  // see the matching comment in renderPlanModal for why.
   const directMap = new Map();
-  getDirectIngredients(itemId, qty, directMap);
+  if (topItem.type === 'build') getDirectIngredients(itemId, qty, directMap);
   const suSummary = renderSuSummary(finalItemsMap, ctx.intermediates, ctx.rawTotals, directMap);
 
   container.innerHTML = `
