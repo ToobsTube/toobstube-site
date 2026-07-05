@@ -136,7 +136,11 @@ function renderPlanModal() {
     const item = state.items.find((i) => i.id === p.id);
     return [item.name, p.qty];
   }));
-  const suSummary = renderSuSummary(finalItemsMap, ctx.intermediates, ctx.rawTotals);
+  const directMap = new Map();
+  state.plan.forEach((p) => {
+    if (idLookup.has(p.id)) getDirectIngredients(p.id, p.qty, directMap);
+  });
+  const suSummary = renderSuSummary(finalItemsMap, ctx.intermediates, ctx.rawTotals, directMap);
 
   body.innerHTML = `
     <p class="section-label">Items in this plan</p>
@@ -672,6 +676,26 @@ function walkCraftTree(itemId, neededQty, visiting, ctx) {
   visiting.delete(itemId);
 }
 
+// Returns just the immediate (one level deep, not recursed) ingredient list for an
+// item at a given quantity, scaled the same way walkCraftTree scales things. This is
+// the "stuff you'd actually carry to the build/craft site" — e.g. for the Warehouse,
+// that's the Metal Sheet/Structural Beam/Stainless Plate/Concrete themselves, not the
+// ingots and ore consumed further back in the chain to make those. Accumulates into
+// `map` so multiple planned items can share one map, same pattern as walkCraftTree/ctx.
+function getDirectIngredients(itemId, neededQty, map) {
+  const item = state.items.find((i) => i.id === itemId);
+  if (!item) return;
+  const recipe = item.recipes && item.recipes.length ? item.recipes[0] : null;
+  const flatIngredients = !recipe && item.ingredients && item.ingredients.length ? item.ingredients : null;
+  const ingredients = recipe ? recipe.ingredients : flatIngredients;
+  if (!ingredients) return;
+  const batchSize = recipe ? recipe.output_qty || 1 : 1;
+  const batches = neededQty / batchSize;
+  ingredients.forEach((ing) => {
+    map.set(ing.item, (map.get(ing.item) || 0) + ing.qty * batches);
+  });
+}
+
 function newCraftCtx() {
   return { rawTotals: new Map(), intermediates: new Map(), taxSteps: new Map(), stations: new Set(), cyclic: new Set() };
 }
@@ -810,7 +834,7 @@ function sumSu(map) {
   return { total, hasAny, unknown };
 }
 
-function renderSuSummary(finalMap, intermediateMap, rawMap) {
+function renderSuSummary(finalMap, intermediateMap, rawMap, directMap) {
   const final = sumSu(finalMap);
   const inter = sumSu(intermediateMap);
   const raw = sumSu(rawMap);
@@ -823,15 +847,31 @@ function renderSuSummary(finalMap, intermediateMap, rawMap) {
     ? `<p class="su-unknown-note">Storage size not logged yet for: ${allUnknown.map(escapeHtml).join(', ')} — total below doesn't include these.</p>`
     : '';
 
+  // "To carry to build site" is informational only — it's the weight of the direct
+  // ingredients (e.g. Metal Sheet/Structural Beam/Stainless Plate/Concrete for a
+  // Warehouse), the stuff you'd actually be hauling from a station to wherever you're
+  // placing/crafting the thing. It's already counted inside "Sub-crafts along the way"
+  // (or "Raw/base materials" for ingredients with no recipe of their own) further up the
+  // chain, so it does NOT get added again into grandTotal — that would double-count it.
+  const directLine = directMap
+    ? (() => {
+        const direct = sumSu(directMap);
+        if (!direct.hasAny) return '';
+        return `<li class="su-direct"><span>To carry to build site</span><span>${direct.total.toFixed(1)} su</span></li>`;
+      })()
+    : '';
+
   return `
     <div class="su-summary">
       <p class="section-label">Storage space needed</p>
       <ul class="su-breakdown">
         <li><span>Finished items to place</span><span>${final.total.toFixed(1)} su</span></li>
+        ${directLine}
         <li><span>Sub-crafts along the way</span><span>${inter.total.toFixed(1)} su</span></li>
         <li><span>Raw/base materials</span><span>${raw.total.toFixed(1)} su</span></li>
       </ul>
       <p class="su-grand-total"><strong>${grandTotal.toFixed(1)} su</strong> total across the whole build</p>
+      ${directLine ? '<p class="su-direct-note">"To carry to build site" is already included in the totals above — it\'s just calling out what you actually need to haul over, not extra weight.</p>' : ''}
       ${unknownNote}
     </div>
   `;
@@ -895,7 +935,9 @@ function renderRawBreakdown(itemId, container, qty, mode, location) {
   const taxBlock = topRecipe ? renderTaxSection(ctx.taxSteps, location, `×${qty}`, depthOf, idLookup) : '';
   const intermediateSection = renderIntermediatesSection(ctx.intermediates, depthOf, idLookup);
   const finalItemsMap = new Map([[topItem.name, qty]]);
-  const suSummary = renderSuSummary(finalItemsMap, ctx.intermediates, ctx.rawTotals);
+  const directMap = new Map();
+  getDirectIngredients(itemId, qty, directMap);
+  const suSummary = renderSuSummary(finalItemsMap, ctx.intermediates, ctx.rawTotals, directMap);
 
   container.innerHTML = `
     ${timeLine}
