@@ -6191,5 +6191,29 @@
         "storage_units": 50
       }
     ]
+  },
+  {
+    "id": "emerald",
+    "name": "Emerald",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Crystal",
+    "type": "gather",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Deposits, Crystallizer recipe, and station not yet confirmed \u2014 only the Encyclopedia entry and analysis tiers have been entered so far.",
+    "value": 130,
+    "storage_units": 0.5,
+    "description": "A crystal of the beryl family, traded as a gemstone and valued for its characteristic dark-green hue.",
+    "analysis_tiers": [
+      {
+        "tier": "Emerald I"
+      },
+      {
+        "tier": "Emerald II",
+        "unlock_requirement": "Analyse x10 at Laboratory",
+        "analyze_count_required": 10
+      }
+    ]
   }
 ]
