@@ -147,6 +147,9 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--panel);
+  max-height: 50vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .progress-note {
