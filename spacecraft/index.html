@@ -7,13 +7,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=6">
+<link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
 
   <header class="topbar">
     <div class="eyebrow-row">
       <p class="eyebrow">SpaceCraft // Blueprint Index</p>
+      <div class="header-links">
+        <a class="header-link" href="ship.html">Ship Builder</a>
+        <a class="header-link" href="https://toobstube.com" target="_blank" rel="noopener">ToobsTube</a>
+      </div>
       <div class="theme-picker" id="themePicker">
         <button class="theme-dot" data-theme="default" title="ToobsTube (default)"></button>
         <button class="theme-dot" data-theme="refinery" title="Refinery"></button>
@@ -39,6 +43,10 @@
         </select>
         <button class="plan-button" id="plan-button" type="button">Plan <span class="plan-count" id="plan-count">0</span></button>
       </div>
+      <label class="unlocked-toggle-label">
+        <input type="checkbox" id="unlocked-toggle">
+        Only show what I've unlocked
+      </label>
     </div>
   </header>
 
