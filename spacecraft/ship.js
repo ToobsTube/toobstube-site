@@ -6,6 +6,7 @@ const state = {
   subcategory: 'All',
   onlyUnlocked: false,
   build: [], // [{ id, qty }]
+  progress: { levels: { Exploration: 0, Science: 0, Technology: 0, Social: 0 }, nodes: {}, analysisCounts: {} },
 };
 
 const BUILD_STORAGE_KEY = 'spacecraft-ship-build';
@@ -29,14 +30,57 @@ function saveBuild() {
   }
 }
 
+// ---- Visitor's own unlock progress (stored only in their browser — nothing shared,
+// and shared with the crafter page via the same storage key/shape). ----
+const PROGRESS_STORAGE_KEY = 'spacecraft-my-progress';
+const PROGRESS_TRACKS = ['Exploration', 'Science', 'Technology', 'Social'];
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(PROGRESS_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : null;
+    return {
+      levels: (parsed && parsed.levels) || { Exploration: 0, Science: 0, Technology: 0, Social: 0 },
+      nodes: (parsed && parsed.nodes) || {},
+      analysisCounts: (parsed && parsed.analysisCounts) || {},
+    };
+  } catch (e) {
+    return { levels: { Exploration: 0, Science: 0, Technology: 0, Social: 0 }, nodes: {}, analysisCounts: {} };
+  }
+}
+
+function saveProgress() {
+  try {
+    localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(state.progress));
+  } catch (e) {
+    // ignore
+  }
+}
+
 // Same lock logic as the crafter (app.js) — kept in sync by hand since these are two
-// separate static pages with no shared module system.
+// separate static pages with no shared module system. See app.js for the full comment.
+// Ship parts don't currently use analysis_tiers (that's a resource-only mechanic), but
+// the check is here anyway so the logic stays identical between both pages.
 function isAccessible(item) {
-  if (item.unlocked === false) return false;
+  if (item.unlock_track && item.unlock_level != null) {
+    return (state.progress.levels[item.unlock_track] || 0) >= item.unlock_level;
+  }
+  if (item.unlock_node) {
+    return !!state.progress.nodes[item.unlock_node];
+  }
   if (item.analysis_tiers && item.analysis_tiers.length) {
-    return item.analysis_tiers.some((t) => t.unlocked);
+    const required = item.analysis_tiers[0].analyze_count_required || 0;
+    return (state.progress.analysisCounts[item.name] || 0) >= required;
   }
   return true;
+}
+
+function collectUnlockNodes() {
+  const nodes = new Set();
+  state.items.forEach((i) => {
+    if (i.unlock_node) nodes.add(i.unlock_node);
+  });
+  return Array.from(nodes).sort();
 }
 
 function slugify(name) {
@@ -78,8 +122,10 @@ async function init() {
     state.onlyUnlocked = false;
   }
   document.getElementById('unlocked-toggle').checked = state.onlyUnlocked;
+  state.progress = loadProgress();
 
   populateSubcategoryOptions();
+  renderProgressPanel();
   render();
 
   document.getElementById('subcategory-select').addEventListener('change', (e) => {
@@ -95,6 +141,56 @@ async function init() {
       // ignore
     }
     render();
+  });
+
+  const progressToggleBtn = document.getElementById('progress-panel-toggle');
+  if (progressToggleBtn) {
+    progressToggleBtn.addEventListener('click', () => {
+      const panel = document.getElementById('progress-panel');
+      panel.hidden = !panel.hidden;
+    });
+  }
+}
+
+function renderProgressPanel() {
+  const panel = document.getElementById('progress-panel');
+  if (!panel) return;
+
+  const levelInputs = PROGRESS_TRACKS.map((track) => `
+    <label class="progress-level">
+      ${track}
+      <input type="number" min="0" step="1" class="progress-level-input" data-track="${track}" value="${state.progress.levels[track] || 0}">
+    </label>
+  `).join('');
+
+  const nodes = collectUnlockNodes();
+  const nodeChecks = nodes.map((node) => `
+    <label class="progress-node">
+      <input type="checkbox" class="progress-node-input" data-node="${escapeHtml(node)}" ${state.progress.nodes[node] ? 'checked' : ''}>
+      ${escapeHtml(node)}
+    </label>
+  `).join('');
+
+  panel.innerHTML = `
+    <p class="progress-note">Stored only in your own browser — nothing here is shared with anyone else.</p>
+    <p class="progress-sublabel">Progression levels</p>
+    <div class="progress-levels">${levelInputs}</div>
+    ${nodes.length ? `<p class="progress-sublabel">Researched tech-tree nodes</p><div class="progress-nodes">${nodeChecks}</div>` : ''}
+  `;
+
+  panel.querySelectorAll('.progress-level-input').forEach((input) => {
+    input.addEventListener('change', () => {
+      state.progress.levels[input.dataset.track] = parseInt(input.value, 10) || 0;
+      saveProgress();
+      render();
+    });
+  });
+  panel.querySelectorAll('.progress-node-input').forEach((input) => {
+    input.addEventListener('change', () => {
+      state.progress.nodes[input.dataset.node] = input.checked;
+      saveProgress();
+      render();
+    });
   });
 }
 
@@ -150,9 +246,12 @@ function renderPartCard(item) {
   const suNote = su != null ? `<span class="part-su">${su} su to carry</span>` : '';
 
   // If it's locked, show what would unlock it.
-  const lockReasonHtml = locked && item.unlock_requirement
-    ? `<p class="lock-reason">Unlocks via: ${escapeHtml(item.unlock_requirement)}</p>`
-    : '';
+  let lockReasonHtml = '';
+  if (locked && item.unlock_track && item.unlock_level != null) {
+    lockReasonHtml = `<p class="lock-reason">Unlocks at ${escapeHtml(item.unlock_track)} Level ${item.unlock_level}${item.unlock_node ? ` (${escapeHtml(item.unlock_node)})` : ''}</p>`;
+  } else if (locked && item.unlock_node) {
+    lockReasonHtml = `<p class="lock-reason">Unlocks via researching: ${escapeHtml(item.unlock_node)}</p>`;
+  }
 
   return `
     <div class="item part-card ${locked ? 'locked' : ''}">
