@@ -205,8 +205,9 @@ function renderPlanModal() {
 // ---- Filtering ----
 // An item counts as "accessible" if it's not gated behind something not yet unlocked.
 // Two ways an item can be locked:
-//   - item.unlocked === false : a flat, single lock (used for things with no tiers,
-//     e.g. a ship part that just needs one research unlock)
+//   - item.unlocked === false : a flat, single lock. This covers everything with one
+//     unlock point — hulls, cockpits, thrusters, all of it. Pair it with
+//     item.unlock_requirement (a plain string) to say what unlocks it.
 //   - item.analysis_tiers : Crystallizer/Laboratory-style resources where SOME tier
 //     might already be unlocked (Pyrite I/II) even if later ones aren't (III/IV) —
 //     accessible as long as at least one tier is unlocked
