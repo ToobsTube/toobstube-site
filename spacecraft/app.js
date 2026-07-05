@@ -4,12 +4,9 @@ const state = {
   category: 'All',
   query: '',
   plan: [],
-  onlyUnlocked: false,
-  progress: { levels: { Exploration: 0, Science: 0, Technology: 0, Social: 0 }, nodes: {}, analysisCounts: {} },
 };
 
 const PLAN_STORAGE_KEY = 'spacecraft-blueprint-plan';
-const UNLOCKED_STORAGE_KEY = 'spacecraft-only-unlocked';
 
 function loadPlan() {
   try {
@@ -69,25 +66,7 @@ async function init() {
   state.plan = loadPlan();
   updatePlanCount();
 
-  try {
-    state.onlyUnlocked = localStorage.getItem(UNLOCKED_STORAGE_KEY) === '1';
-  } catch (e) {
-    state.onlyUnlocked = false;
-  }
-  const unlockedToggle = document.getElementById('unlocked-toggle');
-  if (unlockedToggle) unlockedToggle.checked = state.onlyUnlocked;
-  state.progress = loadProgress();
-  renderProgressPanel();
-
   render();
-
-  // Deep link from the Ship Builder (or anywhere else): index.html?item=some-id
-  // opens straight to that item's full breakdown so "go gather this" links work.
-  const params = new URLSearchParams(window.location.search);
-  const targetItem = params.get('item');
-  if (targetItem && state.items.some((i) => i.id === targetItem)) {
-    goToItem(targetItem);
-  }
 
   document.getElementById('search').addEventListener('input', (e) => {
     state.query = e.target.value.trim().toLowerCase();
@@ -99,91 +78,10 @@ async function init() {
     render();
   });
 
-  if (unlockedToggle) {
-    unlockedToggle.addEventListener('change', (e) => {
-      state.onlyUnlocked = e.target.checked;
-      try {
-        localStorage.setItem(UNLOCKED_STORAGE_KEY, state.onlyUnlocked ? '1' : '0');
-      } catch (err) {
-        // ignore — not fatal if it can't persist
-      }
-      render();
-    });
-  }
-
-  const progressToggleBtn = document.getElementById('progress-panel-toggle');
-  if (progressToggleBtn) {
-    progressToggleBtn.addEventListener('click', () => {
-      const panel = document.getElementById('progress-panel');
-      panel.hidden = !panel.hidden;
-    });
-  }
-
   document.getElementById('plan-button').addEventListener('click', openPlanModal);
   document.getElementById('plan-close').addEventListener('click', closePlanModal);
   document.getElementById('plan-overlay').addEventListener('click', (e) => {
     if (e.target.id === 'plan-overlay') closePlanModal();
-  });
-}
-
-// Renders the level inputs + node checklist into #progress-panel, and wires their
-// change events to update state.progress, persist it, and re-render the list (since
-// the unlocked-only filter depends on this).
-function renderProgressPanel() {
-  const panel = document.getElementById('progress-panel');
-  if (!panel) return;
-
-  const levelInputs = PROGRESS_TRACKS.map((track) => `
-    <label class="progress-level">
-      ${track}
-      <input type="number" min="0" step="1" class="progress-level-input" data-track="${track}" value="${state.progress.levels[track] || 0}">
-    </label>
-  `).join('');
-
-  const nodes = collectUnlockNodes();
-  const nodeChecks = nodes.map((node) => `
-    <label class="progress-node">
-      <input type="checkbox" class="progress-node-input" data-node="${escapeHtml(node)}" ${state.progress.nodes[node] ? 'checked' : ''}>
-      ${escapeHtml(node)}
-    </label>
-  `).join('');
-
-  const analysisResources = collectAnalysisResources();
-  const analysisInputs = analysisResources.map((name) => `
-    <label class="progress-level">
-      ${escapeHtml(name)} analyses
-      <input type="number" min="0" step="1" class="progress-analysis-input" data-resource="${escapeHtml(name)}" value="${state.progress.analysisCounts[name] || 0}">
-    </label>
-  `).join('');
-
-  panel.innerHTML = `
-    <p class="progress-note">Stored only in your own browser — nothing here is shared with anyone else. You don't need to fill any of this in — everything's visible either way, this just lets the "only unlocked" filter work for you specifically.</p>
-    <p class="progress-sublabel">Progression levels</p>
-    <div class="progress-levels">${levelInputs}</div>
-    ${nodes.length ? `<p class="progress-sublabel">Researched tech-tree nodes</p><div class="progress-nodes">${nodeChecks}</div>` : ''}
-    ${analysisResources.length ? `<p class="progress-sublabel">Laboratory analysis counts</p><div class="progress-levels">${analysisInputs}</div>` : ''}
-  `;
-
-  panel.querySelectorAll('.progress-level-input').forEach((input) => {
-    input.addEventListener('change', () => {
-      state.progress.levels[input.dataset.track] = parseInt(input.value, 10) || 0;
-      saveProgress();
-      render();
-    });
-  });
-  panel.querySelectorAll('.progress-node-input').forEach((input) => {
-    input.addEventListener('change', () => {
-      state.progress.nodes[input.dataset.node] = input.checked;
-      saveProgress();
-      render();
-    });
-  });
-  panel.querySelectorAll('.progress-analysis-input').forEach((input) => {
-    input.addEventListener('change', () => {
-      state.progress.analysisCounts[input.dataset.resource] = parseInt(input.value, 10) || 0;
-      saveProgress();
-      render();
-    });
   });
 }
 
@@ -224,7 +122,6 @@ function renderPlanModal() {
   state.plan.forEach((p) => {
     if (idLookup.has(p.id)) walkCraftTree(p.id, p.qty, new Set(), ctx);
   });
-  reconcileCyclicDuplicates(ctx);
 
   const depthMemo = new Map();
   const depthOf = (name) => getCraftDepth(slugify(name), depthMemo, new Set());
@@ -234,30 +131,13 @@ function renderPlanModal() {
   // combined chain — not gated on a single top-level recipe like the per-item view is.
   const taxBlock = ctx.taxSteps.size ? renderTaxSection(ctx.taxSteps, 'station', 'this plan', depthOf, idLookup) : '';
 
-  const finalItemsMap = new Map(state.plan.filter((p) => idLookup.has(p.id)).map((p) => {
-    const item = state.items.find((i) => i.id === p.id);
-    return [item.name, p.qty];
-  }));
-  // "To carry to build site" only makes sense for base buildings — they have no
-  // storage weight of their own once placed, so calling out the direct ingredients
-  // is the useful number. Regular craftable items (cockpits, drones, etc.) already
-  // have their own finished-item weight, so adding this line there would just look
-  // like extra space is needed on top of that, which it isn't.
-  const directMap = new Map();
-  state.plan.forEach((p) => {
-    const item = idLookup.has(p.id) && state.items.find((i) => i.id === p.id);
-    if (item && item.type === 'build') getDirectIngredients(p.id, p.qty, directMap);
-  });
-  const suSummary = renderSuSummary(finalItemsMap, ctx.intermediates, ctx.rawTotals, directMap);
-
   body.innerHTML = `
     <p class="section-label">Items in this plan</p>
     <ul class="plan-list">${planRows}</ul>
     ${renderStationsLine(ctx.stations)}
-    ${suSummary}
     ${taxBlock}
     ${renderIntermediatesSection(ctx.intermediates, depthOf, idLookup)}
-    ${renderRawMaterialsSection(ctx.rawTotals, idLookup, ctx.cyclic)}
+    ${renderRawMaterialsSection(ctx.rawTotals, idLookup)}
   `;
 
   body.querySelectorAll('.plan-qty-input').forEach((input) => {
@@ -275,93 +155,9 @@ function renderPlanModal() {
 }
 
 // ---- Filtering ----
-// ---- Visitor's own unlock progress (stored only in their browser — nothing shared) ----
-const PROGRESS_STORAGE_KEY = 'spacecraft-my-progress';
-const PROGRESS_TRACKS = ['Exploration', 'Science', 'Technology', 'Social'];
-
-function loadProgress() {
-  try {
-    const raw = localStorage.getItem(PROGRESS_STORAGE_KEY);
-    const parsed = raw ? JSON.parse(raw) : null;
-    return {
-      levels: (parsed && parsed.levels) || { Exploration: 0, Science: 0, Technology: 0, Social: 0 },
-      nodes: (parsed && parsed.nodes) || {},
-      analysisCounts: (parsed && parsed.analysisCounts) || {},
-    };
-  } catch (e) {
-    return { levels: { Exploration: 0, Science: 0, Technology: 0, Social: 0 }, nodes: {}, analysisCounts: {} };
-  }
-}
-
-function saveProgress() {
-  try {
-    localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(state.progress));
-  } catch (e) {
-    // ignore — not fatal if it can't persist
-  }
-}
-
-// An item counts as "accessible" for THIS visitor if it's not gated behind something
-// they haven't reached yet, based on their own entered progress (state.progress) —
-// never anything baked into the data file itself. Three ways an item can be locked:
-//   - item.unlock_track + item.unlock_level : gated by reaching a level in one of the
-//     four progression tracks (Exploration/Science/Technology/Social). Accessible once
-//     the visitor's own level in that track meets or exceeds it.
-//   - item.unlock_node : gated by having individually researched a specific tech-tree
-//     node (not level-based). Accessible once the visitor has checked that node off.
-//   - item.analysis_tiers : gated by how many times the visitor has analyzed THIS
-//     specific resource at the Laboratory. Only the first tier's threshold matters for
-//     overall access (later tiers are quality/yield improvements, not access gates) —
-//     accessible once the visitor's own count for that resource meets tier one's
-//     analyze_count_required. When that's not documented, assume 1 (never 0) — the
-//     game doesn't show a requirement for tiers already cleared, so "no number shown"
-//     just means whoever entered the data had already passed it, not that it's free.
-// Items with no lock data at all are assumed accessible (we just don't know yet).
-function isAccessible(item) {
-  if (item.unlock_track && item.unlock_level != null) {
-    return (state.progress.levels[item.unlock_track] || 0) >= item.unlock_level;
-  }
-  if (item.unlock_node) {
-    return !!state.progress.nodes[item.unlock_node];
-  }
-  if (item.analysis_tiers && item.analysis_tiers.length) {
-    const firstTier = item.analysis_tiers[0];
-    // A missing analyze_count_required doesn't mean free — the game only shows the
-    // requirement text for tiers you HAVEN'T cleared yet, so most tier-1s look
-    // "blank" simply because whoever entered the data had already passed them. The
-    // real minimum is always at least 1 analysis, sometimes more — so default to 1,
-    // not 0, when the exact number isn't documented.
-    const required = firstTier.analyze_count_required != null ? firstTier.analyze_count_required : 1;
-    return (state.progress.analysisCounts[item.name] || 0) >= required;
-  }
-  return true;
-}
-
-// Every distinct resource name that has analysis_tiers at all, for the progress
-// panel's count inputs — even ones where tier 1 is free, since later tiers (III, IV)
-// still need a count entered to show correctly.
-function collectAnalysisResources() {
-  return state.items
-    .filter((i) => i.analysis_tiers && i.analysis_tiers.length)
-    .map((i) => i.name)
-    .sort();
-}
-
-// Every distinct tech-tree node name seen across the data, so the "My Progress" panel
-// can show a checklist without hardcoding node names — new ones just show up here as
-// items reference them.
-function collectUnlockNodes() {
-  const nodes = new Set();
-  state.items.forEach((i) => {
-    if (i.unlock_node) nodes.add(i.unlock_node);
-  });
-  return Array.from(nodes).sort();
-}
-
 function matches(item) {
   const inCategory = state.category === 'All' || item.group === state.category;
   if (!inCategory) return false;
-  if (state.onlyUnlocked && !isAccessible(item)) return false;
   if (!state.query) return true;
 
   const haystack = [item.name, item.used_for, ...(item.ingredients || []).map((i) => i.item)]
@@ -553,40 +349,19 @@ function renderItem(item) {
   const isExtract = item.type === 'extract';
   const isBuild = item.type === 'build';
   const isGather = item.type === 'gather';
-  const locked = !isAccessible(item);
 
   return `
-    <div class="item${isBuy ? ' buy' : ''}${isExtract ? ' extract' : ''}${isBuild ? ' build' : ''}${isGather ? ' gather' : ''}${locked ? ' locked' : ''}" id="item-${item.id}">
+    <div class="item${isBuy ? ' buy' : ''}${isExtract ? ' extract' : ''}${isBuild ? ' build' : ''}${isGather ? ' gather' : ''}" id="item-${item.id}">
       <div class="item-head">
         <span${verifiedDot} title="${item.verified === false ? 'Unverified' : 'Verified in-game'}"></span>
         <span class="item-name">${escapeHtml(item.name)}</span>
         <span class="badge type-${item.type}">${item.type}</span>
         ${item.tier ? `<span class="badge tier">T${item.tier}</span>` : ''}
-        ${locked ? `<span class="lock-badge">🔒 Locked</span>` : ''}
         <span class="chevron">&#9656;</span>
       </div>
       <div class="item-body"><div class="body-inner">${bodyHtml}</div></div>
     </div>
   `;
-}
-
-// Plain-text description of what unlocks an item — used right under the badges in the
-// list, so the reason is visible without opening anything or touching My Progress.
-function describeLockReason(item) {
-  if (item.unlock_track && item.unlock_level != null) {
-    return `Unlocks at ${item.unlock_track} Level ${item.unlock_level}${item.unlock_node ? ` (${item.unlock_node})` : ''}`;
-  }
-  if (item.unlock_node) {
-    return `Unlocks via researching: ${item.unlock_node}`;
-  }
-  if (item.analysis_tiers && item.analysis_tiers.length) {
-    const firstTier = item.analysis_tiers[0];
-    if (firstTier.analyze_count_required != null) {
-      return `Unlocks after ${firstTier.analyze_count_required} analyses of ${item.name} at the Laboratory`;
-    }
-    return `Unlocks after at least 1 analysis of ${item.name} at the Laboratory (exact count unconfirmed)`;
-  }
-  return null;
 }
 
 function buildItemBody(item, idLookup, domId) {
@@ -603,24 +378,21 @@ function buildItemBody(item, idLookup, domId) {
     bodyHtml += `<p class="source-note">⚠ Unverified — pulled from wiki, not confirmed in-game yet.</p>`;
   }
 
-  const lockReason = describeLockReason(item);
-  if (lockReason && !isAccessible(item)) {
-    bodyHtml += `<p class="lock-reason">${escapeHtml(lockReason)}</p>`;
-  }
-
   if (item.subcategory) {
     bodyHtml += `<p class="module-breadcrumb">${escapeHtml(item.category)} &rsaquo; ${escapeHtml(item.subcategory)}</p>`;
   }
 
   if (item.value != null || item.storage_units != null) {
     const bits = [];
-    if (item.value != null) bits.push(`<strong>${item.value} cr</strong> value`);
+    if (item.value != null) bits.push(`<strong>${item.value}</strong> value`);
     if (item.storage_units != null) bits.push(`${item.storage_units} su`);
     bodyHtml += `<p class="material-stats">${bits.join(' &nbsp;·&nbsp; ')}</p>`;
   }
 
   if (isBuy) {
-    bodyHtml += `<div class="price-line">${item.price.toFixed(2)} cr</div>`;
+    if (item.value != null) {
+      bodyHtml += `<div class="price-line">${item.value.toFixed(2)} cr</div>`;
+    }
     bodyHtml += `<p class="station-line">Buy at <strong>${escapeHtml(item.station)}</strong></p>`;
   } else if (isExtract) {
     const ex = item.extraction_info || {};
@@ -714,7 +486,7 @@ function buildItemBody(item, idLookup, domId) {
   }
 
   if (item.analysis_tiers && item.analysis_tiers.length) {
-    bodyHtml += renderAnalysisTiers(item.name, item.analysis_tiers);
+    bodyHtml += renderAnalysisTiers(item.analysis_tiers);
   }
 
   if (item.deposits && item.deposits.length) {
@@ -734,20 +506,17 @@ function renderSpecsInfo(specs) {
   return `<p class="section-label">Specs</p><ul class="specs-list">${rows}</ul>`;
 }
 
-function renderAnalysisTiers(resourceName, tiers) {
-  const myCount = state.progress.analysisCounts[resourceName] || 0;
+function renderAnalysisTiers(tiers) {
   const rows = tiers
     .map((t) => {
-      const required = t.analyze_count_required || 0;
-      const unlocked = myCount >= required;
-      const tierClass = unlocked ? 'tier-unlocked' : 'tier-locked';
-      const lockNote = !unlocked && t.unlock_requirement
+      const tierClass = t.unlocked ? 'tier-unlocked' : 'tier-locked';
+      const lockNote = !t.unlocked && t.unlock_requirement
         ? `<span class="lock-note">${escapeHtml(t.unlock_requirement)}</span>`
         : '';
       return `<li class="${tierClass}"><span class="tier-name">${escapeHtml(t.tier)}</span>${lockNote}</li>`;
     })
     .join('');
-  return `<p class="section-label">Analysis (Laboratory)</p><ul class="analysis-list">${rows}</ul><p class="progress-note">Tier status above reflects your own analysis count from "My Progress" (defaults to 0 if you haven't entered it).</p>`;
+  return `<p class="section-label">Analysis (Laboratory)</p><ul class="analysis-list">${rows}</ul>`;
 }
 
 function renderDeposits(deposits) {
@@ -889,7 +658,6 @@ function walkCraftTree(itemId, neededQty, visiting, ctx) {
       ctx.intermediates.set(ing.item, (ctx.intermediates.get(ing.item) || 0) + requiredQty);
       walkCraftTree(slug, requiredQty, visiting, ctx);
     } else {
-      if (cyclic) ctx.cyclic.add(ing.item);
       ctx.rawTotals.set(ing.item, (ctx.rawTotals.get(ing.item) || 0) + requiredQty);
     }
   });
@@ -897,44 +665,8 @@ function walkCraftTree(itemId, neededQty, visiting, ctx) {
   visiting.delete(itemId);
 }
 
-// Returns just the immediate (one level deep, not recursed) ingredient list for an
-// item at a given quantity, scaled the same way walkCraftTree scales things. This is
-// the "stuff you'd actually carry to the build/craft site" — e.g. for the Warehouse,
-// that's the Metal Sheet/Structural Beam/Stainless Plate/Concrete themselves, not the
-// ingots and ore consumed further back in the chain to make those. Accumulates into
-// `map` so multiple planned items can share one map, same pattern as walkCraftTree/ctx.
-function getDirectIngredients(itemId, neededQty, map) {
-  const item = state.items.find((i) => i.id === itemId);
-  if (!item) return;
-  const recipe = item.recipes && item.recipes.length ? item.recipes[0] : null;
-  const flatIngredients = !recipe && item.ingredients && item.ingredients.length ? item.ingredients : null;
-  const ingredients = recipe ? recipe.ingredients : flatIngredients;
-  if (!ingredients) return;
-  const batchSize = recipe ? recipe.output_qty || 1 : 1;
-  const batches = neededQty / batchSize;
-  ingredients.forEach((ing) => {
-    map.set(ing.item, (map.get(ing.item) || 0) + ing.qty * batches);
-  });
-}
-
 function newCraftCtx() {
-  return { rawTotals: new Map(), intermediates: new Map(), taxSteps: new Map(), stations: new Set(), cyclic: new Set() };
-}
-
-// If an item gets fully expanded as a real intermediate somewhere in the tree, but a
-// *different* branch also hits it as a circular fallback (e.g. h-Crystal Matrix reached
-// properly via Graphite Crystal, but also hit again via Quartz's own circular ingredient),
-// the circular copy is just an artifact of using each item's first recipe everywhere —
-// not something the player actually needs to source separately. Fold it into the real
-// intermediate total and drop the redundant/misleading "raw" entry.
-function reconcileCyclicDuplicates(ctx) {
-  Array.from(ctx.cyclic).forEach((name) => {
-    if (ctx.intermediates.has(name) && ctx.rawTotals.has(name)) {
-      ctx.intermediates.set(name, ctx.intermediates.get(name) + ctx.rawTotals.get(name));
-      ctx.rawTotals.delete(name);
-      ctx.cyclic.delete(name);
-    }
-  });
+  return { rawTotals: new Map(), intermediates: new Map(), taxSteps: new Map(), stations: new Set() };
 }
 
 // ---- Craft depth (steps removed from raw materials) ----
@@ -1024,81 +756,7 @@ function stationFor(name) {
   return item && item.recipes && item.recipes.length ? item.station : null;
 }
 
-// Storage units live in one of two spots depending on the item: gathered/raw materials
-// carry it directly on the item (item.storage_units), while crafted items carry it on
-// their recipe (recipe.storage_units), since that reflects the storage size of one unit
-// of the CRAFTED OUTPUT. This looks in both places and returns null if neither has it,
-// so callers can tell "zero space" apart from "we don't know yet".
-function suFor(name) {
-  const item = state.items.find((i) => i.id === slugify(name));
-  if (!item) return null;
-  if (item.storage_units != null) return item.storage_units;
-  if (item.recipes && item.recipes.length && item.recipes[0].storage_units != null) return item.recipes[0].storage_units;
-  return null;
-}
-
-// Sums storage units across a Map of name -> qty, tracking separately which names had
-// no su data available so totals never silently under-count without saying so.
-function sumSu(map) {
-  let total = 0;
-  let hasAny = false;
-  const unknown = [];
-  Array.from(map.entries()).forEach(([name, qty]) => {
-    const su = suFor(name);
-    if (su != null) {
-      total += su * qty;
-      hasAny = true;
-    } else {
-      unknown.push(name);
-    }
-  });
-  return { total, hasAny, unknown };
-}
-
-function renderSuSummary(finalMap, intermediateMap, rawMap, directMap) {
-  const final = sumSu(finalMap);
-  const inter = sumSu(intermediateMap);
-  const raw = sumSu(rawMap);
-  const grandTotal = final.total + inter.total + raw.total;
-  const anyKnown = final.hasAny || inter.hasAny || raw.hasAny;
-  if (!anyKnown) return '';
-
-  const allUnknown = Array.from(new Set([...final.unknown, ...inter.unknown, ...raw.unknown]));
-  const unknownNote = allUnknown.length
-    ? `<p class="su-unknown-note">Storage size not logged yet for: ${allUnknown.map(escapeHtml).join(', ')} — total below doesn't include these.</p>`
-    : '';
-
-  // "To carry to build site" is informational only — it's the weight of the direct
-  // ingredients (e.g. Metal Sheet/Structural Beam/Stainless Plate/Concrete for a
-  // Warehouse), the stuff you'd actually be hauling from a station to wherever you're
-  // placing/crafting the thing. It's already counted inside "Sub-crafts along the way"
-  // (or "Raw/base materials" for ingredients with no recipe of their own) further up the
-  // chain, so it does NOT get added again into grandTotal — that would double-count it.
-  const directLine = directMap
-    ? (() => {
-        const direct = sumSu(directMap);
-        if (!direct.hasAny) return '';
-        return `<li class="su-direct"><span>To carry to build site</span><span>${direct.total.toFixed(1)} su</span></li>`;
-      })()
-    : '';
-
-  return `
-    <div class="su-summary">
-      <p class="section-label">Storage space needed</p>
-      <ul class="su-breakdown">
-        <li><span>Finished items to place</span><span>${final.total.toFixed(1)} su</span></li>
-        ${directLine}
-        <li><span>Sub-crafts along the way</span><span>${inter.total.toFixed(1)} su</span></li>
-        <li><span>Raw/base materials</span><span>${raw.total.toFixed(1)} su</span></li>
-      </ul>
-      <p class="su-grand-total"><strong>${grandTotal.toFixed(1)} su</strong> total across the whole build</p>
-      ${directLine ? '<p class="su-direct-note">"To carry to build site" is already included in the totals above — it\'s just calling out what you actually need to haul over, not extra weight.</p>' : ''}
-      ${unknownNote}
-    </div>
-  `;
-}
-
-function renderMaterialRows(map, sortFn, idLookup, withStation, cyclicSet) {
+function renderMaterialRows(map, sortFn, idLookup, withStation) {
   return Array.from(map.entries())
     .sort(sortFn)
     .map(([name, total]) => {
@@ -1109,8 +767,7 @@ function renderMaterialRows(map, sortFn, idLookup, withStation, cyclicSet) {
       const displayQty = Math.ceil(total - 1e-9); // tiny epsilon guards against float noise like 6.0000000001
       const station = withStation ? stationFor(name) : null;
       const stationTag = station ? `<span class="station-chip station-chip-inline">${escapeHtml(station)}</span>` : '';
-      const cyclicTag = cyclicSet && cyclicSet.has(name) ? `<span class="cyclic-chip" title="This item's own recipe loops back to something above it in the chain, so it can't be fully broken down further. Keep some crafted and on hand to bootstrap the loop.">crafted — circular recipe</span>` : '';
-      return `<li><span class="ing-name${linkClass}"${linkAttrs}>${escapeHtml(name)}</span><span class="ing-qty">${stationTag}${cyclicTag}×${displayQty}</span></li>`;
+      return `<li><span class="ing-name${linkClass}"${linkAttrs}>${escapeHtml(name)}</span><span class="ing-qty">${stationTag}×${displayQty}</span></li>`;
     })
     .join('');
 }
@@ -1121,9 +778,9 @@ function renderIntermediatesSection(intermediates, depthOf, idLookup) {
   return `<p class="section-label">Sub-crafts needed along the way</p><p class="raw-note">Ordered top to bottom: most complex first, basic ingots last — right above the raw materials below.</p><ul class="ingredients raw-list">${rows}</ul>`;
 }
 
-function renderRawMaterialsSection(rawTotals, idLookup, cyclicSet) {
-  const rows = renderMaterialRows(rawTotals, (a, b) => b[1] - a[1], idLookup, false, cyclicSet);
-  return `<p class="section-label">Base/raw materials</p><p class="raw-note">Items tagged "crafted — circular recipe" aren't ores — their own recipe loops back to something earlier in this chain, so keep some pre-made on hand rather than mining them.</p><ul class="ingredients raw-list">${rows}</ul>`;
+function renderRawMaterialsSection(rawTotals, idLookup) {
+  const rows = renderMaterialRows(rawTotals, (a, b) => b[1] - a[1], idLookup, false);
+  return `<p class="section-label">Base/raw materials</p><ul class="ingredients raw-list">${rows}</ul>`;
 }
 
 function renderRawBreakdown(itemId, container, qty, mode, location) {
@@ -1132,7 +789,6 @@ function renderRawBreakdown(itemId, container, qty, mode, location) {
   location = location || 'station';
   const ctx = newCraftCtx();
   walkCraftTree(itemId, qty, new Set(), ctx);
-  reconcileCyclicDuplicates(ctx);
   const idLookup = new Set(state.items.map((i) => i.id));
   const depthMemo = new Map();
   const depthOf = (name) => getCraftDepth(slugify(name), depthMemo, new Set());
@@ -1155,21 +811,14 @@ function renderRawBreakdown(itemId, container, qty, mode, location) {
   const stationsLine = renderStationsLine(ctx.stations);
   const taxBlock = topRecipe ? renderTaxSection(ctx.taxSteps, location, `×${qty}`, depthOf, idLookup) : '';
   const intermediateSection = renderIntermediatesSection(ctx.intermediates, depthOf, idLookup);
-  const finalItemsMap = new Map([[topItem.name, qty]]);
-  // Only base buildings (type: "build") get the "To carry to build site" line —
-  // see the matching comment in renderPlanModal for why.
-  const directMap = new Map();
-  if (topItem.type === 'build') getDirectIngredients(itemId, qty, directMap);
-  const suSummary = renderSuSummary(finalItemsMap, ctx.intermediates, ctx.rawTotals, directMap);
 
   container.innerHTML = `
     ${timeLine}
     ${stationsLine}
-    ${suSummary}
     ${taxBlock}
     <p class="raw-note">Everything needed for ×${qty}, tracing each sub-recipe down to its base materials (using the first recipe option at each step where there's more than one):</p>
     ${intermediateSection}
-    ${renderRawMaterialsSection(ctx.rawTotals, idLookup, ctx.cyclic)}
+    ${renderRawMaterialsSection(ctx.rawTotals, idLookup)}
   `;
 
   container.querySelectorAll('.ing-name.linkable').forEach((link) => {
