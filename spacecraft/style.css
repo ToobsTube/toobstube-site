@@ -88,6 +88,36 @@ body {
 
 .theme-picker { display: flex; gap: 8px; flex: 0 0 auto; }
 
+.header-links {
+  display: flex;
+  gap: 14px;
+  flex: 1 1 auto;
+  justify-content: center;
+}
+
+.header-link {
+  color: var(--text-dim);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+.header-link:hover { color: var(--amber); border-bottom-color: var(--amber); }
+
+.unlocked-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  color: var(--text-dim);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  cursor: pointer;
+}
+.unlocked-toggle-label input { accent-color: var(--green); cursor: pointer; }
+
 .theme-dot {
   width: 20px;
   height: 20px;
@@ -297,6 +327,94 @@ h1 {
 .badge.type-extract { color: var(--green); border-color: var(--green); }
 .badge.type-build { color: var(--violet); border-color: var(--violet); }
 .badge.type-gather { color: var(--gold); border-color: var(--gold); }
+
+/* ---------- Ship Builder ---------- */
+.ship-layout .list { padding-top: 16px; }
+
+.part-card { padding: 14px; cursor: default; }
+.part-card.locked { opacity: 0.55; }
+
+.part-head {
+  padding: 0 0 8px;
+  cursor: default;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.part-head-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.part-su {
+  font-size: 11px;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.lock-badge {
+  font-size: 10px;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  padding: 2px 6px;
+  margin-left: 6px;
+  text-transform: uppercase;
+}
+
+.part-add-btn { padding: 6px 12px; font-size: 12px; }
+
+.part-desc {
+  font-size: 12.5px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin: 0 0 8px;
+}
+
+.part-stats {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+}
+.part-stats li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-dim);
+  padding: 2px 0;
+}
+
+.gather-link { font-size: 11px; }
+
+.build-list {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+}
+
+.build-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.build-row-name {
+  flex: 1;
+  font-size: 13px;
+}
+
+.build-balance {
+  font-size: 12.5px;
+  margin: 4px 0;
+  line-height: 1.5;
+}
+.balance-good { color: var(--green); }
+.balance-bad { color: var(--gold); }
+
+.build-stat-totals { max-height: 320px; overflow-y: auto; }
 
 .chevron {
   color: var(--text-dim);
