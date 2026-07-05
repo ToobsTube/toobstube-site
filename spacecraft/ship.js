@@ -149,6 +149,11 @@ function renderPartCard(item) {
   const su = suFor(item);
   const suNote = su != null ? `<span class="part-su">${su} su to carry</span>` : '';
 
+  // If it's locked, show what would unlock it.
+  const lockReasonHtml = locked && item.unlock_requirement
+    ? `<p class="lock-reason">Unlocks via: ${escapeHtml(item.unlock_requirement)}</p>`
+    : '';
+
   return `
     <div class="item part-card ${locked ? 'locked' : ''}">
       <div class="item-head part-head">
@@ -163,6 +168,7 @@ function renderPartCard(item) {
         </div>
       </div>
       ${item.module_info && item.module_info.description ? `<p class="part-desc">${escapeHtml(item.module_info.description)}</p>` : ''}
+      ${lockReasonHtml}
       <ul class="ingredients part-stats">${statRows}</ul>
       <a class="header-link gather-link" href="index.html?item=${encodeURIComponent(item.id)}" target="_blank" rel="noopener">Gather materials for this →</a>
     </div>
