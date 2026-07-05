@@ -65,7 +65,7 @@
     "type": "build",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Distinct from the Small/Medium Solar Panel ship modules — this is the base power-grid structure",
+    "note": "Distinct from the Small/Medium Solar Panel ship modules \u2014 this is the base power-grid structure",
     "build_info": {
       "fp_cost": 4,
       "description": "This building converts electromagnetic radiation into electric current, supplying the base's power grid. It takes up space and must be oriented correctly, but it operates without fuel."
@@ -113,7 +113,7 @@
     "type": "build",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "This is the automated base Smelter — matches the 3-minute auto_craft_time_sec already logged on Copper/Aluminum Ingot. The fast 5s manual time corresponds to the Micro-Furnace, not this building.",
+    "note": "This is the automated base Smelter \u2014 matches the 3-minute auto_craft_time_sec already logged on Copper/Aluminum Ingot. The fast 5s manual time corresponds to the Micro-Furnace, not this building.",
     "build_info": {
       "fp_cost": 3,
       "description": "This building converts raw ore into industrial ingots. As an automated alternative to the manual smelter, it can function continuously with no human input, which makes it appropriate for large-scale production."
@@ -138,7 +138,7 @@
     "type": "build",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Likely the source of the fast 5s manual smelting times already logged on Copper/Aluminum/Iron Ingot — smaller and faster than the automated Smelter building, meant for hands-on play.",
+    "note": "Likely the source of the fast 5s manual smelting times already logged on Copper/Aluminum/Iron Ingot \u2014 smaller and faster than the automated Smelter building, meant for hands-on play.",
     "build_info": {
       "fp_cost": 1,
       "xp_bonus": 3,
@@ -168,7 +168,7 @@
     "type": "build",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Automated alternative to the manual Workshop — likely has its own slower cycle times for Workshop-type items (Wire, Nut and Bolt, etc.), not yet confirmed",
+    "note": "Automated alternative to the manual Workshop \u2014 likely has its own slower cycle times for Workshop-type items (Wire, Nut and Bolt, etc.), not yet confirmed",
     "build_info": {
       "fp_cost": 3,
       "xp_bonus": 9,
@@ -282,7 +282,7 @@
     "type": "extract",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Extractor processing cycle is 60s. The '20' next to Output is the max the output buffer will hold before it needs clearing (confirmed) — not a yield rate. The 62m next to the logistics route is drone travel time for that specific route, which depends on base layout, not a fixed extractor stat. Same item also has a 'copper-ore-gathering' entry under the Gathering tab covering the hand-gather/Material encyclopedia stats (value, weight, deposit yields) — split into two entries since they cover different mechanics.",
+    "note": "Extractor processing cycle is 60s. The '20' next to Output is the max the output buffer will hold before it needs clearing (confirmed) \u2014 not a yield rate. The 62m next to the logistics route is drone travel time for that specific route, which depends on base layout, not a fixed extractor stat. Same item also has a 'copper-ore-gathering' entry under the Gathering tab covering the hand-gather/Material encyclopedia stats (value, weight, deposit yields) \u2014 split into two entries since they cover different mechanics.",
     "extraction_info": {
       "cycle_time_sec": 60,
       "storage_capacity_su": 100,
@@ -300,7 +300,7 @@
     "type": "extract",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Extractor processing cycle is 60s. The '20' next to Output is the max the output buffer will hold before it needs clearing (confirmed) — not a yield rate. The 40m next to the logistics route is drone travel time for that specific route, which depends on base layout, not a fixed extractor stat. Same item also has a 'aluminum-ore-gathering' entry under the Gathering tab covering the hand-gather/Material encyclopedia stats (value, weight, deposit yields) — split into two entries since they cover different mechanics.",
+    "note": "Extractor processing cycle is 60s. The '20' next to Output is the max the output buffer will hold before it needs clearing (confirmed) \u2014 not a yield rate. The 40m next to the logistics route is drone travel time for that specific route, which depends on base layout, not a fixed extractor stat. Same item also has a 'aluminum-ore-gathering' entry under the Gathering tab covering the hand-gather/Material encyclopedia stats (value, weight, deposit yields) \u2014 split into two entries since they cover different mechanics.",
     "extraction_info": {
       "cycle_time_sec": 60,
       "storage_capacity_su": 100,
@@ -318,7 +318,7 @@
     "type": "craft",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "More items expected in 'Other' as more unlock — very little accessible here so far",
+    "note": "More items expected in 'Other' as more unlock \u2014 very little accessible here so far",
     "recipes": [
       {
         "label": "Standard",
@@ -402,7 +402,9 @@
         "Material Heat Conductivity": "60.0 W/aK"
       }
     },
-    "subcategory": "Cockpit"
+    "subcategory": "Cockpit",
+    "unlocked": true,
+    "unlock_requirement": "Research: Modular Structures"
   },
   {
     "id": "pathfinder-cockpit",
@@ -413,7 +415,7 @@
     "type": "craft",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Requires 'Small Steel Part Casing' and 'Support Hardware' — neither has a confirmed recipe yet",
+    "note": "Requires 'Small Steel Part Casing' and 'Support Hardware' \u2014 neither has a confirmed recipe yet",
     "recipes": [
       {
         "label": "Standard",
@@ -455,7 +457,9 @@
         "FTL Crit Chance": "-50%"
       }
     },
-    "subcategory": "Cockpit"
+    "subcategory": "Cockpit",
+    "unlocked": true,
+    "unlock_requirement": "Exploration Level 3 (Advanced Spectrometry)"
   },
   {
     "id": "beaver-cockpit",
@@ -466,7 +470,7 @@
     "type": "craft",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Requires 'Small Steel Part Casing' and 'Support Hardware' — neither has a confirmed recipe yet",
+    "note": "Requires 'Small Steel Part Casing' and 'Support Hardware' \u2014 neither has a confirmed recipe yet",
     "recipes": [
       {
         "label": "Standard",
@@ -509,7 +513,9 @@
         "Hull Impact Damage": "-40%"
       }
     },
-    "subcategory": "Cockpit"
+    "subcategory": "Cockpit",
+    "unlocked": true,
+    "unlock_requirement": "Technology Level 3 (Economic Expansion)"
   },
   {
     "id": "cocoon-cockpit",
@@ -520,7 +526,7 @@
     "type": "craft",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Requires 'Small Steel Part Casing' and 'Support Hardware' — neither has a confirmed recipe yet",
+    "note": "Requires 'Small Steel Part Casing' and 'Support Hardware' \u2014 neither has a confirmed recipe yet",
     "recipes": [
       {
         "label": "Standard",
@@ -559,7 +565,9 @@
         "Heat Generation": "4000.0 MW"
       }
     },
-    "subcategory": "Cockpit"
+    "subcategory": "Cockpit",
+    "unlocked": true,
+    "unlock_requirement": "Science Level 2 (Molecular Materials)"
   },
   {
     "id": "cart-pusher-thruster",
@@ -610,7 +618,9 @@
         "Boost Heat Generation": "1000.0 MW"
       }
     },
-    "subcategory": "Thruster"
+    "subcategory": "Thruster",
+    "unlocked": true,
+    "unlock_requirement": "Research: Modular Structures"
   },
   {
     "id": "spot-light",
@@ -744,7 +754,7 @@
     "type": "craft",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Shares a breadcrumb (Manufactured > Kit and Casing) with Factory Kit items, but lives in its own menu section — more Ship Component items expected as more unlock",
+    "note": "Shares a breadcrumb (Manufactured > Kit and Casing) with Factory Kit items, but lives in its own menu section \u2014 more Ship Component items expected as more unlock",
     "recipes": [
       {
         "label": "Standard",
@@ -830,7 +840,7 @@
     "type": "craft",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Internal Module list is partial — only what's currently unlocked",
+    "note": "Internal Module list is partial \u2014 only what's currently unlocked",
     "recipes": [
       {
         "label": "Standard",
@@ -1077,7 +1087,7 @@
     "type": "craft",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Only one input path confirmed so far — the category menu suggests more shapes/inputs may exist",
+    "note": "Only one input path confirmed so far \u2014 the category menu suggests more shapes/inputs may exist",
     "recipes": [
       {
         "label": "From Pyrite",
@@ -1230,7 +1240,7 @@
     "type": "craft",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Uses 'Module Kit', which requires the [Modular Systems 2] research unlock — not affordable/unlocked yet, so its own recipe is still unconfirmed",
+    "note": "Uses 'Module Kit', which requires the [Modular Systems 2] research unlock \u2014 not affordable/unlocked yet, so its own recipe is still unconfirmed",
     "recipes": [
       {
         "label": "Standard",
@@ -1536,7 +1546,7 @@
     "type": "craft",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "There may be a third Contractor Equipment tool (lets you reposition placed base items) — not yet unlocked/confirmed",
+    "note": "There may be a third Contractor Equipment tool (lets you reposition placed base items) \u2014 not yet unlocked/confirmed",
     "recipes": [
       {
         "label": "Standard",
@@ -2137,7 +2147,7 @@
     "type": "craft",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Placed Smelter machine: 8/8 MA power draw, 50 su output capacity, 20 max input ore buffer (same specs seen on the Aluminum line — likely universal to the Smelter machine itself, not per-recipe)",
+    "note": "Placed Smelter machine: 8/8 MA power draw, 50 su output capacity, 20 max input ore buffer (same specs seen on the Aluminum line \u2014 likely universal to the Smelter machine itself, not per-recipe)",
     "recipes": [
       {
         "label": "From Copper Ore",
@@ -2182,7 +2192,7 @@
     "type": "craft",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Placed Smelter machine: 8/8 MA power draw, 50 su output capacity, 20 max input ore buffer (same specs seen on the Copper line — likely universal to the Smelter machine itself, not per-recipe)",
+    "note": "Placed Smelter machine: 8/8 MA power draw, 50 su output capacity, 20 max input ore buffer (same specs seen on the Copper line \u2014 likely universal to the Smelter machine itself, not per-recipe)",
     "recipes": [
       {
         "label": "From Aluminum Ore",
@@ -2337,7 +2347,7 @@
     "type": "gather",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Recategorized from Refining to Gathering — Sulfur's own encyclopedia page shows it as a 'Gathering > Mineral Ore' raw material with a deposit source, not just a Smelter product. The existing Smelter recipe (from Pyrite) is unchanged.",
+    "note": "Recategorized from Refining to Gathering \u2014 Sulfur's own encyclopedia page shows it as a 'Gathering > Mineral Ore' raw material with a deposit source, not just a Smelter product. The existing Smelter recipe (from Pyrite) is unchanged.",
     "value": 0.7,
     "storage_units": 0.1,
     "deposits": [
@@ -2477,7 +2487,7 @@
     "type": "gather",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Craft time/added value/tax not yet confirmed — Carl hasn't unlocked or built a Crystallizer yet. Likely a placeable base building (like the Smelter/Assembler), which would mean no tax, but that's not confirmed either.",
+    "note": "Craft time/added value/tax not yet confirmed \u2014 Carl hasn't unlocked or built a Crystallizer yet. Likely a placeable base building (like the Smelter/Assembler), which would mean no tax, but that's not confirmed either.",
     "value": 10,
     "storage_units": 0.5,
     "analysis_tiers": [
@@ -2541,7 +2551,7 @@
     "type": "gather",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "No 'Contained in Resources' section appeared on this item's encyclopedia page — no deposit source confirmed yet, worth double-checking next time you're at the encyclopedia. Craft time/added value/tax for the Crystallizer recipe also unconfirmed — not unlocked/built yet, likely a base building (no tax) once it is.",
+    "note": "No 'Contained in Resources' section appeared on this item's encyclopedia page \u2014 no deposit source confirmed yet, worth double-checking next time you're at the encyclopedia. Craft time/added value/tax for the Crystallizer recipe also unconfirmed \u2014 not unlocked/built yet, likely a base building (no tax) once it is.",
     "value": 12,
     "storage_units": 0.5,
     "analysis_tiers": [
@@ -2595,7 +2605,7 @@
     "type": "gather",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Craft time/added value/tax for the Crystallizer recipe unconfirmed — not unlocked/built yet, likely a base building (no tax) once it is. Same recipe is also logged under Quartz Powder since it shows on both item pages in-game.",
+    "note": "Craft time/added value/tax for the Crystallizer recipe unconfirmed \u2014 not unlocked/built yet, likely a base building (no tax) once it is. Same recipe is also logged under Quartz Powder since it shows on both item pages in-game.",
     "value": 11,
     "storage_units": 0.5,
     "analysis_tiers": [
@@ -2656,7 +2666,7 @@
     "type": "gather",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Lists 'Carbon Generator' under SPECS — likely a building we haven't logged yet, flagged unconfirmed. Craft time/added value/tax for the Crystallizer recipe also unconfirmed — not unlocked/built yet, likely a base building (no tax) once it is.",
+    "note": "Lists 'Carbon Generator' under SPECS \u2014 likely a building we haven't logged yet, flagged unconfirmed. Craft time/added value/tax for the Crystallizer recipe also unconfirmed \u2014 not unlocked/built yet, likely a base building (no tax) once it is.",
     "value": 9,
     "storage_units": 0.5,
     "specs": [
@@ -2740,7 +2750,7 @@
     "type": "gather",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Byproduct of the same Crystallizer recipe logged under Quartz (Silicon Ingot + h-Crystal Matrix -> 25 Quartz + 140 Quartz Powder) — the game shows it on both item pages, so it's logged on both here too. No natural deposit shown. Craft time/added value/tax unconfirmed — Crystallizer not unlocked/built yet, likely a base building (no tax) once it is.",
+    "note": "Byproduct of the same Crystallizer recipe logged under Quartz (Silicon Ingot + h-Crystal Matrix -> 25 Quartz + 140 Quartz Powder) \u2014 the game shows it on both item pages, so it's logged on both here too. No natural deposit shown. Craft time/added value/tax unconfirmed \u2014 Crystallizer not unlocked/built yet, likely a base building (no tax) once it is.",
     "value": 0.37,
     "storage_units": 0.1,
     "recipes": [
@@ -2811,7 +2821,7 @@
     "type": "gather",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Lists 'Carbon Generator' under SPECS — likely a building we haven't logged yet, flagged unconfirmed.",
+    "note": "Lists 'Carbon Generator' under SPECS \u2014 likely a building we haven't logged yet, flagged unconfirmed.",
     "value": 1.5,
     "storage_units": 1,
     "specs": [
@@ -2929,7 +2939,7 @@
     "type": "gather",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Same item as 'aluminum-ore' under Extraction — that entry covers the Extractor building mechanics (cycle time, buffer), this one covers the hand-gather/Material encyclopedia stats (value, weight, deposit yields). Logged as two separate entries since they cover different mechanics.",
+    "note": "Same item as 'aluminum-ore' under Extraction \u2014 that entry covers the Extractor building mechanics (cycle time, buffer), this one covers the hand-gather/Material encyclopedia stats (value, weight, deposit yields). Logged as two separate entries since they cover different mechanics.",
     "value": 3.58,
     "storage_units": 5,
     "deposits": [
@@ -2952,7 +2962,7 @@
     "type": "gather",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Same item as 'copper-ore' under Extraction — that entry covers the Extractor building mechanics, this one covers the hand-gather/Material encyclopedia stats. Logged as two separate entries since they cover different mechanics.",
+    "note": "Same item as 'copper-ore' under Extraction \u2014 that entry covers the Extractor building mechanics, this one covers the hand-gather/Material encyclopedia stats. Logged as two separate entries since they cover different mechanics.",
     "value": 3,
     "storage_units": 5,
     "deposits": [
@@ -3167,7 +3177,7 @@
     "type": "craft",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Internal Module category confirmed. 'Control Mod' itself is still a new subcategory with no other precedent in our data yet — exact subcategory label unconfirmed.",
+    "note": "Internal Module category confirmed. 'Control Mod' itself is still a new subcategory with no other precedent in our data yet \u2014 exact subcategory label unconfirmed.",
     "recipes": [
       {
         "label": "Standard",
@@ -4119,7 +4129,9 @@
         "storage_units": 20
       }
     ],
-    "subcategory": "Thruster"
+    "subcategory": "Thruster",
+    "unlocked": true,
+    "unlock_requirement": "Exploration Level 3 (Plasma Containment)"
   },
   {
     "id": "grasshopper-thruster",
@@ -4172,7 +4184,9 @@
         "storage_units": 20
       }
     ],
-    "subcategory": "Thruster"
+    "subcategory": "Thruster",
+    "unlocked": true,
+    "unlock_requirement": "Technology Level 3 (Combustion Engine)"
   },
   {
     "id": "steel-4x3x1",
@@ -4211,7 +4225,9 @@
         "storage_units": 20
       }
     ],
-    "subcategory": "Steel Hull"
+    "subcategory": "Steel Hull",
+    "unlocked": true,
+    "unlock_requirement": "Research: Ship of Steel"
   },
   {
     "id": "steel-6x3x1",
@@ -4250,7 +4266,9 @@
         "storage_units": 20
       }
     ],
-    "subcategory": "Steel Hull"
+    "subcategory": "Steel Hull",
+    "unlocked": true,
+    "unlock_requirement": "Research: Ship of Steel"
   },
   {
     "id": "steel-8x3x1",
@@ -4289,7 +4307,9 @@
         "storage_units": 20
       }
     ],
-    "subcategory": "Steel Hull"
+    "subcategory": "Steel Hull",
+    "unlocked": true,
+    "unlock_requirement": "Research: Ship of Steel"
   },
   {
     "id": "steel-4x3x2",
@@ -4328,7 +4348,9 @@
         "storage_units": 20
       }
     ],
-    "subcategory": "Steel Hull"
+    "subcategory": "Steel Hull",
+    "unlocked": true,
+    "unlock_requirement": "Research: Ship of Steel"
   },
   {
     "id": "steel-6x3x2",
@@ -4367,7 +4389,9 @@
         "storage_units": 20
       }
     ],
-    "subcategory": "Steel Hull"
+    "subcategory": "Steel Hull",
+    "unlocked": true,
+    "unlock_requirement": "Research: Ship of Steel"
   },
   {
     "id": "steel-8x3x2",
@@ -4406,7 +4430,9 @@
         "storage_units": 20
       }
     ],
-    "subcategory": "Steel Hull"
+    "subcategory": "Steel Hull",
+    "unlocked": true,
+    "unlock_requirement": "Research: Ship of Steel"
   },
   {
     "id": "iron-scraps",
@@ -4911,7 +4937,9 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Ship of Steel"
   },
   {
     "id": "thermal-steel-hull-6x3x1",
@@ -4951,7 +4979,9 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Ship of Steel"
   },
   {
     "id": "thermal-steel-hull-8x3x1",
@@ -4991,7 +5021,9 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Ship of Steel"
   },
   {
     "id": "thermal-steel-hull-4x3x2",
@@ -5031,7 +5063,9 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Ship of Steel"
   },
   {
     "id": "thermal-steel-hull-6x3x2",
@@ -5071,7 +5105,9 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Ship of Steel"
   },
   {
     "id": "thermal-steel-hull-8x3x2",
@@ -5111,7 +5147,9 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Ship of Steel"
   },
   {
     "id": "titanium-4x3x1",
@@ -5151,7 +5189,9 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Better Titanium"
   },
   {
     "id": "titanium-6x3x1",
@@ -5191,7 +5231,9 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Better Titanium"
   },
   {
     "id": "titanium-8x3x1",
@@ -5231,7 +5273,9 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Better Titanium"
   },
   {
     "id": "titanium-4x3x2",
@@ -5271,7 +5315,9 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Better Titanium"
   },
   {
     "id": "titanium-6x3x2",
@@ -5311,7 +5357,9 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Better Titanium"
   },
   {
     "id": "titanium-8x3x2",
@@ -5351,7 +5399,9 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Better Titanium"
   },
   {
     "id": "titanium-8x6x2",
@@ -5391,7 +5441,9 @@
         ],
         "storage_units": 50
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Better Titanium"
   },
   {
     "id": "titanium-12x6x2",
@@ -5431,7 +5483,9 @@
         ],
         "storage_units": 50
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Better Titanium"
   },
   {
     "id": "titanium-16x6x2",
@@ -5471,7 +5525,9 @@
         ],
         "storage_units": 50
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Better Titanium"
   },
   {
     "id": "thermal-titanium-hull-4x3x1",
@@ -5511,7 +5567,9 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Better Titanium"
   },
   {
     "id": "thermal-titanium-hull-6x3x1",
@@ -5551,7 +5609,9 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Better Titanium"
   },
   {
     "id": "thermal-titanium-hull-8x3x1",
@@ -5591,7 +5651,9 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Better Titanium"
   },
   {
     "id": "thermal-titanium-hull-4x3x2",
@@ -5631,7 +5693,9 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Better Titanium"
   },
   {
     "id": "thermal-titanium-hull-6x3x2",
@@ -5671,7 +5735,9 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Better Titanium"
   },
   {
     "id": "thermal-titanium-hull-8x3x2",
@@ -5711,7 +5777,9 @@
         ],
         "storage_units": 20
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Better Titanium"
   },
   {
     "id": "thermal-titanium-hull-8x6x2",
@@ -5751,7 +5819,9 @@
         ],
         "storage_units": 50
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Better Titanium"
   },
   {
     "id": "thermal-titanium-hull-12x6x2",
@@ -5791,7 +5861,9 @@
         ],
         "storage_units": 50
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Better Titanium"
   },
   {
     "id": "thermal-titanium-hull-16x6x2",
@@ -5831,7 +5903,9 @@
         ],
         "storage_units": 50
       }
-    ]
+    ],
+    "unlocked": true,
+    "unlock_requirement": "Research: Better Titanium"
   },
   {
     "id": "nimbus-spoiler",
