@@ -120,11 +120,16 @@ async function init() {
   });
 
   // Opening an ingredient link in a new tab lands here with ?item=<id> in the URL —
-  // jump straight to that item so the new tab shows what was actually clicked.
+  // jump straight to that item so the new tab shows what was actually clicked. An
+  // optional ?qty=<n> (e.g. from the Ship Planner's "Gather materials" link, which
+  // knows how many of the part you actually want) pre-fills the quantity too, instead
+  // of always landing on the default of 1.
   // push=false: the browser already created this history entry by navigating here,
   // so we don't want to push a second, identical one on top of it.
-  const deepLinkId = new URLSearchParams(window.location.search).get('item');
-  if (deepLinkId) goToItem(deepLinkId, false);
+  const params = new URLSearchParams(window.location.search);
+  const deepLinkId = params.get('item');
+  const deepLinkQty = parseFloat(params.get('qty'));
+  if (deepLinkId) goToItem(deepLinkId, false, deepLinkQty > 0 ? deepLinkQty : null);
 
   // Back/Forward: every in-page item jump pushes ?item=<id> onto the history stack,
   // so stepping back through it just re-reads the URL and re-opens whatever item was
@@ -265,15 +270,17 @@ function closeDetailPanel() {
 // (the list never moves). On narrow screens, fall back to scrolling/expanding in place.
 // `push` controls browser history: a real click adds a Back-able entry; restoring
 // state from a popstate event or the initial page load should NOT push another one.
-function goToItem(targetId, push = true) {
+// `initialQty`, when given, pre-fills that item's quantity box instead of leaving it
+// at the default of 1 — used by deep links that already know how many are wanted.
+function goToItem(targetId, push = true, initialQty = null) {
   if (push) {
     const url = `?item=${encodeURIComponent(targetId)}`;
     history.pushState({ item: targetId }, '', url);
   }
   if (isDesktopLayout()) {
-    renderDetailPanel(targetId);
+    renderDetailPanel(targetId, initialQty);
   } else {
-    jumpTo(targetId);
+    jumpTo(targetId, initialQty);
   }
 }
 
@@ -406,7 +413,7 @@ function getLocation(btn) {
 }
 
 // ---- Detail panel (persistent second column on wide screens) ----
-function renderDetailPanel(itemId) {
+function renderDetailPanel(itemId, initialQty) {
   const panel = document.getElementById('detail');
   const item = state.items.find((i) => i.id === itemId);
   if (!panel || !item) return;
@@ -435,7 +442,13 @@ function renderDetailPanel(itemId) {
   if (wrap) {
     const container = wrap.querySelector('.raw-breakdown');
     const toggleBtn = wrap.querySelector('.raw-toggle');
-    renderRawBreakdown(item.id, container, 1, 'manual', 'station');
+    const qtyInput = wrap.querySelector('.qty-input');
+    const qty = initialQty > 0 ? initialQty : 1;
+    if (qtyInput && initialQty > 0) {
+      qtyInput.value = initialQty;
+      updateIngredientQuantities(panel.querySelector('.body-inner'), initialQty);
+    }
+    renderRawBreakdown(item.id, container, qty, 'manual', 'station');
     container.hidden = false;
     toggleBtn.innerHTML = 'Hide full raw materials &#9652;';
   }
@@ -1015,7 +1028,7 @@ function toggleItem(itemEl, open) {
   body.style.maxHeight = open ? body.scrollHeight + 'px' : '0px';
 }
 
-function jumpTo(id) {
+function jumpTo(id, initialQty) {
   const alreadyVisible = document.getElementById('item-' + id);
 
   // if the target is filtered out right now, reset filters so it shows up
@@ -1031,6 +1044,13 @@ function jumpTo(id) {
     const el = document.getElementById('item-' + id);
     if (!el) return;
     toggleItem(el, true);
+    if (initialQty > 0) {
+      const qtyInput = el.querySelector('.qty-input');
+      if (qtyInput) {
+        qtyInput.value = initialQty;
+        updateIngredientQuantities(el.querySelector('.body-inner'), initialQty);
+      }
+    }
     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
 }
