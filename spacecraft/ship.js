@@ -6,12 +6,16 @@ const state = {
   subcategory: 'All',
   onlyUnlocked: false,
   build: [], // [{ id, qty }]
+  inventory: {}, // itemId -> qty already on hand — shared with the crafter page
   progress: { levels: { Exploration: 0, Science: 0, Technology: 0, Social: 0 }, nodes: {}, analysisCounts: {} },
 };
 
 const BUILD_STORAGE_KEY = 'spacecraft-ship-build';
 const UNLOCKED_STORAGE_KEY = 'spacecraft-only-unlocked'; // shared with the crafter — one
                                                           // preference, remembered everywhere
+const INVENTORY_STORAGE_KEY = 'spacecraft-inventory'; // same key as the crafter page — marking
+                                                       // something on hand in either place
+                                                       // shows up in both
 
 function loadBuild() {
   try {
@@ -28,6 +32,38 @@ function saveBuild() {
   } catch (e) {
     // ignore — not fatal if it can't persist
   }
+}
+
+function loadInventory() {
+  try {
+    const raw = localStorage.getItem(INVENTORY_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function saveInventory() {
+  try {
+    localStorage.setItem(INVENTORY_STORAGE_KEY, JSON.stringify(state.inventory));
+  } catch (e) {
+    // ignore — not fatal if it can't persist
+  }
+}
+
+function getOwnedQty(itemId) {
+  const val = state.inventory[itemId];
+  return val > 0 ? val : 0;
+}
+
+function setOwnedQty(itemId, qty) {
+  qty = qty > 0 ? qty : 0;
+  if (qty === 0) {
+    delete state.inventory[itemId];
+  } else {
+    state.inventory[itemId] = qty;
+  }
+  saveInventory();
 }
 
 // ---- Visitor's own unlock progress (stored only in their browser — nothing shared,
@@ -116,6 +152,7 @@ async function init() {
   state.items = await res.json();
   state.parts = state.items.filter((i) => i.group === 'Ship Parts');
   state.build = loadBuild();
+  state.inventory = loadInventory();
 
   try {
     state.onlyUnlocked = localStorage.getItem(UNLOCKED_STORAGE_KEY) === '1';
@@ -149,6 +186,19 @@ async function init() {
     progressToggleBtn.addEventListener('click', () => {
       const panel = document.getElementById('progress-panel');
       panel.hidden = !panel.hidden;
+    });
+  }
+
+  const materialsToggleBtn = document.getElementById('materials-toggle');
+  if (materialsToggleBtn) {
+    materialsToggleBtn.addEventListener('click', () => {
+      const container = document.getElementById('build-materials');
+      const wasHidden = container.hidden;
+      if (wasHidden) renderShipMaterials();
+      container.hidden = !wasHidden;
+      materialsToggleBtn.innerHTML = wasHidden
+        ? 'Hide materials needed for this ship &#9652;'
+        : 'Show materials needed for this ship &#9662;';
     });
   }
 }
@@ -218,6 +268,7 @@ function render() {
   renderPartsList();
   renderBuildList();
   renderTotals();
+  updateMaterialsAvailability();
 }
 
 function renderPartsList() {
@@ -254,6 +305,13 @@ function renderPartCard(item) {
     lockReasonHtml = `<p class="lock-reason">Unlocks via researching: ${escapeHtml(item.unlock_node)}</p>`;
   }
 
+  // If this part is already in the build with a chosen quantity, carry that quantity
+  // over to the Crafting Calculator too — no reason to make someone re-type it there.
+  const buildEntry = state.build.find((b) => b.id === item.id);
+  const gatherHref = buildEntry && buildEntry.qty > 1
+    ? `index.html?item=${encodeURIComponent(item.id)}&qty=${encodeURIComponent(buildEntry.qty)}`
+    : `index.html?item=${encodeURIComponent(item.id)}`;
+
   return `
     <div class="item part-card ${locked ? 'locked' : ''}">
       <div class="item-head part-head">
@@ -270,7 +328,7 @@ function renderPartCard(item) {
       ${item.module_info && item.module_info.description ? `<p class="part-desc">${escapeHtml(item.module_info.description)}</p>` : ''}
       ${lockReasonHtml}
       <ul class="ingredients part-stats">${statRows}</ul>
-      <a class="gather-link" href="index.html?item=${encodeURIComponent(item.id)}" target="_blank" rel="noopener">Gather materials for this →</a>
+      <a class="gather-link" href="${gatherHref}" target="_blank" rel="noopener">Gather materials for this →</a>
     </div>
   `;
 }
@@ -321,6 +379,7 @@ function renderBuildList() {
         <li class="build-row" data-id="${b.id}">
           <span class="build-row-name">${escapeHtml(item.name)}</span>
           <input type="number" class="qty-input build-qty-input" min="1" step="1" value="${b.qty}" data-id="${b.id}" aria-label="Quantity">
+          <a class="gather-link build-gather-link" href="index.html?item=${encodeURIComponent(b.id)}&qty=${encodeURIComponent(b.qty)}" target="_blank" rel="noopener" data-id="${b.id}">Gather →</a>
           <button class="plan-remove build-remove" data-id="${b.id}" aria-label="Remove">&times;</button>
         </li>
       `;
@@ -329,6 +388,14 @@ function renderBuildList() {
 
   listEl.querySelectorAll('.build-qty-input').forEach((input) => {
     input.addEventListener('change', () => setBuildQty(input.dataset.id, parseFloat(input.value)));
+    // Keep that row's gather link in sync as the quantity changes, without a full re-render.
+    input.addEventListener('input', () => {
+      const link = listEl.querySelector(`.build-gather-link[data-id="${input.dataset.id}"]`);
+      if (link) {
+        const qty = parseFloat(input.value) > 0 ? parseFloat(input.value) : 1;
+        link.href = `index.html?item=${encodeURIComponent(input.dataset.id)}&qty=${encodeURIComponent(qty)}`;
+      }
+    });
   });
   listEl.querySelectorAll('.build-remove').forEach((btn) => {
     btn.addEventListener('click', () => removeFromBuild(btn.dataset.id));
@@ -416,6 +483,289 @@ function findTotal(totals, statName) {
     if (name === statName) return { value, unit };
   }
   return null;
+}
+
+// ---- Craft tree computation (same engine as the crafter's app.js, kept in sync by
+// hand since these are separate static pages with no shared module system — see
+// app.js for the full explanation of why this needs two passes). Computes combined
+// materials demand for every part in the build at once, so a Copper Ingot needed by
+// three different parts shows up as one correct total instead of three separate ones,
+// and anything marked as on hand (shared with the crafter's own inventory) is
+// subtracted before it cascades down to raw materials. ----
+function computeCraftContext(roots) {
+  const ctx = newCraftCtx();
+  const grossDemand = new Map();
+  const nodeInfo = new Map();
+  const discovered = new Set();
+  const postOrder = [];
+  const rootIds = new Set(roots.map((r) => r.id));
+
+  function discover(itemId, visiting) {
+    if (discovered.has(itemId) || visiting.has(itemId)) return;
+    const item = state.items.find((i) => i.id === itemId);
+    if (!item) return;
+
+    const recipe = item.recipes && item.recipes.length ? item.recipes[0] : null;
+    const flatIngredients = !recipe && item.ingredients && item.ingredients.length ? item.ingredients : null;
+    const ingredients = recipe ? recipe.ingredients : flatIngredients;
+
+    if (!ingredients || !ingredients.length) {
+      nodeInfo.set(itemId, { item, isLeaf: true });
+      discovered.add(itemId);
+      postOrder.push(itemId);
+      return;
+    }
+
+    visiting.add(itemId);
+    const batchSize = recipe ? recipe.output_qty || 1 : 1;
+    const edges = ingredients.map((ing) => {
+      const slug = slugify(ing.item);
+      const subItem = state.items.find((i) => i.id === slug);
+      const cyclic = subItem && visiting.has(slug);
+      const trackable = subItem && !cyclic;
+      if (trackable) discover(slug, visiting);
+      return { slug: trackable ? slug : null, displayName: ing.item, qty: ing.qty };
+    });
+    visiting.delete(itemId);
+
+    nodeInfo.set(itemId, { item, isLeaf: false, recipe, batchSize, edges });
+    discovered.add(itemId);
+    postOrder.push(itemId);
+  }
+
+  roots.forEach((r) => {
+    grossDemand.set(r.id, (grossDemand.get(r.id) || 0) + r.qty);
+    discover(r.id, new Set());
+  });
+
+  const topoOrder = postOrder.slice().reverse();
+
+  topoOrder.forEach((itemId) => {
+    const info = nodeInfo.get(itemId);
+    const gross = grossDemand.get(itemId) || 0;
+    if (!info || gross <= 0) return;
+
+    const owned = Math.min(gross, getOwnedQty(itemId));
+    const net = gross - owned;
+    if (owned > 0) ctx.owned.set(info.item.name, (ctx.owned.get(info.item.name) || 0) + owned);
+
+    if (info.isLeaf) {
+      if (net > 0) ctx.rawTotals.set(info.item.name, (ctx.rawTotals.get(info.item.name) || 0) + net);
+      return;
+    }
+
+    if (net > 0 && !rootIds.has(itemId)) {
+      ctx.intermediates.set(info.item.name, (ctx.intermediates.get(info.item.name) || 0) + net);
+    }
+    if (net > 0 && info.item.station) ctx.stations.add(info.item.station);
+
+    const batches = net / info.batchSize;
+
+    if (net > 0 && info.recipe) {
+      const taxedEntry = info.recipe.tax && Object.entries(info.recipe.tax).find(([loc]) => loc !== 'personal_base');
+      const entry = ctx.taxSteps.get(info.item.name) || { cost: 0, confirmed: true };
+      if (taxedEntry) {
+        entry.cost += batches * taxedEntry[1];
+      } else {
+        entry.confirmed = false;
+      }
+      ctx.taxSteps.set(info.item.name, entry);
+    }
+
+    info.edges.forEach((edge) => {
+      const requiredQty = edge.qty * batches;
+      if (edge.slug) {
+        grossDemand.set(edge.slug, (grossDemand.get(edge.slug) || 0) + requiredQty);
+      } else {
+        ctx.rawTotals.set(edge.displayName, (ctx.rawTotals.get(edge.displayName) || 0) + requiredQty);
+      }
+    });
+  });
+
+  return ctx;
+}
+
+function newCraftCtx() {
+  return { rawTotals: new Map(), intermediates: new Map(), taxSteps: new Map(), stations: new Set(), owned: new Map() };
+}
+
+function getCraftDepth(itemId, memo, visiting) {
+  if (memo.has(itemId)) return memo.get(itemId);
+  if (visiting.has(itemId)) return 0;
+
+  const item = state.items.find((i) => i.id === itemId);
+  if (!item) return 0;
+
+  const recipe = item.recipes && item.recipes.length ? item.recipes[0] : null;
+  const flatIngredients = !recipe && item.ingredients && item.ingredients.length ? item.ingredients : null;
+  const ingredients = recipe ? recipe.ingredients : flatIngredients;
+  if (!ingredients || !ingredients.length) {
+    memo.set(itemId, 0);
+    return 0;
+  }
+
+  visiting.add(itemId);
+  let deepestSub = 0;
+  ingredients.forEach((ing) => {
+    const slug = slugify(ing.item);
+    const subItem = state.items.find((i) => i.id === slug);
+    const subExpandable = subItem && !visiting.has(slug) && ((subItem.recipes && subItem.recipes.length) || (subItem.ingredients && subItem.ingredients.length));
+    if (subExpandable) {
+      const d = getCraftDepth(slug, memo, visiting);
+      if (d > deepestSub) deepestSub = d;
+    }
+  });
+  visiting.delete(itemId);
+
+  const depth = deepestSub + 1;
+  memo.set(itemId, depth);
+  return depth;
+}
+
+function stationForMaterial(name) {
+  const item = state.items.find((i) => i.id === slugify(name));
+  return item && item.recipes && item.recipes.length ? item.station : null;
+}
+
+function renderStationsLine(stations) {
+  if (!stations.size) return '';
+  const chips = Array.from(stations)
+    .map((s) => `<span class="station-chip">${escapeHtml(s)}</span>`)
+    .join('');
+  return `<p class="section-label">Stations needed</p><div class="stations-line">${chips}</div>`;
+}
+
+function renderTaxSection(taxSteps, qtyLabel, depthOf) {
+  let total = 0;
+  let incomplete = false;
+  taxSteps.forEach((s) => {
+    total += s.cost;
+    if (!s.confirmed) incomplete = true;
+  });
+  const incompleteNote = incomplete
+    ? " — one or more steps below don't have a confirmed tax number yet, so this is a lower bound"
+    : '';
+  const costLine = `<p class="cost-line">&#128176; ~${total.toFixed(2)} cr in station tax for ${qtyLabel}, across every craft step in the chain${incompleteNote}</p>`;
+
+  const taxRows = Array.from(taxSteps.entries())
+    .sort((a, b) => depthOf(b[0]) - depthOf(a[0]) || b[1].cost - a[1].cost)
+    .map(([name, s]) => {
+      const valueHtml = s.confirmed ? `${s.cost.toFixed(2)} cr` : 'tax not confirmed yet';
+      return `<li>${shipMatLink(name)}<span class="ing-qty">${valueHtml}</span></li>`;
+    })
+    .join('');
+  const taxListSection = taxSteps.size
+    ? `<p class="section-label">Tax by craft step</p><ul class="ingredients tax-list">${taxRows}</ul>`
+    : '';
+
+  return costLine + ' ' + taxListSection;
+}
+
+// Ingredient names in the ship materials list link back to the Crafting Calculator
+// (a different page) rather than jumping in-page, so this always opens in a new tab —
+// there's no in-page detail panel to jump to here the way there is on the crafter.
+function shipMatLink(name) {
+  const slug = slugify(name);
+  const linkable = state.items.some((i) => i.id === slug);
+  if (!linkable) return `<span class="ing-name">${escapeHtml(name)}</span>`;
+  return `<a class="ing-name linkable" href="index.html?item=${encodeURIComponent(slug)}" target="_blank" rel="noopener">${escapeHtml(name)}</a>`;
+}
+
+// Same idea as the crafter's material rows, but with a live-editable "have" box
+// instead of a static tag, since this is the one place someone can mark inventory
+// directly on the Ship Planner page.
+function renderShipMaterialRows(map, sortFn, withStation) {
+  return Array.from(map.entries())
+    .sort(sortFn)
+    .map(([name, total]) => {
+      const slug = slugify(name);
+      const displayQty = Math.ceil(total - 1e-9);
+      const station = withStation ? stationForMaterial(name) : null;
+      const stationTag = station ? `<span class="station-chip station-chip-inline">${escapeHtml(station)}</span>` : '';
+      const owned = getOwnedQty(slug);
+      return `
+        <li class="ship-mat-row" data-item="${slug}">
+          ${shipMatLink(name)}
+          <span class="ship-mat-qty">${stationTag}×${displayQty.toLocaleString()}</span>
+          <label class="ship-have-wrap">have<input type="number" class="ship-have-input" min="0" step="1" value="${owned || ''}" placeholder="0" data-item="${slug}" aria-label="Quantity of ${escapeHtml(name)} already on hand"></label>
+        </li>
+      `;
+    })
+    .join('');
+}
+
+function renderShipIntermediatesSection(intermediates, depthOf) {
+  if (!intermediates.size) return '';
+  const rows = renderShipMaterialRows(intermediates, (a, b) => depthOf(b[0]) - depthOf(a[0]) || b[1] - a[1], true);
+  return `<p class="section-label">Sub-crafts needed along the way</p><p class="raw-note">Ordered top to bottom: most complex first, basic ingots last — right above the raw materials below.</p><ul class="ingredients raw-list">${rows}</ul>`;
+}
+
+function renderShipRawMaterialsSection(rawTotals) {
+  const rows = renderShipMaterialRows(rawTotals, (a, b) => b[1] - a[1], false);
+  return `<p class="section-label">Base/raw materials</p><ul class="ingredients raw-list">${rows}</ul>`;
+}
+
+// ---- Combined materials list for the whole build ----
+function updateMaterialsAvailability() {
+  const toggleBtn = document.getElementById('materials-toggle');
+  const container = document.getElementById('build-materials');
+  if (!toggleBtn || !container) return;
+
+  if (!state.build.length) {
+    toggleBtn.hidden = true;
+    container.hidden = true;
+    container.innerHTML = '';
+    toggleBtn.innerHTML = 'Show materials needed for this ship &#9662;';
+    return;
+  }
+  toggleBtn.hidden = false;
+  if (!container.hidden) renderShipMaterials(); // keep it in sync if it's left open
+}
+
+function renderShipMaterials() {
+  const container = document.getElementById('build-materials');
+  if (!container) return;
+
+  const roots = state.build.map((b) => ({ id: b.id, qty: b.qty }));
+  const ctx = computeCraftContext(roots);
+  const depthMemo = new Map();
+  const depthOf = (name) => getCraftDepth(slugify(name), depthMemo, new Set());
+
+  const stationsLine = renderStationsLine(ctx.stations);
+  const taxBlock = ctx.taxSteps.size ? renderTaxSection(ctx.taxSteps, 'this ship', depthOf) : '';
+  const intermediateSection = renderShipIntermediatesSection(ctx.intermediates, depthOf);
+  const rawSection = renderShipRawMaterialsSection(ctx.rawTotals);
+
+  container.innerHTML = `
+    ${stationsLine}
+    ${taxBlock}
+    <p class="raw-note">Everything needed across every part in your build, combined into one list — mark anything you've already made below and the rest adjusts for it.</p>
+    ${intermediateSection}
+    ${rawSection}
+  `;
+
+  container.querySelectorAll('.ship-have-input').forEach((input) => {
+    input.addEventListener('click', (e) => e.stopPropagation());
+    input.addEventListener('input', () => {
+      setOwnedQty(input.dataset.item, parseFloat(input.value) || 0);
+      refreshShipMaterials(input.dataset.item, input.selectionStart);
+    });
+  });
+}
+
+// Recomputes and redraws the materials list after a "have" edit, then restores focus
+// and cursor position on whichever input was being typed in — otherwise every
+// keystroke would knock focus out of the box, which makes it unusable for typing a
+// multi-digit number.
+function refreshShipMaterials(focusItemId, cursorPos) {
+  renderShipMaterials();
+  if (!focusItemId) return;
+  const container = document.getElementById('build-materials');
+  const input = container && container.querySelector(`.ship-have-input[data-item="${focusItemId}"]`);
+  if (input) {
+    input.focus();
+    if (cursorPos != null) input.setSelectionRange(cursorPos, cursorPos);
+  }
 }
 
 init();
