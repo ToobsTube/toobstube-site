@@ -255,6 +255,7 @@ function wireItemControls(root) {
 
     qtyInput.addEventListener('click', (e) => e.stopPropagation());
     qtyInput.addEventListener('input', () => {
+      updateIngredientQuantities(wrap.closest('.body-inner'), getQty(qtyInput));
       if (!container.hidden) refresh();
     });
 
@@ -302,6 +303,21 @@ function refreshAccordionHeight(el) {
 function getQty(input) {
   const val = parseFloat(input && input.value);
   return val > 0 ? val : 1;
+}
+
+// Scales the displayed per-craft ingredient/output amounts (the "STANDARD" recipe
+// list, build costs, etc.) to match the quantity someone's actually trying to make —
+// so "×5" becomes "×1,500" for a run of 300 instead of leaving the user to do the
+// multiplication themselves. Only touches rows tagged with data-base-qty; the raw
+// materials breakdown below is regenerated separately and untouched here.
+function updateIngredientQuantities(root, qty) {
+  if (!root) return;
+  root.querySelectorAll('.ing-qty[data-base-qty]').forEach((el) => {
+    const base = parseFloat(el.dataset.baseQty);
+    if (!(base > 0)) return;
+    const total = base * qty;
+    el.textContent = qty > 1 ? `×${total.toLocaleString()} (×${base} ea)` : `×${base}`;
+  });
 }
 
 function getMode(btn) {
@@ -430,7 +446,7 @@ function buildItemBody(item, idLookup, domId) {
       .map((ing) => {
         const slug = slugify(ing.item);
         const linkable = idLookup.has(slug);
-        return `<li>${ingLinkTag(ing.item, slug, linkable)}<span class="ing-qty">×${ing.qty}</span></li>`;
+        return `<li>${ingLinkTag(ing.item, slug, linkable)}<span class="ing-qty" data-base-qty="${ing.qty}">×${ing.qty}</span></li>`;
       })
       .join('');
     bodyHtml += `<ul class="ingredients">${buildRows}</ul>`;
@@ -454,7 +470,7 @@ function buildItemBody(item, idLookup, domId) {
         .map((ing) => {
           const slug = slugify(ing.item);
           const linkable = idLookup.has(slug);
-          return `<li>${ingLinkTag(ing.item, slug, linkable)}<span class="ing-qty">×${ing.qty}</span></li>`;
+          return `<li>${ingLinkTag(ing.item, slug, linkable)}<span class="ing-qty" data-base-qty="${ing.qty}">×${ing.qty}</span></li>`;
         })
         .join('');
 
@@ -560,7 +576,7 @@ function renderRecipeBlock(recipe, idLookup) {
     .map((ing) => {
       const slug = slugify(ing.item);
       const linkable = idLookup.has(slug);
-      return `<li>${ingLinkTag(ing.item, slug, linkable)}<span class="ing-qty">×${ing.qty}</span></li>`;
+      return `<li>${ingLinkTag(ing.item, slug, linkable)}<span class="ing-qty" data-base-qty="${ing.qty}">×${ing.qty}</span></li>`;
     })
     .join('');
 
@@ -574,7 +590,7 @@ function renderRecipeBlock(recipe, idLookup) {
       .map((o) => {
         const slug = slugify(o.item);
         const linkable = idLookup.has(slug);
-        return `<li>${ingLinkTag(o.item, slug, linkable)}<span class="ing-qty">×${o.qty || 1}</span></li>`;
+        return `<li>${ingLinkTag(o.item, slug, linkable)}<span class="ing-qty" data-base-qty="${o.qty || 1}">×${o.qty || 1}</span></li>`;
       })
       .join('');
     bonusHtml = `<p class="bonus-label">Also produces:</p><ul class="ingredients bonus-list">${bonusRows}</ul>`;
