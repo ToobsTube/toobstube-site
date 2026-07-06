@@ -498,6 +498,8 @@ h1 {
 }
 .gather-link:hover { border-bottom-color: var(--cyan); }
 
+.build-gather-link { white-space: nowrap; }
+
 .build-list {
   list-style: none;
   margin: 0 0 10px;
@@ -907,6 +909,46 @@ h1 {
 }
 
 .raw-list { border-top: 1px solid var(--border); padding-top: 6px; }
+
+/* ---------- Ship Planner: combined materials list ---------- */
+.ship-mat-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 14px;
+}
+.ship-mat-row:last-child { border-bottom: none; }
+.ship-mat-row .ing-name { flex: 1; }
+
+.ship-mat-qty {
+  color: var(--text-dim);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.ship-have-wrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-dim);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.ship-have-input {
+  width: 56px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px;
+  color: var(--green);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  text-align: center;
+}
+.ship-have-input:focus { outline: 1px solid var(--green); }
 
 /* ---------- Plan button + add-to-plan ---------- */
 .plan-button {
