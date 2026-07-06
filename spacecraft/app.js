@@ -4,9 +4,11 @@ const state = {
   category: 'All',
   query: '',
   plan: [],
+  inventory: {}, // itemId -> qty already on hand
 };
 
 const PLAN_STORAGE_KEY = 'spacecraft-blueprint-plan';
+const INVENTORY_STORAGE_KEY = 'spacecraft-inventory';
 
 function loadPlan() {
   try {
@@ -23,6 +25,38 @@ function savePlan() {
   } catch (e) {
     // ignore — not fatal if it can't persist
   }
+}
+
+function loadInventory() {
+  try {
+    const raw = localStorage.getItem(INVENTORY_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function saveInventory() {
+  try {
+    localStorage.setItem(INVENTORY_STORAGE_KEY, JSON.stringify(state.inventory));
+  } catch (e) {
+    // ignore — not fatal if it can't persist
+  }
+}
+
+function getOwnedQty(itemId) {
+  const val = state.inventory[itemId];
+  return val > 0 ? val : 0;
+}
+
+function setOwnedQty(itemId, qty) {
+  qty = qty > 0 ? qty : 0;
+  if (qty === 0) {
+    delete state.inventory[itemId];
+  } else {
+    state.inventory[itemId] = qty;
+  }
+  saveInventory();
 }
 
 function addToPlan(itemId, qty) {
@@ -64,6 +98,7 @@ async function init() {
   const res = await fetch('data/recipes.json?v=4');
   state.items = await res.json();
   state.plan = loadPlan();
+  state.inventory = loadInventory();
   updatePlanCount();
 
   render();
@@ -138,10 +173,7 @@ function renderPlanModal() {
     })
     .join('');
 
-  const ctx = newCraftCtx();
-  state.plan.forEach((p) => {
-    if (idLookup.has(p.id)) walkCraftTree(p.id, p.qty, new Set(), ctx);
-  });
+  const ctx = computeCraftContext(state.plan.filter((p) => idLookup.has(p.id)).map((p) => ({ id: p.id, qty: p.qty })));
 
   const depthMemo = new Map();
   const depthOf = (name) => getCraftDepth(slugify(name), depthMemo, new Set());
@@ -156,8 +188,8 @@ function renderPlanModal() {
     <ul class="plan-list">${planRows}</ul>
     ${renderStationsLine(ctx.stations)}
     ${taxBlock}
-    ${renderIntermediatesSection(ctx.intermediates, depthOf, idLookup)}
-    ${renderRawMaterialsSection(ctx.rawTotals, idLookup)}
+    ${renderIntermediatesSection(ctx.intermediates, depthOf, idLookup, ctx.owned)}
+    ${renderRawMaterialsSection(ctx.rawTotals, idLookup, ctx.owned)}
   `;
 
   body.querySelectorAll('.plan-qty-input').forEach((input) => {
@@ -286,6 +318,15 @@ function wireItemControls(root) {
       updateIngredientQuantities(wrap.closest('.body-inner'), getQty(qtyInput));
       if (!container.hidden) refresh();
     });
+
+    const haveInput = wrap.querySelector('.have-input');
+    if (haveInput) {
+      haveInput.addEventListener('click', (e) => e.stopPropagation());
+      haveInput.addEventListener('input', () => {
+        setOwnedQty(id, parseFloat(haveInput.value) || 0);
+        if (!container.hidden) refresh();
+      });
+    }
 
     speedBtn && speedBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -514,6 +555,7 @@ function buildItemBody(item, idLookup, domId) {
 
   const hasAnyIngredients = hasRecipes || (item.ingredients && item.ingredients.length);
   if (hasAnyIngredients && !isBuy && !isExtract) {
+    const owned = getOwnedQty(item.id);
     bodyHtml += `
       <div class="raw-controls" data-item="${item.id}" data-dom="${domId}">
         <div class="raw-row">
@@ -522,6 +564,11 @@ function buildItemBody(item, idLookup, domId) {
           ${hasRecipes ? `<button class="speed-toggle" id="speed-${domId}" data-mode="manual">Manual</button>` : ''}
           ${hasRecipes ? `<button class="speed-toggle" id="loc-${domId}" data-loc="station">Station</button>` : ''}
           <button class="plan-add-btn" data-item="${item.id}">+ Plan</button>
+        </div>
+        <div class="raw-row have-row">
+          <label class="have-label" for="have-${domId}">You have</label>
+          <input type="number" class="have-input" id="have-${domId}" min="0" step="1" value="${owned || ''}" placeholder="0" aria-label="Quantity already on hand">
+          <span class="have-hint">already made — everything below adjusts for it</span>
         </div>
         <div class="raw-breakdown" id="raw-${domId}" hidden></div>
       </div>
@@ -654,71 +701,134 @@ function renderRecipeBlock(recipe, idLookup) {
   `;
 }
 
-// ---- Craft tree walker (unified) ----
-// Walks every sub-recipe down to ingredients with no recipe of their own (true raw
-// materials, or unconfirmed gaps), all in one pass. Populates four things on `ctx`:
-//   - rawTotals: true raw leaves at the bottom of the chain (e.g. Copper Ore)
-//   - intermediates: anything that itself has a recipe (e.g. Copper Ingot) — gets
-//     fully expanded further, but we still record how much of it is needed along the way
-//   - taxSteps: station tax per craft step (Map<name, {cost, confirmed}>) — confirmed is
-//     false for any step whose recipe doesn't have a tax number yet (e.g. Crystallizer recipes)
-//   - stations: the set of every station name touched anywhere in the chain
-// This is the one function both the single-item breakdown AND the multi-item Plan use —
-// the Plan just calls this once per planned item, passing the SAME ctx each time so
-// everything accumulates together automatically.
-// Where an item has multiple recipe paths, the first listed one is used. Items with a flat
-// `ingredients` list (no recipes array, e.g. placeable buildings) are supported too —
-// treated as a single batch of 1. `visiting` should be a fresh Set per top-level call.
-function walkCraftTree(itemId, neededQty, visiting, ctx) {
-  const item = state.items.find((i) => i.id === itemId);
-  if (!item || visiting.has(itemId)) return;
+// ---- Craft tree computation (inventory-aware, unified) ----
+// Computes total demand for a set of "roots" — one root for a single-item breakdown,
+// several for the combined Build Plan — cascading down through every sub-recipe to
+// raw materials. Anything marked as already "on hand" (state.inventory) is subtracted
+// from a node's total demand BEFORE that demand cascades further down: own 750 Nut
+// and Bolts and the Iron Ingots (and everything else) that would have gone into
+// crafting those 750 simply drop out of every total below it, at every level.
+//
+// This needs two passes because the same item can be needed by several different
+// parents at once (Iron Ingot is needed directly by Motor's chain AND via Wire AND
+// via Nut and Bolt) — inventory has to be subtracted once from the TOTAL combined
+// demand, not separately from each fragment as it's discovered, or it'd either
+// double-subtract or miss contributions that hadn't arrived yet.
+//
+// Pass 1 (discover): DFS from each root recording each node's recipe/ingredient
+// edges (structure only — no quantities yet), appending every node to `postOrder`
+// as its DFS call finishes. Reversing that list gives a valid topological order —
+// every node appears after all of its own parents — which is exactly what pass 2
+// needs to guarantee a node's full demand has arrived before it's finalized.
+//
+// Pass 2 (propagate): walk the topological order. For each node, subtract whatever's
+// on hand from its now-fully-accumulated gross demand to get its net demand, record
+// that net demand (raw leaf → rawTotals, expandable → intermediates + tax/station),
+// then push net-demand-derived amounts on to each of its own ingredients' gross
+// demand for the next nodes in line.
+//
+// Where an item has multiple recipe paths, the first listed one is used. Items with a
+// flat `ingredients` list (no recipes array, e.g. placeable buildings) are treated as
+// a single batch of 1, same as before.
+function computeCraftContext(roots) {
+  const ctx = newCraftCtx();
+  const grossDemand = new Map(); // itemId -> accumulated gross demand across every parent
+  const nodeInfo = new Map(); // itemId -> discovered node structure (see discover())
+  const discovered = new Set();
+  const postOrder = [];
+  const rootIds = new Set(roots.map((r) => r.id));
 
-  const recipe = item.recipes && item.recipes.length ? item.recipes[0] : null;
-  const flatIngredients = !recipe && item.ingredients && item.ingredients.length ? item.ingredients : null;
-  if (!recipe && !flatIngredients) return; // raw leaf — nothing further to expand
+  function discover(itemId, visiting) {
+    if (discovered.has(itemId) || visiting.has(itemId)) return;
+    const item = state.items.find((i) => i.id === itemId);
+    if (!item) return;
 
-  visiting.add(itemId);
-  const ingredients = recipe ? recipe.ingredients : flatIngredients;
-  const batchSize = recipe ? recipe.output_qty || 1 : 1;
-  const batches = neededQty / batchSize;
+    const recipe = item.recipes && item.recipes.length ? item.recipes[0] : null;
+    const flatIngredients = !recipe && item.ingredients && item.ingredients.length ? item.ingredients : null;
+    const ingredients = recipe ? recipe.ingredients : flatIngredients;
 
-  if (item.station) ctx.stations.add(item.station);
-
-  if (recipe) {
-    const taxedEntry = recipe.tax && Object.entries(recipe.tax).find(([loc]) => loc !== 'personal_base');
-    const entry = ctx.taxSteps.get(item.name) || { cost: 0, confirmed: true };
-    if (taxedEntry) {
-      entry.cost += batches * taxedEntry[1];
-    } else {
-      entry.confirmed = false;
+    if (!ingredients || !ingredients.length) {
+      nodeInfo.set(itemId, { item, isLeaf: true });
+      discovered.add(itemId);
+      postOrder.push(itemId);
+      return;
     }
-    ctx.taxSteps.set(item.name, entry);
+
+    visiting.add(itemId);
+    const batchSize = recipe ? recipe.output_qty || 1 : 1;
+    const edges = ingredients.map((ing) => {
+      const slug = slugify(ing.item);
+      const subItem = state.items.find((i) => i.id === slug);
+      // A cycle (e.g. Pyrite -> Sulfur -> Pyrite via the Crystallizer) gets treated as
+      // a raw leaf here instead of recursing again, same guard as before.
+      const cyclic = subItem && visiting.has(slug);
+      const trackable = subItem && !cyclic;
+      if (trackable) discover(slug, visiting);
+      return { slug: trackable ? slug : null, displayName: ing.item, qty: ing.qty };
+    });
+    visiting.delete(itemId);
+
+    nodeInfo.set(itemId, { item, isLeaf: false, recipe, batchSize, edges });
+    discovered.add(itemId);
+    postOrder.push(itemId);
   }
 
-  (ingredients || []).forEach((ing) => {
-    const slug = slugify(ing.item);
-    const subItem = state.items.find((i) => i.id === slug);
-    const requiredQty = ing.qty * batches;
-    // If the sub-item is already being expanded further up this call stack, we've
-    // hit a real cycle (e.g. Pyrite -> Sulfur -> Pyrite via the Crystallizer recipes).
-    // Treat it as a raw leaf here instead of recursing again — recursing would just
-    // return immediately and silently drop this quantity from the total.
-    const cyclic = subItem && visiting.has(slug);
-    const subExpandable = subItem && !cyclic && ((subItem.recipes && subItem.recipes.length) || (subItem.ingredients && subItem.ingredients.length));
-
-    if (subExpandable) {
-      ctx.intermediates.set(ing.item, (ctx.intermediates.get(ing.item) || 0) + requiredQty);
-      walkCraftTree(slug, requiredQty, visiting, ctx);
-    } else {
-      ctx.rawTotals.set(ing.item, (ctx.rawTotals.get(ing.item) || 0) + requiredQty);
-    }
+  roots.forEach((r) => {
+    grossDemand.set(r.id, (grossDemand.get(r.id) || 0) + r.qty);
+    discover(r.id, new Set());
   });
 
-  visiting.delete(itemId);
+  const topoOrder = postOrder.slice().reverse(); // parent-before-child order
+
+  topoOrder.forEach((itemId) => {
+    const info = nodeInfo.get(itemId);
+    const gross = grossDemand.get(itemId) || 0;
+    if (!info || gross <= 0) return;
+
+    const owned = Math.min(gross, getOwnedQty(itemId));
+    const net = gross - owned;
+    if (owned > 0) ctx.owned.set(info.item.name, (ctx.owned.get(info.item.name) || 0) + owned);
+
+    if (info.isLeaf) {
+      if (net > 0) ctx.rawTotals.set(info.item.name, (ctx.rawTotals.get(info.item.name) || 0) + net);
+      return;
+    }
+
+    // A root's own demand is shown in the headline/plan list already, not repeated
+    // in the "sub-crafts needed" list — but its tax and station still count normally.
+    if (net > 0 && !rootIds.has(itemId)) {
+      ctx.intermediates.set(info.item.name, (ctx.intermediates.get(info.item.name) || 0) + net);
+    }
+    if (net > 0 && info.item.station) ctx.stations.add(info.item.station);
+
+    const batches = net / info.batchSize;
+
+    if (net > 0 && info.recipe) {
+      const taxedEntry = info.recipe.tax && Object.entries(info.recipe.tax).find(([loc]) => loc !== 'personal_base');
+      const entry = ctx.taxSteps.get(info.item.name) || { cost: 0, confirmed: true };
+      if (taxedEntry) {
+        entry.cost += batches * taxedEntry[1];
+      } else {
+        entry.confirmed = false;
+      }
+      ctx.taxSteps.set(info.item.name, entry);
+    }
+
+    info.edges.forEach((edge) => {
+      const requiredQty = edge.qty * batches;
+      if (edge.slug) {
+        grossDemand.set(edge.slug, (grossDemand.get(edge.slug) || 0) + requiredQty);
+      } else {
+        ctx.rawTotals.set(edge.displayName, (ctx.rawTotals.get(edge.displayName) || 0) + requiredQty);
+      }
+    });
+  });
+
+  return ctx;
 }
 
 function newCraftCtx() {
-  return { rawTotals: new Map(), intermediates: new Map(), taxSteps: new Map(), stations: new Set() };
+  return { rawTotals: new Map(), intermediates: new Map(), taxSteps: new Map(), stations: new Set(), owned: new Map() };
 }
 
 // ---- Craft depth (steps removed from raw materials) ----
@@ -806,7 +916,7 @@ function stationFor(name) {
   return item && item.recipes && item.recipes.length ? item.station : null;
 }
 
-function renderMaterialRows(map, sortFn, idLookup, withStation) {
+function renderMaterialRows(map, sortFn, idLookup, withStation, ownedMap) {
   return Array.from(map.entries())
     .sort(sortFn)
     .map(([name, total]) => {
@@ -815,19 +925,21 @@ function renderMaterialRows(map, sortFn, idLookup, withStation) {
       const displayQty = Math.ceil(total - 1e-9); // tiny epsilon guards against float noise like 6.0000000001
       const station = withStation ? stationFor(name) : null;
       const stationTag = station ? `<span class="station-chip station-chip-inline">${escapeHtml(station)}</span>` : '';
-      return `<li>${ingLinkTag(name, slug, linkable)}<span class="ing-qty">${stationTag}×${displayQty}</span></li>`;
+      const owned = ownedMap ? ownedMap.get(name) : null;
+      const ownedTag = owned ? `<span class="owned-tag" title="Already on hand — subtracted from this total">have ${Math.ceil(owned - 1e-9).toLocaleString()}</span>` : '';
+      return `<li>${ingLinkTag(name, slug, linkable)}<span class="ing-qty">${ownedTag}${stationTag}×${displayQty.toLocaleString()}</span></li>`;
     })
     .join('');
 }
 
-function renderIntermediatesSection(intermediates, depthOf, idLookup) {
+function renderIntermediatesSection(intermediates, depthOf, idLookup, ownedMap) {
   if (!intermediates.size) return '';
-  const rows = renderMaterialRows(intermediates, (a, b) => depthOf(b[0]) - depthOf(a[0]) || b[1] - a[1], idLookup, true);
+  const rows = renderMaterialRows(intermediates, (a, b) => depthOf(b[0]) - depthOf(a[0]) || b[1] - a[1], idLookup, true, ownedMap);
   return `<p class="section-label">Sub-crafts needed along the way</p><p class="raw-note">Ordered top to bottom: most complex first, basic ingots last — right above the raw materials below.</p><ul class="ingredients raw-list">${rows}</ul>`;
 }
 
-function renderRawMaterialsSection(rawTotals, idLookup) {
-  const rows = renderMaterialRows(rawTotals, (a, b) => b[1] - a[1], idLookup, false);
+function renderRawMaterialsSection(rawTotals, idLookup, ownedMap) {
+  const rows = renderMaterialRows(rawTotals, (a, b) => b[1] - a[1], idLookup, false, ownedMap);
   return `<p class="section-label">Base/raw materials</p><ul class="ingredients raw-list">${rows}</ul>`;
 }
 
@@ -835,8 +947,7 @@ function renderRawBreakdown(itemId, container, qty, mode, location) {
   qty = qty || 1;
   mode = mode || 'manual';
   location = location || 'station';
-  const ctx = newCraftCtx();
-  walkCraftTree(itemId, qty, new Set(), ctx);
+  const ctx = computeCraftContext([{ id: itemId, qty }]);
   const idLookup = new Set(state.items.map((i) => i.id));
   const depthMemo = new Map();
   const depthOf = (name) => getCraftDepth(slugify(name), depthMemo, new Set());
@@ -844,29 +955,38 @@ function renderRawBreakdown(itemId, container, qty, mode, location) {
   const topItem = state.items.find((i) => i.id === itemId);
   const topRecipe = topItem.recipes && topItem.recipes.length ? topItem.recipes[0] : null;
 
+  // Owning some of the item itself counts too — if you've already got 20 Motors,
+  // you only need to actually craft the remaining 280.
+  const ownedRoot = getOwnedQty(itemId);
+  const netQty = Math.max(0, qty - ownedRoot);
+  const ownedNote = ownedRoot > 0
+    ? `<p class="owned-note">You have ${ownedRoot.toLocaleString()} already — showing what's needed for the remaining ${netQty.toLocaleString()}.</p>`
+    : '';
+
   let timeLine = '';
-  if (topRecipe && topRecipe.craft_time_sec != null) {
+  if (topRecipe && topRecipe.craft_time_sec != null && netQty > 0) {
     const batchSize = topRecipe.output_qty || 1;
-    const batchesNeeded = Math.ceil(qty / batchSize);
+    const batchesNeeded = Math.ceil(netQty / batchSize);
     const usingAuto = mode === 'auto' && topRecipe.auto_craft_time_sec != null;
     const fellBack = mode === 'auto' && topRecipe.auto_craft_time_sec == null;
     const perCraft = usingAuto ? topRecipe.auto_craft_time_sec : topRecipe.craft_time_sec;
     const modeLabel = usingAuto ? 'auto machine' : 'manual craft';
     const fallbackNote = fellBack ? ' — auto time not confirmed yet for this one, showing manual instead' : '';
-    timeLine = `<p class="time-line">&#9201; ~${formatDuration(batchesNeeded * perCraft)} to craft ×${qty} (${batchesNeeded} batch${batchesNeeded === 1 ? '' : 'es'} of ${perCraft}s each, ${modeLabel}, one machine running back-to-back)${fallbackNote}</p>`;
+    timeLine = `<p class="time-line">&#9201; ~${formatDuration(batchesNeeded * perCraft)} to craft ×${netQty.toLocaleString()} (${batchesNeeded} batch${batchesNeeded === 1 ? '' : 'es'} of ${perCraft}s each, ${modeLabel}, one machine running back-to-back)${fallbackNote}</p>`;
   }
 
   const stationsLine = renderStationsLine(ctx.stations);
-  const taxBlock = topRecipe ? renderTaxSection(ctx.taxSteps, location, `×${qty}`, depthOf, idLookup) : '';
-  const intermediateSection = renderIntermediatesSection(ctx.intermediates, depthOf, idLookup);
+  const taxBlock = topRecipe ? renderTaxSection(ctx.taxSteps, location, `×${netQty.toLocaleString()}`, depthOf, idLookup) : '';
+  const intermediateSection = renderIntermediatesSection(ctx.intermediates, depthOf, idLookup, ctx.owned);
 
   container.innerHTML = `
+    ${ownedNote}
     ${timeLine}
     ${stationsLine}
     ${taxBlock}
-    <p class="raw-note">Everything needed for ×${qty}, tracing each sub-recipe down to its base materials (using the first recipe option at each step where there's more than one):</p>
+    <p class="raw-note">Everything needed for ×${qty.toLocaleString()}, tracing each sub-recipe down to its base materials (using the first recipe option at each step where there's more than one):</p>
     ${intermediateSection}
-    ${renderRawMaterialsSection(ctx.rawTotals, idLookup)}
+    ${renderRawMaterialsSection(ctx.rawTotals, idLookup, ctx.owned)}
   `;
 
   container.querySelectorAll('.ing-name.linkable').forEach((link) => {
