@@ -83,6 +83,11 @@ async function init() {
   document.getElementById('plan-overlay').addEventListener('click', (e) => {
     if (e.target.id === 'plan-overlay') closePlanModal();
   });
+
+  // Opening an ingredient link in a new tab lands here with ?item=<id> in the URL —
+  // jump straight to that item so the new tab shows what was actually clicked.
+  const deepLinkId = new URLSearchParams(window.location.search).get('item');
+  if (deepLinkId) goToItem(deepLinkId);
 }
 
 // ---- Plan modal ----
@@ -147,7 +152,9 @@ function renderPlanModal() {
     btn.addEventListener('click', () => removeFromPlan(btn.dataset.planItem));
   });
   body.querySelectorAll('.ing-name.linkable').forEach((link) => {
-    link.addEventListener('click', () => {
+    link.addEventListener('click', (e) => {
+      if (!isPlainLeftClick(e)) return;
+      e.preventDefault();
       closePlanModal();
       goToItem(link.dataset.target);
     });
@@ -217,6 +224,8 @@ function wireItemControls(root) {
   root.querySelectorAll('.ing-name.linkable').forEach((link) => {
     link.addEventListener('click', (e) => {
       e.stopPropagation();
+      if (!isPlainLeftClick(e)) return;
+      e.preventDefault();
       goToItem(link.dataset.target);
     });
   });
@@ -421,9 +430,7 @@ function buildItemBody(item, idLookup, domId) {
       .map((ing) => {
         const slug = slugify(ing.item);
         const linkable = idLookup.has(slug);
-        const linkAttrs = linkable ? ` data-target="${slug}"` : '';
-        const linkClass = linkable ? ' linkable' : '';
-        return `<li><span class="ing-name${linkClass}"${linkAttrs}>${escapeHtml(ing.item)}</span><span class="ing-qty">×${ing.qty}</span></li>`;
+        return `<li>${ingLinkTag(ing.item, slug, linkable)}<span class="ing-qty">×${ing.qty}</span></li>`;
       })
       .join('');
     bodyHtml += `<ul class="ingredients">${buildRows}</ul>`;
@@ -447,9 +454,7 @@ function buildItemBody(item, idLookup, domId) {
         .map((ing) => {
           const slug = slugify(ing.item);
           const linkable = idLookup.has(slug);
-          const linkAttrs = linkable ? ` data-target="${slug}"` : '';
-          const linkClass = linkable ? ' linkable' : '';
-          return `<li><span class="ing-name${linkClass}"${linkAttrs}>${escapeHtml(ing.item)}</span><span class="ing-qty">×${ing.qty}</span></li>`;
+          return `<li>${ingLinkTag(ing.item, slug, linkable)}<span class="ing-qty">×${ing.qty}</span></li>`;
         })
         .join('');
 
@@ -555,9 +560,7 @@ function renderRecipeBlock(recipe, idLookup) {
     .map((ing) => {
       const slug = slugify(ing.item);
       const linkable = idLookup.has(slug);
-      const linkAttrs = linkable ? ` data-target="${slug}"` : '';
-      const linkClass = linkable ? ' linkable' : '';
-      return `<li><span class="ing-name${linkClass}"${linkAttrs}>${escapeHtml(ing.item)}</span><span class="ing-qty">×${ing.qty}</span></li>`;
+      return `<li>${ingLinkTag(ing.item, slug, linkable)}<span class="ing-qty">×${ing.qty}</span></li>`;
     })
     .join('');
 
@@ -571,9 +574,7 @@ function renderRecipeBlock(recipe, idLookup) {
       .map((o) => {
         const slug = slugify(o.item);
         const linkable = idLookup.has(slug);
-        const linkAttrs = linkable ? ` data-target="${slug}"` : '';
-        const linkClass = linkable ? ' linkable' : '';
-        return `<li><span class="ing-name${linkClass}"${linkAttrs}>${escapeHtml(o.item)}</span><span class="ing-qty">×${o.qty || 1}</span></li>`;
+        return `<li>${ingLinkTag(o.item, slug, linkable)}<span class="ing-qty">×${o.qty || 1}</span></li>`;
       })
       .join('');
     bonusHtml = `<p class="bonus-label">Also produces:</p><ul class="ingredients bonus-list">${bonusRows}</ul>`;
@@ -738,10 +739,8 @@ function renderTaxSection(taxSteps, location, qtyLabel, depthOf, idLookup) {
     .map(([name, s]) => {
       const slug = slugify(name);
       const linkable = idLookup.has(slug);
-      const linkAttrs = linkable ? ` data-target="${slug}"` : '';
-      const linkClass = linkable ? ' linkable' : '';
       const valueHtml = s.confirmed ? `${s.cost.toFixed(2)} cr` : 'tax not confirmed yet';
-      return `<li><span class="ing-name${linkClass}"${linkAttrs}>${escapeHtml(name)}</span><span class="ing-qty">${valueHtml}</span></li>`;
+      return `<li>${ingLinkTag(name, slug, linkable)}<span class="ing-qty">${valueHtml}</span></li>`;
     })
     .join('');
   const taxListSection = taxSteps.size
@@ -762,12 +761,10 @@ function renderMaterialRows(map, sortFn, idLookup, withStation) {
     .map(([name, total]) => {
       const slug = slugify(name);
       const linkable = idLookup.has(slug);
-      const linkAttrs = linkable ? ` data-target="${slug}"` : '';
-      const linkClass = linkable ? ' linkable' : '';
       const displayQty = Math.ceil(total - 1e-9); // tiny epsilon guards against float noise like 6.0000000001
       const station = withStation ? stationFor(name) : null;
       const stationTag = station ? `<span class="station-chip station-chip-inline">${escapeHtml(station)}</span>` : '';
-      return `<li><span class="ing-name${linkClass}"${linkAttrs}>${escapeHtml(name)}</span><span class="ing-qty">${stationTag}×${displayQty}</span></li>`;
+      return `<li>${ingLinkTag(name, slug, linkable)}<span class="ing-qty">${stationTag}×${displayQty}</span></li>`;
     })
     .join('');
 }
@@ -824,6 +821,8 @@ function renderRawBreakdown(itemId, container, qty, mode, location) {
   container.querySelectorAll('.ing-name.linkable').forEach((link) => {
     link.addEventListener('click', (e) => {
       e.stopPropagation();
+      if (!isPlainLeftClick(e)) return;
+      e.preventDefault();
       goToItem(link.dataset.target);
     });
   });
@@ -868,6 +867,23 @@ function jumpTo(id) {
 // ---- Utilities ----
 function slugify(name) {
   return name.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+// Renders an ingredient/output name as a real link when it points at a known item.
+// Using a genuine <a href> (rather than a plain span) means ctrl/cmd-click,
+// middle-click, and "open in new tab" from the right-click menu all work natively —
+// the click handler only intercepts a plain left-click to do the in-page jump instead.
+// True for a plain left-click with no modifier keys — the case we intercept to do
+// the in-page jump instead of a real navigation. Ctrl/cmd-click, shift-click, and
+// middle-click all fall through untouched so the browser opens the link in a new tab.
+function isPlainLeftClick(e) {
+  return e.button === 0 && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.altKey;
+}
+
+function ingLinkTag(displayName, slug, linkable) {
+  const safeName = escapeHtml(displayName);
+  if (!linkable) return `<span class="ing-name">${safeName}</span>`;
+  return `<a class="ing-name linkable" href="?item=${encodeURIComponent(slug)}" data-target="${slug}">${safeName}</a>`;
 }
 
 function escapeHtml(str) {
