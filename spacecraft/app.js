@@ -86,8 +86,23 @@ async function init() {
 
   // Opening an ingredient link in a new tab lands here with ?item=<id> in the URL —
   // jump straight to that item so the new tab shows what was actually clicked.
+  // push=false: the browser already created this history entry by navigating here,
+  // so we don't want to push a second, identical one on top of it.
   const deepLinkId = new URLSearchParams(window.location.search).get('item');
-  if (deepLinkId) goToItem(deepLinkId);
+  if (deepLinkId) goToItem(deepLinkId, false);
+
+  // Back/Forward: every in-page item jump pushes ?item=<id> onto the history stack,
+  // so stepping back through it just re-reads the URL and re-opens whatever item was
+  // showing at that point — search text, category filter, and your plan are untouched
+  // since the page itself never reloads.
+  window.addEventListener('popstate', () => {
+    const id = new URLSearchParams(window.location.search).get('item');
+    if (id) {
+      goToItem(id, false);
+    } else if (isDesktopLayout()) {
+      closeDetailPanel();
+    }
+  });
 }
 
 // ---- Plan modal ----
@@ -195,7 +210,7 @@ function render() {
       const itemEl = head.closest('.item');
       toggleItem(itemEl, !itemEl.classList.contains('open'));
       if (isDesktopLayout()) {
-        renderDetailPanel(itemEl.id.replace('item-', ''));
+        goToItem(itemEl.id.replace('item-', ''));
       }
     });
   });
@@ -207,9 +222,22 @@ function isDesktopLayout() {
   return window.matchMedia('(min-width: 860px)').matches;
 }
 
+function closeDetailPanel() {
+  const panel = document.getElementById('detail');
+  if (panel) {
+    panel.innerHTML = '<div class="detail-empty">Tap any item to see its full recipe and complete raw-materials breakdown here.</div>';
+  }
+}
+
 // Navigating to an ingredient: on wide screens, update the persistent detail panel
 // (the list never moves). On narrow screens, fall back to scrolling/expanding in place.
-function goToItem(targetId) {
+// `push` controls browser history: a real click adds a Back-able entry; restoring
+// state from a popstate event or the initial page load should NOT push another one.
+function goToItem(targetId, push = true) {
+  if (push) {
+    const url = `?item=${encodeURIComponent(targetId)}`;
+    history.pushState({ item: targetId }, '', url);
+  }
   if (isDesktopLayout()) {
     renderDetailPanel(targetId);
   } else {
@@ -307,16 +335,24 @@ function getQty(input) {
 
 // Scales the displayed per-craft ingredient/output amounts (the "STANDARD" recipe
 // list, build costs, etc.) to match the quantity someone's actually trying to make —
-// so "×5" becomes "×1,500" for a run of 300 instead of leaving the user to do the
-// multiplication themselves. Only touches rows tagged with data-base-qty; the raw
-// materials breakdown below is regenerated separately and untouched here.
+// so "×5" becomes the real total for a run of 300 instead of leaving the user to do
+// the multiplication themselves. Recipes that yield more than 1 per craft (e.g. 2
+// Magnetic Coils per batch) need fewer actual crafts than the target quantity, so we
+// divide by data-batch-size first — same math the full raw-materials trace already
+// uses — otherwise this would overstate ingredients for anything with batch yield > 1.
 function updateIngredientQuantities(root, qty) {
   if (!root) return;
   root.querySelectorAll('.ing-qty[data-base-qty]').forEach((el) => {
     const base = parseFloat(el.dataset.baseQty);
     if (!(base > 0)) return;
-    const total = base * qty;
-    el.textContent = qty > 1 ? `×${total.toLocaleString()} (×${base} ea)` : `×${base}`;
+    const batchSize = parseFloat(el.dataset.batchSize) || 1;
+    if (qty > 1) {
+      const batches = qty / batchSize;
+      const total = Math.ceil(base * batches - 1e-9);
+      el.textContent = `×${total.toLocaleString()} (×${base} per craft)`;
+    } else {
+      el.textContent = `×${base}`;
+    }
   });
 }
 
@@ -349,9 +385,7 @@ function renderDetailPanel(itemId) {
     <div class="detail-body body-inner">${bodyHtml}</div>
   `;
 
-  panel.querySelector('.detail-close').addEventListener('click', () => {
-    panel.innerHTML = '<div class="detail-empty">Tap any item to see its full recipe and complete raw-materials breakdown here.</div>';
-  });
+  panel.querySelector('.detail-close').addEventListener('click', closeDetailPanel);
 
   wireItemControls(panel);
 
@@ -572,11 +606,12 @@ function renderModuleInfo(info, category) {
 }
 
 function renderRecipeBlock(recipe, idLookup) {
+  const batchSize = recipe.output_qty || 1;
   const rows = (recipe.ingredients || [])
     .map((ing) => {
       const slug = slugify(ing.item);
       const linkable = idLookup.has(slug);
-      return `<li>${ingLinkTag(ing.item, slug, linkable)}<span class="ing-qty" data-base-qty="${ing.qty}">×${ing.qty}</span></li>`;
+      return `<li>${ingLinkTag(ing.item, slug, linkable)}<span class="ing-qty" data-base-qty="${ing.qty}" data-batch-size="${batchSize}">×${ing.qty}</span></li>`;
     })
     .join('');
 
@@ -590,7 +625,7 @@ function renderRecipeBlock(recipe, idLookup) {
       .map((o) => {
         const slug = slugify(o.item);
         const linkable = idLookup.has(slug);
-        return `<li>${ingLinkTag(o.item, slug, linkable)}<span class="ing-qty" data-base-qty="${o.qty || 1}">×${o.qty || 1}</span></li>`;
+        return `<li>${ingLinkTag(o.item, slug, linkable)}<span class="ing-qty" data-base-qty="${o.qty || 1}" data-batch-size="${batchSize}">×${o.qty || 1}</span></li>`;
       })
       .join('');
     bonusHtml = `<p class="bonus-label">Also produces:</p><ul class="ingredients bonus-list">${bonusRows}</ul>`;
