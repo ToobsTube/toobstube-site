@@ -688,7 +688,7 @@ function renderShipMaterialRows(map, sortFn, withStation) {
         <li class="ship-mat-row" data-item="${slug}">
           ${shipMatLink(name)}
           <span class="ship-mat-qty">${coveredTag}${stationTag}${displayQty > 0 ? `×${displayQty.toLocaleString()}` : ''}</span>
-          <label class="ship-have-wrap">have<input type="number" class="ship-have-input" min="0" step="1" value="${owned || ''}" placeholder="0" data-item="${slug}" aria-label="Quantity of ${escapeHtml(name)} already on hand"></label>
+          <label class="ship-have-wrap">have<input type="text" inputmode="numeric" pattern="[0-9]*" class="ship-have-input" value="${owned || ''}" placeholder="0" data-item="${slug}" aria-label="Quantity of ${escapeHtml(name)} already on hand"></label>
         </li>
       `;
     })
@@ -748,7 +748,13 @@ function renderShipMaterials() {
   container.querySelectorAll('.ship-have-input').forEach((input) => {
     input.addEventListener('click', (e) => e.stopPropagation());
     input.addEventListener('input', () => {
-      setOwnedQty(input.dataset.item, parseFloat(input.value) || 0);
+      const digitsOnly = input.value.replace(/[^0-9]/g, '');
+      if (digitsOnly !== input.value) {
+        const pos = input.selectionStart - (input.value.length - digitsOnly.length);
+        input.value = digitsOnly;
+        input.setSelectionRange(pos, pos);
+      }
+      setOwnedQty(input.dataset.item, parseFloat(digitsOnly) || 0);
       refreshShipMaterials(input.dataset.item, input.selectionStart);
     });
   });
