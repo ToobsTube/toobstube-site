@@ -59,6 +59,34 @@ function setOwnedQty(itemId, qty) {
   saveInventory();
 }
 
+// "I just crafted N of this" — adds N to the item's own on-hand stock, and subtracts
+// what that actually took from its DIRECT ingredients' on-hand stock (one level only —
+// crafting a Magnetic Coil uses up Wire/Iron Ingot/Nut and Bolt you already had, but it
+// doesn't reach further down and touch Copper Ingot; that got consumed earlier, when
+// the Wire itself was crafted). Ingredients with no matching catalog item are skipped
+// since there's nowhere to track their inventory.
+function markCrafted(itemId, qty) {
+  if (!(qty > 0)) return;
+  const item = state.items.find((i) => i.id === itemId);
+  if (!item) return;
+
+  const recipe = item.recipes && item.recipes.length ? item.recipes[0] : null;
+  const flatIngredients = !recipe && item.ingredients && item.ingredients.length ? item.ingredients : null;
+  const ingredients = recipe ? recipe.ingredients : flatIngredients;
+  const batchSize = recipe ? recipe.output_qty || 1 : 1;
+  const batches = qty / batchSize;
+
+  setOwnedQty(itemId, getOwnedQty(itemId) + qty);
+
+  (ingredients || []).forEach((ing) => {
+    const slug = slugify(ing.item);
+    const subItem = state.items.find((i) => i.id === slug);
+    if (!subItem) return;
+    const consumed = ing.qty * batches;
+    setOwnedQty(slug, Math.max(0, getOwnedQty(slug) - consumed));
+  });
+}
+
 function addToPlan(itemId, qty) {
   qty = qty > 0 ? qty : 1;
   const existing = state.plan.find((p) => p.id === itemId);
@@ -136,9 +164,11 @@ async function init() {
   // showing at that point — search text, category filter, and your plan are untouched
   // since the page itself never reloads.
   window.addEventListener('popstate', () => {
-    const id = new URLSearchParams(window.location.search).get('item');
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('item');
+    const qty = parseFloat(params.get('qty'));
     if (id) {
-      goToItem(id, false);
+      goToItem(id, false, qty > 0 ? qty : null);
     } else if (isDesktopLayout()) {
       closeDetailPanel();
     }
@@ -274,8 +304,32 @@ function closeDetailPanel() {
 // state from a popstate event or the initial page load should NOT push another one.
 // `initialQty`, when given, pre-fills that item's quantity box instead of leaving it
 // at the default of 1 — used by deep links that already know how many are wanted.
+// Before leaving the current item (a real click, not a Back/Forward restore), stamp
+// whatever quantity is currently showing onto ITS OWN history entry — not the one
+// we're about to create. Otherwise hitting Back later lands back on this item with
+// the quantity box reset to the default of 1, silently losing whatever number was
+// actually there when you clicked away.
+function snapshotCurrentQtyIntoHistory() {
+  const currentParams = new URLSearchParams(window.location.search);
+  const currentItemId = currentParams.get('item');
+  if (!currentItemId) return;
+
+  const qtyInput = isDesktopLayout()
+    ? document.querySelector('#detail .qty-input')
+    : (() => {
+        const el = document.getElementById('item-' + currentItemId);
+        return el && el.querySelector('.qty-input');
+      })();
+  if (!qtyInput) return;
+
+  const qtyVal = getQty(qtyInput);
+  currentParams.set('qty', qtyVal);
+  history.replaceState({ item: currentItemId, qty: qtyVal }, '', '?' + currentParams.toString());
+}
+
 function goToItem(targetId, push = true, initialQty = null) {
   if (push) {
+    snapshotCurrentQtyIntoHistory();
     const url = `?item=${encodeURIComponent(targetId)}`;
     history.pushState({ item: targetId }, '', url);
   }
@@ -334,6 +388,36 @@ function wireItemControls(root) {
       haveInput.addEventListener('input', () => {
         setOwnedQty(id, parseFloat(haveInput.value) || 0);
         if (!container.hidden) refresh();
+      });
+    }
+
+    const craftLogInput = wrap.querySelector('.craft-log-input');
+    const craftLogBtn = wrap.querySelector('.craft-log-btn');
+    if (craftLogInput && craftLogBtn) {
+      craftLogInput.addEventListener('click', (e) => e.stopPropagation());
+      craftLogInput.addEventListener('input', () => {
+        const digitsOnly = craftLogInput.value.replace(/[^0-9]/g, '');
+        if (digitsOnly !== craftLogInput.value) {
+          const pos = craftLogInput.selectionStart - (craftLogInput.value.length - digitsOnly.length);
+          craftLogInput.value = digitsOnly;
+          craftLogInput.setSelectionRange(pos, pos);
+        }
+      });
+      craftLogBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const craftedQty = parseFloat(craftLogInput.value) || 0;
+        if (craftedQty <= 0) return;
+        markCrafted(id, craftedQty);
+        craftLogInput.value = '';
+        if (haveInput) haveInput.value = getOwnedQty(id) || '';
+        if (!container.hidden) refresh();
+        const original = craftLogBtn.textContent;
+        craftLogBtn.textContent = 'Added';
+        craftLogBtn.classList.add('active');
+        setTimeout(() => {
+          craftLogBtn.textContent = original;
+          craftLogBtn.classList.remove('active');
+        }, 900);
       });
     }
 
@@ -584,6 +668,11 @@ function buildItemBody(item, idLookup, domId) {
           <label class="have-label" for="have-${domId}">You have</label>
           <input type="number" class="have-input" id="have-${domId}" min="0" step="1" value="${owned || ''}" placeholder="0" aria-label="Quantity already on hand">
           <span class="have-hint">already made — everything below adjusts for it</span>
+        </div>
+        <div class="raw-row craft-log-row">
+          <label class="craft-log-label" for="crafted-${domId}">I just crafted</label>
+          <input type="text" inputmode="numeric" pattern="[0-9]*" class="craft-log-input" id="crafted-${domId}" placeholder="0" aria-label="Quantity just crafted">
+          <button class="craft-log-btn" data-item="${item.id}">Add to stock</button>
         </div>
         <div class="raw-breakdown" id="raw-${domId}" hidden></div>
       </div>
@@ -1035,6 +1124,14 @@ function renderRawBreakdown(itemId, container, qty, mode, location) {
   const taxBlock = topRecipe ? renderTaxSection(ctx.taxSteps, location, `×${netQty.toLocaleString()}`, depthOf, idLookup) : '';
   const intermediateSection = renderIntermediatesSection(ctx.intermediates, depthOf, idLookup, ctx.owned);
 
+  // Only worth showing if something in this chain actually has an amount set —
+  // no point offering to clear a list of already-empty boxes.
+  const resetIds = new Set(Array.from(ctx.intermediates.keys()).concat(Array.from(ctx.rawTotals.keys())).map(slugify));
+  const hasAnythingToReset = Array.from(resetIds).some((id) => getOwnedQty(id) > 0);
+  const resetBtnHtml = hasAnythingToReset
+    ? `<button class="reset-amounts-btn">Reset amounts used for this &#8635;</button>`
+    : '';
+
   container.innerHTML = `
     ${ownedNote}
     ${timeLine}
@@ -1043,6 +1140,7 @@ function renderRawBreakdown(itemId, container, qty, mode, location) {
     <p class="raw-note">Everything needed for ×${qty.toLocaleString()}, tracing each sub-recipe down to its base materials (using the first recipe option at each step where there's more than one):</p>
     ${intermediateSection}
     ${renderRawMaterialsSection(ctx.rawTotals, idLookup, ctx.owned)}
+    ${resetBtnHtml}
   `;
 
   container.querySelectorAll('.ing-name.linkable').forEach((link) => {
@@ -1053,6 +1151,32 @@ function renderRawBreakdown(itemId, container, qty, mode, location) {
       goToItem(link.dataset.target);
     });
   });
+
+  const resetBtn = container.querySelector('.reset-amounts-btn');
+  if (resetBtn) {
+    let confirming = false;
+    resetBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!confirming) {
+        confirming = true;
+        resetBtn.textContent = 'Sure? Click again to reset';
+        resetBtn.classList.add('confirming');
+        setTimeout(() => {
+          confirming = false;
+          resetBtn.textContent = 'Reset amounts used for this \u21bb';
+          resetBtn.classList.remove('confirming');
+        }, 3000);
+        return;
+      }
+      // This item's own "have" box (on its own card) is untouched — this only clears
+      // the ingredients/intermediates that fed into it, since those are what's
+      // actually "used up" once a whole run like this is finished.
+      const freshCtx = computeCraftContext([{ id: itemId, qty }]);
+      const ids = new Set(Array.from(freshCtx.intermediates.keys()).concat(Array.from(freshCtx.rawTotals.keys())).map(slugify));
+      ids.forEach((id) => setOwnedQty(id, 0));
+      renderRawBreakdown(itemId, container, qty, mode, location);
+    });
+  }
 
   wireInlineHaveInputs(container, () => renderRawBreakdown(itemId, container, qty, mode, location));
 }
