@@ -825,14 +825,43 @@ h1 {
   line-height: 1.4;
 }
 
-.owned-tag {
-  display: inline-block;
+.material-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 14px;
+}
+.raw-list .material-row:last-child { border-bottom: none; }
+.material-row .ing-name { flex: 1; }
+
+.row-have-wrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-dim);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.row-have-input {
+  width: 56px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px;
+  color: var(--green);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  text-align: center;
+}
+.row-have-input:focus { outline: 1px solid var(--green); }
+
+.covered-tag {
   color: var(--green);
   font-size: 11px;
-  border: 1px solid var(--green);
-  border-radius: 4px;
-  padding: 1px 6px;
-  margin-right: 6px;
+  margin-right: 4px;
 }
 
 .owned-note {
