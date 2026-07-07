@@ -550,11 +550,11 @@ function computeCraftContext(roots) {
     if (owned > 0) ctx.owned.set(info.item.name, (ctx.owned.get(info.item.name) || 0) + owned);
 
     if (info.isLeaf) {
-      if (net > 0) ctx.rawTotals.set(info.item.name, (ctx.rawTotals.get(info.item.name) || 0) + net);
+      ctx.rawTotals.set(info.item.name, (ctx.rawTotals.get(info.item.name) || 0) + net);
       return;
     }
 
-    if (net > 0 && !rootIds.has(itemId)) {
+    if (!rootIds.has(itemId)) {
       ctx.intermediates.set(info.item.name, (ctx.intermediates.get(info.item.name) || 0) + net);
     }
     if (net > 0 && info.item.station) ctx.stations.add(info.item.station);
@@ -680,13 +680,14 @@ function renderShipMaterialRows(map, sortFn, withStation) {
     .map(([name, total]) => {
       const slug = slugify(name);
       const displayQty = Math.ceil(total - 1e-9);
-      const station = withStation ? stationForMaterial(name) : null;
+      const station = withStation && displayQty > 0 ? stationForMaterial(name) : null;
       const stationTag = station ? `<span class="station-chip station-chip-inline">${escapeHtml(station)}</span>` : '';
       const owned = getOwnedQty(slug);
+      const coveredTag = displayQty === 0 ? `<span class="covered-tag">✓ covered</span>` : '';
       return `
         <li class="ship-mat-row" data-item="${slug}">
           ${shipMatLink(name)}
-          <span class="ship-mat-qty">${stationTag}×${displayQty.toLocaleString()}</span>
+          <span class="ship-mat-qty">${coveredTag}${stationTag}${displayQty > 0 ? `×${displayQty.toLocaleString()}` : ''}</span>
           <label class="ship-have-wrap">have<input type="number" class="ship-have-input" min="0" step="1" value="${owned || ''}" placeholder="0" data-item="${slug}" aria-label="Quantity of ${escapeHtml(name)} already on hand"></label>
         </li>
       `;
