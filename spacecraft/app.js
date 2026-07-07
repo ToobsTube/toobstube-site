@@ -211,6 +211,8 @@ function renderPlanModal() {
       goToItem(link.dataset.target);
     });
   });
+
+  wireInlineHaveInputs(body, renderPlanModal);
 }
 
 // ---- Filtering ----
@@ -803,13 +805,16 @@ function computeCraftContext(roots) {
     if (owned > 0) ctx.owned.set(info.item.name, (ctx.owned.get(info.item.name) || 0) + owned);
 
     if (info.isLeaf) {
-      if (net > 0) ctx.rawTotals.set(info.item.name, (ctx.rawTotals.get(info.item.name) || 0) + net);
+      // Show it even at net 0 — the item is genuinely part of this chain, just fully
+      // covered by what's on hand. Dropping the row would also drop its "have" input,
+      // stranding whoever just typed a number into it with no way to adjust it back.
+      ctx.rawTotals.set(info.item.name, (ctx.rawTotals.get(info.item.name) || 0) + net);
       return;
     }
 
     // A root's own demand is shown in the headline/plan list already, not repeated
     // in the "sub-crafts needed" list — but its tax and station still count normally.
-    if (net > 0 && !rootIds.has(itemId)) {
+    if (!rootIds.has(itemId)) {
       ctx.intermediates.set(info.item.name, (ctx.intermediates.get(info.item.name) || 0) + net);
     }
     if (net > 0 && info.item.station) ctx.stations.add(info.item.station);
@@ -936,11 +941,17 @@ function renderMaterialRows(map, sortFn, idLookup, withStation, ownedMap) {
       const slug = slugify(name);
       const linkable = idLookup.has(slug);
       const displayQty = Math.ceil(total - 1e-9); // tiny epsilon guards against float noise like 6.0000000001
-      const station = withStation ? stationFor(name) : null;
+      const station = withStation && displayQty > 0 ? stationFor(name) : null;
       const stationTag = station ? `<span class="station-chip station-chip-inline">${escapeHtml(station)}</span>` : '';
       const owned = ownedMap ? ownedMap.get(name) : null;
-      const ownedTag = owned ? `<span class="owned-tag" title="Already on hand — subtracted from this total">have ${Math.ceil(owned - 1e-9).toLocaleString()}</span>` : '';
-      return `<li>${ingLinkTag(name, slug, linkable)}<span class="ing-qty">${ownedTag}${stationTag}×${displayQty.toLocaleString()}</span></li>`;
+      const coveredTag = displayQty === 0 ? `<span class="covered-tag">✓ covered</span>` : '';
+      return `
+        <li class="material-row" data-item="${slug}">
+          ${ingLinkTag(name, slug, linkable)}
+          <span class="ing-qty">${coveredTag}${stationTag}${displayQty > 0 ? `×${displayQty.toLocaleString()}` : ''}</span>
+          <label class="row-have-wrap">have<input type="number" class="row-have-input" min="0" step="1" value="${owned ? Math.ceil(owned - 1e-9) : ''}" placeholder="0" data-item="${slug}" aria-label="Quantity of ${escapeHtml(name)} already on hand"></label>
+        </li>
+      `;
     })
     .join('');
 }
@@ -954,6 +965,29 @@ function renderIntermediatesSection(intermediates, depthOf, idLookup, ownedMap) 
 function renderRawMaterialsSection(rawTotals, idLookup, ownedMap) {
   const rows = renderMaterialRows(rawTotals, (a, b) => b[1] - a[1], idLookup, false, ownedMap);
   return `<p class="section-label">Base/raw materials</p><ul class="ingredients raw-list">${rows}</ul>`;
+}
+
+// Wires the inline "have" boxes that sit directly on each material row (as opposed
+// to the one dedicated box on an item's own card, which sets ITS OWN quantity). Since
+// editing one ripples through the whole computed list, `onChanged` re-renders
+// everything — this just makes sure whichever box was being typed into keeps focus
+// and cursor position across that re-render, or every keystroke would bump you out
+// of the field.
+function wireInlineHaveInputs(container, onChanged) {
+  container.querySelectorAll('.row-have-input').forEach((input) => {
+    input.addEventListener('click', (e) => e.stopPropagation());
+    input.addEventListener('input', () => {
+      setOwnedQty(input.dataset.item, parseFloat(input.value) || 0);
+      const focusItemId = input.dataset.item;
+      const cursorPos = input.selectionStart;
+      onChanged();
+      const fresh = container.querySelector(`.row-have-input[data-item="${focusItemId}"]`);
+      if (fresh) {
+        fresh.focus();
+        if (cursorPos != null) fresh.setSelectionRange(cursorPos, cursorPos);
+      }
+    });
+  });
 }
 
 function renderRawBreakdown(itemId, container, qty, mode, location) {
@@ -1010,6 +1044,8 @@ function renderRawBreakdown(itemId, container, qty, mode, location) {
       goToItem(link.dataset.target);
     });
   });
+
+  wireInlineHaveInputs(container, () => renderRawBreakdown(itemId, container, qty, mode, location));
 }
 
 function formatDuration(totalSeconds) {
