@@ -825,6 +825,63 @@ h1 {
   line-height: 1.4;
 }
 
+.craft-log-row {
+  margin-top: 6px;
+}
+
+.craft-log-label {
+  flex: 0 0 auto;
+  color: var(--text-dim);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.craft-log-input {
+  flex: 0 0 64px;
+  width: 64px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 6px;
+  color: var(--text);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  text-align: center;
+}
+.craft-log-input:focus { outline: 1px solid var(--cyan); }
+
+.craft-log-btn {
+  flex: 0 0 auto;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.craft-log-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+.craft-log-btn.active { color: var(--green); border-color: var(--green); }
+
+.reset-amounts-btn {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  background: transparent;
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  color: var(--text-dim);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: center;
+}
+.reset-amounts-btn:hover { border-color: var(--amber); color: var(--amber); }
+.reset-amounts-btn.confirming { border-color: var(--amber); color: var(--amber); border-style: solid; }
+
 .material-row {
   display: flex;
   align-items: center;
