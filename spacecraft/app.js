@@ -697,6 +697,8 @@ function buildItemBody(item, idLookup, domId) {
 
   if (item.deposits && item.deposits.length) {
     bodyHtml += renderDeposits(item.deposits);
+  } else if (item.gathering_note) {
+    bodyHtml += `<p class="section-label">Contained in resources</p><p class="raw-note">${escapeHtml(item.gathering_note)}</p>`;
   }
 
   if (item.module_info) {
@@ -725,11 +727,30 @@ function renderAnalysisTiers(tiers) {
   return `<p class="section-label">Analysis (Laboratory)</p><ul class="analysis-list">${rows}</ul>`;
 }
 
+// Hand-mine sources (nodes and shells — both mined by hand, shells just need a mining
+// weapon first to crack them open) are sorted most-likely-first. Deposits are a
+// different mechanic entirely — a fixed, continuous-rate source you build an Extractor
+// on — so they're always listed last, regardless of their rate.
 function renderDeposits(deposits) {
-  const rows = deposits
-    .map((d) => `<li><span class="ing-name">${escapeHtml(d.resource)}</span><span class="ing-qty">${escapeHtml(String(d.yield))}</span></li>`)
+  const handMined = deposits.filter((d) => d.type !== 'deposit').sort((a, b) => (b.chance || 0) - (a.chance || 0));
+  const fixedDeposits = deposits.filter((d) => d.type === 'deposit');
+
+  const rows = [...handMined, ...fixedDeposits]
+    .map((d) => {
+      const shellTag = d.type === 'shell' ? `<span class="station-chip station-chip-inline">Shell</span>` : '';
+      const depositTag = d.type === 'deposit' ? `<span class="station-chip station-chip-inline">Deposit</span>` : '';
+      let detail;
+      if (d.type === 'deposit') {
+        detail = escapeHtml(String(d.yield));
+      } else {
+        const chanceText = d.chance != null ? `${d.chance}% chance` : '';
+        const yieldText = d.yield != null ? ` · ${escapeHtml(String(d.yield))} avg` : '';
+        detail = chanceText + yieldText;
+      }
+      return `<li><span class="ing-name">${escapeHtml(d.resource)}</span><span class="ing-qty">${shellTag}${depositTag}${detail}</span></li>`;
+    })
     .join('');
-  return `<p class="section-label">Contained in resources</p><ul class="ingredients deposits-list">${rows}</ul>`;
+  return `<p class="section-label">Contained in resources</p><p class="raw-note">Hand-mined sources first, most likely to least likely — deposits (built with an Extractor) listed last.</p><ul class="ingredients deposits-list">${rows}</ul>`;
 }
 
 function formatLocation(loc) {
