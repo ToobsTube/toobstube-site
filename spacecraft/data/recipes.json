@@ -2727,8 +2727,30 @@
     ],
     "deposits": [
       {
+        "resource": "Clay Shell",
+        "type": "shell",
+        "chance": 79.4
+      },
+      {
+        "resource": "Zircon",
+        "type": "node",
+        "chance": 37
+      },
+      {
+        "resource": "Basalt Shell",
+        "type": "shell",
+        "chance": 14.6
+      },
+      {
         "resource": "Siderite",
+        "type": "node",
+        "chance": 11.8,
         "yield": "<1"
+      },
+      {
+        "resource": "Bauxite Rock",
+        "type": "node",
+        "chance": 6.3
       }
     ]
   },
@@ -2821,15 +2843,18 @@
     "deposits": [
       {
         "resource": "Coal Clump",
-        "yield": 3.6
+        "yield": 3.6,
+        "type": "node"
       },
       {
         "resource": "Siderite",
-        "yield": 1.6
+        "yield": 1.6,
+        "type": "node"
       },
       {
         "resource": "Coal Deposit",
-        "yield": "40.0/h"
+        "yield": "40.0/h",
+        "type": "deposit"
       }
     ]
   },
@@ -2847,6 +2872,8 @@
     "deposits": [
       {
         "resource": "Hollow Outcrop",
+        "type": "node",
+        "chance": 84.7,
         "yield": 1.8
       }
     ]
@@ -2864,12 +2891,26 @@
     "storage_units": 1,
     "deposits": [
       {
+        "resource": "Tenorite",
+        "type": "node",
+        "chance": 100
+      },
+      {
         "resource": "Chalcocite",
+        "type": "node",
+        "chance": 99.1,
         "yield": 12.41
       },
       {
         "resource": "Brassy Outcrop",
+        "type": "node",
+        "chance": 94.7,
         "yield": 4.5
+      },
+      {
+        "resource": "Dense Copper Deposit",
+        "type": "deposit",
+        "yield": "30.0/h"
       }
     ]
   },
@@ -2886,8 +2927,70 @@
     "storage_units": 1,
     "deposits": [
       {
+        "resource": "Magnetite",
+        "type": "node",
+        "chance": 100
+      },
+      {
+        "resource": "S-Iron Cluster",
+        "type": "node",
+        "chance": 100
+      },
+      {
         "resource": "Ferrous Outcrop",
+        "type": "node",
+        "chance": 95,
         "yield": 4.6
+      },
+      {
+        "resource": "Plagnetite",
+        "type": "node",
+        "chance": 94.9
+      },
+      {
+        "resource": "Titanomagnetite",
+        "type": "node",
+        "chance": 87
+      },
+      {
+        "resource": "Wolframite",
+        "type": "node",
+        "chance": 87
+      },
+      {
+        "resource": "Iron Spherule",
+        "type": "shell",
+        "chance": 58
+      },
+      {
+        "resource": "Bauxite Rock",
+        "type": "node",
+        "chance": 51.4
+      },
+      {
+        "resource": "Basalt Shell",
+        "type": "shell",
+        "chance": 19.4
+      },
+      {
+        "resource": "Sandstone Mound",
+        "type": "node",
+        "chance": 19.1
+      },
+      {
+        "resource": "Chalcocite",
+        "type": "node",
+        "chance": 2.3
+      },
+      {
+        "resource": "Chalcopyrite",
+        "type": "node",
+        "chance": 0.8
+      },
+      {
+        "resource": "Dense Iron Deposit",
+        "type": "deposit",
+        "yield": "30.0/h"
       }
     ]
   },
@@ -2904,19 +3007,31 @@
     "storage_units": 5,
     "deposits": [
       {
-        "resource": "Siderite",
-        "yield": 3.5
-      },
-      {
         "resource": "Ferric Stone",
+        "type": "node",
+        "chance": 100,
         "yield": 2.4
       },
       {
+        "resource": "Siderite",
+        "type": "node",
+        "chance": 98.1,
+        "yield": 3.5
+      },
+      {
         "resource": "Ferrous Outcrop",
+        "type": "node",
+        "chance": 53.1,
         "yield": "<1"
       },
       {
+        "resource": "Bauxite Rock",
+        "type": "node",
+        "chance": 38.5
+      },
+      {
         "resource": "Iron Deposit",
+        "type": "deposit",
         "yield": "60.0/h"
       }
     ]
@@ -2936,10 +3051,23 @@
     "deposits": [
       {
         "resource": "White Feldspar Mound",
+        "type": "node",
+        "chance": 100,
         "yield": 4.7
       },
       {
+        "resource": "Bauxite Rock",
+        "type": "node",
+        "chance": 65.6
+      },
+      {
+        "resource": "Granite Shell",
+        "type": "shell",
+        "chance": 34.9
+      },
+      {
         "resource": "Aluminum Deposit",
+        "type": "deposit",
         "yield": "60.0/h"
       }
     ]
@@ -2959,22 +3087,31 @@
     "deposits": [
       {
         "resource": "Cupric Stone",
+        "type": "node",
+        "chance": 100,
         "yield": 2.4
       },
       {
-        "resource": "Chalcocite",
-        "yield": 1.4
-      },
-      {
         "resource": "Chalcopyrite",
+        "type": "node",
+        "chance": 78.2,
         "yield": 1.2
       },
       {
+        "resource": "Chalcocite",
+        "type": "node",
+        "chance": 57.9,
+        "yield": 1.4
+      },
+      {
         "resource": "Brassy Outcrop",
+        "type": "node",
+        "chance": 52.4,
         "yield": "<1"
       },
       {
         "resource": "Copper Deposit",
+        "type": "deposit",
         "yield": "60.0/h"
       }
     ]
@@ -3311,7 +3448,34 @@
     "verified": true,
     "source": "in-game encyclopedia",
     "value": 45.0,
-    "storage_units": 0.5
+    "storage_units": 0.5,
+    "deposits": [
+      {
+        "resource": "Azurite",
+        "type": "node",
+        "chance": 100
+      },
+      {
+        "resource": "Chalcocite",
+        "type": "node",
+        "chance": 4.5
+      },
+      {
+        "resource": "Tenorite",
+        "type": "node",
+        "chance": 1
+      },
+      {
+        "resource": "Chalcopyrite",
+        "type": "node",
+        "chance": 0.2
+      },
+      {
+        "resource": "Brassy Outcrop",
+        "type": "node",
+        "chance": 0.1
+      }
+    ]
   },
   {
     "id": "malachite-stone",
@@ -3348,7 +3512,8 @@
     "value": 8.1,
     "note": "Named as found in-game - unclear yet if smaller/other size variants exist (e.g. Small/Medium Electronic Scraps). Update if other sizes are confirmed.",
     "subcategory": "Scrap",
-    "storage_units": 5
+    "storage_units": 5,
+    "gathering_note": "Not gathered from resource nodes \u2014 comes from dismantling buildings (salvage)."
   },
   {
     "id": "wrecked-space-hull",
@@ -3360,7 +3525,8 @@
     "source": "in-game encyclopedia",
     "value": 7.8,
     "subcategory": "Scrap",
-    "storage_units": 5
+    "storage_units": 5,
+    "gathering_note": "Picked up directly at shipwreck sites \u2014 no mining tool required."
   },
   {
     "id": "cloudy-gemstone",
@@ -3372,7 +3538,8 @@
     "verified": true,
     "source": "in-game encyclopedia",
     "value": 3.0,
-    "storage_units": 0.1
+    "storage_units": 0.1,
+    "gathering_note": "Not listed under any known resource node or deposit \u2014 likely found some other way (loot, mission reward, etc.) not yet confirmed."
   },
   {
     "id": "beautiful-gemstone",
@@ -3384,7 +3551,189 @@
     "verified": true,
     "source": "in-game encyclopedia",
     "value": 35.0,
-    "storage_units": 0.1
+    "storage_units": 0.1,
+    "deposits": [
+      {
+        "resource": "Vitreous Carbon",
+        "type": "node",
+        "chance": 21.6
+      },
+      {
+        "resource": "White Quartz",
+        "type": "node",
+        "chance": 9.8
+      },
+      {
+        "resource": "Red Quartz",
+        "type": "node",
+        "chance": 9.5
+      },
+      {
+        "resource": "Sandstone Mound",
+        "type": "node",
+        "chance": 8
+      },
+      {
+        "resource": "Clay Shell",
+        "type": "shell",
+        "chance": 31.7
+      },
+      {
+        "resource": "Chalcedony Shell",
+        "type": "shell",
+        "chance": 24.7
+      },
+      {
+        "resource": "Iron Spherule",
+        "type": "shell",
+        "chance": 16.1
+      },
+      {
+        "resource": "Basalt Shell",
+        "type": "shell",
+        "chance": 9.7
+      },
+      {
+        "resource": "Chalcocite",
+        "type": "node",
+        "chance": 4.5
+      },
+      {
+        "resource": "Blue Granite Shell",
+        "type": "shell",
+        "chance": 3.5
+      },
+      {
+        "resource": "Chondrite",
+        "type": "shell",
+        "chance": 3.5
+      },
+      {
+        "resource": "Cinder",
+        "type": "shell",
+        "chance": 3.5
+      },
+      {
+        "resource": "Gabbro Shell",
+        "type": "shell",
+        "chance": 3.5
+      },
+      {
+        "resource": "Granite Shell",
+        "type": "shell",
+        "chance": 3.5
+      },
+      {
+        "resource": "Ice Shell",
+        "type": "shell",
+        "chance": 3.5
+      },
+      {
+        "resource": "Obsidian Shell",
+        "type": "shell",
+        "chance": 3.5
+      },
+      {
+        "resource": "Opal Shell",
+        "type": "shell",
+        "chance": 3.5
+      },
+      {
+        "resource": "Pumice",
+        "type": "shell",
+        "chance": 3.5
+      },
+      {
+        "resource": "Volcanic Shell",
+        "type": "shell",
+        "chance": 3.5
+      },
+      {
+        "resource": "Tenorite",
+        "type": "node",
+        "chance": 2
+      },
+      {
+        "resource": "Aquamarine",
+        "type": "node",
+        "chance": 1.7
+      },
+      {
+        "resource": "Coal Clump",
+        "type": "node",
+        "chance": 1
+      },
+      {
+        "resource": "Augurite",
+        "type": "node",
+        "chance": 0.8
+      },
+      {
+        "resource": "Titanomagnetite",
+        "type": "node",
+        "chance": 0.5
+      },
+      {
+        "resource": "Wolframite",
+        "type": "node",
+        "chance": 0.5
+      },
+      {
+        "resource": "White Feldspar Mound",
+        "type": "node",
+        "chance": 0.5
+      },
+      {
+        "resource": "Siderite",
+        "type": "node",
+        "chance": 0.5
+      },
+      {
+        "resource": "Magnetite",
+        "type": "node",
+        "chance": 0.4
+      },
+      {
+        "resource": "Turquoise Clump",
+        "type": "node",
+        "chance": 0.3
+      },
+      {
+        "resource": "Bauxite Rock",
+        "type": "node",
+        "chance": 0.3
+      },
+      {
+        "resource": "Cooperite",
+        "type": "node",
+        "chance": 0.3
+      },
+      {
+        "resource": "Ferrous Outcrop",
+        "type": "node",
+        "chance": 0.2
+      },
+      {
+        "resource": "Brassy Outcrop",
+        "type": "node",
+        "chance": 0.2
+      },
+      {
+        "resource": "Chalcopyrite",
+        "type": "node",
+        "chance": 0.2
+      },
+      {
+        "resource": "Sulphuric Stone",
+        "type": "node",
+        "chance": 0.2
+      },
+      {
+        "resource": "Patronite",
+        "type": "node",
+        "chance": 0.1
+      }
+    ]
   },
   {
     "id": "marvelous-gemstone",
@@ -4431,7 +4780,8 @@
     "verified": true,
     "source": "in-game encyclopedia",
     "value": 4.34,
-    "storage_units": 5
+    "storage_units": 5,
+    "gathering_note": "Not gathered from resource nodes \u2014 comes from dismantling buildings (salvage)."
   },
   {
     "id": "industrial-rubble",
@@ -4443,7 +4793,8 @@
     "verified": true,
     "source": "in-game encyclopedia",
     "value": 5.3,
-    "storage_units": 5
+    "storage_units": 5,
+    "gathering_note": "Not gathered from resource nodes \u2014 comes from dismantling buildings (salvage)."
   },
   {
     "id": "titanium-nugget",
@@ -4467,7 +4818,54 @@
     "verified": true,
     "source": "in-game encyclopedia",
     "value": 1.92,
-    "storage_units": 1
+    "storage_units": 1,
+    "deposits": [
+      {
+        "resource": "Aluminum Reduction",
+        "type": "node",
+        "chance": 100
+      },
+      {
+        "resource": "Augurite",
+        "type": "node",
+        "chance": 87
+      },
+      {
+        "resource": "Granite Shell",
+        "type": "shell",
+        "chance": 34.9
+      },
+      {
+        "resource": "Bauxite Rock",
+        "type": "node",
+        "chance": 33.7
+      },
+      {
+        "resource": "Clay Shell",
+        "type": "shell",
+        "chance": 15.9
+      },
+      {
+        "resource": "Sandstone Mound",
+        "type": "node",
+        "chance": 8
+      },
+      {
+        "resource": "Chalcocite",
+        "type": "node",
+        "chance": 2.3
+      },
+      {
+        "resource": "White Feldspar Mound",
+        "type": "node",
+        "chance": 0.5
+      },
+      {
+        "resource": "Dense Aluminum Deposit",
+        "type": "deposit",
+        "yield": "30.0/h"
+      }
+    ]
   },
   {
     "id": "b-titanium-ingot",
@@ -6213,6 +6611,108 @@
         "tier": "Emerald II",
         "unlock_requirement": "Analyse x10 at Laboratory",
         "analyze_count_required": 10
+      }
+    ],
+    "deposits": [
+      {
+        "resource": "Emerald",
+        "type": "node",
+        "chance": 100
+      },
+      {
+        "resource": "Clay Shell",
+        "type": "shell",
+        "chance": 12.7
+      },
+      {
+        "resource": "Blue Granite Shell",
+        "type": "shell",
+        "chance": 5.8
+      },
+      {
+        "resource": "Chondrite",
+        "type": "shell",
+        "chance": 5.8
+      },
+      {
+        "resource": "Cinder",
+        "type": "shell",
+        "chance": 5.8
+      },
+      {
+        "resource": "Gabbro Shell",
+        "type": "shell",
+        "chance": 5.8
+      },
+      {
+        "resource": "Granite Shell",
+        "type": "shell",
+        "chance": 5.8
+      },
+      {
+        "resource": "Ice Shell",
+        "type": "shell",
+        "chance": 5.8
+      },
+      {
+        "resource": "Obsidian Shell",
+        "type": "shell",
+        "chance": 5.8
+      },
+      {
+        "resource": "Opal Shell",
+        "type": "shell",
+        "chance": 5.8
+      },
+      {
+        "resource": "Pumice",
+        "type": "shell",
+        "chance": 5.8
+      },
+      {
+        "resource": "Volcanic Shell",
+        "type": "shell",
+        "chance": 5.8
+      },
+      {
+        "resource": "Sandstone Mound",
+        "type": "node",
+        "chance": 0.4
+      },
+      {
+        "resource": "Aluminum Reduction",
+        "type": "node",
+        "chance": 0.2
+      },
+      {
+        "resource": "Chalcocite",
+        "type": "node",
+        "chance": 0.2
+      },
+      {
+        "resource": "Aquamarine",
+        "type": "node",
+        "chance": 0.2
+      },
+      {
+        "resource": "Augurite",
+        "type": "node",
+        "chance": 0.1
+      },
+      {
+        "resource": "Turquoise Clump",
+        "type": "node",
+        "chance": 0
+      },
+      {
+        "resource": "White Feldspar Mound",
+        "type": "node",
+        "chance": 0
+      },
+      {
+        "resource": "Bauxite Rock",
+        "type": "node",
+        "chance": 0
       }
     ]
   }
