@@ -559,7 +559,10 @@ function computeCraftContext(roots) {
     }
     if (net > 0 && info.item.station) ctx.stations.add(info.item.station);
 
-    const batches = net / info.batchSize;
+    // Batches must be a whole number — see app.js for the full explanation of why
+    // this matters (a fractional batch count silently under-counts ingredients for
+    // whatever gets rounded up to complete the last real craft).
+    const batches = Math.ceil(net / info.batchSize - 1e-9);
 
     if (net > 0 && info.recipe) {
       const taxedEntry = info.recipe.tax && Object.entries(info.recipe.tax).find(([loc]) => loc !== 'personal_base');
