@@ -966,7 +966,13 @@ function computeCraftContext(roots) {
     }
     if (net > 0 && info.item.station) ctx.stations.add(info.item.station);
 
-    const batches = net / info.batchSize;
+    // Batches must be a whole number — you can't run a recipe "12.5 times." If a
+    // recipe yields 20 per craft and 250 are needed, that's 12.5 batches on paper,
+    // but you actually have to run a 13th batch in full to get enough. Rounding up
+    // here (rather than leaving it fractional until final display) makes sure that
+    // extra batch's own ingredient cost — the whole reason this bug existed — gets
+    // counted everywhere downstream, not just quietly absorbed.
+    const batches = Math.ceil(net / info.batchSize - 1e-9);
 
     if (net > 0 && info.recipe) {
       const taxedEntry = info.recipe.tax && Object.entries(info.recipe.tax).find(([loc]) => loc !== 'personal_base');
