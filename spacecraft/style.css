@@ -49,6 +49,27 @@
   --cyan-glow: rgba(111, 224, 208, 0.18);
 }
 
+/* Red Alert — warm alert red as the primary accent, paired with a cool teal so links
+   and secondary accents stay readable against it instead of clashing. Value/success
+   green and tax gold are nudged slightly warmer too so nothing looks out of place. */
+[data-theme="red"] {
+  --bg: #120a0a;
+  --panel: #1c1113;
+  --border: #2e1a1c;
+  --text: #f1e8e6;
+  --text-dim: #a8908d;
+  --amber: #ff4d4d;
+  --amber-glow: rgba(255, 77, 77, 0.2);
+  --cyan: #3ddbd0;
+  --cyan-glow: rgba(61, 219, 208, 0.2);
+  --green: #5fd97a;
+  --green-glow: rgba(95, 217, 122, 0.2);
+  --violet: #d65a8a;
+  --violet-glow: rgba(214, 90, 138, 0.2);
+  --gold: #f0c419;
+  --gold-glow: rgba(240, 196, 25, 0.2);
+}
+
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 
@@ -86,7 +107,14 @@ body {
   text-transform: uppercase;
 }
 
-.theme-picker { display: flex; gap: 8px; flex: 0 0 auto; }
+.theme-picker { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+
+.theme-picker-label {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
 
 .site-nav {
   display: flex;
@@ -126,6 +154,21 @@ body {
   cursor: pointer;
 }
 .unlocked-toggle-label input { accent-color: var(--green); cursor: pointer; }
+
+.clear-inventory-btn {
+  display: inline-block;
+  margin-top: 8px;
+  background: transparent;
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: var(--text-dim);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  cursor: pointer;
+}
+.clear-inventory-btn:hover { border-color: var(--amber); color: var(--amber); }
+.clear-inventory-btn.confirming { border-color: var(--amber); color: var(--amber); border-style: solid; }
 
 .progress-panel-btn {
   display: block;
@@ -227,6 +270,7 @@ body {
 .theme-dot[data-theme="default"] { background: linear-gradient(135deg, #0a0d10 50%, #28ec13 50%); }
 .theme-dot[data-theme="refinery"] { background: linear-gradient(135deg, #0b0e14 50%, #e2962f 50%); }
 .theme-dot[data-theme="cold"] { background: linear-gradient(135deg, #0a1018 50%, #5aa9e6 50%); }
+.theme-dot[data-theme="red"] { background: linear-gradient(135deg, #120a0a 50%, #ff4d4d 50%); }
 
 h1 {
   font-family: 'Space Grotesk', sans-serif;
