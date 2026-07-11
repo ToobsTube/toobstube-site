@@ -7,6 +7,15 @@ const state = {
   inventory: {}, // itemId -> qty already on hand
 };
 
+// Tracks which item's "Reset amounts used for this" button is currently armed
+// (waiting for a confirming second click). Lives outside renderRawBreakdown on
+// purpose: that function's whole button gets torn down and rebuilt on every
+// unrelated edit (typing in a "have" box, changing quantity, etc.), so storing the
+// armed state as a variable INSIDE that function meant any of those edits silently
+// disarmed it, forcing several attempts to actually confirm a reset.
+let resetArmedItemId = null;
+let resetArmedTimeoutId = null;
+
 const PLAN_STORAGE_KEY = 'spacecraft-blueprint-plan';
 const INVENTORY_STORAGE_KEY = 'spacecraft-inventory';
 
@@ -146,6 +155,34 @@ async function init() {
   document.getElementById('plan-overlay').addEventListener('click', (e) => {
     if (e.target.id === 'plan-overlay') closePlanModal();
   });
+
+  const clearInventoryBtn = document.getElementById('clear-inventory-btn');
+  if (clearInventoryBtn) {
+    let confirmingClear = false;
+    clearInventoryBtn.addEventListener('click', () => {
+      if (!confirmingClear) {
+        confirmingClear = true;
+        clearInventoryBtn.textContent = 'Sure? Click again to clear everything';
+        clearInventoryBtn.classList.add('confirming');
+        setTimeout(() => {
+          confirmingClear = false;
+          clearInventoryBtn.textContent = 'Clear all saved amounts';
+          clearInventoryBtn.classList.remove('confirming');
+        }, 3000);
+        return;
+      }
+      state.inventory = {};
+      saveInventory();
+      render();
+      // If something's currently open, refresh it too so it doesn't keep showing
+      // stale "have" values until you navigate away and back.
+      const openItemId = new URLSearchParams(window.location.search).get('item');
+      if (openItemId) {
+        if (isDesktopLayout()) renderDetailPanel(openItemId);
+        else jumpTo(openItemId);
+      }
+    });
+  }
 
   // Opening an ingredient link in a new tab lands here with ?item=<id> in the URL —
   // jump straight to that item so the new tab shows what was actually clicked. An
@@ -1149,8 +1186,9 @@ function renderRawBreakdown(itemId, container, qty, mode, location) {
   // no point offering to clear a list of already-empty boxes.
   const resetIds = new Set(Array.from(ctx.intermediates.keys()).concat(Array.from(ctx.rawTotals.keys())).map(slugify));
   const hasAnythingToReset = Array.from(resetIds).some((id) => getOwnedQty(id) > 0);
+  const isArmed = resetArmedItemId === itemId;
   const resetBtnHtml = hasAnythingToReset
-    ? `<button class="reset-amounts-btn">Reset amounts used for this &#8635;</button>`
+    ? `<button class="reset-amounts-btn${isArmed ? ' confirming' : ''}">${isArmed ? 'Sure? Click again to reset' : 'Reset amounts used for this \u21bb'}</button>`
     : '';
 
   container.innerHTML = `
@@ -1175,23 +1213,30 @@ function renderRawBreakdown(itemId, container, qty, mode, location) {
 
   const resetBtn = container.querySelector('.reset-amounts-btn');
   if (resetBtn) {
-    let confirming = false;
     resetBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (!confirming) {
-        confirming = true;
+      if (resetArmedItemId !== itemId) {
+        resetArmedItemId = itemId;
+        clearTimeout(resetArmedTimeoutId);
         resetBtn.textContent = 'Sure? Click again to reset';
         resetBtn.classList.add('confirming');
-        setTimeout(() => {
-          confirming = false;
-          resetBtn.textContent = 'Reset amounts used for this \u21bb';
-          resetBtn.classList.remove('confirming');
+        resetArmedTimeoutId = setTimeout(() => {
+          resetArmedItemId = null;
+          // Patch whichever button element currently exists (an unrelated edit may
+          // have redrawn it since this timer started) rather than forcing a refresh.
+          const stillThere = container.querySelector('.reset-amounts-btn');
+          if (stillThere) {
+            stillThere.textContent = 'Reset amounts used for this \u21bb';
+            stillThere.classList.remove('confirming');
+          }
         }, 3000);
         return;
       }
       // This item's own "have" box (on its own card) is untouched — this only clears
       // the ingredients/intermediates that fed into it, since those are what's
       // actually "used up" once a whole run like this is finished.
+      resetArmedItemId = null;
+      clearTimeout(resetArmedTimeoutId);
       const freshCtx = computeCraftContext([{ id: itemId, qty }]);
       const ids = new Set(Array.from(freshCtx.intermediates.keys()).concat(Array.from(freshCtx.rawTotals.keys())).map(slugify));
       ids.forEach((id) => setOwnedQty(id, 0));
