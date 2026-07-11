@@ -261,7 +261,7 @@ function renderPlanModal() {
     ${renderStationsLine(ctx.stations)}
     ${taxBlock}
     ${renderIntermediatesSection(ctx.intermediates, depthOf, idLookup, ctx.owned)}
-    ${renderRawMaterialsSection(ctx.rawTotals, idLookup, ctx.owned)}
+    ${renderRawMaterialsSection(ctx.rawTotals, idLookup, ctx.owned, ctx.altRaw)}
   `;
 
   body.querySelectorAll('.plan-qty-input').forEach((input) => {
@@ -942,13 +942,63 @@ function computeCraftContext(roots) {
 
   const topoOrder = postOrder.slice().reverse(); // parent-before-child order
 
+  // Shared across every node this context computes — tracks how much of each
+  // alternate-recipe raw material (Iron Nugget, etc.) is still "available" to draw
+  // on. Without this, if the same material were ever eligible as an alt for two
+  // different intermediates, both could independently think they had the full
+  // stash to themselves and double-count it. Starts lazily at whatever's actually
+  // in inventory the first time something asks for it.
+  const altPool = new Map();
+  function drawFromAltPool(slug, maxAmount) {
+    if (maxAmount <= 0) return 0;
+    const available = altPool.has(slug) ? altPool.get(slug) : getOwnedQty(slug);
+    const used = Math.min(available, maxAmount);
+    altPool.set(slug, available - used);
+    return used;
+  }
+
   topoOrder.forEach((itemId) => {
     const info = nodeInfo.get(itemId);
     const gross = grossDemand.get(itemId) || 0;
     if (!info || gross <= 0) return;
 
-    const owned = Math.min(gross, getOwnedQty(itemId));
-    const net = gross - owned;
+    // A simple single-ingredient alternate recipe (Iron Ingot from Iron Ore OR Iron
+    // Nugget, say) — hand-mining often turns up a pile of Nuggets instead of Ore, so
+    // any of that on hand counts toward covering this item's demand just like native
+    // inventory would, on top of it rather than instead of it.
+    let alt = null;
+    if (!info.isLeaf && info.recipe && info.item.recipes && info.item.recipes.length > 1 && info.recipe.ingredients.length === 1) {
+      const altRecipe = info.item.recipes[1];
+      const altIngredients = altRecipe.ingredients || [];
+      if (altIngredients.length === 1) {
+        const altIng = altIngredients[0];
+        const altSlug = slugify(altIng.item);
+        const altItem = state.items.find((i) => i.id === altSlug);
+        const altIsLeaf = !altItem || !((altItem.recipes && altItem.recipes.length) || (altItem.ingredients && altItem.ingredients.length));
+        if (altIsLeaf) {
+          alt = { name: altIng.item, slug: altSlug, qtyPerBatch: altIng.qty, batchSize: altRecipe.output_qty || 1 };
+        }
+      }
+    }
+
+    const nativeOwned = Math.min(gross, getOwnedQty(itemId));
+    const afterNative = gross - nativeOwned;
+
+    // Nugget inventory only comes in whole recipe batches (can't craft 3/4 of an
+    // ingot's worth), so the credit it can offer is rounded down, not up.
+    let altCredit = 0;
+    let altUsedQty = 0;
+    if (alt) {
+      const maxCoverableBatches = Math.ceil(afterNative / alt.batchSize - 1e-9);
+      const altAvailable = altPool.has(alt.slug) ? altPool.get(alt.slug) : getOwnedQty(alt.slug);
+      const affordableBatches = Math.min(maxCoverableBatches, Math.floor(altAvailable / alt.qtyPerBatch + 1e-9));
+      altUsedQty = drawFromAltPool(alt.slug, affordableBatches * alt.qtyPerBatch);
+      altCredit = Math.floor(altUsedQty / alt.qtyPerBatch) * alt.batchSize;
+    }
+
+    const altApplied = Math.min(afterNative, altCredit);
+    const net = afterNative - altApplied;
+    const owned = nativeOwned + altApplied;
     if (owned > 0) ctx.owned.set(info.item.name, (ctx.owned.get(info.item.name) || 0) + owned);
 
     if (info.isLeaf) {
@@ -973,6 +1023,19 @@ function computeCraftContext(roots) {
     // extra batch's own ingredient cost — the whole reason this bug existed — gets
     // counted everywhere downstream, not just quietly absorbed.
     const batches = Math.ceil(net / info.batchSize - 1e-9);
+
+    // Whatever's STILL needed after both native and nugget-credit inventory is
+    // applied — shown as "or gather ×N more Nugget instead" alongside the Ore total,
+    // with its own editable "have" box (that's what altUsedQty/altPool feed).
+    if (alt && (net > 0 || altUsedQty > 0)) {
+      const primaryName = info.recipe.ingredients[0].item;
+      const moreAltBatches = Math.ceil(net / alt.batchSize - 1e-9);
+      const moreAltQty = alt.qtyPerBatch * moreAltBatches;
+      const perPrimary = ctx.altRaw.get(primaryName) || new Map();
+      const prev = perPrimary.get(alt.name) || { needed: 0, used: 0 };
+      perPrimary.set(alt.name, { needed: prev.needed + moreAltQty, used: prev.used + altUsedQty, slug: alt.slug });
+      ctx.altRaw.set(primaryName, perPrimary);
+    }
 
     if (net > 0 && info.recipe) {
       const taxedEntry = info.recipe.tax && Object.entries(info.recipe.tax).find(([loc]) => loc !== 'personal_base');
@@ -999,7 +1062,7 @@ function computeCraftContext(roots) {
 }
 
 function newCraftCtx() {
-  return { rawTotals: new Map(), intermediates: new Map(), taxSteps: new Map(), stations: new Set(), owned: new Map() };
+  return { rawTotals: new Map(), intermediates: new Map(), taxSteps: new Map(), stations: new Set(), owned: new Map(), altRaw: new Map() };
 }
 
 // ---- Craft depth (steps removed from raw materials) ----
@@ -1087,7 +1150,7 @@ function stationFor(name) {
   return item && item.recipes && item.recipes.length ? item.station : null;
 }
 
-function renderMaterialRows(map, sortFn, idLookup, withStation, ownedMap) {
+function renderMaterialRows(map, sortFn, idLookup, withStation, ownedMap, altRawMap) {
   return Array.from(map.entries())
     .sort(sortFn)
     .map(([name, total]) => {
@@ -1098,11 +1161,35 @@ function renderMaterialRows(map, sortFn, idLookup, withStation, ownedMap) {
       const stationTag = station ? `<span class="station-chip station-chip-inline">${escapeHtml(station)}</span>` : '';
       const owned = ownedMap ? ownedMap.get(name) : null;
       const coveredTag = displayQty === 0 ? `<span class="covered-tag">✓ covered</span>` : '';
+
+      const alts = altRawMap ? altRawMap.get(name) : null;
+      const altHtml = alts && alts.size
+        ? Array.from(alts.entries())
+            .map(([altName, info]) => {
+              const altSlug = info.slug;
+              const needMore = Math.ceil(info.needed - 1e-9);
+              const usedText = info.used > 0 ? `using ${Math.ceil(info.used - 1e-9).toLocaleString()} already · ` : '';
+              const needText = needMore > 0
+                ? `${usedText}${needMore.toLocaleString()} more would cover the rest`
+                : `${usedText}fully covers the rest`;
+              return `
+                <div class="alt-raw-note">
+                  <span>or ${escapeHtml(altName)} instead — ${needText}</span>
+                  <label class="row-have-wrap">have<input type="text" inputmode="numeric" pattern="[0-9]*" class="row-have-input" value="${getOwnedQty(altSlug) || ''}" placeholder="0" data-item="${altSlug}" aria-label="Quantity of ${escapeHtml(altName)} already on hand"></label>
+                </div>
+              `;
+            })
+            .join('')
+        : '';
+
       return `
-        <li class="material-row" data-item="${slug}">
-          ${ingLinkTag(name, slug, linkable)}
-          <span class="ing-qty">${coveredTag}${stationTag}${displayQty > 0 ? `×${displayQty.toLocaleString()}` : ''}</span>
-          <label class="row-have-wrap">have<input type="text" inputmode="numeric" pattern="[0-9]*" class="row-have-input" value="${owned ? Math.ceil(owned - 1e-9) : ''}" placeholder="0" data-item="${slug}" aria-label="Quantity of ${escapeHtml(name)} already on hand"></label>
+        <li class="material-row">
+          <div class="material-row-main" data-item="${slug}">
+            ${ingLinkTag(name, slug, linkable)}
+            <span class="ing-qty">${coveredTag}${stationTag}${displayQty > 0 ? `×${displayQty.toLocaleString()}` : ''}</span>
+            <label class="row-have-wrap">have<input type="text" inputmode="numeric" pattern="[0-9]*" class="row-have-input" value="${owned ? Math.ceil(owned - 1e-9) : ''}" placeholder="0" data-item="${slug}" aria-label="Quantity of ${escapeHtml(name)} already on hand"></label>
+          </div>
+          ${altHtml}
         </li>
       `;
     })
@@ -1115,8 +1202,8 @@ function renderIntermediatesSection(intermediates, depthOf, idLookup, ownedMap) 
   return `<p class="section-label">Sub-crafts needed along the way</p><p class="raw-note">Ordered top to bottom: most complex first, basic ingots last — right above the raw materials below.</p><ul class="ingredients raw-list">${rows}</ul>`;
 }
 
-function renderRawMaterialsSection(rawTotals, idLookup, ownedMap) {
-  const rows = renderMaterialRows(rawTotals, (a, b) => b[1] - a[1], idLookup, false, ownedMap);
+function renderRawMaterialsSection(rawTotals, idLookup, ownedMap, altRawMap) {
+  const rows = renderMaterialRows(rawTotals, (a, b) => b[1] - a[1], idLookup, false, ownedMap, altRawMap);
   return `<p class="section-label">Base/raw materials</p><ul class="ingredients raw-list">${rows}</ul>`;
 }
 
@@ -1204,7 +1291,7 @@ function renderRawBreakdown(itemId, container, qty, mode, location) {
     ${taxBlock}
     <p class="raw-note">Everything needed for ×${qty.toLocaleString()}, tracing each sub-recipe down to its base materials (using the first recipe option at each step where there's more than one):</p>
     ${intermediateSection}
-    ${renderRawMaterialsSection(ctx.rawTotals, idLookup, ctx.owned)}
+    ${renderRawMaterialsSection(ctx.rawTotals, idLookup, ctx.owned, ctx.altRaw)}
     ${resetBtnHtml}
   `;
 
