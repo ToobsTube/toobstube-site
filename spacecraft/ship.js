@@ -540,13 +540,63 @@ function computeCraftContext(roots) {
 
   const topoOrder = postOrder.slice().reverse();
 
+  // Shared across every node this context computes — tracks how much of each
+  // alternate-recipe raw material (Iron Nugget, etc.) is still "available" to draw
+  // on. Without this, if the same material were ever eligible as an alt for two
+  // different intermediates, both could independently think they had the full
+  // stash to themselves and double-count it. Starts lazily at whatever's actually
+  // in inventory the first time something asks for it.
+  const altPool = new Map();
+  function drawFromAltPool(slug, maxAmount) {
+    if (maxAmount <= 0) return 0;
+    const available = altPool.has(slug) ? altPool.get(slug) : getOwnedQty(slug);
+    const used = Math.min(available, maxAmount);
+    altPool.set(slug, available - used);
+    return used;
+  }
+
   topoOrder.forEach((itemId) => {
     const info = nodeInfo.get(itemId);
     const gross = grossDemand.get(itemId) || 0;
     if (!info || gross <= 0) return;
 
-    const owned = Math.min(gross, getOwnedQty(itemId));
-    const net = gross - owned;
+    // A simple single-ingredient alternate recipe (Iron Ingot from Iron Ore OR Iron
+    // Nugget, say) — hand-mining often turns up a pile of Nuggets instead of Ore, so
+    // any of that on hand counts toward covering this item's demand just like native
+    // inventory would, on top of it rather than instead of it.
+    let alt = null;
+    if (!info.isLeaf && info.recipe && info.item.recipes && info.item.recipes.length > 1 && info.recipe.ingredients.length === 1) {
+      const altRecipe = info.item.recipes[1];
+      const altIngredients = altRecipe.ingredients || [];
+      if (altIngredients.length === 1) {
+        const altIng = altIngredients[0];
+        const altSlug = slugify(altIng.item);
+        const altItem = state.items.find((i) => i.id === altSlug);
+        const altIsLeaf = !altItem || !((altItem.recipes && altItem.recipes.length) || (altItem.ingredients && altItem.ingredients.length));
+        if (altIsLeaf) {
+          alt = { name: altIng.item, slug: altSlug, qtyPerBatch: altIng.qty, batchSize: altRecipe.output_qty || 1 };
+        }
+      }
+    }
+
+    const nativeOwned = Math.min(gross, getOwnedQty(itemId));
+    const afterNative = gross - nativeOwned;
+
+    // Nugget inventory only comes in whole recipe batches (can't craft 3/4 of an
+    // ingot's worth), so the credit it can offer is rounded down, not up.
+    let altCredit = 0;
+    let altUsedQty = 0;
+    if (alt) {
+      const maxCoverableBatches = Math.ceil(afterNative / alt.batchSize - 1e-9);
+      const altAvailable = altPool.has(alt.slug) ? altPool.get(alt.slug) : getOwnedQty(alt.slug);
+      const affordableBatches = Math.min(maxCoverableBatches, Math.floor(altAvailable / alt.qtyPerBatch + 1e-9));
+      altUsedQty = drawFromAltPool(alt.slug, affordableBatches * alt.qtyPerBatch);
+      altCredit = Math.floor(altUsedQty / alt.qtyPerBatch) * alt.batchSize;
+    }
+
+    const altApplied = Math.min(afterNative, altCredit);
+    const net = afterNative - altApplied;
+    const owned = nativeOwned + altApplied;
     if (owned > 0) ctx.owned.set(info.item.name, (ctx.owned.get(info.item.name) || 0) + owned);
 
     if (info.isLeaf) {
@@ -563,6 +613,16 @@ function computeCraftContext(roots) {
     // this matters (a fractional batch count silently under-counts ingredients for
     // whatever gets rounded up to complete the last real craft).
     const batches = Math.ceil(net / info.batchSize - 1e-9);
+
+    if (alt && (net > 0 || altUsedQty > 0)) {
+      const primaryName = info.recipe.ingredients[0].item;
+      const moreAltBatches = Math.ceil(net / alt.batchSize - 1e-9);
+      const moreAltQty = alt.qtyPerBatch * moreAltBatches;
+      const perPrimary = ctx.altRaw.get(primaryName) || new Map();
+      const prev = perPrimary.get(alt.name) || { needed: 0, used: 0 };
+      perPrimary.set(alt.name, { needed: prev.needed + moreAltQty, used: prev.used + altUsedQty, slug: alt.slug });
+      ctx.altRaw.set(primaryName, perPrimary);
+    }
 
     if (net > 0 && info.recipe) {
       const taxedEntry = info.recipe.tax && Object.entries(info.recipe.tax).find(([loc]) => loc !== 'personal_base');
@@ -589,7 +649,7 @@ function computeCraftContext(roots) {
 }
 
 function newCraftCtx() {
-  return { rawTotals: new Map(), intermediates: new Map(), taxSteps: new Map(), stations: new Set(), owned: new Map() };
+  return { rawTotals: new Map(), intermediates: new Map(), taxSteps: new Map(), stations: new Set(), owned: new Map(), altRaw: new Map() };
 }
 
 function getCraftDepth(itemId, memo, visiting) {
@@ -677,7 +737,7 @@ function shipMatLink(name) {
 // Same idea as the crafter's material rows, but with a live-editable "have" box
 // instead of a static tag, since this is the one place someone can mark inventory
 // directly on the Ship Planner page.
-function renderShipMaterialRows(map, sortFn, withStation) {
+function renderShipMaterialRows(map, sortFn, withStation, altRawMap) {
   return Array.from(map.entries())
     .sort(sortFn)
     .map(([name, total]) => {
@@ -687,11 +747,34 @@ function renderShipMaterialRows(map, sortFn, withStation) {
       const stationTag = station ? `<span class="station-chip station-chip-inline">${escapeHtml(station)}</span>` : '';
       const owned = getOwnedQty(slug);
       const coveredTag = displayQty === 0 ? `<span class="covered-tag">✓ covered</span>` : '';
+
+      const alts = altRawMap ? altRawMap.get(name) : null;
+      const altHtml = alts && alts.size
+        ? Array.from(alts.entries())
+            .map(([altName, info]) => {
+              const needMore = Math.ceil(info.needed - 1e-9);
+              const usedText = info.used > 0 ? `using ${Math.ceil(info.used - 1e-9).toLocaleString()} already · ` : '';
+              const needText = needMore > 0
+                ? `${usedText}${needMore.toLocaleString()} more would cover the rest`
+                : `${usedText}fully covers the rest`;
+              return `
+                <div class="alt-raw-note">
+                  <span>or ${escapeHtml(altName)} instead — ${needText}</span>
+                  <label class="ship-have-wrap">have<input type="text" inputmode="numeric" pattern="[0-9]*" class="ship-have-input" value="${getOwnedQty(info.slug) || ''}" placeholder="0" data-item="${info.slug}" aria-label="Quantity of ${escapeHtml(altName)} already on hand"></label>
+                </div>
+              `;
+            })
+            .join('')
+        : '';
+
       return `
-        <li class="ship-mat-row" data-item="${slug}">
-          ${shipMatLink(name)}
-          <span class="ship-mat-qty">${coveredTag}${stationTag}${displayQty > 0 ? `×${displayQty.toLocaleString()}` : ''}</span>
-          <label class="ship-have-wrap">have<input type="text" inputmode="numeric" pattern="[0-9]*" class="ship-have-input" value="${owned || ''}" placeholder="0" data-item="${slug}" aria-label="Quantity of ${escapeHtml(name)} already on hand"></label>
+        <li class="ship-mat-row">
+          <div class="ship-mat-row-main" data-item="${slug}">
+            ${shipMatLink(name)}
+            <span class="ship-mat-qty">${coveredTag}${stationTag}${displayQty > 0 ? `×${displayQty.toLocaleString()}` : ''}</span>
+            <label class="ship-have-wrap">have<input type="text" inputmode="numeric" pattern="[0-9]*" class="ship-have-input" value="${owned || ''}" placeholder="0" data-item="${slug}" aria-label="Quantity of ${escapeHtml(name)} already on hand"></label>
+          </div>
+          ${altHtml}
         </li>
       `;
     })
@@ -704,8 +787,8 @@ function renderShipIntermediatesSection(intermediates, depthOf) {
   return `<p class="section-label">Sub-crafts needed along the way</p><p class="raw-note">Ordered top to bottom: most complex first, basic ingots last — right above the raw materials below.</p><ul class="ingredients raw-list">${rows}</ul>`;
 }
 
-function renderShipRawMaterialsSection(rawTotals) {
-  const rows = renderShipMaterialRows(rawTotals, (a, b) => b[1] - a[1], false);
+function renderShipRawMaterialsSection(rawTotals, altRawMap) {
+  const rows = renderShipMaterialRows(rawTotals, (a, b) => b[1] - a[1], false, altRawMap);
   return `<p class="section-label">Base/raw materials</p><ul class="ingredients raw-list">${rows}</ul>`;
 }
 
@@ -738,7 +821,7 @@ function renderShipMaterials() {
   const stationsLine = renderStationsLine(ctx.stations);
   const taxBlock = ctx.taxSteps.size ? renderTaxSection(ctx.taxSteps, 'this ship', depthOf) : '';
   const intermediateSection = renderShipIntermediatesSection(ctx.intermediates, depthOf);
-  const rawSection = renderShipRawMaterialsSection(ctx.rawTotals);
+  const rawSection = renderShipRawMaterialsSection(ctx.rawTotals, ctx.altRaw);
 
   container.innerHTML = `
     ${stationsLine}
