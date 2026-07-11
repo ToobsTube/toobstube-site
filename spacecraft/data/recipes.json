@@ -3406,9 +3406,33 @@
     "verified": true,
     "source": "in-game encyclopedia",
     "value": 0.2,
-    "note": "Fluid resource, used as ingredient in Mag-Plasma Bottle. Extraction/gathering method not yet confirmed. Storage size (1 su) is per liter, per spacecraft.tools - not yet confirmed directly in-game.",
+    "note": "Not synthesized from raw materials \u2014 unbottled at a Bottling Plant: 1 Mag-Plasma Bottle yields 50 Mag-Plasma plus the empty Confinement Bottle back. Requires the Plasma Containment permit. Mag-Plasma Bottle itself still needs its own source confirmed.",
     "subcategory": "Fluid",
-    "storage_units": 1
+    "storage_units": 1,
+    "gathering_note": "Not gathered from any resource node or deposit \u2014 refilled/bought as ship fuel at stations, not mined.",
+    "station": "Bottling Plant",
+    "recipes": [
+      {
+        "label": "Unbottle",
+        "ingredients": [
+          {
+            "item": "Mag-Plasma Bottle",
+            "qty": 1
+          }
+        ],
+        "output_qty": 50,
+        "craft_time_sec": 25,
+        "additional_outputs": [
+          {
+            "item": "Confinement Bottle",
+            "qty": 1
+          }
+        ],
+        "tax": {
+          "bottling_plant": 39.7
+        }
+      }
+    ]
   },
   {
     "id": "mag-plasma-bottle",
@@ -4806,7 +4830,79 @@
     "verified": true,
     "source": "in-game encyclopedia",
     "value": 1.8,
-    "storage_units": 1
+    "storage_units": 1,
+    "deposits": [
+      {
+        "resource": "Titanite",
+        "type": "node",
+        "chance": 100
+      },
+      {
+        "resource": "Blue Granite Shell",
+        "type": "shell",
+        "chance": 34.9
+      },
+      {
+        "resource": "Chondrite",
+        "type": "shell",
+        "chance": 34.9
+      },
+      {
+        "resource": "Cinder",
+        "type": "shell",
+        "chance": 34.9
+      },
+      {
+        "resource": "Gabbro Shell",
+        "type": "shell",
+        "chance": 34.9
+      },
+      {
+        "resource": "Ice Shell",
+        "type": "shell",
+        "chance": 34.9
+      },
+      {
+        "resource": "Obsidian Shell",
+        "type": "shell",
+        "chance": 34.9
+      },
+      {
+        "resource": "Opal Shell",
+        "type": "shell",
+        "chance": 34.9
+      },
+      {
+        "resource": "Pumice",
+        "type": "shell",
+        "chance": 34.9
+      },
+      {
+        "resource": "Volcanic Shell",
+        "type": "shell",
+        "chance": 34.9
+      },
+      {
+        "resource": "Sandstone Mound",
+        "type": "node",
+        "chance": 8
+      },
+      {
+        "resource": "Basalt Shell",
+        "type": "shell",
+        "chance": 4.9
+      },
+      {
+        "resource": "Chalcocite",
+        "type": "node",
+        "chance": 2.3
+      },
+      {
+        "resource": "Magnetite",
+        "type": "node",
+        "chance": 0.4
+      }
+    ]
   },
   {
     "id": "aluminum-nugget",
