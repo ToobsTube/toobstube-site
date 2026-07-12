@@ -2238,8 +2238,23 @@
     "type": "craft",
     "verified": true,
     "source": "in-game screenshot",
-    "note": "Titanium Ore version likely exists but hasn't been found/confirmed in-game yet",
     "recipes": [
+      {
+        "label": "From Titanium Ore",
+        "ingredients": [
+          {
+            "item": "Titanium Ore",
+            "qty": 2
+          }
+        ],
+        "craft_time_sec": 5,
+        "auto_craft_time_sec": 180,
+        "storage_units": 1,
+        "added_value": 2.28,
+        "tax": {
+          "station": 0.9
+        }
+      },
       {
         "label": "From Titanium Nugget",
         "ingredients": [
@@ -6809,6 +6824,85 @@
         "resource": "Bauxite Rock",
         "type": "node",
         "chance": 0
+      }
+    ]
+  },
+  {
+    "id": "titanium-ore",
+    "name": "Titanium Ore",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Metal Ore",
+    "type": "gather",
+    "verified": true,
+    "source": "spacecraft.tools (confirmed: comes from an actual Titanium Deposit, matching a Titanium/Iron base)",
+    "value": 3.36,
+    "storage_units": 5,
+    "deposits": [
+      {
+        "resource": "Augurite",
+        "type": "node",
+        "chance": 98.4
+      },
+      {
+        "resource": "Titanomagnetite",
+        "type": "node",
+        "chance": 98.4
+      },
+      {
+        "resource": "Blue Granite Shell",
+        "type": "shell",
+        "chance": 34.9
+      },
+      {
+        "resource": "Chondrite",
+        "type": "shell",
+        "chance": 34.9
+      },
+      {
+        "resource": "Cinder",
+        "type": "shell",
+        "chance": 34.9
+      },
+      {
+        "resource": "Gabbro Shell",
+        "type": "shell",
+        "chance": 34.9
+      },
+      {
+        "resource": "Ice Shell",
+        "type": "shell",
+        "chance": 34.9
+      },
+      {
+        "resource": "Obsidian Shell",
+        "type": "shell",
+        "chance": 34.9
+      },
+      {
+        "resource": "Opal Shell",
+        "type": "shell",
+        "chance": 34.9
+      },
+      {
+        "resource": "Pumice",
+        "type": "shell",
+        "chance": 34.9
+      },
+      {
+        "resource": "Volcanic Shell",
+        "type": "shell",
+        "chance": 34.9
+      },
+      {
+        "resource": "Basalt Shell",
+        "type": "shell",
+        "chance": 14.6
+      },
+      {
+        "resource": "Titanium Deposit",
+        "type": "deposit",
+        "yield": "60.0/h"
       }
     ]
   }
