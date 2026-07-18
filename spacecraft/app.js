@@ -5,6 +5,7 @@ const state = {
   query: '',
   plan: [],
   inventory: {}, // itemId -> qty already on hand
+  sectors: [],
 };
 
 // Tracks which item's "Reset amounts used for this" button is currently armed
@@ -134,6 +135,12 @@ function updatePlanCount() {
 async function init() {
   const res = await fetch('data/recipes.json?v=4');
   state.items = await res.json();
+  try {
+    const sectorsRes = await fetch('data/sectors.json?v=1');
+    state.sectors = await sectorsRes.json();
+  } catch (e) {
+    state.sectors = []; // sector data is a nice-to-have, don't block the page if it's missing
+  }
   state.plan = loadPlan();
   state.inventory = loadInventory();
   updatePlanCount();
@@ -738,6 +745,8 @@ function buildItemBody(item, idLookup, domId) {
     bodyHtml += `<p class="section-label">Contained in resources</p><p class="raw-note">${escapeHtml(item.gathering_note)}</p>`;
   }
 
+  bodyHtml += renderSectorLine(item.name);
+
   if (item.module_info) {
     bodyHtml += renderModuleInfo(item.module_info, item.category);
   }
@@ -762,6 +771,30 @@ function renderAnalysisTiers(tiers) {
     })
     .join('');
   return `<p class="section-label">Analysis (Laboratory)</p><ul class="analysis-list">${rows}</ul>`;
+}
+
+// Shows which galaxy sectors an item spawns in — 4 or fewer sectors get listed right
+// here (rare enough that the actual names are useful at a glance); more than that
+// just links out to the Sector Locator page instead, since a wall of sector names for
+// something that's basically "everywhere" (most common ores) wouldn't help anyone
+// decide where to actually go.
+function renderSectorLine(itemName) {
+  if (!state.sectors || !state.sectors.length) return '';
+  const occurrences = [];
+  state.sectors.forEach((s) => {
+    const match = s.resources.find((r) => r.name.toLowerCase() === itemName.toLowerCase());
+    if (match) occurrences.push({ sector: s.name, rarity: match.rarity });
+  });
+  if (!occurrences.length) return '';
+
+  if (occurrences.length <= 4) {
+    const tags = occurrences
+      .map((o) => `<span class="station-chip station-chip-inline" title="${o.rarity ? escapeHtml(o.rarity) : 'Random yield'}">${escapeHtml(o.sector)}</span>`)
+      .join(' ');
+    return `<p class="section-label">Galaxy sectors</p><p class="raw-note">${tags}</p>`;
+  }
+
+  return `<p class="section-label">Galaxy sectors</p><p class="raw-note">Found in ${occurrences.length} sectors — <a class="ing-name linkable" href="sectors.html?resource=${encodeURIComponent(slugify(itemName))}">see where to find it →</a></p>`;
 }
 
 // Hand-mine sources (nodes and shells — both mined by hand, shells just need a mining
