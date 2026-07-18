@@ -473,6 +473,8 @@ h1 {
 .ship-layout .list { padding-top: 16px; }
 
 .part-card { padding: 14px; cursor: default; }
+.sector-card { cursor: pointer; }
+.sector-card:hover { border-color: var(--amber); }
 .part-card.locked { opacity: 0.55; }
 
 .part-head {
