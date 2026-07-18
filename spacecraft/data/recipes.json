@@ -34,7 +34,7 @@
       "footprint": 0,
       "power": 0,
       "automatable": null,
-      "note": "Does not use footprint/power itself \u2014 instead ADDS +50 Footprint Capacity, +50 Decoration Capacity, +400 Experience Capacity to the base. Confirmed via in-game Specs screenshot.",
+      "note": "Does not use footprint/power itself \u2014 instead ADDS +50 Footprint Capacity, +50 Decoration Capacity, +400 Experience Capacity to the base. Confirmed via in-game Specs screenshot. Command Tower unlocks early (Tier 1 technology). Its +400 XP raises the base's Technology XP ceiling from 400 to 800 \u2014 worth building well before you need that capacity, not right when you hit the wall.",
       "adds_footprint_capacity": 50,
       "adds_decoration_capacity": 50,
       "adds_experience_capacity": 400
