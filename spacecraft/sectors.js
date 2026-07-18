@@ -18,12 +18,19 @@ function escapeHtml(str) {
 }
 
 async function init() {
-  const [sectorsRes, itemsRes] = await Promise.all([
-    fetch('data/sectors.json?v=1'),
-    fetch('data/recipes.json?v=4'),
-  ]);
-  state.sectors = await sectorsRes.json();
-  state.items = await itemsRes.json();
+  try {
+    const [sectorsRes, itemsRes] = await Promise.all([
+      fetch('data/sectors.json?v=1'),
+      fetch('data/recipes.json?v=4'),
+    ]);
+    if (!sectorsRes.ok) throw new Error(`data/sectors.json failed to load (HTTP ${sectorsRes.status}) — check it was uploaded to the data/ folder.`);
+    if (!itemsRes.ok) throw new Error(`data/recipes.json failed to load (HTTP ${itemsRes.status}).`);
+    state.sectors = await sectorsRes.json();
+    state.items = await itemsRes.json();
+  } catch (err) {
+    document.getElementById('sector-content').innerHTML = `<p class="raw-note" style="color:var(--gold);">Couldn't load sector data: ${escapeHtml(err.message)}</p>`;
+    return;
+  }
 
   const searchInput = document.getElementById('resource-search');
   searchInput.addEventListener('input', () => {
