@@ -29,7 +29,16 @@
         "item": "Concrete",
         "qty": 250
       }
-    ]
+    ],
+    "building_info": {
+      "footprint": 0,
+      "power": 0,
+      "automatable": null,
+      "note": "Does not use footprint/power itself \u2014 instead ADDS +50 Footprint Capacity, +50 Decoration Capacity, +400 Experience Capacity to the base. Confirmed via in-game Specs screenshot.",
+      "adds_footprint_capacity": 50,
+      "adds_decoration_capacity": 50,
+      "adds_experience_capacity": 400
+    }
   },
   {
     "id": "extractor",
@@ -54,7 +63,14 @@
         "item": "Concrete",
         "qty": 4
       }
-    ]
+    ],
+    "building_info": {
+      "footprint": 5,
+      "power": -20,
+      "automatable": true,
+      "note": "Confirmed in-game. Confirmed in-game (Assembler + Small Steel Part Casing, a 2-ingredient recipe): each drone route carries only one item type, so a recipe needing N distinct ingredients needs N separate routes, even if every ingredient is stored in the same Warehouse. Routes are shared \u2014 connecting two buildings uses up one route slot on BOTH ends, not just the crafting building. In the confirmed test, 2 routes from one Warehouse to feed the Assembler left that Warehouse with 3 of its 5 routes still free. An optional extra route can also carry the finished product back to a Warehouse for storage.",
+      "max_drone_routes": 2
+    }
   },
   {
     "id": "solar-plant",
@@ -83,7 +99,13 @@
         "item": "Solar Cell",
         "qty": 36
       }
-    ]
+    ],
+    "building_info": {
+      "footprint": 4,
+      "power": 10,
+      "automatable": null,
+      "note": "Confirmed in-game."
+    }
   },
   {
     "id": "pylon",
@@ -102,7 +124,14 @@
         "item": "Magnetic Coil",
         "qty": 1
       }
-    ]
+    ],
+    "building_info": {
+      "footprint": 0,
+      "power": 0,
+      "automatable": null,
+      "note": "No footprint cost \u2014 build as many as needed. Each Pylon supports a max of 6 power connections; the base itself also caps at 6 direct connections. Confirmed in-game.",
+      "max_connections": 6
+    }
   },
   {
     "id": "smelter",
@@ -127,7 +156,13 @@
         "item": "Concrete",
         "qty": 10
       }
-    ]
+    ],
+    "building_info": {
+      "footprint": 3,
+      "power": -8,
+      "automatable": true,
+      "note": "Real buildable Smelter \u2014 automated alternative to the manual smelter bundled with your base. Confirmed in-game."
+    }
   },
   {
     "id": "micro-furnace",
@@ -157,7 +192,13 @@
         "item": "Calcite",
         "qty": 1
       }
-    ]
+    ],
+    "building_info": {
+      "footprint": 1,
+      "power": null,
+      "automatable": false,
+      "note": "Not automatable \u2014 hand-crafting accessory only, per its own in-game description. Footprint confirmed in-game; power not yet listed in Encyclopedia (not built yet)."
+    }
   },
   {
     "id": "assembler",
@@ -191,7 +232,13 @@
         "item": "Motor",
         "qty": 3
       }
-    ]
+    ],
+    "building_info": {
+      "footprint": 3,
+      "power": -4,
+      "automatable": true,
+      "note": "Automated alternative to the manual workshop bundled with your base. Confirmed in-game."
+    }
   },
   {
     "id": "warehouse",
@@ -223,7 +270,15 @@
         "item": "Concrete",
         "qty": 20
       }
-    ]
+    ],
+    "building_info": {
+      "footprint": 3,
+      "power": 0,
+      "storage_solid": 2000,
+      "automatable": null,
+      "note": "Confirmed in-game: 3 FP, no power draw, 2000 su solid storage, max 5 drone routes. Confirmed in-game (Assembler + Small Steel Part Casing, a 2-ingredient recipe): each drone route carries only one item type, so a recipe needing N distinct ingredients needs N separate routes, even if every ingredient is stored in the same Warehouse. Routes are shared \u2014 connecting two buildings uses up one route slot on BOTH ends, not just the crafting building. In the confirmed test, 2 routes from one Warehouse to feed the Assembler left that Warehouse with 3 of its 5 routes still free. An optional extra route can also carry the finished product back to a Warehouse for storage.",
+      "max_drone_routes": 5
+    }
   },
   {
     "id": "drone-dispatcher",
@@ -247,7 +302,13 @@
         "item": "Stainless Plate",
         "qty": 1
       }
-    ]
+    ],
+    "building_info": {
+      "footprint": 1,
+      "power": null,
+      "automatable": null,
+      "note": "Footprint confirmed in-game. Power unconfirmed \u2014 base was torn down before checking."
+    }
   },
   {
     "id": "landing-pad",
@@ -271,7 +332,13 @@
         "item": "Concrete",
         "qty": 40
       }
-    ]
+    ],
+    "building_info": {
+      "footprint": 1,
+      "power": 0,
+      "automatable": null,
+      "note": "Confirmed in-game."
+    }
   },
   {
     "id": "copper-ore",
@@ -830,7 +897,10 @@
       "sell_price": 322,
       "description": "This autonomous device can deploy a planetary base in a matter of seconds. Its use is reserved for authorized associates selected by The Company."
     },
-    "subcategory": "Kit and Casing"
+    "subcategory": "Kit and Casing",
+    "building_info": {
+      "note": "Crafted item used to establish the base \u2014 not a placed building with its own footprint/power stats."
+    }
   },
   {
     "id": "small-cargo-hold",
@@ -4129,7 +4199,10 @@
     "value": 100.0,
     "note": "Purchased, not crafted.",
     "price": 100.0,
-    "subcategory": "Kit and Casing"
+    "subcategory": "Kit and Casing",
+    "building_info": {
+      "note": "Purchased item used to establish the base \u2014 not a placed building with its own footprint/power stats."
+    }
   },
   {
     "id": "thermal-suit-chip",
