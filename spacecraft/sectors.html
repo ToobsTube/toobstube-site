@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpaceCraft Sector Locator</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=19">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="eyebrow-row">
+      <p class="eyebrow">SpaceCraft // Sector Locator</p>
+    </div>
+    <nav class="site-nav">
+      <a class="nav-pill" href="index.html">📋 Crafting Calculator</a>
+      <a class="nav-pill" href="ship.html">🚀 Ship Planner</a>
+      <a class="nav-pill" href="base.html">🏗️ Base Planner</a>
+      <a class="nav-pill" href="https://toobstube.com" target="_blank" rel="noopener">▶ ToobsTube</a>
+    </nav>
+    <h1>Where to find it</h1>
+    <p class="raw-note">Every galaxy sector is fixed and identical on every server — only the star layout inside each one is server-specific. Rarity shown is each resource's spawn weight within that sector, not a literal percentage.</p>
+
+    <input type="text" id="resource-search" class="automate-search" placeholder="Search a resource, e.g. Titanium Ore..." autocomplete="off" style="width:100%; margin-top:14px;">
+  </header>
+
+  <div class="layout">
+    <main id="sector-content" class="list" style="max-width:900px;"></main>
+  </div>
+
+  <footer class="footer">
+    <p>Sector data hand-transcribed from spacecraftplanner.com, verified sector-by-sector against the resource counts each sector reports. Pioneer is confirmed in-game rather than site-sourced (it's the fixed tutorial sector, not one of the 22 server-generated regions).</p>
+  </footer>
+
+<script src="sectors.js?v=1"></script>
+</body>
+</html>
