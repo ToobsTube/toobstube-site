@@ -1,0 +1,2377 @@
+[
+  {
+    "name": "Threshold",
+    "tier": 1,
+    "station": "Threshold Station",
+    "resources": [
+      {
+        "name": "Copper Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Graphite Crystal",
+        "rarity": "Common"
+      },
+      {
+        "name": "Huge Electronics Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Iron Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Quartz",
+        "rarity": "Common"
+      },
+      {
+        "name": "Steel Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Wrecked Hull",
+        "rarity": "Common"
+      },
+      {
+        "name": "Aquamarine",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Beautiful Gemstone",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Hematite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Iron Nugget",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Pyrite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Vanadium Ore",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "a-Carbon",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Azurite Stone",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Copper Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Diamond",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Emerald",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Kaolinite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Malachite Stone",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Marvelous Gemstone",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Silicate",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Nugget",
+        "rarity": "Rare"
+      }
+    ]
+  },
+  {
+    "name": "Cairn",
+    "tier": 2,
+    "station": "Cairn Station",
+    "resources": [
+      {
+        "name": "Azurite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Beautiful Gemstone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Copper Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Elmerium Nugget",
+        "rarity": "Common"
+      },
+      {
+        "name": "Graphite Crystal",
+        "rarity": "Common"
+      },
+      {
+        "name": "Huge Electronics Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Iron Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Malachite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Pyrite",
+        "rarity": "Common"
+      },
+      {
+        "name": "Quartz",
+        "rarity": "Common"
+      },
+      {
+        "name": "Steel Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Wrecked Hull",
+        "rarity": "Common"
+      },
+      {
+        "name": "Aquamarine",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Cinnabar",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Copper Nugget",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Hematite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Silicate",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Vanadium Ore",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "a-Carbon",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Diamond",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Emerald",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Iron Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Kaolinite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Marvelous Gemstone",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Platinum Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Sulfur",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcified Invariant",
+        "rarity": null
+      },
+      {
+        "name": "Elmerium Dust",
+        "rarity": null
+      },
+      {
+        "name": "Fair Gemstone",
+        "rarity": null
+      },
+      {
+        "name": "Quartz Powder",
+        "rarity": null
+      }
+    ]
+  },
+  {
+    "name": "Terminus",
+    "tier": 2,
+    "station": "Terminus Station",
+    "resources": [
+      {
+        "name": "Aquamarine",
+        "rarity": "Common"
+      },
+      {
+        "name": "Azurite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Beautiful Gemstone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Copper Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Elmerium Nugget",
+        "rarity": "Common"
+      },
+      {
+        "name": "Huge Electronics Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Malachite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Quartz",
+        "rarity": "Common"
+      },
+      {
+        "name": "Steel Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Wrecked Hull",
+        "rarity": "Common"
+      },
+      {
+        "name": "Cinnabar",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Copper Nugget",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Iron Nugget",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Pyrite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Silicate",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Aluminum Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Emerald",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Graphite Crystal",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Kaolinite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Marvelous Gemstone",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Platinum Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Sulfur",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Vanadium Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcified Invariant",
+        "rarity": null
+      },
+      {
+        "name": "Elmerium Dust",
+        "rarity": null
+      },
+      {
+        "name": "Fair Gemstone",
+        "rarity": null
+      },
+      {
+        "name": "Quartz Powder",
+        "rarity": null
+      }
+    ]
+  },
+  {
+    "name": "Blank",
+    "tier": 3,
+    "station": null,
+    "resources": [],
+    "obstacle": true
+  },
+  {
+    "name": "Fool's Rim",
+    "tier": 3,
+    "station": null,
+    "resources": [
+      {
+        "name": "Azurite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Beautiful Gemstone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Cinnabar",
+        "rarity": "Common"
+      },
+      {
+        "name": "Copper Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Elmerium Nugget",
+        "rarity": "Common"
+      },
+      {
+        "name": "Graphite Crystal",
+        "rarity": "Common"
+      },
+      {
+        "name": "Huge Electronics Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Iron Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Malachite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Quartz",
+        "rarity": "Common"
+      },
+      {
+        "name": "Steel Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Wrecked Hull",
+        "rarity": "Common"
+      },
+      {
+        "name": "Aquamarine",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Copper Nugget",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Hematite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Iron Nugget",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Pyrite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Silicate",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Vanadium Ore",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "a-Carbon",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Diamond",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Emerald",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Kaolinite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Marvelous Gemstone",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Platinum Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Sulfur",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcified Invariant",
+        "rarity": null
+      },
+      {
+        "name": "Elmerium Dust",
+        "rarity": null
+      },
+      {
+        "name": "Fair Gemstone",
+        "rarity": null
+      },
+      {
+        "name": "Quartz Powder",
+        "rarity": null
+      }
+    ]
+  },
+  {
+    "name": "Hubris Alpha",
+    "tier": 3,
+    "station": null,
+    "resources": [
+      {
+        "name": "Beautiful Gemstone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Diamond",
+        "rarity": "Common"
+      },
+      {
+        "name": "Elmerium Nugget",
+        "rarity": "Common"
+      },
+      {
+        "name": "Graphite Crystal",
+        "rarity": "Common"
+      },
+      {
+        "name": "Huge Electronics Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Iron Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Pyrite",
+        "rarity": "Common"
+      },
+      {
+        "name": "Quartz",
+        "rarity": "Common"
+      },
+      {
+        "name": "Steel Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Wrecked Hull",
+        "rarity": "Common"
+      },
+      {
+        "name": "Aquamarine",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Cinnabar",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Hematite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Silicate",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Vanadium Ore",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "a-Carbon",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Emerald",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Iron Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Kaolinite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Marvelous Gemstone",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Sulfur",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcified Invariant",
+        "rarity": null
+      },
+      {
+        "name": "Elmerium Dust",
+        "rarity": null
+      },
+      {
+        "name": "Fair Gemstone",
+        "rarity": null
+      },
+      {
+        "name": "Quartz Powder",
+        "rarity": null
+      }
+    ]
+  },
+  {
+    "name": "Hubris Major",
+    "tier": 3,
+    "station": null,
+    "resources": [
+      {
+        "name": "Beautiful Gemstone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Diamond",
+        "rarity": "Common"
+      },
+      {
+        "name": "Elmerium Nugget",
+        "rarity": "Common"
+      },
+      {
+        "name": "Graphite Crystal",
+        "rarity": "Common"
+      },
+      {
+        "name": "Huge Electronics Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Iron Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Pyrite",
+        "rarity": "Common"
+      },
+      {
+        "name": "Quartz",
+        "rarity": "Common"
+      },
+      {
+        "name": "Steel Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Wrecked Hull",
+        "rarity": "Common"
+      },
+      {
+        "name": "Aquamarine",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Cinnabar",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Hematite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Silicate",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Vanadium Ore",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "a-Carbon",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Emerald",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Iron Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Kaolinite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Marvelous Gemstone",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Sulfur",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcified Invariant",
+        "rarity": null
+      },
+      {
+        "name": "Elmerium Dust",
+        "rarity": null
+      },
+      {
+        "name": "Fair Gemstone",
+        "rarity": null
+      },
+      {
+        "name": "Quartz Powder",
+        "rarity": null
+      }
+    ]
+  },
+  {
+    "name": "Hubris Omega",
+    "tier": 3,
+    "station": null,
+    "resources": [
+      {
+        "name": "Beautiful Gemstone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Diamond",
+        "rarity": "Common"
+      },
+      {
+        "name": "Elmerium Nugget",
+        "rarity": "Common"
+      },
+      {
+        "name": "Graphite Crystal",
+        "rarity": "Common"
+      },
+      {
+        "name": "Huge Electronics Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Iron Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Pyrite",
+        "rarity": "Common"
+      },
+      {
+        "name": "Quartz",
+        "rarity": "Common"
+      },
+      {
+        "name": "Steel Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Wrecked Hull",
+        "rarity": "Common"
+      },
+      {
+        "name": "Aquamarine",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Cinnabar",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Hematite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Silicate",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Vanadium Ore",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "a-Carbon",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Emerald",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Iron Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Kaolinite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Marvelous Gemstone",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Sulfur",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcified Invariant",
+        "rarity": null
+      },
+      {
+        "name": "Elmerium Dust",
+        "rarity": null
+      },
+      {
+        "name": "Fair Gemstone",
+        "rarity": null
+      },
+      {
+        "name": "Quartz Powder",
+        "rarity": null
+      }
+    ]
+  },
+  {
+    "name": "Jester",
+    "tier": 3,
+    "station": null,
+    "resources": [
+      {
+        "name": "Aquamarine",
+        "rarity": "Common"
+      },
+      {
+        "name": "Azurite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Beautiful Gemstone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Copper Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Elmerium Nugget",
+        "rarity": "Common"
+      },
+      {
+        "name": "Graphite Crystal",
+        "rarity": "Common"
+      },
+      {
+        "name": "Huge Electronics Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Iron Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Malachite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Quartz",
+        "rarity": "Common"
+      },
+      {
+        "name": "Steel Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Wrecked Hull",
+        "rarity": "Common"
+      },
+      {
+        "name": "Emerald",
+        "rarity": "Common"
+      },
+      {
+        "name": "Copper Nugget",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Diamond",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Hematite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Silicate",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "a-Carbon",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Iron Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Kaolinite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Marvelous Gemstone",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Platinum Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Pyrite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcified Invariant",
+        "rarity": null
+      },
+      {
+        "name": "Elmerium Dust",
+        "rarity": null
+      }
+    ]
+  },
+  {
+    "name": "Landmark",
+    "tier": 3,
+    "station": null,
+    "resources": [
+      {
+        "name": "Aquamarine",
+        "rarity": "Common"
+      },
+      {
+        "name": "Azurite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Beautiful Gemstone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Copper Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Elmerium Nugget",
+        "rarity": "Common"
+      },
+      {
+        "name": "Graphite Crystal",
+        "rarity": "Common"
+      },
+      {
+        "name": "Huge Electronics Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Iron Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Malachite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Steel Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Wrecked Hull",
+        "rarity": "Common"
+      },
+      {
+        "name": "Copper Nugget",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Hematite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Quartz",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Silicate",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Vanadium Ore",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "a-Carbon",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Diamond",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Emerald",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Iron Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Kaolinite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Marvelous Gemstone",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Platinum Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Pyrite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Elmerium Dust",
+        "rarity": null
+      }
+    ]
+  },
+  {
+    "name": "Moor",
+    "tier": 3,
+    "station": null,
+    "resources": [
+      {
+        "name": "Aquamarine",
+        "rarity": "Common"
+      },
+      {
+        "name": "Azurite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Beautiful Gemstone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Copper Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Elmerium Nugget",
+        "rarity": "Common"
+      },
+      {
+        "name": "Graphite Crystal",
+        "rarity": "Common"
+      },
+      {
+        "name": "Huge Electronics Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Iron Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Malachite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Steel Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Wrecked Hull",
+        "rarity": "Common"
+      },
+      {
+        "name": "Copper Nugget",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Hematite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Quartz",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Silicate",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Vanadium Ore",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "a-Carbon",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Diamond",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Emerald",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Iron Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Kaolinite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Marvelous Gemstone",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Platinum Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Pyrite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Turquoise",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Elmerium Dust",
+        "rarity": null
+      }
+    ]
+  },
+  {
+    "name": "Strand",
+    "tier": 3,
+    "station": null,
+    "resources": [
+      {
+        "name": "Azurite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Beautiful Gemstone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Copper Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Elmerium Nugget",
+        "rarity": "Common"
+      },
+      {
+        "name": "Graphite Crystal",
+        "rarity": "Common"
+      },
+      {
+        "name": "Huge Electronics Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Iron Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Malachite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Quartz",
+        "rarity": "Common"
+      },
+      {
+        "name": "Steel Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Wrecked Hull",
+        "rarity": "Common"
+      },
+      {
+        "name": "Aquamarine",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Cinnabar",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Copper Nugget",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Hematite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Iron Nugget",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Pyrite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Silicate",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Vanadium Ore",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "a-Carbon",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Diamond",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Emerald",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Kaolinite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Marvelous Gemstone",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Platinum Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Sulfur",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcified Invariant",
+        "rarity": null
+      },
+      {
+        "name": "Elmerium Dust",
+        "rarity": null
+      },
+      {
+        "name": "Fair Gemstone",
+        "rarity": null
+      },
+      {
+        "name": "Quartz Powder",
+        "rarity": null
+      }
+    ]
+  },
+  {
+    "name": "Axon",
+    "tier": 4,
+    "station": null,
+    "resources": [
+      {
+        "name": "Aquamarine",
+        "rarity": "Common"
+      },
+      {
+        "name": "Azurite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Beautiful Gemstone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Copper Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Elmerium Nugget",
+        "rarity": "Common"
+      },
+      {
+        "name": "Graphite Crystal",
+        "rarity": "Common"
+      },
+      {
+        "name": "Huge Electronics Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Malachite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Quartz",
+        "rarity": "Common"
+      },
+      {
+        "name": "Steel Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Wrecked Hull",
+        "rarity": "Common"
+      },
+      {
+        "name": "Copper Nugget",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Silicate",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Vanadium Ore",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "a-Carbon",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Diamond",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Emerald",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Iron Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Kaolinite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Marvelous Gemstone",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Platinum Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Pyrite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcified Invariant",
+        "rarity": null
+      },
+      {
+        "name": "Elmerium Dust",
+        "rarity": null
+      },
+      {
+        "name": "Fair Gemstone",
+        "rarity": null
+      },
+      {
+        "name": "Quartz Powder",
+        "rarity": null
+      }
+    ]
+  },
+  {
+    "name": "Ebb",
+    "tier": 4,
+    "station": null,
+    "resources": [
+      {
+        "name": "Beautiful Gemstone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Elmerium Nugget",
+        "rarity": "Common"
+      },
+      {
+        "name": "Graphite Crystal",
+        "rarity": "Common"
+      },
+      {
+        "name": "Huge Electronics Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Iron Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Quartz",
+        "rarity": "Common"
+      },
+      {
+        "name": "Steel Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Wrecked Hull",
+        "rarity": "Common"
+      },
+      {
+        "name": "Aquamarine",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Hematite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Silicate",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Vanadium Ore",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "a-Carbon",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Diamond",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Emerald",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Iron Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Kaolinite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Marvelous Gemstone",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Pyrite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcified Invariant",
+        "rarity": null
+      },
+      {
+        "name": "Elmerium Dust",
+        "rarity": null
+      },
+      {
+        "name": "Fair Gemstone",
+        "rarity": null
+      },
+      {
+        "name": "Quartz Powder",
+        "rarity": null
+      }
+    ]
+  },
+  {
+    "name": "Glimmer",
+    "tier": 4,
+    "station": null,
+    "resources": [
+      {
+        "name": "Azurite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Beautiful Gemstone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Copper Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Elmerium Nugget",
+        "rarity": "Common"
+      },
+      {
+        "name": "Graphite Crystal",
+        "rarity": "Common"
+      },
+      {
+        "name": "Huge Electronics Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Iron Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Malachite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Quartz",
+        "rarity": "Common"
+      },
+      {
+        "name": "Steel Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Vanadium Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Wrecked Hull",
+        "rarity": "Common"
+      },
+      {
+        "name": "Aquamarine",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Cinnabar",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Copper Nugget",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Hematite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Iron Nugget",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Pyrite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Silicate",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "a-Carbon",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Diamond",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Emerald",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Kaolinite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Marvelous Gemstone",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Platinum Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Sulfur",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcified Invariant",
+        "rarity": null
+      },
+      {
+        "name": "Elmerium Dust",
+        "rarity": null
+      },
+      {
+        "name": "Fair Gemstone",
+        "rarity": null
+      },
+      {
+        "name": "Quartz Powder",
+        "rarity": null
+      }
+    ]
+  },
+  {
+    "name": "Horizon",
+    "tier": 4,
+    "station": "Horizon Station",
+    "resources": [
+      {
+        "name": "Azurite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Beautiful Gemstone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Copper Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Elmerium Nugget",
+        "rarity": "Common"
+      },
+      {
+        "name": "Graphite Crystal",
+        "rarity": "Common"
+      },
+      {
+        "name": "Huge Electronics Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Iron Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Malachite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Pyrite",
+        "rarity": "Common"
+      },
+      {
+        "name": "Quartz",
+        "rarity": "Common"
+      },
+      {
+        "name": "Steel Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Wrecked Hull",
+        "rarity": "Common"
+      },
+      {
+        "name": "Aquamarine",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Cinnabar",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Copper Nugget",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Hematite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Iron Nugget",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Silicate",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Vanadium Ore",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "a-Carbon",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Diamond",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Emerald",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Kaolinite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Marvelous Gemstone",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Platinum Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Sulfur",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcified Invariant",
+        "rarity": null
+      },
+      {
+        "name": "Elmerium Dust",
+        "rarity": null
+      },
+      {
+        "name": "Fair Gemstone",
+        "rarity": null
+      },
+      {
+        "name": "Quartz Powder",
+        "rarity": null
+      }
+    ]
+  },
+  {
+    "name": "Justice",
+    "tier": 4,
+    "station": "Justice Station",
+    "resources": [
+      {
+        "name": "Aquamarine",
+        "rarity": "Common"
+      },
+      {
+        "name": "Azurite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Beautiful Gemstone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Copper Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Elmerium Nugget",
+        "rarity": "Common"
+      },
+      {
+        "name": "Graphite Crystal",
+        "rarity": "Common"
+      },
+      {
+        "name": "Huge Electronics Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Iron Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Malachite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Quartz",
+        "rarity": "Common"
+      },
+      {
+        "name": "Steel Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Vanadium Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Wrecked Hull",
+        "rarity": "Common"
+      },
+      {
+        "name": "Cinnabar",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Copper Nugget",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Hematite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Iron Nugget",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Pyrite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Silicate",
+        "rarity": "Rare"
+      },
+      {
+        "name": "a-Carbon",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Diamond",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Emerald",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Kaolinite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Marvelous Gemstone",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Platinum Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Sulfur",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcified Invariant",
+        "rarity": null
+      },
+      {
+        "name": "Elmerium Dust",
+        "rarity": null
+      },
+      {
+        "name": "Fair Gemstone",
+        "rarity": null
+      },
+      {
+        "name": "Quartz Powder",
+        "rarity": null
+      }
+    ]
+  },
+  {
+    "name": "Riddle",
+    "tier": 4,
+    "station": null,
+    "resources": [],
+    "obstacle": true
+  },
+  {
+    "name": "Chimera",
+    "tier": 5,
+    "station": null,
+    "resources": [],
+    "obstacle": true
+  },
+  {
+    "name": "Idol",
+    "tier": 5,
+    "station": null,
+    "resources": [
+      {
+        "name": "Beautiful Gemstone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Elmerium Nugget",
+        "rarity": "Common"
+      },
+      {
+        "name": "Graphite Crystal",
+        "rarity": "Common"
+      },
+      {
+        "name": "Huge Electronics Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Iron Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Quartz",
+        "rarity": "Common"
+      },
+      {
+        "name": "Steel Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Wrecked Hull",
+        "rarity": "Common"
+      },
+      {
+        "name": "Aquamarine",
+        "rarity": "Common"
+      },
+      {
+        "name": "Cinnabar",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Hematite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Pyrite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Silicate",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Vanadium Ore",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "a-Carbon",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Diamond",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Emerald",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Iron Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Kaolinite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Marvelous Gemstone",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Sulfur",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcified Invariant",
+        "rarity": null
+      },
+      {
+        "name": "Elmerium Dust",
+        "rarity": null
+      },
+      {
+        "name": "Fair Gemstone",
+        "rarity": null
+      },
+      {
+        "name": "Quartz Powder",
+        "rarity": null
+      }
+    ]
+  },
+  {
+    "name": "Vestige",
+    "tier": 5,
+    "station": null,
+    "resources": [
+      {
+        "name": "Aquamarine",
+        "rarity": "Common"
+      },
+      {
+        "name": "Azurite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Beautiful Gemstone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Copper Ore",
+        "rarity": "Common"
+      },
+      {
+        "name": "Elmerium Nugget",
+        "rarity": "Common"
+      },
+      {
+        "name": "Graphite Crystal",
+        "rarity": "Common"
+      },
+      {
+        "name": "Huge Electronics Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Malachite Stone",
+        "rarity": "Common"
+      },
+      {
+        "name": "Quartz",
+        "rarity": "Common"
+      },
+      {
+        "name": "Steel Scraps",
+        "rarity": "Common"
+      },
+      {
+        "name": "Wrecked Hull",
+        "rarity": "Common"
+      },
+      {
+        "name": "Cinnabar",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Copper Nugget",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Pyrite",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Silicate",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "Vanadium Ore",
+        "rarity": "Uncommon"
+      },
+      {
+        "name": "a-Carbon",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Aluminum Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Diamond",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Emerald",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Iron Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Kaolinite",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Marvelous Gemstone",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Platinum Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Sulfur",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Nugget",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Titanium Ore",
+        "rarity": "Rare"
+      },
+      {
+        "name": "Calcified Invariant",
+        "rarity": null
+      },
+      {
+        "name": "Elmerium Dust",
+        "rarity": null
+      },
+      {
+        "name": "Fair Gemstone",
+        "rarity": null
+      },
+      {
+        "name": "Quartz Powder",
+        "rarity": null
+      }
+    ]
+  },
+  {
+    "name": "Zenith",
+    "tier": 5,
+    "station": null,
+    "resources": [],
+    "obstacle": true
+  },
+  {
+    "name": "Pioneer",
+    "tier": 0,
+    "station": "Babylon",
+    "system": "Solar Alpha",
+    "source": "confirmed in-game",
+    "resources": [
+      {
+        "name": "Cupric Stone",
+        "rarity": null
+      },
+      {
+        "name": "Ferric Stone",
+        "rarity": null
+      },
+      {
+        "name": "Brassy Outcrop",
+        "rarity": null
+      },
+      {
+        "name": "Ferrous Outcrop",
+        "rarity": null
+      },
+      {
+        "name": "Gravite Stone",
+        "rarity": null
+      },
+      {
+        "name": "Gray Quartz",
+        "rarity": null
+      }
+    ]
+  }
+]
