@@ -573,7 +573,7 @@ h1 {
 .balance-good { color: var(--green); }
 .balance-bad { color: var(--gold); }
 
-.build-stat-totals { max-height: 320px; overflow-y: auto; }
+.build-stat-totals { }
 
 .chevron {
   color: var(--text-dim);
