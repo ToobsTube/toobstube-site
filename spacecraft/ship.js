@@ -328,7 +328,7 @@ function renderPartCard(item) {
       ${item.module_info && item.module_info.description ? `<p class="part-desc">${escapeHtml(item.module_info.description)}</p>` : ''}
       ${lockReasonHtml}
       <ul class="ingredients part-stats">${statRows}</ul>
-      <a class="gather-link" href="${gatherHref}" target="_blank" rel="noopener">Gather materials for this →</a>
+      <a class="gather-link" href="${gatherHref}" target="spacecraft-calculator" rel="noopener">Gather materials for this →</a>
     </div>
   `;
 }
@@ -379,7 +379,7 @@ function renderBuildList() {
         <li class="build-row" data-id="${b.id}">
           <span class="build-row-name">${escapeHtml(item.name)}</span>
           <input type="number" class="qty-input build-qty-input" min="1" step="1" value="${b.qty}" data-id="${b.id}" aria-label="Quantity">
-          <a class="gather-link build-gather-link" href="index.html?item=${encodeURIComponent(b.id)}&qty=${encodeURIComponent(b.qty)}" target="_blank" rel="noopener" data-id="${b.id}">Gather →</a>
+          <a class="gather-link build-gather-link" href="index.html?item=${encodeURIComponent(b.id)}&qty=${encodeURIComponent(b.qty)}" target="spacecraft-calculator" rel="noopener" data-id="${b.id}">Gather →</a>
           <button class="plan-remove build-remove" data-id="${b.id}" aria-label="Remove">&times;</button>
         </li>
       `;
@@ -731,7 +731,7 @@ function shipMatLink(name) {
   const slug = slugify(name);
   const linkable = state.items.some((i) => i.id === slug);
   if (!linkable) return `<span class="ing-name">${escapeHtml(name)}</span>`;
-  return `<a class="ing-name linkable" href="index.html?item=${encodeURIComponent(slug)}" target="_blank" rel="noopener">${escapeHtml(name)}</a>`;
+  return `<a class="ing-name linkable" href="index.html?item=${encodeURIComponent(slug)}" target="spacecraft-calculator" rel="noopener">${escapeHtml(name)}</a>`;
 }
 
 // Same idea as the crafter's material rows, but with a live-editable "have" box
