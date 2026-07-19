@@ -701,7 +701,7 @@ function plannerMatLink(name) {
   const slug = slugify(name);
   const linkable = state.items.some((i) => i.id === slug);
   if (!linkable) return `<span class="ing-name">${escapeHtml(name)}</span>`;
-  return `<a class="ing-name linkable" href="index.html?item=${encodeURIComponent(slug)}" target="_blank" rel="noopener">${escapeHtml(name)}</a>`;
+  return `<a class="ing-name linkable" href="index.html?item=${encodeURIComponent(slug)}" target="spacecraft-calculator" rel="noopener">${escapeHtml(name)}</a>`;
 }
 
 function renderPlannerMaterialRows(map, sortFn, withStation, altRawMap) {
