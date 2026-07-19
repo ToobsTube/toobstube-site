@@ -6978,5 +6978,26 @@
         "yield": "60.0/h"
       }
     ]
+  },
+  {
+    "id": "crude-battery",
+    "name": "Crude Battery",
+    "category": "Internal Module",
+    "group": "Ship Parts",
+    "subcategory": "Battery",
+    "type": "buy",
+    "verified": true,
+    "source": "in-game screenshot",
+    "note": "Appears to be a starter part you begin with rather than something crafted \u2014 no craft recipe confirmed yet, and player reports (community guide) suggest it may not be craftable early on at all. Update this if a recipe turns up.",
+    "module_info": {
+      "description": "This module can store chemical energy and readily convert it to electric current to power other RSMs.",
+      "stats": {
+        "System Requirements": "200 SP",
+        "Power Storage": "1000 MAs",
+        "Max Charge Speed": "100.0 MA",
+        "Theoretical Efficiency": "70.0%",
+        "Self-Discharge": "0.8%/s"
+      }
+    }
   }
 ]
