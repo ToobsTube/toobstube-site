@@ -414,6 +414,17 @@ function renderTotals() {
   let cargoSu = 0;
   let cargoSuUnknown = false;
 
+  // Most stats genuinely accumulate when you add more parts (more Power Storage,
+  // more Weight, and so on) — but a handful don't work that way. Two 100%-efficient
+  // batteries aren't 200% efficient; Theoretical Efficiency and Self-Discharge are
+  // rates, so they get averaged, weighted by each battery's own Power Storage
+  // (a bigger battery's efficiency should count for more than a tiny one's).
+  // Required Exploration Level is a minimum you have to clear, not a total — so it
+  // takes the highest single value among your parts, not the sum of all of them.
+  const AVERAGE_WEIGHTED_BY_POWER_STORAGE = new Set(['Theoretical Efficiency', 'Self-Discharge']);
+  const MAX_NOT_SUM = new Set(['Required Exploration Level']);
+
+  const rawEntries = [];
   state.build.forEach(({ id, qty }) => {
     const item = state.items.find((i) => i.id === id);
     if (!item) return;
@@ -423,12 +434,36 @@ function renderTotals() {
     else cargoSuUnknown = true;
 
     const stats = (item.module_info && item.module_info.stats) || {};
+    const powerStorageStat = stats['Power Storage'] ? parseStat(stats['Power Storage']) : null;
+    const weightPerUnit = powerStorageStat ? powerStorageStat.value : 0;
+
     Object.entries(stats).forEach(([name, raw]) => {
       const parsed = parseStat(raw);
       if (!parsed) return;
-      const key = `${name}|${parsed.unit}`;
-      totals.set(key, (totals.get(key) || 0) + parsed.value * qty);
+      rawEntries.push({ name, unit: parsed.unit, value: parsed.value, qty, weightPerUnit });
     });
+  });
+
+  const weightedSums = new Map(); // key -> { sum, weight } for the averaged stats
+  rawEntries.forEach(({ name, unit, value, qty, weightPerUnit }) => {
+    const key = `${name}|${unit}`;
+    if (MAX_NOT_SUM.has(name)) {
+      const cur = totals.get(key);
+      if (cur == null || value > cur) totals.set(key, value);
+    } else if (AVERAGE_WEIGHTED_BY_POWER_STORAGE.has(name)) {
+      // Fall back to equal weighting (by quantity alone) if this part has no logged
+      // Power Storage of its own to weight by, rather than silently dropping it.
+      const w = weightPerUnit > 0 ? weightPerUnit : 1;
+      const entry = weightedSums.get(key) || { sum: 0, weight: 0 };
+      entry.sum += value * qty * w;
+      entry.weight += qty * w;
+      weightedSums.set(key, entry);
+    } else {
+      totals.set(key, (totals.get(key) || 0) + value * qty);
+    }
+  });
+  weightedSums.forEach((entry, key) => {
+    totals.set(key, entry.weight > 0 ? entry.sum / entry.weight : 0);
   });
 
   // Heat and power balance are the two things that actually matter for whether a
