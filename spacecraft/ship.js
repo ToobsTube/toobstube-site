@@ -502,7 +502,7 @@ function renderTotals() {
 
   totalsEl.innerHTML = `
     <div class="su-summary">
-      <p class="section-label">Cargo to carry to the shipyard</p>
+      <p class="section-label">Cargo needed to haul these parts to the Shipyard</p>
       <p class="su-grand-total"><strong>${cargoSu.toFixed(1)} su</strong></p>
       ${cargoNote}
     </div>
