@@ -794,7 +794,7 @@ function renderSectorLine(itemName) {
     return `<p class="section-label">Galaxy sectors</p><p class="raw-note">${tags}</p>`;
   }
 
-  return `<p class="section-label">Galaxy sectors</p><p class="raw-note">Found in ${occurrences.length} sectors — <a class="ing-name linkable" href="sectors.html?resource=${encodeURIComponent(slugify(itemName))}">see where to find it →</a></p>`;
+  return `<p class="section-label">Galaxy sectors</p><p class="raw-note">Found in ${occurrences.length} sectors — <a class="ing-name external-page-link" href="sectors.html?resource=${encodeURIComponent(slugify(itemName))}">see where to find it →</a></p>`;
 }
 
 // Hand-mine sources (nodes and shells — both mined by hand, shells just need a mining
