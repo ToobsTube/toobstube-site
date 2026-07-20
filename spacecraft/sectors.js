@@ -72,6 +72,54 @@ function rarityTag(rarity) {
   return `<span class="auto-tag ${cls}">${escapeHtml(rarity)}</span>`;
 }
 
+// A "node" is the thing you actually walk up to and mine in the world (Sulphuric
+// Stone, Hollow Outcrop, etc.) — different from the item it yields. We don't have
+// (and probably can't get) sector data for individual nodes, only for the final
+// items, so a node search shows "yields: X, Y" with links to those items' own
+// sector data instead of pretending we know which sectors have the node itself.
+function findNodeYields(query) {
+  const q = query.toLowerCase();
+  const matches = new Map(); // node name -> [{ itemName, itemId, chance, type }]
+  state.items.forEach((item) => {
+    (item.deposits || []).forEach((d) => {
+      if (d.resource.toLowerCase().includes(q)) {
+        const list = matches.get(d.resource) || [];
+        list.push({ itemName: item.name, itemId: item.id, chance: d.chance, yield: d.yield, type: d.type });
+        matches.set(d.resource, list);
+      }
+    });
+  });
+  return matches;
+}
+
+function renderNodeDetail(nodeName, yields) {
+  const container = document.getElementById('sector-content');
+  const rows = yields
+    .slice()
+    .sort((a, b) => (b.chance || 0) - (a.chance || 0))
+    .map((y) => {
+      const nameHtml = `<a class="ing-name linkable" href="index.html?item=${encodeURIComponent(y.itemId)}">${escapeHtml(y.itemName)}</a>`;
+      const typeTag = y.type === 'deposit' ? `<span class="station-chip station-chip-inline">Deposit</span>` : y.type === 'shell' ? `<span class="station-chip station-chip-inline">Shell</span>` : '';
+      const rateText = y.chance != null ? `${y.chance}% chance` : y.yield != null ? `${y.yield} avg` : '';
+      return `<li>${nameHtml}<span class="ing-qty">${typeTag}${rateText}</span></li>`;
+    })
+    .join('');
+
+  container.innerHTML = `
+    <p class="section-label">${escapeHtml(nodeName)} — a mining node, not a final item</p>
+    <p class="raw-note">${escapeHtml(nodeName)} is something you walk up to and mine — it yields the item(s) below. We don't have sector data for the node itself, only for what it yields; click through to see where each of those actually spawns.</p>
+    <ul class="ingredients raw-list">${rows}</ul>
+    <button class="raw-toggle" id="back-to-directory" style="margin-top:16px;">&larr; Back to all sectors</button>
+  `;
+  const backBtn = document.getElementById('back-to-directory');
+  if (backBtn) {
+    backBtn.addEventListener('click', () => {
+      document.getElementById('resource-search').value = '';
+      renderSectorDirectory();
+    });
+  }
+}
+
 function renderSearchResults(query) {
   const container = document.getElementById('sector-content');
   const q = query.toLowerCase();
@@ -79,28 +127,47 @@ function renderSearchResults(query) {
   // Every distinct resource name across all sectors, for matching against the search box.
   const allNames = new Set();
   state.sectors.forEach((s) => s.resources.forEach((r) => allNames.add(r.name)));
-  const matches = Array.from(allNames).filter((n) => n.toLowerCase().includes(q)).sort();
+  const resourceMatches = Array.from(allNames).filter((n) => n.toLowerCase().includes(q)).sort();
+  const nodeMatches = findNodeYields(query); // Map<nodeName, yields[]>
 
-  if (!matches.length) {
-    container.innerHTML = `<p class="raw-note">No resource matching "${escapeHtml(query)}" found in any sector.</p>`;
+  const totalMatches = resourceMatches.length + nodeMatches.size;
+
+  if (!totalMatches) {
+    container.innerHTML = `<p class="raw-note">No resource or mining node matching "${escapeHtml(query)}" found.</p>`;
     return;
   }
 
-  if (matches.length === 1) {
-    renderResourceDetail(matches[0]);
+  if (totalMatches === 1) {
+    if (resourceMatches.length === 1) {
+      renderResourceDetail(resourceMatches[0]);
+    } else {
+      const [nodeName, yields] = Array.from(nodeMatches.entries())[0];
+      renderNodeDetail(nodeName, yields);
+    }
     return;
   }
+
+  const resourceItems = resourceMatches
+    .map((n) => `<li><button class="automate-suggestion-btn" data-kind="resource" data-name="${escapeHtml(n)}">${escapeHtml(n)}</button></li>`)
+    .join('');
+  const nodeItems = Array.from(nodeMatches.keys())
+    .sort()
+    .map((n) => `<li><button class="automate-suggestion-btn" data-kind="node" data-name="${escapeHtml(n)}">${escapeHtml(n)} <span class="auto-tag auto-unknown">mining node</span></button></li>`)
+    .join('');
 
   container.innerHTML = `
-    <p class="section-label">${matches.length} matching resources</p>
-    <ul class="automate-suggestions">
-      ${matches.map((n) => `<li><button class="automate-suggestion-btn" data-name="${escapeHtml(n)}">${escapeHtml(n)}</button></li>`).join('')}
-    </ul>
+    <p class="section-label">${totalMatches} match${totalMatches === 1 ? '' : 'es'}</p>
+    ${resourceMatches.length ? `<p class="raw-note">Resources</p><ul class="automate-suggestions">${resourceItems}</ul>` : ''}
+    ${nodeMatches.size ? `<p class="raw-note">Mining nodes (show what they yield, not sector data directly)</p><ul class="automate-suggestions">${nodeItems}</ul>` : ''}
   `;
   container.querySelectorAll('.automate-suggestion-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
       document.getElementById('resource-search').value = btn.dataset.name;
-      renderResourceDetail(btn.dataset.name);
+      if (btn.dataset.kind === 'node') {
+        renderNodeDetail(btn.dataset.name, nodeMatches.get(btn.dataset.name));
+      } else {
+        renderResourceDetail(btn.dataset.name);
+      }
     });
   });
 }
