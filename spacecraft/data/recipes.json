@@ -2439,7 +2439,8 @@
     "deposits": [
       {
         "resource": "Sulphuric Stone",
-        "yield": 5.8
+        "type": "node",
+        "chance": 100
       }
     ],
     "recipes": [
@@ -2602,6 +2603,11 @@
       {
         "resource": "Pyrite Formation",
         "yield": 1.0
+      },
+      {
+        "resource": "Sulphuric Stone",
+        "type": "node",
+        "chance": 1.2
       }
     ],
     "recipes": [
@@ -6999,5 +7005,54 @@
         "Self-Discharge": "0.8%/s"
       }
     }
+  },
+  {
+    "id": "vanadium-ore",
+    "name": "Vanadium Ore",
+    "category": "Gathering",
+    "group": "Resources",
+    "subcategory": "Metal Ore",
+    "type": "gather",
+    "verified": false,
+    "source": "spacecraft.tools",
+    "value": 5.6,
+    "storage_units": 5,
+    "deposits": [
+      {
+        "resource": "Vanadinite",
+        "type": "node",
+        "chance": 100
+      },
+      {
+        "resource": "Carnotite Cluster",
+        "type": "node",
+        "chance": 100
+      },
+      {
+        "resource": "Patronite",
+        "type": "node",
+        "chance": 87.7
+      },
+      {
+        "resource": "Coal Clump",
+        "type": "node",
+        "chance": 1
+      },
+      {
+        "resource": "Bauxite Rock",
+        "type": "node",
+        "chance": 0.3
+      },
+      {
+        "resource": "Sulphuric Stone",
+        "type": "node",
+        "chance": 0.2
+      },
+      {
+        "resource": "Vanadium Deposit",
+        "type": "deposit",
+        "yield": "60.0/h"
+      }
+    ]
   }
 ]
