@@ -1,0 +1,1990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parcel Simulator — Layout Planner</title>
+<style>
+  :root{
+    --bg: #14171c;
+    --panel: #1b1f26;
+    --panel-2: #21262f;
+    --line-faint: #2a303a;
+    --line-bold: #3a4250;
+    --belt-blue: #2f6fd6;
+    --belt-blue-bright: #4f8fef;
+    --rack-orange: #d9622b;
+    --accent-green: #3ecf7e;
+    --accent-red: #e5484d;
+    --text: #e7ebf0;
+    --text-dim: #8b93a3;
+    --text-faint: #5a6272;
+    --mono: 'IBM Plex Mono', 'Courier New', monospace;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ height:100%; margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); overflow:hidden; }
+
+  .app{ display:grid; grid-template-columns: 280px 1fr 300px; grid-template-rows: 56px 1fr 40px; height:100vh; }
+
+  /* ---- Header ---- */
+  .header{
+    grid-column: 1 / 4; grid-row: 1;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 0 18px; background: var(--panel); border-bottom: 1px solid var(--line-bold);
+  }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .brand .mark{
+    width:28px; height:28px; border-radius:4px;
+    background: linear-gradient(135deg, var(--belt-blue), var(--belt-blue-bright));
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); font-weight:700; font-size:13px; color:#0b0d10;
+  }
+  .brand h1{ font-size:15px; font-weight:600; margin:0; letter-spacing:.2px; }
+  .brand .sub{ font-size:11px; color:var(--text-dim); font-family:var(--mono); }
+  .header-actions{ display:flex; gap:8px; align-items:center; }
+  .tier-select{ display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:11px; color:var(--text-dim); }
+  .tier-btn{
+    background:var(--panel-2); border:1px solid var(--line-bold); color:var(--text-dim);
+    font-family:var(--mono); font-size:11px; padding:5px 9px; border-radius:4px; cursor:pointer;
+  }
+  .tier-btn.active{ background:var(--belt-blue); color:#fff; border-color:var(--belt-blue-bright); }
+  .btn{
+    background:var(--panel-2); border:1px solid var(--line-bold); color:var(--text);
+    font-family:var(--sans); font-size:12px; padding:7px 12px; border-radius:4px; cursor:pointer;
+  }
+  .btn:hover{ border-color:var(--belt-blue-bright); }
+  .btn.danger:hover{ border-color:var(--accent-red); color:var(--accent-red); }
+
+  /* ---- Palette (left) ---- */
+  .palette-wrapper{
+    grid-column:1; grid-row:2;
+    background:var(--panel); border-right:1px solid var(--line-bold);
+    display:flex; flex-direction:column; overflow:hidden;
+  }
+  .palette{
+    flex:1; overflow-y:auto; padding: 10px 0 20px;
+  }
+  .progress-panel{
+    flex-shrink:0; padding: 10px 14px 12px; border-bottom:1px solid var(--line-bold); background:var(--panel-2);
+  }
+  .tier-row{ display:flex; align-items:center; gap:8px; margin:6px 0; font-size:11px; color:var(--text-dim); }
+  .tier-row label{ width:88px; flex-shrink:0; }
+  .tier-row input[type=range]{ flex:1; accent-color:var(--belt-blue-bright); }
+  .tier-row span{ font-family:var(--mono); width:22px; text-align:right; color:var(--text); }
+  .progress-summary{ font-size:11px; color:var(--text-dim); line-height:1.7; margin-top:6px; font-family:var(--mono); }
+  .progress-summary b{ color:var(--text); }
+  .cat{ margin-bottom: 4px; }
+  .cat-title{
+    font-family:var(--mono); font-size:10px; letter-spacing:1px; text-transform:uppercase;
+    color:var(--text-faint); padding: 10px 14px 6px;
+  }
+  .piece-item{
+    display:flex; align-items:center; gap:9px;
+    padding:7px 14px; cursor:pointer; border-left:2px solid transparent;
+  }
+  .piece-item:hover{ background:var(--panel-2); }
+  .piece-item.selected{ background:var(--panel-2); border-left-color:var(--belt-blue-bright); }
+  .piece-item.locked{ opacity:.35; cursor:not-allowed; }
+  .piece-item.tier-locked{ opacity:.3; cursor:not-allowed; }
+  .piece-item.tier-locked .piece-dims{ display:none; }
+  .piece-item.tier-planned{ opacity:.75; border-left-color:#d9622b; }
+  .lock-badge{ font-family:var(--mono); font-size:9px; color:var(--text-faint); }
+  .plan-badge{ font-family:var(--mono); font-size:9px; color:var(--rack-orange); }
+  .swatch{ width:18px; height:18px; border-radius:3px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:10px; }
+  .piece-name{ font-size:12px; flex:1; }
+  .piece-dims{ font-family:var(--mono); font-size:9px; color:var(--text-faint); }
+
+  /* ---- Canvas (center) ---- */
+  .stage{ grid-column:2; grid-row:2; position:relative; overflow:hidden; background:var(--bg); cursor:grab; }
+  .stage.panning{ cursor:grabbing; }
+  canvas{ display:block; }
+  .stage-hint{
+    position:absolute; top:10px; left:10px; background:rgba(20,23,28,.85); border:1px solid var(--line-bold);
+    padding:6px 10px; border-radius:5px; font-family:var(--mono); font-size:10px; color:var(--text-dim); pointer-events:none;
+  }
+  .zoom-controls{
+    position:absolute; bottom:14px; left:14px; display:flex; gap:6px;
+  }
+  .zoom-btn{
+    width:28px; height:28px; background:var(--panel); border:1px solid var(--line-bold); color:var(--text);
+    border-radius:4px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center;
+  }
+
+  /* ---- Info panel (right) ---- */
+  .info{ grid-column:3; grid-row:2; background:var(--panel); border-left:1px solid var(--line-bold); overflow-y:auto; padding:16px; }
+  .info h2{ font-size:12px; text-transform:uppercase; letter-spacing:1px; color:var(--text-faint); margin:0 0 10px; font-family:var(--mono); }
+  .empty-state{ color:var(--text-faint); font-size:12px; line-height:1.6; }
+  .piece-card{ background:var(--panel-2); border:1px solid var(--line-bold); border-radius:6px; padding:12px; margin-bottom:14px; }
+  .piece-card .name{ font-size:14px; font-weight:600; margin-bottom:8px; }
+  .stat-row{ display:flex; justify-content:space-between; font-size:12px; padding:4px 0; border-bottom:1px solid var(--line-faint); }
+  .stat-row:last-child{ border-bottom:none; }
+  .stat-label{ color:var(--text-dim); }
+  .stat-val{ font-family:var(--mono); color:var(--text); }
+  .note-box{ font-size:11px; color:var(--text-dim); line-height:1.5; background:var(--panel-2); border-left:2px solid var(--belt-blue); padding:8px 10px; border-radius:0 4px 4px 0; margin-top:8px; }
+
+  .summary-block{ margin-top: 6px; }
+  .summary-row{ display:flex; justify-content:space-between; font-size:12px; padding:5px 0; }
+  .summary-row .k{ color:var(--text-dim); }
+  .summary-row .v{ font-family:var(--mono); }
+
+  .path-card{ background:var(--panel-2); border:1px solid var(--line-bold); border-left-width:3px; border-radius:4px; padding:9px 10px; margin-bottom:8px; cursor:pointer; }
+  .path-card:hover{ border-color:var(--belt-blue-bright); }
+  .path-card.active{ background:#232a35; }
+  .path-card .ptitle{ font-size:12px; font-weight:600; margin-bottom:3px; }
+  .path-card .pmeta{ font-family:var(--mono); font-size:10px; color:var(--text-dim); }
+  .path-status-complete{ border-left-color:var(--accent-green); }
+  .path-status-stored{ border-left-color:var(--belt-blue-bright); }
+  .path-status-dead-end{ border-left-color:var(--accent-red); }
+  .path-status-cycle{ border-left-color:var(--rack-orange); }
+  .path-status-too-long{ border-left-color:var(--text-faint); }
+
+  /* ---- Status bar ---- */
+  .statusbar{
+    grid-column:1/4; grid-row:3; background:var(--panel); border-top:1px solid var(--line-bold);
+    display:flex; align-items:center; justify-content:space-between; padding:0 16px;
+    font-family:var(--mono); font-size:11px; color:var(--text-dim);
+  }
+  .status-right{ display:flex; gap:16px; }
+  .status-right span b{ color:var(--text); }
+
+  ::-webkit-scrollbar{ width:8px; }
+  ::-webkit-scrollbar-thumb{ background:var(--line-bold); border-radius:4px; }
+  ::-webkit-scrollbar-track{ background:transparent; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <div class="brand">
+      <div class="mark">PS</div>
+      <div>
+        <h1>Layout Planner</h1>
+        <div class="sub">ToobsTube · Parcel Simulator</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <div class="tier-select">
+        TIER
+        <button class="tier-btn active" data-tier="1">1</button>
+        <button class="tier-btn" data-tier="2">2</button>
+        <button class="tier-btn" data-tier="3">3</button>
+      </div>
+      <button class="btn" id="rotateBtn">⟳ Rotate (R)</button>
+      <button class="btn" id="flipBtn">⇄ Flip (F)</button>
+      <button class="btn" id="moveBtn">✥ Move (M)</button>
+      <button class="btn" id="tracePathsBtn" style="border-color:#3ecf7e; color:#3ecf7e;">▶ Trace Paths</button>
+      <button class="btn" id="autoRouteBtn" style="border-color:#4f8fef; color:#4f8fef;">🔗 Auto-Route</button>
+      <button class="btn danger" id="clearBtn">Clear layout</button>
+    </div>
+  </div>
+
+  <div class="palette-wrapper">
+    <div class="progress-panel" id="progressPanel">
+      <div class="cat-title" style="padding-top:2px;">Your progress</div>
+      <div class="tier-row">
+        <label>Current tier</label>
+        <input type="range" id="currentTierSlider" min="0" max="15" value="15" step="1">
+        <span id="currentTierLabel">15</span>
+      </div>
+      <div class="tier-row">
+        <label>Planning ahead to</label>
+        <input type="range" id="planningTierSlider" min="0" max="15" value="15" step="1">
+        <span id="planningTierLabel">15</span>
+      </div>
+      <div id="progressSummary" class="progress-summary"></div>
+    </div>
+    <div class="palette" id="palette"></div>
+  </div>
+
+  <div class="stage" id="stage">
+    <canvas id="canvas"></canvas>
+    <div class="stage-hint" id="stageHint">Click a piece in the palette to start placing</div>
+    <div class="zoom-controls">
+      <div class="zoom-btn" id="zoomOut">−</div>
+      <div class="zoom-btn" id="zoomIn">+</div>
+      <div class="zoom-btn" id="zoomReset">⤢</div>
+    </div>
+    <div style="position:absolute; bottom:14px; right:14px; background:rgba(20,23,28,.85); border:1px solid var(--line-bold); border-radius:5px; padding:7px 10px; font-family:var(--mono); font-size:9px; color:var(--text-dim); line-height:1.7;">
+      <div><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#4f8fef;margin-right:5px;"></span>input</div>
+      <div><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#3ecf7e;margin-right:5px;"></span>pass / approved</div>
+      <div><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#e5484d;margin-right:5px;"></span>fail / denied</div>
+      <div><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#8b93a3;margin-right:5px;"></span>no-sticker</div>
+      <div><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#e0b13e;margin-right:5px;"></span>output</div>
+    </div>
+  </div>
+
+  <div class="info" id="infoPanel">
+    <h2>Selection</h2>
+    <div class="empty-state" id="infoEmpty">Nothing selected. Click a piece in the palette to start placing, or click a piece already on the grid to inspect it.</div>
+    <div id="infoContent" style="display:none"></div>
+
+    <div style="margin-top:24px;">
+      <h2>Layout summary</h2>
+      <div class="summary-block" id="summaryBlock"></div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+        <h2 style="margin:0;">Path analysis</h2>
+        <button class="btn" id="showDeadEndsBtn" style="font-size:10px; padding:4px 8px; border-color:#e5484d; color:#e5484d; display:none;">⚠ All dead ends</button>
+      </div>
+      <div id="pathResults"><div class="empty-state">Click "Trace Paths" above to see how packages flow through your layout — real transit times, dead ends, and where things jam.</div></div>
+    </div>
+  </div>
+
+  <div class="statusbar">
+    <div id="statusLeft">Ready</div>
+    <div class="status-right">
+      <span>Zoom: <b id="zoomLabel">100%</b></span>
+      <span>Grid: <b id="gridLabel">belt-unit</b></span>
+      <span>Tier: <b id="tierLabel">1</b></span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* =====================================================================
+   DATA — trimmed from parcel-simulator-data.json / parcel-simulator-layout.json
+   Footprints are in BELT UNITS (1 unit = 1 belt-snap position).
+   Visible floor squares in-game are 2x2 belt units — drawn as bold grid lines.
+   ===================================================================== */
+
+// PIECES is now fetched at runtime from data/pieces.json — see loadGameData() near INIT.
+let PIECES = [];
+let PIECE_MAP = {};
+const CATEGORY_ORDER = ['Belts','Scanners','Stickers','Logic','Storage'];
+
+/* =====================================================================
+   PROGRESSION DATA — real costs and shop-unlocks per warehouse tier,
+   gathered directly from a fresh save. Tier is defined purely by which
+   expansion purchases have been bought (hand tool -> license -> floor
+   expansion, though some tiers are expansion-only). tierCost = total
+   spent AT that tier (hand tool + license + expansion combined).
+   Floor shape is only reliably known through T2 — from T3 onward, which
+   section unlocks depends on which wall the player is facing at time of
+   purchase (confirmed via direct in-game testing), so exact shape isn't
+   assumed past T2.
+   ===================================================================== */
+// TIER_DATA, MAX_TIER, and the zone constants below are now fetched at runtime
+// from data/building1-layout.json — see loadGameData() near INIT.
+let TIER_DATA = {};
+let MAX_TIER = 15;
+
+// pieceId -> tier it unlocks at (pieces not in this map, e.g. doors/racks-already-covered, are always available)
+let PIECE_UNLOCK_TIER = {};
+
+function cumulativeCostThroughTier(tier){
+  let total = 0;
+  for(let t = 1; t <= tier; t++){ total += (TIER_DATA[t] ? TIER_DATA[t].cost : 0); }
+  return total;
+}
+
+// Known exact floor shape, tiers 0-2 only — rects for point-testing (door visibility),
+// and a matching single outer-perimeter polygon for rendering (avoids a false internal
+// seam line where two rectangles touch, which separate strokeRect calls would draw).
+// Tier 3+ deliberately has no fixed shape here (confirmed directional/player-chosen in-game).
+let KNOWN_ZONE_RECTS = {};
+let KNOWN_ZONE_POLYGONS = {};
+
+/* =====================================================================
+   I/O PROFILES — local port maps (pre-rotation), used for connectivity.
+   Directions are LOCAL: front=+x at rotation 0, back=-x, left=-y, right=+y.
+   flipSwap: [a,b] — which two local directions trade roles when flipped.
+   Universal rule confirmed for nearly everything: flip swaps front<->back
+   roles only; left/right stay put. Corner is the one exception (it turns
+   rather than reverses, so its flip swaps left<->right instead) — this is
+   an ASSUMPTION, not explicitly confirmed, since corner flip specifics
+   weren't directly tested. Diverter/Splitter treat all 3 non-input sides
+   as generic possible-output branches for pathfinding — the real per-side
+   type configuration and empty-line-priority logic isn't simulated here.
+   ===================================================================== */
+const IO_PROFILES = {
+  'belt':          { ports:{front:'out', back:'in'}, flipSwap:['front','back'] },
+  'belt-corner':   { ports:{left:'in', front:'out'}, flipSwap:['left','right'] },
+  'belt-bridge':   { ports:{front:'out', back:'in'}, flipSwap:['front','back'] },
+  'belt-speedway': { ports:{front:'out', back:'in'}, flipSwap:['front','back'], assumption:true },
+
+  'scanner-sticker': { ports:{back:'in', front:'out:no-sticker', left:'out:approved', right:'out:denied'}, flipSwap:['front','back'] },
+  'scanner-weight':      { ports:{back:'in', left:'out:pass', right:'out:fail'}, flipSwap:['front','back'] },
+  'scanner-serial':      { ports:{back:'in', left:'out:pass', right:'out:fail'}, flipSwap:['front','back'] },
+  'scanner-prohibited':  { ports:{back:'in', left:'out:pass', right:'out:fail'}, flipSwap:['front','back'] },
+  'scanner-country':     { ports:{back:'in', left:'out:pass', right:'out:fail'}, flipSwap:['front','back'] },
+  'scanner-cargo-type':  { ports:{back:'in', left:'out:pass', right:'out:fail'}, flipSwap:['front','back'] },
+  'scanner-stamp':       { ports:{back:'in', left:'out:pass', right:'out:fail'}, flipSwap:['front','back'] },
+
+  'splitter':            { ports:{back:'in', front:'out', left:'out', right:'out'}, flipSwap:['front','back'], multiOutput:true },
+  'cargo-type-diverter': { ports:{back:'in', front:'out', left:'out', right:'out'}, flipSwap:['front','back'], multiOutput:true, configurable:true },
+  'contents-inspection-diverter': { ports:{back:'in', front:'out:no-scan-needed', right:'out:needs-scan'}, flipSwap:['front','back'], multiOutput:true },
+
+  'joiner-conveyor': { ports:{front:'out', back:'in', left:'in'}, flipSwap:['front','back'] },
+  'joiner-multi':    { ports:{front:'out', back:'in', left:'in', right:'in'}, flipSwap:['front','back'] },
+
+  'sticker-applier-approved': { ports:{front:'out', back:'in'}, flipSwap:['front','back'] },
+  'sticker-applier-deny':     { ports:{front:'out', back:'in'}, flipSwap:['front','back'] },
+  'pauser-manual':            { ports:{front:'out', back:'in'}, flipSwap:['front','back'] },
+  'pauser-auto':               { ports:{front:'out', back:'in'}, flipSwap:['front','back'] },
+
+  // No flip — rotation only, oriented relative to the rack
+  'storage-loader':   { ports:{front:'out', back:'in'}, flipSwap:null },
+  'storage-unloader': { ports:{front:'out', back:'in'}, flipSwap:null },
+};
+
+const ROTATION_DIR_MAP = {
+  0:   { front:[1,0],  back:[-1,0], left:[0,-1], right:[0,1] },
+  90:  { front:[0,1],  back:[0,-1], left:[1,0],  right:[-1,0] },
+  180: { front:[-1,0], back:[1,0],  left:[0,1],  right:[0,-1] },
+  270: { front:[0,-1], back:[0,1],  left:[-1,0], right:[1,0] },
+};
+
+function canFlip(pieceId){
+  const profile = IO_PROFILES[pieceId];
+  return !!(profile && profile.flipSwap);
+}
+
+function getLocalPorts(pieceId, flipped){
+  const profile = IO_PROFILES[pieceId];
+  if(!profile) return null;
+  let ports = { ...profile.ports };
+  if(flipped && profile.flipSwap){
+    const [a,b] = profile.flipSwap;
+    const tmp = ports[a];
+    if(ports[b] !== undefined) ports[a] = ports[b]; else delete ports[a];
+    if(tmp !== undefined) ports[b] = tmp; else delete ports[b];
+  }
+  return ports;
+}
+
+// Returns physical ports for a placed instance: [{x,y,dx,dy,kind:'in'|'out',role}]
+// x,y = the SINGLE tile this port lives on; dx,dy = world direction it faces (out of the piece).
+function getPhysicalPorts(inst){
+  const p = PIECE_MAP[inst.id];
+  const local = getLocalPorts(inst.id, inst.flipped);
+  if(!local) return [];
+  const rot = ROTATION_DIR_MAP[inst.rotation];
+  const results = [];
+  const dims = rotatedDims(p, inst.rotation);
+  for(const [localDir, val] of Object.entries(local)){
+    const [dx,dy] = rot[localDir];
+    // Find which tile of the (possibly multi-tile) footprint this local direction's edge sits on —
+    // the tile furthest in that world direction within the footprint.
+    let tx = inst.x, ty = inst.y;
+    if(dx === 1) tx = inst.x + dims.w - 1;
+    if(dy === 1) ty = inst.y + dims.h - 1;
+    const kind = val.startsWith('out') ? 'out' : 'in';
+    const role = val.includes(':') ? val.split(':')[1] : null;
+    results.push({ x:tx, y:ty, dx, dy, kind, role, pieceIdx: inst._idx });
+  }
+  return results;
+}
+
+/* =====================================================================
+   FIXED STRUCTURAL ELEMENTS — the actual building, not placeable pieces.
+   Coordinates are the real measured positions from the mapped warehouse
+   (belt units, origin = far-right corner of the wall opposite the doors).
+   Door footprint is 3 wide x 1 deep; "x" below is each door's CENTER belt.
+   ===================================================================== */
+const DOOR_DEF = { w:3, h:1, color:'#5a6272', dir:0 }; // facing into the room (rotation baked into draw)
+
+// Each door is defined by its REAL, measured connection tile (the one interior
+// tile that actually touches a belt) plus which wall it's on. The visible door
+// "box" is computed as sitting just OUTSIDE that wall — poking through it —
+// rather than floating inside the room, so the blue boundary line reads as
+// the actual wall, with doors as notches through it.
+// FIXED_DOORS is now fetched at runtime from data/building1-layout.json — see loadGameData() near INIT.
+let FIXED_DOORS = [];
+
+function doorBoxAndConnection(d){
+  const color = d.color || '#4f8fef';
+  // box = the 3-wide notch sitting just outside the wall; conn = the single
+  // interior tile a belt actually needs to reach.
+  if(d.wall === 'south'){ // delivery doors — exterior is one tile beyond connY
+    return { box:{x:d.connX-1, y:d.connY+1, w:3, h:1}, conn:{x:d.connX, y:d.connY}, color };
+  }
+  if(d.wall === 'north'){ // origin wall outgoing doors — exterior is one tile above connY
+    return { box:{x:d.connX-1, y:d.connY-1, w:3, h:1}, conn:{x:d.connX, y:d.connY}, color };
+  }
+  if(d.wall === 'west'){ // x=0 wall — exterior is one tile left of connX
+    return { box:{x:d.connX-1, y:d.connY-1, w:1, h:3}, conn:{x:d.connX, y:d.connY}, color, vertical:true };
+  }
+  // east — x=49 wall — exterior is one tile right of connX
+  return { box:{x:d.connX+1, y:d.connY-1, w:1, h:3}, conn:{x:d.connX, y:d.connY}, color, vertical:true };
+}
+
+// Every delivery (incoming) door has a fixed control-panel obstruction one
+// tile to the left of its belt-connection point — nothing can be placed there.
+// Computed in computeDerivedData() once FIXED_DOORS is loaded.
+let OBSTRUCTED_TILES = [];
+
+function isObstructed(gx, gy, w, h){
+  for(const t of OBSTRUCTED_TILES){
+    if(gx <= t.x && t.x < gx+w && gy <= t.y && t.y < gy+h) return true;
+  }
+  return false;
+}
+
+// Warehouse floor outline — an L-shape: full 50-wide at the origin wall,
+// long arm (x:20-49) extends to y=39, short arm (x:0-19) steps in at y=20.
+// This is a best-fit polygon from the confirmed corner measurements —
+// fine detail right at the step may not be pixel-perfect.
+// Now fetched at runtime from data/building1-layout.json — see loadGameData() near INIT.
+let WAREHOUSE_BOUNDARY = [];
+
+/* =====================================================================
+   PATHFINDING — builds a connectivity graph from placed pieces + fixed
+   doors, then traces paths from each incoming door through to outgoing
+   doors (or a loader, treated as a "stored" endpoint), accumulating real
+   transit time using the tier-accurate data.
+   ===================================================================== */
+function getDoorPort(d, di){
+  const { conn } = doorBoxAndConnection(d);
+  let intoRoom;
+  if(d.wall === 'south') intoRoom = [0,-1];
+  else if(d.wall === 'north') intoRoom = [0,1];
+  else if(d.wall === 'west') intoRoom = [1,0];
+  else intoRoom = [-1,0]; // east
+  const exteriorX = conn.x - intoRoom[0];
+  const exteriorY = conn.y - intoRoom[1];
+  const kind = d.kind === 'incoming' ? 'out' : 'in';
+  return { x:exteriorX, y:exteriorY, dx:intoRoom[0], dy:intoRoom[1], kind, role:d.label, source:{type:'door', idx:di} };
+}
+
+/* =====================================================================
+   AUTO-ROUTE — pick a source and a target already on the grid, and this
+   pathfinds a belt/corner run between them automatically (BFS over grid
+   cells, avoiding obstacles and existing pieces), then places the pieces
+   with the correct rotation/flip to actually connect.
+   ===================================================================== */
+function rotateCW([dx,dy]){ return [-dy, dx]; }
+function rotateCCW([dx,dy]){ return [dy, -dx]; }
+function negateDir([dx,dy]){ return [-dx,-dy]; }
+function sameDir(a,b){ return a[0]===b[0] && a[1]===b[1]; }
+
+function isCellFree(x, y){
+  if(isObstructed(x, y, 1, 1)) return false;
+  for(const inst of state.placed){
+    const p = PIECE_MAP[inst.id];
+    const dims = rotatedDims(p, inst.rotation);
+    if(x >= inst.x && x < inst.x+dims.w && y >= inst.y && y < inst.y+dims.h) return false;
+  }
+  for(const d of FIXED_DOORS){
+    const { box } = doorBoxAndConnection(d);
+    if(x >= box.x && x < box.x+box.w && y >= box.y && y < box.y+box.h) return false;
+  }
+  return true;
+}
+
+// Finds the first port of the given kind on a node that isn't already connected in the current graph.
+function getFreePort(node, kind){
+  const { edges } = buildGraph();
+  let ports;
+  if(node.type === 'door'){
+    const d = FIXED_DOORS[node.idx];
+    const port = getDoorPort(d, node.idx);
+    ports = port.kind === kind ? [port] : [];
+  } else {
+    ports = getPhysicalPorts({ ...state.placed[node.idx], _idx: node.idx }).filter(p => p.kind === kind);
+  }
+  if(!ports.length) return null;
+  const connectedTileKeys = new Set();
+  edges.forEach(e => {
+    if(kind === 'out' && nodeKey(e.from) === nodeKey(node)) connectedTileKeys.add(e.fromTile);
+    if(kind === 'in' && nodeKey(e.to) === nodeKey(node)) connectedTileKeys.add(e.toTile);
+  });
+  const free = ports.find(p => !connectedTileKeys.has(p.x+','+p.y+','+p.dx+','+p.dy));
+  return free || ports[0];
+}
+
+function resolveBeltOrientation(pieceId, desiredInPhysicalDir, desiredOutPhysicalDir){
+  for(const rotation of [0,90,180,270]){
+    for(const flipped of [false,true]){
+      const local = getLocalPorts(pieceId, flipped);
+      const rotDirs = ROTATION_DIR_MAP[rotation];
+      let inMatch = false, outMatch = false;
+      Object.entries(local).forEach(([localDir, val]) => {
+        const [dx,dy] = rotDirs[localDir];
+        if(val === 'in' && sameDir([dx,dy], desiredInPhysicalDir)) inMatch = true;
+        if(val === 'out' && sameDir([dx,dy], desiredOutPhysicalDir)) outMatch = true;
+      });
+      if(inMatch && outMatch) return { rotation, flipped };
+    }
+  }
+  return null;
+}
+
+function autoRoutePath(sourceNode, targetNode){
+  const sourcePort = getFreePort(sourceNode, 'out');
+  const targetPort = getFreePort(targetNode, 'in');
+  if(!sourcePort) return { error: 'The source has no free output — everything it produces is already connected.' };
+  if(!targetPort) return { error: 'The target has no free input — it\'s already fully connected.' };
+
+  const sourceExit = [sourcePort.x + sourcePort.dx, sourcePort.y + sourcePort.dy];
+  const requiredExitDir = [-targetPort.dx, -targetPort.dy];
+  const targetEntry = [targetPort.x + targetPort.dx, targetPort.y + targetPort.dy];
+  const startDir = [sourcePort.dx, sourcePort.dy];
+
+  if(!isCellFree(sourceExit[0], sourceExit[1]) && !(sourceExit[0]===targetEntry[0] && sourceExit[1]===targetEntry[1])){
+    return { error: 'The tile right next to the source is blocked — nothing can start there.' };
+  }
+
+  // trivial case: only one tile of gap between source and target
+  if(sourceExit[0]===targetEntry[0] && sourceExit[1]===targetEntry[1]){
+    if(!sameDir(startDir, negateDir(requiredExitDir))){
+      return { cells: [{ x:sourceExit[0], y:sourceExit[1], inDir:startDir, outDir:requiredExitDir }] };
+    }
+    return { error: 'Source and target are directly facing each other with nowhere for a belt to turn — try repositioning one of them.' };
+  }
+
+  const startKey = sourceExit.join(',')+':'+startDir.join(',');
+  const visited = new Map();
+  visited.set(startKey, null);
+  let queue = [{ x:sourceExit[0], y:sourceExit[1], dir:startDir, key:startKey }];
+  let found = null;
+  const MAX_STEPS = 4000;
+  let steps = 0;
+
+  while(queue.length && !found && steps < MAX_STEPS){
+    const cur = queue.shift();
+    steps++;
+    const candidates = [cur.dir, rotateCW(cur.dir), rotateCCW(cur.dir)];
+    for(const outDir of candidates){
+      const nx = cur.x + outDir[0], ny = cur.y + outDir[1];
+      if(nx === targetEntry[0] && ny === targetEntry[1]){
+        if(!sameDir(outDir, negateDir(requiredExitDir))){
+          found = { parentKey: cur.key, finalCell:{x:cur.x,y:cur.y}, arriveDirAtTarget:outDir };
+          break;
+        }
+        continue;
+      }
+      if(!isCellFree(nx, ny)) continue;
+      const nKey = nx+','+ny+':'+outDir.join(',');
+      if(visited.has(nKey)) continue;
+      visited.set(nKey, cur.key);
+      queue.push({ x:nx, y:ny, dir:outDir, key:nKey });
+    }
+  }
+
+  if(!found){
+    return { error: 'No valid path found — the route is blocked, too far, or out of room. Try clearing some space or repositioning the pieces.' };
+  }
+
+  // reconstruct the chain of (x,y,dir) states from start to found.finalCell
+  const chain = [];
+  let k = found.parentKey;
+  while(k){
+    const [pos, dirStr] = k.split(':');
+    const [x,y] = pos.split(',').map(Number);
+    const dir = dirStr.split(',').map(Number);
+    chain.unshift({ x, y, dir });
+    k = visited.get(k);
+  }
+  // chain now = [ {x,y,dir=incoming-to-this-cell}, ... ] each entry represents one placed cell,
+  // dir = the direction of travel that arrives at that cell.
+  const cells = [];
+  for(let i=0; i<chain.length; i++){
+    const inDir = chain[i].dir;
+    const outDir = (i < chain.length-1) ? chain[i+1].dir : found.arriveDirAtTarget;
+    cells.push({ x:chain[i].x, y:chain[i].y, inDir, outDir });
+  }
+  return { cells };
+}
+
+function placeAutoRoute(sourceNode, targetNode){
+  const result = autoRoutePath(sourceNode, targetNode);
+  if(result.error){
+    flashStatus(result.error);
+    return false;
+  }
+  result.cells.forEach(cell => {
+    const straight = sameDir(cell.inDir, cell.outDir);
+    const pieceId = straight ? 'belt' : 'belt-corner';
+    const desiredIn = negateDir(cell.inDir); // physical 'in' port direction points back toward supplier
+    const orientation = resolveBeltOrientation(pieceId, desiredIn, cell.outDir);
+    if(!orientation) return; // shouldn't happen, but don't crash the layout if it does
+    state.placed.push({ id: pieceId, x: cell.x, y: cell.y, rotation: orientation.rotation, flipped: orientation.flipped });
+  });
+  saveLayout();
+  clearTraceResults();
+  updateSummary();
+  draw();
+  return true;
+}
+function buildGraph(){
+  const allPorts = [];
+  state.placed.forEach((inst, idx) => {
+    getPhysicalPorts({...inst, _idx:idx}).forEach(pt => {
+      pt.source = { type:'piece', idx };
+      allPorts.push(pt);
+    });
+  });
+  FIXED_DOORS.forEach((d, di) => allPorts.push(getDoorPort(d, di)));
+
+  const inPorts = allPorts.filter(p => p.kind === 'in');
+  const edges = []; // {from, to, role, fromTile, toTile}
+  allPorts.filter(p => p.kind === 'out').forEach(outP => {
+    const tx = outP.x + outP.dx, ty = outP.y + outP.dy;
+    const match = inPorts.find(inP => inP.x === tx && inP.y === ty && inP.dx === -outP.dx && inP.dy === -outP.dy);
+    if(match){
+      edges.push({
+        from: outP.source, to: match.source, role: outP.role,
+        fromTile: outP.x+','+outP.y+','+outP.dx+','+outP.dy,
+        toTile: match.x+','+match.y+','+match.dx+','+match.dy,
+      });
+    }
+  });
+  return { edges, allPorts };
+}
+
+function nodeKey(n){ return n.type + ':' + n.idx; }
+function nodeTime(n){
+  if(n.type === 'door') return 0;
+  const inst = state.placed[n.idx];
+  const p = PIECE_MAP[inst.id];
+  const tv = tierVal(p, state.tier);
+  return (tv && typeof tv.val === 'number') ? tv.val : 0;
+}
+function nodeLabel(n){
+  if(n.type === 'door') return FIXED_DOORS[n.idx].label + (FIXED_DOORS[n.idx].code ? ' ('+FIXED_DOORS[n.idx].code+')' : '');
+  const inst = state.placed[n.idx];
+  return PIECE_MAP[inst.id].name;
+}
+
+function tracePaths(){
+  const { edges } = buildGraph();
+  const adj = {};
+  edges.forEach(e => {
+    const k = nodeKey(e.from);
+    if(!adj[k]) adj[k] = [];
+    adj[k].push(e);
+  });
+
+  const results = []; // {nodes:[node,...], roles:[role,...], totalTime, status}
+  const MAX_HOPS = 60;
+
+  FIXED_DOORS.forEach((d, di) => {
+    if(d.kind !== 'incoming') return;
+    const startNode = { type:'door', idx:di };
+    dfs(startNode, [startNode], [null], new Set([nodeKey(startNode)]), 0);
+  });
+
+  function dfs(node, pathNodes, roles, visited, timeSoFar){
+    if(pathNodes.length > MAX_HOPS){
+      results.push({ nodes:[...pathNodes], roles:[...roles], totalTime:timeSoFar, status:'too-long' });
+      return;
+    }
+    // terminal: reached an outgoing door
+    if(node.type === 'door' && FIXED_DOORS[node.idx].kind === 'outgoing' && pathNodes.length > 1){
+      results.push({ nodes:[...pathNodes], roles:[...roles], totalTime:timeSoFar, status:'complete' });
+      return;
+    }
+    // terminal: reached a loader (package goes into storage)
+    if(node.type === 'piece' && state.placed[node.idx].id === 'storage-loader'){
+      results.push({ nodes:[...pathNodes], roles:[...roles], totalTime:timeSoFar, status:'stored' });
+      return;
+    }
+    const outs = adj[nodeKey(node)] || [];
+    if(outs.length === 0){
+      if(pathNodes.length > 1){
+        results.push({ nodes:[...pathNodes], roles:[...roles], totalTime:timeSoFar, status:'dead-end' });
+      }
+      return;
+    }
+    outs.forEach(edge => {
+      const nextKey = nodeKey(edge.to);
+      if(visited.has(nextKey)){
+        results.push({ nodes:[...pathNodes, edge.to], roles:[...roles, edge.role], totalTime:timeSoFar, status:'cycle' });
+        return;
+      }
+      const addedTime = nodeTime(edge.to);
+      const newVisited = new Set(visited); newVisited.add(nextKey);
+      dfs(edge.to, [...pathNodes, edge.to], [...roles, edge.role], newVisited, timeSoFar + addedTime);
+    });
+  }
+
+  return results;
+}
+let state = {
+  tier: 1,
+  zoom: 24,          // px per belt-unit
+  panX: 300, panY: 200,
+  heldPiece: null,   // piece being placed
+  heldRotation: 0,   // 0/90/180/270
+  heldFlipped: false,
+  placed: [],        // {id, x, y, rotation}
+  selectedIdx: null,
+  selectedDoor: null,
+  tracedResults: null,
+  highlightedPathIdx: null,
+  movingOriginal: null, // holds the original {id,x,y,rotation,flipped} while a placed piece is being moved, for restore-on-cancel
+  highlightAllDeadEnds: false,
+  autoRouteMode: false,
+  autoRouteSource: null,
+  currentTier: 15,
+  planningTier: 15,
+};
+
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const stage = document.getElementById('stage');
+
+function resizeCanvas(){
+  const rect = stage.getBoundingClientRect();
+  canvas.width = rect.width * devicePixelRatio;
+  canvas.height = rect.height * devicePixelRatio;
+  canvas.style.width = rect.width + 'px';
+  canvas.style.height = rect.height + 'px';
+  ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+  draw();
+}
+window.addEventListener('resize', resizeCanvas);
+
+/* =====================================================================
+   PALETTE
+   ===================================================================== */
+function buildPalette(){
+  const root = document.getElementById('palette');
+  root.innerHTML = '';
+  CATEGORY_ORDER.forEach(cat => {
+    const items = PIECES.filter(p => p.cat === cat);
+    if(!items.length) return;
+    const catDiv = document.createElement('div');
+    catDiv.className = 'cat';
+    const title = document.createElement('div');
+    title.className = 'cat-title';
+    title.textContent = cat;
+    catDiv.appendChild(title);
+    items.forEach(p => {
+      const unlockTier = PIECE_UNLOCK_TIER[p.id]; // undefined = always available (doors, racks, etc.)
+      const tierLocked = unlockTier && unlockTier > state.planningTier;
+      const tierPlanned = unlockTier && unlockTier > state.currentTier && unlockTier <= state.planningTier;
+      const el = document.createElement('div');
+      el.className = 'piece-item' + (p.locked ? ' locked' : '') + (tierLocked ? ' tier-locked' : '') + (tierPlanned ? ' tier-planned' : '');
+      let badge = '';
+      if(tierLocked) badge = `<div class="lock-badge">🔒 T${unlockTier}</div>`;
+      else if(tierPlanned) badge = `<div class="plan-badge">plan · T${unlockTier}</div>`;
+      el.innerHTML = `
+        <div class="swatch" style="background:${p.color}20; border:1px solid ${p.color}; color:${p.color}">${p.icon}</div>
+        <div class="piece-name">${p.name}</div>
+        ${badge || `<div class="piece-dims">${p.w}×${p.h}</div>`}
+      `;
+      if(!p.locked && !tierLocked){
+        el.addEventListener('click', () => selectPaletteItem(p.id, el));
+      }
+      catDiv.appendChild(el);
+    });
+    root.appendChild(catDiv);
+  });
+}
+
+/* =====================================================================
+   PROGRESS PANEL WIRING
+   ===================================================================== */
+function updateProgressUI(){
+  document.getElementById('currentTierSlider').value = state.currentTier;
+  document.getElementById('currentTierLabel').textContent = state.currentTier;
+  document.getElementById('planningTierSlider').value = state.planningTier;
+  document.getElementById('planningTierLabel').textContent = state.planningTier;
+
+  const currentCost = cumulativeCostThroughTier(state.currentTier);
+  const planningCost = cumulativeCostThroughTier(state.planningTier);
+  const toGo = planningCost - currentCost;
+  const summary = document.getElementById('progressSummary');
+  let html = `Spent through T${state.currentTier}: <b>$${currentCost.toLocaleString()}</b>`;
+  if(state.planningTier > state.currentTier){
+    html += `<br>Planning to T${state.planningTier}: <b>+$${toGo.toLocaleString()}</b> more needed`;
+  }
+  if(state.planningTier <= 2){
+    html += `<br><span style="color:#3ecf7e">Floor shape shown is exact.</span>`;
+  } else {
+    html += `<br><span style="color:#d9622b">Floor past T2 varies by choice \u2014 showing max possible extent.</span>`;
+  }
+  summary.innerHTML = html;
+}
+
+document.getElementById('currentTierSlider').addEventListener('input', (e) => {
+  state.currentTier = parseInt(e.target.value);
+  if(state.planningTier < state.currentTier) state.planningTier = state.currentTier;
+  updateProgressUI();
+  buildPalette();
+  saveProgress();
+  draw();
+});
+document.getElementById('planningTierSlider').addEventListener('input', (e) => {
+  state.planningTier = parseInt(e.target.value);
+  if(state.currentTier > state.planningTier) state.currentTier = state.planningTier;
+  updateProgressUI();
+  buildPalette();
+  saveProgress();
+  draw();
+});
+
+function saveProgress(){
+  try{ localStorage.setItem('progress-tiers', JSON.stringify({currentTier: state.currentTier, planningTier: state.planningTier})); }
+  catch(err){ /* ignore */ }
+}
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem('progress-tiers');
+    if(raw){
+      const d = JSON.parse(raw);
+      if(typeof d.currentTier === 'number') state.currentTier = d.currentTier;
+      if(typeof d.planningTier === 'number') state.planningTier = d.planningTier;
+    }
+  } catch(err){ /* no saved progress yet, defaults stand */ }
+}
+
+function selectPaletteItem(id, el){
+  document.querySelectorAll('.piece-item').forEach(e => e.classList.remove('selected'));
+  if(state.heldPiece === id){
+    releaseHeldPiece();
+    return;
+  }
+  state.heldPiece = id;
+  state.heldRotation = 0;
+  state.selectedIdx = null;
+  el.classList.add('selected');
+  updateModeIndicator();
+  updateInfoPanel();
+  draw();
+}
+
+/* =====================================================================
+   GRID / DRAWING
+   ===================================================================== */
+let mouseGridX = 0, mouseGridY = 0;
+
+function toGrid(px, py){
+  return {
+    x: Math.floor((px - state.panX) / state.zoom),
+    y: Math.floor((py - state.panY) / state.zoom)
+  };
+}
+
+function toPx(gx, gy){
+  return { x: state.panX + gx*state.zoom, y: state.panY + gy*state.zoom };
+}
+
+function drawWarehouseBoundary(){
+  const showExact = state.planningTier <= 2;
+
+  if(showExact){
+    // Exact known shape for this tier — one continuous outline, no internal seam lines.
+    const poly = KNOWN_ZONE_POLYGONS[state.planningTier] || KNOWN_ZONE_POLYGONS[0];
+    ctx.beginPath();
+    poly.forEach((pt, i) => {
+      const p = toPx(pt.x, pt.y);
+      if(i===0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+    });
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(79,143,239,0.08)';
+    ctx.fill();
+    ctx.strokeStyle = '#4f8fef';
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+    return;
+  }
+
+  // Tier 3+: exact shape isn't known (confirmed directional/player-chosen in-game),
+  // so show the full maximum-possible extent as the working area, not a guess at the real one.
+  ctx.beginPath();
+  WAREHOUSE_BOUNDARY.forEach((pt, i) => {
+    const p = toPx(pt.x, pt.y);
+    if(i===0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+  });
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(79,143,239,0.04)';
+  ctx.fill();
+  ctx.strokeStyle = '#4f8fef';
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+}
+
+function isInKnownZone(x, y, rects){
+  return rects.some(r => x >= r.x && x < r.x+r.w && y >= r.y && y < r.y+r.h);
+}
+
+function isDoorVisibleAtProgress(d){
+  if(state.planningTier > 2) return true; // shape unknown past T2, show all doors as before
+  const rects = KNOWN_ZONE_RECTS[state.planningTier] || KNOWN_ZONE_RECTS[0];
+  return isInKnownZone(d.connX, d.connY, rects);
+}
+
+function drawFixedDoors(){
+  FIXED_DOORS.forEach(d => {
+    if(!isDoorVisibleAtProgress(d)) return;
+    const { box, conn, color } = doorBoxAndConnection(d);
+    const p = toPx(box.x, box.y);
+    const w = box.w*state.zoom, h = box.h*state.zoom;
+    ctx.fillStyle = color + '30';
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.setLineDash([4,3]);
+    ctx.fillRect(p.x, p.y, w, h);
+    ctx.strokeRect(p.x, p.y, w, h);
+    ctx.setLineDash([]);
+    if(state.zoom > 16){
+      ctx.fillStyle = '#e7ebf0';
+      ctx.font = `bold ${Math.min(11,state.zoom*0.35)}px monospace`;
+      ctx.textAlign = 'center';
+      const label = d.code || (d.kind === 'incoming' ? 'IN' : 'OUT');
+      ctx.fillText(label, p.x+w/2, p.y+h/2+4);
+      ctx.textAlign = 'left';
+    }
+    drawConnectionMarker(d, conn);
+  });
+}
+
+function drawConnectionMarker(d, conn){
+  const cp = toPx(conn.x, conn.y);
+  const cx = cp.x + state.zoom/2, cy = cp.y + state.zoom/2;
+
+  ctx.save();
+  ctx.strokeStyle = '#3ecf7e';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(cx, cy, Math.max(6, state.zoom*0.32), 0, Math.PI*2);
+  ctx.stroke();
+  ctx.fillStyle = '#3ecf7e';
+  ctx.beginPath();
+  ctx.arc(cx, cy, 2.5, 0, Math.PI*2);
+  ctx.fill();
+
+  if(state.zoom > 15){
+    ctx.font = `bold 9px monospace`;
+    ctx.fillStyle = '#3ecf7e';
+    ctx.textAlign = 'center';
+    ctx.fillText('BELT HERE', cx, cy - state.zoom*0.55);
+    ctx.textAlign = 'left';
+  }
+  ctx.restore();
+}
+
+function drawObstructedTiles(){
+  OBSTRUCTED_TILES.forEach(t => {
+    if(!isDoorVisibleAtProgress(t.door)) return;
+    const p = toPx(t.x, t.y);
+    const s = state.zoom;
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(p.x, p.y, s, s);
+    ctx.clip();
+    ctx.fillStyle = 'rgba(229,72,77,0.18)';
+    ctx.fillRect(p.x, p.y, s, s);
+    ctx.strokeStyle = 'rgba(229,72,77,0.6)';
+    ctx.lineWidth = 1;
+    for(let i=-s; i<s*2; i+=6){
+      ctx.beginPath();
+      ctx.moveTo(p.x+i, p.y);
+      ctx.lineTo(p.x+i-s, p.y+s);
+      ctx.stroke();
+    }
+    ctx.restore();
+    ctx.strokeStyle = '#e5484d';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(p.x, p.y, s, s);
+  });
+}
+
+function findDoorAtCursor(){
+  for(const d of FIXED_DOORS){
+    if(!isDoorVisibleAtProgress(d)) continue;
+    const { box } = doorBoxAndConnection(d);
+    if(mouseGridX >= box.x && mouseGridX < box.x+box.w && mouseGridY >= box.y && mouseGridY < box.y+box.h){
+      return d;
+    }
+  }
+  // also allow clicking the connection tile itself to select the door
+  for(const d of FIXED_DOORS){
+    if(!isDoorVisibleAtProgress(d)) continue;
+    const { conn } = doorBoxAndConnection(d);
+    if(mouseGridX === conn.x && mouseGridY === conn.y){
+      return d;
+    }
+  }
+  return null;
+}
+
+function rotatedDims(p, rotation){
+  const swap = (rotation === 90 || rotation === 270);
+  return swap ? {w:p.h, h:p.w} : {w:p.w, h:p.h};
+}
+
+function draw(){
+  const rect = stage.getBoundingClientRect();
+  ctx.clearRect(0,0,rect.width,rect.height);
+
+  const z = state.zoom;
+  const startCol = Math.floor(-state.panX / z);
+  const endCol = Math.ceil((rect.width - state.panX) / z);
+  const startRow = Math.floor(-state.panY / z);
+  const endRow = Math.ceil((rect.height - state.panY) / z);
+
+  // Clip the grid lines to a padded area around the actual building outline,
+  // so the grid doesn't stretch out infinitely past the walls.
+  const PAD = 4; // tiles of margin around the building to still show grid
+  const bx = WAREHOUSE_BOUNDARY.map(p=>p.x), by = WAREHOUSE_BOUNDARY.map(p=>p.y);
+  const boundMinX = Math.min(...bx)-PAD, boundMaxX = Math.max(...bx)+PAD;
+  const boundMinY = Math.min(...by)-PAD, boundMaxY = Math.max(...by)+PAD;
+  const clipTL = toPx(boundMinX, boundMinY), clipBR = toPx(boundMaxX, boundMaxY);
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(clipTL.x, clipTL.y, clipBR.x-clipTL.x, clipBR.y-clipTL.y);
+  ctx.clip();
+
+  // fine grid (belt units)
+  ctx.strokeStyle = '#2a303a';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  for(let c=startCol; c<=endCol; c++){
+    const px = state.panX + c*z;
+    ctx.moveTo(px, 0); ctx.lineTo(px, rect.height);
+  }
+  for(let r=startRow; r<=endRow; r++){
+    const py = state.panY + r*z;
+    ctx.moveTo(0, py); ctx.lineTo(rect.width, py);
+  }
+  ctx.stroke();
+
+  // bold grid (floor squares, every 2 belt units) — matches the visible game floor tiles
+  ctx.strokeStyle = '#3a4250';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  for(let c=startCol; c<=endCol; c++){
+    if(c % 2 !== 0) continue;
+    const px = state.panX + c*z;
+    ctx.moveTo(px, 0); ctx.lineTo(px, rect.height);
+  }
+  for(let r=startRow; r<=endRow; r++){
+    if(r % 2 !== 0) continue;
+    const py = state.panY + r*z;
+    ctx.moveTo(0, py); ctx.lineTo(rect.width, py);
+  }
+  ctx.stroke();
+  ctx.restore();
+
+  // origin marker
+  const ox = state.panX, oy = state.panY;
+  ctx.fillStyle = '#4f8fef';
+  ctx.beginPath(); ctx.arc(ox, oy, 3, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#5a6272'; ctx.font = '10px monospace';
+  ctx.fillText('0,0', ox+6, oy-6);
+
+  drawWarehouseBoundary();
+  drawFixedDoors();
+  drawObstructedTiles();
+
+  // placed pieces
+  state.placed.forEach((inst, idx) => {
+    const p = PIECE_MAP[inst.id];
+    drawPiece(p, inst.x, inst.y, inst.rotation, idx === state.selectedIdx, false, false, inst.flipped);
+  });
+
+  drawHighlightedPath();
+  if(state.autoRouteMode && state.autoRouteSource) drawAutoRouteSourceMarker();
+
+  // ghost preview
+  if(state.heldPiece){
+    const p = PIECE_MAP[state.heldPiece];
+    const dims = rotatedDims(p, state.heldRotation);
+    const blocked = isObstructed(mouseGridX, mouseGridY, dims.w, dims.h);
+    drawPiece(p, mouseGridX, mouseGridY, state.heldRotation, false, true, blocked, state.heldFlipped);
+  }
+}
+
+function portMarkerColor(kind, role){
+  if(kind === 'in') return '#4f8fef';
+  if(role === 'pass' || role === 'approved' || role === 'no-scan-needed') return '#3ecf7e';
+  if(role === 'fail' || role === 'denied' || role === 'needs-scan') return '#e5484d';
+  if(role === 'no-sticker') return '#8b93a3';
+  return '#e0b13e'; // generic single/multi output (belts, joiners, splitter, diverter)
+}
+
+function drawCornerBeltCurve(p, px, py, w, h, rotation, flipped, ghost){
+  const localPorts = getLocalPorts(p.id, flipped);
+  const rotDirs = ROTATION_DIR_MAP[rotation];
+  let inDir = null, outDir = null;
+  Object.entries(localPorts).forEach(([localDir, val]) => {
+    const [dx,dy] = rotDirs[localDir];
+    if(val === 'in') inDir = [dx,dy];
+    else if(val === 'out') outDir = [dx,dy];
+  });
+  if(!inDir || !outDir) return;
+
+  const cx = px+w/2, cy = py+h/2;
+  const inX = cx + inDir[0]*w/2, inY = cy + inDir[1]*h/2;
+  const outX = cx + outDir[0]*w/2, outY = cy + outDir[1]*h/2;
+
+  ctx.save();
+  ctx.globalAlpha = ghost ? 0.5 : 1;
+
+  // belt bed (dark curved channel)
+  ctx.strokeStyle = '#1a1e24';
+  ctx.lineWidth = Math.max(6, state.zoom*0.5);
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(inX, inY);
+  ctx.quadraticCurveTo(cx, cy, outX, outY);
+  ctx.stroke();
+
+  // belt surface (lighter blue curve on top)
+  ctx.strokeStyle = '#2f6fd6';
+  ctx.lineWidth = Math.max(4, state.zoom*0.36);
+  ctx.beginPath();
+  ctx.moveTo(inX, inY);
+  ctx.quadraticCurveTo(cx, cy, outX, outY);
+  ctx.stroke();
+
+  // direction chevron at the midpoint of the curve, pointing toward output
+  const midX = 0.25*inX + 0.5*cx + 0.25*outX;
+  const midY = 0.25*inY + 0.5*cy + 0.25*outY;
+  const chevronAngle = Math.atan2(outY-cy, outX-cx);
+  if(state.zoom > 16){
+    ctx.translate(midX, midY);
+    ctx.rotate(chevronAngle);
+    ctx.strokeStyle = 'rgba(255,255,255,0.85)';
+    ctx.lineWidth = 1.5;
+    const s = Math.max(3, state.zoom*0.12);
+    ctx.beginPath();
+    ctx.moveTo(-s*0.5,-s); ctx.lineTo(s*0.5,0); ctx.lineTo(-s*0.5,s);
+    ctx.stroke();
+  }
+  ctx.restore();
+
+  // small port dots at the two ends, same color language as everywhere else
+  ctx.fillStyle = portMarkerColor('in', null);
+  ctx.beginPath(); ctx.arc(inX, inY, Math.max(2.5, state.zoom*0.08), 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = portMarkerColor('out', null);
+  ctx.beginPath(); ctx.arc(outX, outY, Math.max(2.5, state.zoom*0.08), 0, Math.PI*2); ctx.fill();
+}
+
+function drawPiece(p, gx, gy, rotation, selected, ghost, blocked, flipped){
+  const dims = rotatedDims(p, rotation);
+  const px = state.panX + gx*state.zoom;
+  const py = state.panY + gy*state.zoom;
+  const w = dims.w*state.zoom, h = dims.h*state.zoom;
+
+  ctx.globalAlpha = ghost ? 0.45 : 1;
+  const displayColor = blocked ? '#e5484d' : p.color;
+  ctx.fillStyle = displayColor + (ghost ? '33' : '55');
+  ctx.strokeStyle = selected ? '#4f8fef' : displayColor;
+  ctx.lineWidth = selected ? 2.5 : 1.5;
+  ctx.fillRect(px, py, w, h);
+  ctx.strokeRect(px, py, w, h);
+
+  // Port markers: for pieces with a confirmed I/O profile, show a small colored
+  // dot on each actual physical edge (blue=input, green=pass/approved,
+  // red=fail/denied, gray=no-sticker, yellow=generic output) instead of a
+  // single generic rotation arrow — this is what actually answers "which
+  // side is which" instead of just showing overall facing direction.
+  const ioProfile = IO_PROFILES[p.id];
+  if(p.id === 'belt-corner' && ioProfile && state.zoom > 10){
+    drawCornerBeltCurve(p, px, py, w, h, rotation, flipped, ghost);
+  } else if(ioProfile && state.zoom > 12){
+    const localPorts = getLocalPorts(p.id, flipped);
+    const rotDirs = ROTATION_DIR_MAP[rotation];
+    Object.entries(localPorts).forEach(([localDir, val]) => {
+      const [dx,dy] = rotDirs[localDir];
+      const kind = val.startsWith('out') ? 'out' : 'in';
+      const role = val.includes(':') ? val.split(':')[1] : null;
+      const edgeX = px + w/2 + dx*(w/2 - 3);
+      const edgeY = py + h/2 + dy*(h/2 - 3);
+      ctx.fillStyle = portMarkerColor(kind, role);
+      ctx.beginPath();
+      ctx.arc(edgeX, edgeY, Math.max(2.5, state.zoom*0.09), 0, Math.PI*2);
+      ctx.fill();
+      ctx.strokeStyle = '#0b0d10';
+      ctx.lineWidth = 0.75;
+      ctx.stroke();
+    });
+  } else if(p.rotatable && state.zoom > 14){
+    // Fallback generic arrow for pieces without a confirmed I/O profile
+    // (e.g. storage racks) — just shows overall facing, not a specific port.
+    ctx.save();
+    const cx = px+w/2, cy = py+h/2;
+    const edgeOffset = Math.min(w,h)*0.32;
+    const rad = rotation * Math.PI/180;
+    const ax = cx + Math.cos(rad) * edgeOffset;
+    const ay = cy + Math.sin(rad) * edgeOffset;
+    ctx.translate(ax, ay);
+    ctx.rotate(rad);
+    ctx.fillStyle = selected ? '#4f8fef' : '#e7ebf0';
+    ctx.strokeStyle = '#0b0d10';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    const s = Math.min(w,h)*0.16;
+    ctx.moveTo(s,0); ctx.lineTo(-s*0.6,-s*0.7); ctx.lineTo(-s*0.6,s*0.7); ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  if(state.zoom > 18 && !ghost){
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = '#e7ebf0';
+    ctx.font = `${Math.min(11, state.zoom*0.4)}px monospace`;
+    ctx.textAlign = 'center';
+    ctx.fillText(p.icon, px+w/2, py+h/2+4);
+    ctx.textAlign = 'left';
+  }
+
+  if(flipped && state.zoom > 12){
+    ctx.globalAlpha = ghost ? 0.6 : 1;
+    ctx.fillStyle = '#e0b13e';
+    ctx.font = `bold ${Math.min(9, state.zoom*0.3)}px monospace`;
+    ctx.textAlign = 'left';
+    ctx.fillText('F', px+2, py+9);
+  }
+  ctx.globalAlpha = 1;
+}
+
+/* =====================================================================
+   INTERACTION
+   ===================================================================== */
+let isPanning = false, panStart = {x:0,y:0}, panOrigin = {x:0,y:0};
+let didDrag = false;
+
+canvas.addEventListener('mousedown', (e) => {
+  if(e.button !== 0) return;
+  isPanning = true; didDrag = false;
+  panStart = {x:e.clientX, y:e.clientY};
+  panOrigin = {x:state.panX, y:state.panY};
+  stage.classList.add('panning');
+});
+window.addEventListener('mousemove', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  const g = toGrid(mx,my);
+  mouseGridX = g.x; mouseGridY = g.y;
+
+  if(isPanning){
+    const dx = e.clientX - panStart.x, dy = e.clientY - panStart.y;
+    if(Math.abs(dx)>3 || Math.abs(dy)>3) didDrag = true;
+    if(didDrag){
+      state.panX = panOrigin.x + dx;
+      state.panY = panOrigin.y + dy;
+    }
+  }
+  draw();
+});
+window.addEventListener('mouseup', (e) => {
+  if(isPanning && !didDrag){
+    handleClick(e);
+  }
+  isPanning = false;
+  stage.classList.remove('panning');
+});
+
+function updateModeIndicator(){
+  const hint = document.getElementById('stageHint');
+  if(state.heldPiece && state.movingOriginal){
+    const p = PIECE_MAP[state.heldPiece];
+    hint.textContent = `Moving: ${p.name} — click grid to drop it there · right-click or Esc to cancel and put it back`;
+  } else if(state.heldPiece){
+    const p = PIECE_MAP[state.heldPiece];
+    const flipHint = canFlip(state.heldPiece) ? ' · F to flip' : '';
+    hint.textContent = `Placing: ${p.name} — click grid to place another · right-click or Esc to stop · R to rotate${flipHint} before placing`;
+  } else if(state.selectedIdx !== null){
+    const inst = state.placed[state.selectedIdx];
+    const p = PIECE_MAP[inst.id];
+    const flipHint = canFlip(inst.id) ? ' · F to flip' : '';
+    hint.textContent = `Selected: ${p.name} — press R to rotate${flipHint} · M to move · Del to remove · click elsewhere to deselect`;
+  } else {
+    hint.textContent = 'Click a piece in the palette to place it, or click a piece already on the grid to select it';
+  }
+}
+
+function handleClick(e){
+  if(state.autoRouteMode){
+    handleAutoRouteClick();
+    return;
+  }
+  // Clicking on an existing piece always selects it, even while holding
+  // something from the palette — placing a duplicate on top is rarely
+  // what anyone wants when they click directly on a piece that's there.
+  const hitIdx = findPieceAtCursor();
+  if(hitIdx !== null){
+    state.selectedIdx = hitIdx;
+    state.selectedDoor = null;
+    updateModeIndicator();
+    updateInfoPanel();
+    draw();
+    return;
+  }
+  const door = findDoorAtCursor();
+  if(door && !state.heldPiece){
+    state.selectedDoor = door;
+    state.selectedIdx = null;
+    updateInfoPanel();
+    draw();
+    return;
+  }
+  if(state.heldPiece){
+    placeHeldPiece();
+  } else {
+    state.selectedIdx = null;
+    state.selectedDoor = null;
+    updateModeIndicator();
+    updateInfoPanel();
+    draw();
+  }
+}
+
+function findPieceAtCursor(){
+  for(let i = state.placed.length-1; i>=0; i--){
+    const inst = state.placed[i];
+    const p = PIECE_MAP[inst.id];
+    const dims = rotatedDims(p, inst.rotation);
+    if(mouseGridX >= inst.x && mouseGridX < inst.x+dims.w && mouseGridY >= inst.y && mouseGridY < inst.y+dims.h){
+      return i;
+    }
+  }
+  return null;
+}
+
+function clearTraceResults(){
+  if(state.tracedResults){
+    state.tracedResults = null;
+    state.highlightedPathIdx = null;
+    const el = document.getElementById('pathResults');
+    if(el) el.innerHTML = '<div class="empty-state">Layout changed — click "Trace Paths" again to refresh.</div>';
+  }
+}
+
+function placeHeldPiece(){
+  const p = PIECE_MAP[state.heldPiece];
+  const dims = rotatedDims(p, state.heldRotation);
+  if(isObstructed(mouseGridX, mouseGridY, dims.w, dims.h)){
+    flashStatus('Can\'t place there — that tile is blocked by the door\'s control panel.');
+    return;
+  }
+  state.placed.push({ id: p.id, x: mouseGridX, y: mouseGridY, rotation: state.heldRotation, flipped: canFlip(p.id) ? state.heldFlipped : false });
+  if(state.movingOriginal){
+    // Finished a move — select the piece at its new spot and stop holding,
+    // rather than staying loaded to stamp down more copies.
+    state.movingOriginal = null;
+    state.selectedIdx = state.placed.length - 1;
+    releaseHeldPiece();
+  }
+  saveLayout();
+  clearTraceResults();
+  updateSummary();
+  draw();
+}
+
+let statusFlashTimer = null;
+function flashStatus(msg, color){
+  const el = document.getElementById('statusLeft');
+  el.textContent = msg;
+  el.style.color = color || '#e5484d';
+  clearTimeout(statusFlashTimer);
+  statusFlashTimer = setTimeout(() => {
+    el.textContent = 'Ready';
+    el.style.color = '';
+  }, 2200);
+}
+
+function releaseHeldPiece(){
+  if(state.movingOriginal){
+    // Cancelled mid-move — put the piece back where it started.
+    state.placed.push(state.movingOriginal);
+    state.movingOriginal = null;
+    saveLayout();
+  }
+  state.heldPiece = null;
+  state.heldRotation = 0;
+  document.querySelectorAll('.piece-item').forEach(e => e.classList.remove('selected'));
+  updateModeIndicator();
+  updateInfoPanel();
+  draw();
+}
+
+// (selection now happens inline in handleClick via findPieceAtCursor)
+
+canvas.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+  if(state.autoRouteMode){
+    if(state.autoRouteSource){
+      state.autoRouteSource = null;
+      document.getElementById('stageHint').textContent = 'Auto-Route: click a source piece or door, then click the target';
+    } else {
+      state.autoRouteMode = false;
+      const btn = document.getElementById('autoRouteBtn');
+      btn.style.background = ''; btn.style.color = '#4f8fef';
+      updateModeIndicator();
+    }
+    draw();
+    return;
+  }
+  if(state.heldPiece){
+    releaseHeldPiece();
+  } else if(state.selectedIdx !== null || state.selectedDoor){
+    state.selectedIdx = null;
+    state.selectedDoor = null;
+    updateModeIndicator();
+    updateInfoPanel();
+    draw();
+  }
+});
+
+canvas.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  const before = toGrid(mx,my);
+  const factor = e.deltaY < 0 ? 1.1 : 0.9;
+  state.zoom = Math.max(6, Math.min(64, state.zoom * factor));
+  const after = { x: (mx - state.panX)/state.zoom, y: (my - state.panY)/state.zoom };
+  state.panX += (after.x - before.x) * state.zoom;
+  state.panY += (after.y - before.y) * state.zoom;
+  document.getElementById('zoomLabel').textContent = Math.round(state.zoom/24*100)+'%';
+  draw();
+}, {passive:false});
+
+document.getElementById('zoomIn').addEventListener('click', () => zoomStep(1.2));
+document.getElementById('zoomOut').addEventListener('click', () => zoomStep(0.8));
+document.getElementById('zoomReset').addEventListener('click', () => {
+  state.zoom = 24; state.panX = 300; state.panY = 200;
+  document.getElementById('zoomLabel').textContent = '100%';
+  draw();
+});
+function zoomStep(f){
+  state.zoom = Math.max(6, Math.min(64, state.zoom*f));
+  document.getElementById('zoomLabel').textContent = Math.round(state.zoom/24*100)+'%';
+  draw();
+}
+
+window.addEventListener('keydown', (e) => {
+  if(e.key === 'r' || e.key === 'R'){
+    if(state.heldPiece){
+      state.heldRotation = (state.heldRotation + 90) % 360;
+      draw();
+    } else if(state.selectedIdx !== null){
+      const inst = state.placed[state.selectedIdx];
+      const p = PIECE_MAP[inst.id];
+      if(p.rotatable){
+        inst.rotation = (inst.rotation + 90) % 360;
+        saveLayout();
+  clearTraceResults();
+        draw();
+      }
+    }
+  }
+  if(e.key === 'f' || e.key === 'F'){
+    if(state.heldPiece){
+      if(canFlip(state.heldPiece)){
+        state.heldFlipped = !state.heldFlipped;
+        draw();
+      }
+    } else if(state.selectedIdx !== null){
+      const inst = state.placed[state.selectedIdx];
+      if(canFlip(inst.id)){
+        inst.flipped = !inst.flipped;
+        saveLayout();
+  clearTraceResults();
+        updateInfoPanel();
+        draw();
+      } else {
+        flashStatus('This piece can\'t flip — rotation only.');
+      }
+    }
+  }
+  if(e.key === 'm' || e.key === 'M'){
+    if(state.selectedIdx !== null){
+      startMovingSelected();
+    }
+  }
+  if((e.key === 'Delete' || e.key === 'Backspace') && state.selectedIdx !== null){
+    state.placed.splice(state.selectedIdx, 1);
+    state.selectedIdx = null;
+    saveLayout();
+  clearTraceResults();
+    updateModeIndicator();
+    updateInfoPanel();
+    updateSummary();
+    draw();
+  }
+  if(e.key === 'Escape'){
+    releaseHeldPiece();
+    state.selectedIdx = null;
+    state.selectedDoor = null;
+    if(state.autoRouteMode){
+      if(state.autoRouteSource){
+        state.autoRouteSource = null;
+        document.getElementById('stageHint').textContent = 'Auto-Route: click a source piece or door, then click the target';
+      } else {
+        state.autoRouteMode = false;
+        const btn = document.getElementById('autoRouteBtn');
+        btn.style.background = ''; btn.style.color = '#4f8fef';
+        updateModeIndicator();
+      }
+      draw();
+    }
+  }
+});
+
+document.getElementById('rotateBtn').addEventListener('click', () => {
+  window.dispatchEvent(new KeyboardEvent('keydown', {key:'r'}));
+});
+document.getElementById('flipBtn').addEventListener('click', () => {
+  window.dispatchEvent(new KeyboardEvent('keydown', {key:'f'}));
+});
+
+function startMovingSelected(){
+  const idx = state.selectedIdx;
+  if(idx === null) return;
+  const inst = state.placed[idx];
+  state.movingOriginal = { ...inst };
+  state.placed.splice(idx, 1);
+  state.selectedIdx = null;
+  state.heldPiece = inst.id;
+  state.heldRotation = inst.rotation;
+  state.heldFlipped = inst.flipped;
+  document.querySelectorAll('.piece-item').forEach(e => e.classList.remove('selected'));
+  saveLayout();
+  clearTraceResults();
+  updateModeIndicator();
+  updateInfoPanel();
+  draw();
+}
+
+document.getElementById('moveBtn').addEventListener('click', () => {
+  window.dispatchEvent(new KeyboardEvent('keydown', {key:'m'}));
+});
+
+function drawAutoRouteSourceMarker(){
+  const center = nodeTileCenter(state.autoRouteSource);
+  const pt = toPx(center.x, center.y);
+  ctx.save();
+  ctx.strokeStyle = '#4f8fef';
+  ctx.lineWidth = 3;
+  ctx.setLineDash([5,4]);
+  ctx.beginPath();
+  ctx.arc(pt.x, pt.y, Math.max(10, state.zoom*0.4), 0, Math.PI*2);
+  ctx.stroke();
+  ctx.restore();
+}
+
+function nodeAtCursor(){
+  const pieceIdx = findPieceAtCursor();
+  if(pieceIdx !== null) return { type:'piece', idx:pieceIdx };
+  const door = findDoorAtCursor();
+  if(door) return { type:'door', idx: FIXED_DOORS.indexOf(door) };
+  return null;
+}
+
+function handleAutoRouteClick(){
+  const node = nodeAtCursor();
+  if(!node){
+    flashStatus('Click directly on a placed piece or a door to use as the source/target.');
+    return;
+  }
+  if(!state.autoRouteSource){
+    state.autoRouteSource = node;
+    document.getElementById('stageHint').textContent = `Auto-Route: source set (${nodeLabel(node)}) — now click the target · right-click or Esc to cancel`;
+    draw();
+    return;
+  }
+  const source = state.autoRouteSource;
+  state.autoRouteSource = null;
+  const ok = placeAutoRoute(source, node);
+  if(ok){
+    flashStatus('Route placed.', '#3ecf7e');
+  }
+  document.getElementById('stageHint').textContent = 'Auto-Route: click a source piece or door, then click the target';
+}
+
+document.getElementById('tracePathsBtn').addEventListener('click', () => {
+  runTraceAndRender();
+});
+
+document.getElementById('autoRouteBtn').addEventListener('click', () => {
+  state.autoRouteMode = !state.autoRouteMode;
+  state.autoRouteSource = null;
+  const btn = document.getElementById('autoRouteBtn');
+  if(state.autoRouteMode){
+    btn.style.background = '#4f8fef';
+    btn.style.color = '#fff';
+    releaseHeldPiece();
+    state.selectedIdx = null;
+    state.selectedDoor = null;
+    document.getElementById('stageHint').textContent = 'Auto-Route: click a source piece or door, then click the target';
+  } else {
+    btn.style.background = '';
+    btn.style.color = '#4f8fef';
+    updateModeIndicator();
+  }
+  draw();
+});
+
+function runTraceAndRender(){
+  const results = tracePaths();
+  state.tracedResults = results;
+  state.highlightedPathIdx = results.length ? 0 : null;
+  state.highlightAllDeadEnds = false;
+  const hasBroken = results.some(r => r.status === 'dead-end' || r.status === 'cycle' || r.status === 'too-long');
+  const btn = document.getElementById('showDeadEndsBtn');
+  btn.style.display = hasBroken ? 'inline-block' : 'none';
+  btn.classList.remove('active-warning');
+  renderPathResults(results);
+  draw();
+}
+
+document.getElementById('showDeadEndsBtn').addEventListener('click', () => {
+  state.highlightAllDeadEnds = !state.highlightAllDeadEnds;
+  const btn = document.getElementById('showDeadEndsBtn');
+  if(state.highlightAllDeadEnds){
+    btn.style.background = '#e5484d';
+    btn.style.color = '#fff';
+    state.highlightedPathIdx = null;
+  } else {
+    btn.style.background = '';
+    btn.style.color = '#e5484d';
+  }
+  renderPathResults(state.tracedResults);
+  draw();
+});
+
+const STATUS_LABEL = {
+  'complete': 'Delivered',
+  'stored': 'Goes to storage',
+  'dead-end': 'Dead end — nothing connected',
+  'cycle': 'Loops back on itself',
+  'too-long': 'Too many hops (possible infinite loop)',
+};
+
+const ROLE_LABEL = {
+  'pass':'pass', 'fail':'FAIL', 'approved':'approved', 'denied':'DENIED',
+  'no-sticker':'no-sticker', 'no-scan-needed':'no-scan-needed', 'needs-scan':'needs-scan',
+};
+
+function renderPathResults(results){
+  const el = document.getElementById('pathResults');
+  if(!results.length){
+    el.innerHTML = '<div class="empty-state">No paths found starting from a delivery door. Place some pieces connected to a door\'s green "BELT HERE" marker, then trace again.</div>';
+    return;
+  }
+  let html = '';
+  results.forEach((r, i) => {
+    const startLabel = nodeLabel(r.nodes[0]);
+    const endLabel = nodeLabel(r.nodes[r.nodes.length-1]);
+    const active = i === state.highlightedPathIdx ? ' active' : '';
+    // Build a "via X, Y" branch trail from any non-null roles taken along the way
+    const branchRoles = r.roles.filter(role => role).map(role => ROLE_LABEL[role] || role);
+    const branchTrail = branchRoles.length ? ` <span style="color:${branchRoles.some(b=>b==='FAIL'||b==='DENIED')?'#e5484d':'#8b93a3'}">via ${branchRoles.join(' → ')}</span>` : '';
+    html += `
+      <div class="path-card path-status-${r.status}${active}" data-path-idx="${i}">
+        <div class="ptitle">${startLabel} → ${endLabel}${branchTrail}</div>
+        <div class="pmeta">${STATUS_LABEL[r.status] || r.status} · ${r.totalTime.toFixed(2)}s · ${r.nodes.length-1} hop${r.nodes.length-1===1?'':'s'}</div>
+      </div>
+    `;
+  });
+  el.innerHTML = html;
+  el.querySelectorAll('.path-card').forEach(card => {
+    card.addEventListener('click', () => {
+      state.highlightedPathIdx = parseInt(card.dataset.pathIdx);
+      state.highlightAllDeadEnds = false;
+      const btn = document.getElementById('showDeadEndsBtn');
+      if(btn){ btn.style.background = ''; btn.style.color = '#e5484d'; }
+      renderPathResults(state.tracedResults);
+      draw();
+    });
+  });
+}
+
+function nodeTileCenter(n){
+  if(n.type === 'door'){
+    const port = getDoorPort(FIXED_DOORS[n.idx], n.idx);
+    return { x: port.x + 0.5, y: port.y + 0.5 };
+  }
+  const inst = state.placed[n.idx];
+  const p = PIECE_MAP[inst.id];
+  const dims = rotatedDims(p, inst.rotation);
+  return { x: inst.x + dims.w/2, y: inst.y + dims.h/2 };
+}
+
+const STATUS_END_COLOR = {
+  'complete': '#3ecf7e',
+  'stored': '#4f8fef',
+  'dead-end': '#e5484d',
+  'cycle': '#d9622b',
+  'too-long': '#8b93a3',
+};
+
+function drawSinglePath(result, dimmed){
+  const pts = result.nodes.map(n => toPx(nodeTileCenter(n).x, nodeTileCenter(n).y));
+  const endColor = STATUS_END_COLOR[result.status] || '#e7ebf0';
+
+  ctx.save();
+  ctx.globalAlpha = dimmed ? 0.35 : 1;
+  ctx.strokeStyle = '#3ecf7e';
+  ctx.lineWidth = 3;
+  ctx.setLineDash([]);
+  ctx.beginPath();
+  pts.forEach((pt,i) => { if(i===0) ctx.moveTo(pt.x,pt.y); else ctx.lineTo(pt.x,pt.y); });
+  ctx.stroke();
+  pts.forEach((pt,i) => {
+    const isEnd = i === pts.length-1;
+    ctx.fillStyle = i===0 ? '#3ecf7e' : (isEnd ? endColor : '#3ecf7e');
+    ctx.beginPath();
+    ctx.arc(pt.x, pt.y, isEnd && (result.status==='dead-end'||result.status==='cycle') ? 6 : 4, 0, Math.PI*2);
+    ctx.fill();
+    if(isEnd && (result.status === 'dead-end' || result.status === 'cycle')){
+      // extra warning ring so a broken path is unmistakable even at a glance
+      ctx.strokeStyle = endColor;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(pt.x, pt.y, 10, 0, Math.PI*2);
+      ctx.stroke();
+    }
+  });
+  ctx.restore();
+}
+
+function drawHighlightedPath(){
+  if(!state.tracedResults) return;
+  if(state.highlightAllDeadEnds){
+    state.tracedResults
+      .filter(r => r.status === 'dead-end' || r.status === 'cycle' || r.status === 'too-long')
+      .forEach(r => drawSinglePath(r, false));
+    return;
+  }
+  if(state.highlightedPathIdx === null) return;
+  const result = state.tracedResults[state.highlightedPathIdx];
+  if(!result) return;
+  drawSinglePath(result, false);
+}
+
+let clearConfirmPending = false;
+let clearConfirmTimer = null;
+document.getElementById('clearBtn').addEventListener('click', () => {
+  if(state.placed.length === 0) return;
+  const btn = document.getElementById('clearBtn');
+  if(!clearConfirmPending){
+    clearConfirmPending = true;
+    btn.textContent = 'Click again to confirm';
+    btn.style.background = '#e5484d';
+    btn.style.color = '#fff';
+    clearTimeout(clearConfirmTimer);
+    clearConfirmTimer = setTimeout(() => {
+      clearConfirmPending = false;
+      btn.textContent = 'Clear layout';
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 3000);
+    return;
+  }
+  // second click within the window — actually clear
+  clearTimeout(clearConfirmTimer);
+  clearConfirmPending = false;
+  btn.textContent = 'Clear layout';
+  btn.style.background = '';
+  btn.style.color = '';
+  state.placed = [];
+  state.selectedIdx = null;
+  saveLayout();
+  clearTraceResults();
+  updateInfoPanel();
+  updateSummary();
+  draw();
+});
+
+document.querySelectorAll('.tier-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tier-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.tier = parseInt(btn.dataset.tier);
+    document.getElementById('tierLabel').textContent = state.tier;
+    updateInfoPanel();
+    updateSummary();
+  });
+});
+
+/* =====================================================================
+   INFO PANEL / SUMMARY
+   ===================================================================== */
+function tierVal(piece, tier){
+  const t = piece.tiers.find(x => x.t === tier);
+  return t || piece.tiers[piece.tiers.length-1] || null;
+}
+
+function updateInfoPanel(){
+  const empty = document.getElementById('infoEmpty');
+  const content = document.getElementById('infoContent');
+
+  if(state.selectedDoor){
+    const d = state.selectedDoor;
+    const { box, conn } = doorBoxAndConnection(d);
+    empty.style.display = 'none';
+    content.style.display = 'block';
+    content.innerHTML = `
+      <div class="piece-card">
+        <div class="name">${d.kind === 'incoming' ? '📦' : '🚚'} ${d.label}${d.code ? ' ('+d.code+')' : ''}</div>
+        <div class="stat-row"><span class="stat-label">Type</span><span class="stat-val">${d.kind === 'incoming' ? 'Delivery (incoming)' : 'Outgoing'}</span></div>
+        <div class="stat-row"><span class="stat-label">Wall</span><span class="stat-val">${d.wall}</span></div>
+        <div class="stat-row"><span class="stat-label">Belt connects at</span><span class="stat-val">${conn.x}, ${conn.y}</span></div>
+        <div class="note-box">This is a fixed part of the building — it can't be moved, rotated, or deleted. The dashed box pokes through the wall to show where the physical door sits; the green "BELT HERE" marker shows the one interior tile a belt actually needs to reach. ${d.kind === 'incoming' ? 'Corners can route belts into the flanking tiles too for extra throughput. Has a fixed 1-tile control-panel obstruction to the right, facing the door.' : d.code ? 'Confirmed door code from the in-game sign.' : 'No code sign on rejected doors — marked by a red strip on the physical door instead.'}</div>
+      </div>
+    `;
+    return;
+  }
+
+  let piece = null;
+  if(state.selectedIdx !== null){
+    piece = PIECE_MAP[state.placed[state.selectedIdx].id];
+  } else if(state.heldPiece){
+    piece = PIECE_MAP[state.heldPiece];
+  }
+
+  if(!piece){
+    empty.style.display = 'block';
+    content.style.display = 'none';
+    return;
+  }
+  empty.style.display = 'none';
+  content.style.display = 'block';
+
+  const tv = tierVal(piece, state.tier);
+  let statsHTML = '';
+  if(tv){
+    if(tv.val !== null && tv.val !== undefined){
+      statsHTML += `<div class="stat-row"><span class="stat-label">Speed (T${tv.t})</span><span class="stat-val">${tv.val} ${piece.valLabel.split('(')[0].trim() || ''}</span></div>`;
+    } else if(piece.valLabel){
+      statsHTML += `<div class="stat-row"><span class="stat-label">Info</span><span class="stat-val">${piece.valLabel}</span></div>`;
+    }
+    if(tv.cost !== null && tv.cost !== undefined){
+      statsHTML += `<div class="stat-row"><span class="stat-label">Upgrade cost to T${tv.t}</span><span class="stat-val">$${tv.cost.toLocaleString()}</span></div>`;
+    }
+  }
+  statsHTML += `<div class="stat-row"><span class="stat-label">Footprint</span><span class="stat-val">${piece.w} × ${piece.h}</span></div>`;
+  statsHTML += `<div class="stat-row"><span class="stat-label">Rotatable</span><span class="stat-val">${piece.rotatable ? 'yes' : 'no'}</span></div>`;
+  const flippable = canFlip(piece.id);
+  let flipState = 'n/a';
+  if(flippable){
+    if(state.selectedIdx !== null) flipState = state.placed[state.selectedIdx].flipped ? 'yes (F to un-flip)' : 'no (F to flip)';
+    else flipState = state.heldFlipped ? 'yes (F to un-flip)' : 'no (F to flip)';
+  }
+  statsHTML += `<div class="stat-row"><span class="stat-label">Flippable</span><span class="stat-val">${flippable ? 'yes' : 'no — rotation only'}</span></div>`;
+  if(flippable){
+    statsHTML += `<div class="stat-row"><span class="stat-label">Currently flipped</span><span class="stat-val">${flipState}</span></div>`;
+  }
+
+  content.innerHTML = `
+    <div class="piece-card">
+      <div class="name">${piece.icon} ${piece.name}</div>
+      ${statsHTML}
+      ${piece.note ? `<div class="note-box">${piece.note}</div>` : ''}
+    </div>
+  `;
+}
+
+function updateSummary(){
+  const el = document.getElementById('summaryBlock');
+  const counts = {};
+  let knownCost = 0, unknownCostCount = 0;
+  state.placed.forEach(inst => {
+    counts[inst.id] = (counts[inst.id]||0) + 1;
+    const p = PIECE_MAP[inst.id];
+    const baseCost = p.tiers[0] ? p.tiers[0].cost : null;
+    if(baseCost) knownCost += baseCost;
+    else unknownCostCount++;
+  });
+
+  if(state.placed.length === 0){
+    el.innerHTML = '<div class="empty-state">No pieces placed yet.</div>';
+    return;
+  }
+
+  let rows = `<div class="summary-row"><span class="k">Total pieces</span><span class="v">${state.placed.length}</span></div>`;
+  rows += `<div class="summary-row"><span class="k">Known base cost</span><span class="v">$${knownCost.toLocaleString()}</span></div>`;
+  if(unknownCostCount){
+    rows += `<div class="summary-row"><span class="k">Pieces w/ unknown cost</span><span class="v">${unknownCostCount}</span></div>`;
+  }
+  el.innerHTML = rows;
+}
+
+/* =====================================================================
+   PERSISTENCE
+   ===================================================================== */
+function saveLayout(){
+  try{
+    localStorage.setItem('current-layout', JSON.stringify({ placed: state.placed }));
+  } catch(err){ console.error('save failed', err); }
+}
+function loadLayout(){
+  try{
+    const raw = localStorage.getItem('current-layout');
+    if(raw){
+      const data = JSON.parse(raw);
+      state.placed = data.placed || [];
+    }
+  } catch(err){ /* no saved layout yet */ }
+}
+
+/* =====================================================================
+   GAME DATA LOADING — fetches the piece catalog and this building's layout
+   from data/pieces.json and data/building1-layout.json instead of relying
+   on hardcoded copies. Requires a real HTTP server (fetch of local files
+   is blocked under file://) — run a local dev server (e.g. VS Code Live
+   Server) to test.
+   ===================================================================== */
+async function loadGameData(){
+  const [piecesRes, layoutRes] = await Promise.all([
+    fetch('data/pieces.json'),
+    fetch('data/building1-layout.json'),
+  ]);
+  if(!piecesRes.ok || !layoutRes.ok){
+    throw new Error('Failed to fetch game data (pieces: ' + piecesRes.status + ', layout: ' + layoutRes.status + ')');
+  }
+  const [pieces, layout] = await Promise.all([piecesRes.json(), layoutRes.json()]);
+  PIECES = pieces;
+  TIER_DATA = layout.tierData;
+  MAX_TIER = layout.maxTier;
+  KNOWN_ZONE_RECTS = layout.knownZoneRects;
+  KNOWN_ZONE_POLYGONS = layout.knownZonePolygons;
+  FIXED_DOORS = layout.fixedDoors;
+  WAREHOUSE_BOUNDARY = layout.warehouseBoundary;
+  computeDerivedData();
+}
+
+// Rebuilds every value that's derived from the fetched data — must run once
+// after loadGameData() resolves, before anything else reads PIECE_MAP,
+// PIECE_UNLOCK_TIER, or OBSTRUCTED_TILES.
+function computeDerivedData(){
+  PIECE_MAP = Object.fromEntries(PIECES.map(p => [p.id, p]));
+  PIECE_UNLOCK_TIER = {};
+  Object.entries(TIER_DATA).forEach(([tier, info]) => {
+    info.pieces.forEach(id => { PIECE_UNLOCK_TIER[id] = parseInt(tier); });
+  });
+  OBSTRUCTED_TILES = FIXED_DOORS
+    .filter(d => d.kind === 'incoming')
+    .map(d => ({ x: d.connX - 1, y: d.connY, door: d }));
+}
+
+/* =====================================================================
+   INIT
+   ===================================================================== */
+async function init(){
+  try{
+    await loadGameData();
+  } catch(err){
+    console.error(err);
+    document.getElementById('statusLeft').textContent = 'Failed to load game data — see console. Are you running this from a local server, not file://?';
+    document.getElementById('statusLeft').style.color = '#e5484d';
+    return;
+  }
+  await loadProgress();
+  buildPalette();
+  updateProgressUI();
+  await loadLayout();
+  resizeCanvas();
+  updateSummary();
+  updateInfoPanel();
+  updateModeIndicator();
+}
+init();
+</script>
+</body>
+</html>

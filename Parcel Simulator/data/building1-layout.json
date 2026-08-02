@@ -1,0 +1,326 @@
+{
+  "maxTier": 15,
+  "tierData": {
+    "1": {
+      "cost": 1150,
+      "pieces": [
+        "belt",
+        "belt-corner"
+      ]
+    },
+    "2": {
+      "cost": 1450,
+      "pieces": [
+        "joiner-conveyor",
+        "belt-bridge",
+        "storage-loader",
+        "storage-rack-small",
+        "scanner-sticker",
+        "scanner-weight"
+      ]
+    },
+    "3": {
+      "cost": 1300,
+      "pieces": [
+        "scanner-serial"
+      ]
+    },
+    "4": {
+      "cost": 2250,
+      "pieces": [
+        "pauser-manual",
+        "storage-unloader",
+        "storage-rack-medium"
+      ]
+    },
+    "5": {
+      "cost": 1900,
+      "pieces": [
+        "scanner-country"
+      ]
+    },
+    "6": {
+      "cost": 2700,
+      "pieces": [
+        "contents-inspection-diverter"
+      ]
+    },
+    "7": {
+      "cost": 2500,
+      "pieces": [
+        "scanner-cargo-type",
+        "sticker-applier-approved",
+        "sticker-applier-deny"
+      ]
+    },
+    "8": {
+      "cost": 2800,
+      "pieces": [
+        "storage-rack-large",
+        "scanner-stamp",
+        "joiner-multi",
+        "cargo-type-diverter",
+        "splitter"
+      ]
+    },
+    "9": {
+      "cost": 3100,
+      "pieces": [
+        "scanner-prohibited"
+      ]
+    },
+    "10": {
+      "cost": 3400,
+      "pieces": []
+    },
+    "11": {
+      "cost": 3700,
+      "pieces": []
+    },
+    "12": {
+      "cost": 4000,
+      "pieces": [
+        "launcher"
+      ]
+    },
+    "13": {
+      "cost": 4300,
+      "pieces": []
+    },
+    "14": {
+      "cost": 4600,
+      "pieces": []
+    },
+    "15": {
+      "cost": 4900,
+      "pieces": [
+        "pauser-auto"
+      ]
+    }
+  },
+  "knownZoneRects": {
+    "0": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 10,
+        "h": 20
+      }
+    ],
+    "1": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 10,
+        "h": 20
+      },
+      {
+        "x": 10,
+        "y": 0,
+        "w": 10,
+        "h": 10
+      }
+    ],
+    "2": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 20,
+        "h": 20
+      }
+    ]
+  },
+  "knownZonePolygons": {
+    "0": [
+      {
+        "x": 0,
+        "y": 0
+      },
+      {
+        "x": 10,
+        "y": 0
+      },
+      {
+        "x": 10,
+        "y": 20
+      },
+      {
+        "x": 0,
+        "y": 20
+      }
+    ],
+    "1": [
+      {
+        "x": 0,
+        "y": 0
+      },
+      {
+        "x": 20,
+        "y": 0
+      },
+      {
+        "x": 20,
+        "y": 10
+      },
+      {
+        "x": 10,
+        "y": 10
+      },
+      {
+        "x": 10,
+        "y": 20
+      },
+      {
+        "x": 0,
+        "y": 20
+      }
+    ],
+    "2": [
+      {
+        "x": 0,
+        "y": 0
+      },
+      {
+        "x": 20,
+        "y": 0
+      },
+      {
+        "x": 20,
+        "y": 20
+      },
+      {
+        "x": 0,
+        "y": 20
+      }
+    ]
+  },
+  "fixedDoors": [
+    {
+      "kind": "incoming",
+      "label": "Delivery Door 1",
+      "wall": "south",
+      "connX": 2,
+      "connY": 19
+    },
+    {
+      "kind": "incoming",
+      "label": "Delivery Door 2",
+      "wall": "south",
+      "connX": 17,
+      "connY": 19
+    },
+    {
+      "kind": "incoming",
+      "label": "Delivery Door 3",
+      "wall": "south",
+      "connX": 27,
+      "connY": 38
+    },
+    {
+      "kind": "incoming",
+      "label": "Delivery Door 4",
+      "wall": "south",
+      "connX": 37,
+      "connY": 38
+    },
+    {
+      "kind": "incoming",
+      "label": "Delivery Door 5",
+      "wall": "south",
+      "connX": 47,
+      "connY": 38
+    },
+    {
+      "kind": "outgoing",
+      "label": "Rejected",
+      "code": null,
+      "wall": "north",
+      "connX": 2,
+      "connY": 0,
+      "color": "#e5484d"
+    },
+    {
+      "kind": "outgoing",
+      "label": "Air",
+      "code": "B1",
+      "wall": "north",
+      "connX": 17,
+      "connY": 0
+    },
+    {
+      "kind": "outgoing",
+      "label": "Maritime",
+      "code": "C1",
+      "wall": "north",
+      "connX": 27,
+      "connY": 0
+    },
+    {
+      "kind": "outgoing",
+      "label": "Rejected",
+      "code": null,
+      "wall": "north",
+      "connX": 47,
+      "connY": 0,
+      "color": "#e5484d"
+    },
+    {
+      "kind": "outgoing",
+      "label": "Road/Rail",
+      "code": "A1",
+      "wall": "west",
+      "connX": 0,
+      "connY": 17
+    },
+    {
+      "kind": "outgoing",
+      "label": "Road",
+      "code": "A2",
+      "wall": "east",
+      "connX": 49,
+      "connY": 7
+    },
+    {
+      "kind": "outgoing",
+      "label": "Rail",
+      "code": "B2",
+      "wall": "east",
+      "connX": 49,
+      "connY": 17
+    },
+    {
+      "kind": "outgoing",
+      "label": "Air/Maritime",
+      "code": "C2",
+      "wall": "east",
+      "connX": 49,
+      "connY": 27
+    }
+  ],
+  "warehouseBoundary": [
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 50,
+      "y": 0
+    },
+    {
+      "x": 50,
+      "y": 39
+    },
+    {
+      "x": 20,
+      "y": 39
+    },
+    {
+      "x": 20,
+      "y": 20
+    },
+    {
+      "x": 0,
+      "y": 20
+    }
+  ]
+}
