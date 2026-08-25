@@ -19,8 +19,23 @@
     --text: #e7ebf0;
     --text-dim: #8b93a3;
     --text-faint: #5a6272;
+    /* Theme-independent — these render physical machine parts (belt trench
+       shadow, outline strokes on bright badges), not page chrome, so they
+       deliberately stay dark in both themes rather than flipping. */
+    --ink-deep: #0b0d10;
+    --ink-deep-2: #1a1e24;
     --mono: 'IBM Plex Mono', 'Courier New', monospace;
     --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  :root[data-theme="light"]{
+    --bg: #f5f6f8;
+    --panel: #ffffff;
+    --panel-2: #eef0f3;
+    --line-faint: #e2e5ea;
+    --line-bold: #c9cfd8;
+    --text: #1a1e24;
+    --text-dim: #5a6272;
+    --text-faint: #8b93a3;
   }
   *{ box-sizing: border-box; }
   html,body{ height:100%; margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); overflow:hidden; }
@@ -55,6 +70,42 @@
   }
   .btn:hover{ border-color:var(--belt-blue-bright); }
   .btn.danger:hover{ border-color:var(--accent-red); color:var(--accent-red); }
+
+  /* ---- Controls-help modal ---- */
+  .modal-backdrop{
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55);
+    align-items:center; justify-content:center; z-index:100;
+  }
+  .modal-backdrop.open{ display:flex; }
+  .modal-panel{
+    background:var(--panel); border:1px solid var(--line-bold); border-radius:8px;
+    width:520px; max-width:90vw; max-height:85vh; overflow-y:auto;
+    box-shadow:0 12px 40px rgba(0,0,0,0.4);
+  }
+  .modal-header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 18px; border-bottom:1px solid var(--line-bold);
+  }
+  .modal-header h2{ margin:0; font-size:15px; color:var(--text); }
+  .modal-close{
+    background:none; border:none; color:var(--text-dim); font-size:16px;
+    cursor:pointer; line-height:1; padding:4px;
+  }
+  .modal-close:hover{ color:var(--text); }
+  .modal-body{ padding:8px 18px 18px; }
+  .modal-section-title{
+    font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:var(--text-dim);
+    margin:16px 0 6px;
+  }
+  .modal-section-title:first-child{ margin-top:8px; }
+  .modal-row{
+    display:flex; gap:14px; padding:6px 0; font-size:12.5px; color:var(--text);
+    border-bottom:1px solid var(--panel-2);
+  }
+  .modal-key{
+    flex:0 0 150px; font-family:var(--mono); color:var(--belt-blue-bright); font-size:11.5px;
+  }
+  .modal-row span:last-child{ color:var(--text-dim); line-height:1.5; }
 
   /* ---- Palette (left) ---- */
   .palette-wrapper{
@@ -122,6 +173,7 @@
   .stat-label{ color:var(--text-dim); }
   .stat-val{ font-family:var(--mono); color:var(--text); }
   .note-box{ font-size:11px; color:var(--text-dim); line-height:1.5; background:var(--panel-2); border-left:2px solid var(--belt-blue); padding:8px 10px; border-radius:0 4px 4px 0; margin-top:8px; }
+  .warning-box{ font-size:11px; color:var(--text-dim); line-height:1.5; background:var(--panel-2); border-left:2px solid var(--accent-red); padding:8px 10px; border-radius:0 4px 4px 0; margin-top:8px; }
 
   .summary-block{ margin-top: 6px; }
   .summary-row{ display:flex; justify-content:space-between; font-size:12px; padding:5px 0; }
@@ -177,6 +229,31 @@
       <button class="btn" id="tracePathsBtn" style="border-color:#3ecf7e; color:#3ecf7e;">▶ Trace Paths</button>
       <button class="btn" id="autoRouteBtn" style="border-color:#4f8fef; color:#4f8fef;">🔗 Auto-Route</button>
       <button class="btn danger" id="clearBtn">Clear layout</button>
+      <button class="btn" id="themeToggleBtn" title="Switch light/dark theme">🌙 Dark</button>
+      <button class="btn" id="helpBtn" title="Controls reference">❓ Controls</button>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="helpBackdrop">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <h2>Controls</h2>
+        <button class="modal-close" id="helpCloseBtn" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-section-title">Mouse</div>
+        <div class="modal-row"><span class="modal-key">Left-click</span><span>Place the held piece, or select an existing piece / door</span></div>
+        <div class="modal-row"><span class="modal-key">Left-click + drag</span><span>Holding Straight or Corner Belt: draws a path, auto-picking straight vs. corner as you turn</span></div>
+        <div class="modal-row"><span class="modal-key">Right-click + drag</span><span>Pan the view — also works while a belt path is being drawn with the left button held</span></div>
+        <div class="modal-row"><span class="modal-key">Right-click</span><span>Cancel what you're holding, or deselect</span></div>
+        <div class="modal-row"><span class="modal-key">Scroll wheel</span><span>Zoom in/out, centered on the cursor</span></div>
+        <div class="modal-section-title">Keyboard</div>
+        <div class="modal-row"><span class="modal-key">R</span><span>Rotate the held or selected piece</span></div>
+        <div class="modal-row"><span class="modal-key">F</span><span>Flip the held or selected piece (where flippable)</span></div>
+        <div class="modal-row"><span class="modal-key">M</span><span>Move the selected piece</span></div>
+        <div class="modal-row"><span class="modal-key">Delete</span><span>Remove the selected piece</span></div>
+        <div class="modal-row"><span class="modal-key">Esc</span><span>Cancel what you're holding, deselect, or close this dialog</span></div>
+      </div>
     </div>
   </div>
 
@@ -193,7 +270,21 @@
         <input type="range" id="planningTierSlider" min="0" max="15" value="15" step="1">
         <span id="planningTierLabel">15</span>
       </div>
+      <div class="tier-row" style="gap:6px; align-items:flex-start;">
+        <input type="checkbox" id="includeOptionalUpgrades" style="accent-color:var(--belt-blue-bright); margin-top:2px; flex-shrink:0;">
+        <label for="includeOptionalUpgrades" style="cursor:pointer; width:auto; white-space:normal; line-height:1.4;">Include optional upgrades (e.g. Conveyor Deliveries) in cost</label>
+      </div>
       <div id="progressSummary" class="progress-summary"></div>
+
+      <div id="customFloorControls" style="display:none; margin-top:10px; padding-top:10px; border-top:1px solid var(--line-bold);">
+        <div style="font-size:11px; color:var(--text-dim); margin-bottom:6px;">Floor past T2 is player-directional — map your own instead of guessing.</div>
+        <button class="btn" id="floorPaintToggleBtn" style="font-size:11px; padding:5px 8px; width:100%; margin-bottom:6px;">🖌 Map my floor</button>
+        <div class="tier-row" style="gap:6px;">
+          <input type="checkbox" id="useCustomFloorCheckbox" style="accent-color:var(--belt-blue-bright);">
+          <label for="useCustomFloorCheckbox" style="cursor:pointer; width:auto;">Use my mapped floor</label>
+        </div>
+        <button class="btn danger" id="clearCustomFloorBtn" style="font-size:10px; padding:4px 8px; width:100%; margin-top:6px;">Clear mapped floor</button>
+      </div>
     </div>
     <div class="palette" id="palette"></div>
   </div>
@@ -231,6 +322,12 @@
         <button class="btn" id="showDeadEndsBtn" style="font-size:10px; padding:4px 8px; border-color:#e5484d; color:#e5484d; display:none;">⚠ All dead ends</button>
       </div>
       <div id="pathResults"><div class="empty-state">Click "Trace Paths" above to see how packages flow through your layout — real transit times, dead ends, and where things jam.</div></div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <h2>Buffer storage calculator</h2>
+      <div class="empty-state" style="margin-bottom:10px;">Outbound doors only ship on the days their transport mode runs. Enter an estimated packages/day for a door to see how much buffer storage covers the longest gap between ship days.</div>
+      <div id="bufferCalcList"></div>
     </div>
   </div>
 
@@ -276,9 +373,26 @@ let MAX_TIER = 15;
 // pieceId -> tier it unlocks at (pieces not in this map, e.g. doors/racks-already-covered, are always available)
 let PIECE_UNLOCK_TIER = {};
 
-function cumulativeCostThroughTier(tier){
+// Required purchases (hand tool / license / floor expansion) gate whether you can
+// even buy the tier's expansion, so they can't be skipped — unlike optional
+// convenience purchases (e.g. Conveyor Deliveries), which most players buy but
+// aren't needed to advance the tier number itself.
+function tierRequiredCost(tier){
+  const info = TIER_DATA[tier];
+  if(!info) return 0;
+  return info.purchases.filter(p => p.required).reduce((s,p) => s + p.cost, 0);
+}
+function tierOptionalPurchases(tier){
+  const info = TIER_DATA[tier];
+  if(!info) return [];
+  return info.purchases.filter(p => !p.required);
+}
+function cumulativeCostThroughTier(tier, includeOptional){
   let total = 0;
-  for(let t = 1; t <= tier; t++){ total += (TIER_DATA[t] ? TIER_DATA[t].cost : 0); }
+  for(let t = 1; t <= tier; t++){
+    total += tierRequiredCost(t);
+    if(includeOptional) total += tierOptionalPurchases(t).reduce((s,p) => s + p.cost, 0);
+  }
   return total;
 }
 
@@ -288,6 +402,7 @@ function cumulativeCostThroughTier(tier){
 // Tier 3+ deliberately has no fixed shape here (confirmed directional/player-chosen in-game).
 let KNOWN_ZONE_RECTS = {};
 let KNOWN_ZONE_POLYGONS = {};
+let LAUNCHER_HAZARDS = null;
 
 /* =====================================================================
    I/O PROFILES — local port maps (pre-rotation), used for connectivity.
@@ -431,6 +546,8 @@ function isObstructed(gx, gy, w, h){
 // fine detail right at the step may not be pixel-perfect.
 // Now fetched at runtime from data/building1-layout.json — see loadGameData() near INIT.
 let WAREHOUSE_BOUNDARY = [];
+let WEEKLY_SCHEDULE = {};
+const DAY_ORDER = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
 
 /* =====================================================================
    PATHFINDING — builds a connectivity graph from placed pieces + fixed
@@ -723,11 +840,75 @@ let state = {
   autoRouteSource: null,
   currentTier: 15,
   planningTier: 15,
+  includeOptionalUpgrades: true,
+  floorPaintMode: false,
+  useCustomFloor: false,
 };
+
+// Tiles the player has confirmed they actually own past T2, where the real shape
+// is directional/player-chosen and can't be computed from tier alone (see
+// drawWarehouseBoundary / isDoorVisibleAtProgress). Keys are "x,y" strings. Kept as
+// a Set at runtime for fast lookups; persisted as a plain array (see
+// saveCustomFloor/loadCustomFloor).
+let customFloorTileSet = new Set();
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const stage = document.getElementById('stage');
+
+/* =====================================================================
+   THEME — canvas fillStyle/strokeStyle can't reference CSS custom
+   properties directly, so page-chrome colors used in draw() are read
+   from the live CSS variables at draw time instead of being hardcoded
+   twice. Piece-specific colors (a belt's blue, a rack's orange, etc.)
+   come from the piece data itself and are NOT theme-dependent — only
+   the page-chrome colors below (grid lines, badges, highlights) are.
+   ===================================================================== */
+function cssVar(name){
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+function hexToRgba(hex, alpha){
+  const h = hex.replace('#','');
+  const r = parseInt(h.substring(0,2),16), g = parseInt(h.substring(2,4),16), b = parseInt(h.substring(4,6),16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+function cssVarAlpha(name, alpha){
+  return hexToRgba(cssVar(name), alpha);
+}
+
+function applyTheme(theme){
+  document.documentElement.dataset.theme = theme;
+  const btn = document.getElementById('themeToggleBtn');
+  // Label shows what the button will switch TO, not the current state.
+  if(btn) btn.textContent = theme === 'light' ? '🌙 Dark' : '☀️ Light';
+}
+function toggleTheme(){
+  const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+  applyTheme(next);
+  saveTheme(next);
+  draw();
+}
+function saveTheme(theme){
+  try{ localStorage.setItem('theme-preference', theme); } catch(err){ /* ignore */ }
+}
+function loadTheme(){
+  let theme = 'dark';
+  try{ theme = localStorage.getItem('theme-preference') || 'dark'; } catch(err){ /* default stands */ }
+  applyTheme(theme);
+}
+document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
+
+function openControlsHelp(){
+  document.getElementById('helpBackdrop').classList.add('open');
+}
+function closeControlsHelp(){
+  document.getElementById('helpBackdrop').classList.remove('open');
+}
+document.getElementById('helpBtn').addEventListener('click', openControlsHelp);
+document.getElementById('helpCloseBtn').addEventListener('click', closeControlsHelp);
+document.getElementById('helpBackdrop').addEventListener('click', (e) => {
+  if(e.target.id === 'helpBackdrop') closeControlsHelp(); // click on the scrim, not the panel
+});
 
 function resizeCanvas(){
   const rect = stage.getBoundingClientRect();
@@ -764,8 +945,11 @@ function buildPalette(){
       let badge = '';
       if(tierLocked) badge = `<div class="lock-badge">🔒 T${unlockTier}</div>`;
       else if(tierPlanned) badge = `<div class="plan-badge">plan · T${unlockTier}</div>`;
+      const iconInner = p.iconSvg
+        ? `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${p.iconSvg}</svg>`
+        : p.icon;
       el.innerHTML = `
-        <div class="swatch" style="background:${p.color}20; border:1px solid ${p.color}; color:${p.color}">${p.icon}</div>
+        <div class="swatch" style="background:${p.color}20; border:1px solid ${p.color}; color:${p.color}">${iconInner}</div>
         <div class="piece-name">${p.name}</div>
         ${badge || `<div class="piece-dims">${p.w}×${p.h}</div>`}
       `;
@@ -786,17 +970,37 @@ function updateProgressUI(){
   document.getElementById('currentTierLabel').textContent = state.currentTier;
   document.getElementById('planningTierSlider').value = state.planningTier;
   document.getElementById('planningTierLabel').textContent = state.planningTier;
+  document.getElementById('includeOptionalUpgrades').checked = state.includeOptionalUpgrades;
+  document.getElementById('customFloorControls').style.display = state.planningTier > 2 ? 'block' : 'none';
+  document.getElementById('useCustomFloorCheckbox').checked = state.useCustomFloor;
 
-  const currentCost = cumulativeCostThroughTier(state.currentTier);
-  const planningCost = cumulativeCostThroughTier(state.planningTier);
+  const includeOpt = state.includeOptionalUpgrades;
+  const currentCost = cumulativeCostThroughTier(state.currentTier, includeOpt);
+  const planningCost = cumulativeCostThroughTier(state.planningTier, includeOpt);
   const toGo = planningCost - currentCost;
   const summary = document.getElementById('progressSummary');
   let html = `Spent through T${state.currentTier}: <b>$${currentCost.toLocaleString()}</b>`;
   if(state.planningTier > state.currentTier){
     html += `<br>Planning to T${state.planningTier}: <b>+$${toGo.toLocaleString()}</b> more needed`;
   }
+
+  const optionalAvailable = [];
+  for(let t = 1; t <= state.planningTier; t++){
+    tierOptionalPurchases(t).forEach(p => optionalAvailable.push({ ...p, tier:t }));
+  }
+  if(optionalAvailable.length){
+    html += `<div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--line-faint);">`;
+    html += `Optional (not needed to advance tier)${includeOpt ? ', included above' : ', not included above'}:`;
+    optionalAvailable.forEach(p => {
+      html += `<br>${p.name} (T${p.tier}) \u2014 $${p.cost.toLocaleString()}`;
+    });
+    html += `</div>`;
+  }
+
   if(state.planningTier <= 2){
     html += `<br><span style="color:#3ecf7e">Floor shape shown is exact.</span>`;
+  } else if(state.useCustomFloor && customFloorTileSet.size){
+    html += `<br><span style="color:#3ecf7e">Showing your mapped floor.</span>`;
   } else {
     html += `<br><span style="color:#d9622b">Floor past T2 varies by choice \u2014 showing max possible extent.</span>`;
   }
@@ -819,9 +1023,52 @@ document.getElementById('planningTierSlider').addEventListener('input', (e) => {
   saveProgress();
   draw();
 });
+document.getElementById('includeOptionalUpgrades').addEventListener('change', (e) => {
+  state.includeOptionalUpgrades = e.target.checked;
+  updateProgressUI();
+  saveProgress();
+});
+
+document.getElementById('floorPaintToggleBtn').addEventListener('click', () => {
+  state.floorPaintMode = !state.floorPaintMode;
+  const btn = document.getElementById('floorPaintToggleBtn');
+  if(state.floorPaintMode){
+    releaseHeldPiece();
+    state.selectedIdx = null;
+    state.selectedDoor = null;
+    btn.textContent = '✓ Done painting';
+    btn.style.borderColor = '#3ecf7e';
+    btn.style.color = '#3ecf7e';
+    document.getElementById('stageHint').textContent = 'Click/drag to mark floor tiles you own — click an owned tile to erase it. Click "Done painting" when finished.';
+  } else {
+    btn.textContent = '🖌 Map my floor';
+    btn.style.borderColor = '';
+    btn.style.color = '';
+    if(customFloorTileSet.size) state.useCustomFloor = true;
+    saveCustomFloor();
+    updateProgressUI();
+    updateModeIndicator();
+  }
+  draw();
+});
+document.getElementById('useCustomFloorCheckbox').addEventListener('change', (e) => {
+  state.useCustomFloor = e.target.checked;
+  saveCustomFloor();
+  updateProgressUI();
+  draw();
+});
+document.getElementById('clearCustomFloorBtn').addEventListener('click', () => {
+  if(!customFloorTileSet.size) return;
+  if(!confirm('Clear your mapped floor? This can\'t be undone.')) return;
+  customFloorTileSet.clear();
+  state.useCustomFloor = false;
+  saveCustomFloor();
+  updateProgressUI();
+  draw();
+});
 
 function saveProgress(){
-  try{ localStorage.setItem('progress-tiers', JSON.stringify({currentTier: state.currentTier, planningTier: state.planningTier})); }
+  try{ localStorage.setItem('progress-tiers', JSON.stringify({currentTier: state.currentTier, planningTier: state.planningTier, includeOptionalUpgrades: state.includeOptionalUpgrades})); }
   catch(err){ /* ignore */ }
 }
 function loadProgress(){
@@ -831,8 +1078,24 @@ function loadProgress(){
       const d = JSON.parse(raw);
       if(typeof d.currentTier === 'number') state.currentTier = d.currentTier;
       if(typeof d.planningTier === 'number') state.planningTier = d.planningTier;
+      if(typeof d.includeOptionalUpgrades === 'boolean') state.includeOptionalUpgrades = d.includeOptionalUpgrades;
     }
   } catch(err){ /* no saved progress yet, defaults stand */ }
+}
+
+function saveCustomFloor(){
+  try{ localStorage.setItem('custom-floor', JSON.stringify({ tiles: [...customFloorTileSet], useCustomFloor: state.useCustomFloor })); }
+  catch(err){ /* ignore */ }
+}
+function loadCustomFloor(){
+  try{
+    const raw = localStorage.getItem('custom-floor');
+    if(raw){
+      const d = JSON.parse(raw);
+      if(Array.isArray(d.tiles)) customFloorTileSet = new Set(d.tiles);
+      if(typeof d.useCustomFloor === 'boolean') state.useCustomFloor = d.useCustomFloor;
+    }
+  } catch(err){ /* no mapped floor yet */ }
 }
 
 function selectPaletteItem(id, el){
@@ -878,25 +1141,37 @@ function drawWarehouseBoundary(){
       if(i===0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
     });
     ctx.closePath();
-    ctx.fillStyle = 'rgba(79,143,239,0.08)';
+    ctx.fillStyle = cssVarAlpha('--belt-blue-bright', 0.08);
     ctx.fill();
-    ctx.strokeStyle = '#4f8fef';
+    ctx.strokeStyle = cssVar('--belt-blue-bright');
     ctx.lineWidth = 2.5;
     ctx.stroke();
     return;
   }
 
-  // Tier 3+: exact shape isn't known (confirmed directional/player-chosen in-game),
-  // so show the full maximum-possible extent as the working area, not a guess at the real one.
+  // Tier 3+: exact shape isn't known from tier alone (confirmed directional/
+  // player-chosen in-game). If the player's mapped their own real floor, show
+  // that instead of guessing.
+  if(state.useCustomFloor && customFloorTileSet.size){
+    ctx.fillStyle = cssVarAlpha('--belt-blue-bright', 0.10);
+    customFloorTileSet.forEach(key => {
+      const [x,y] = key.split(',').map(Number);
+      const p = toPx(x,y);
+      ctx.fillRect(p.x, p.y, state.zoom, state.zoom);
+    });
+    return;
+  }
+
+  // Otherwise show the full maximum-possible extent as the working area, not a guess at the real one.
   ctx.beginPath();
   WAREHOUSE_BOUNDARY.forEach((pt, i) => {
     const p = toPx(pt.x, pt.y);
     if(i===0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
   });
   ctx.closePath();
-  ctx.fillStyle = 'rgba(79,143,239,0.04)';
+  ctx.fillStyle = cssVarAlpha('--belt-blue-bright', 0.04);
   ctx.fill();
-  ctx.strokeStyle = '#4f8fef';
+  ctx.strokeStyle = cssVar('--belt-blue-bright');
   ctx.lineWidth = 2.5;
   ctx.stroke();
 }
@@ -906,9 +1181,14 @@ function isInKnownZone(x, y, rects){
 }
 
 function isDoorVisibleAtProgress(d){
-  if(state.planningTier > 2) return true; // shape unknown past T2, show all doors as before
-  const rects = KNOWN_ZONE_RECTS[state.planningTier] || KNOWN_ZONE_RECTS[0];
-  return isInKnownZone(d.connX, d.connY, rects);
+  if(state.planningTier <= 2){
+    const rects = KNOWN_ZONE_RECTS[state.planningTier] || KNOWN_ZONE_RECTS[0];
+    return isInKnownZone(d.connX, d.connY, rects);
+  }
+  if(state.useCustomFloor && customFloorTileSet.size){
+    return customFloorTileSet.has(d.connX + ',' + d.connY);
+  }
+  return true; // shape unknown/not mapped past T2, show all doors as before
 }
 
 function drawFixedDoors(){
@@ -925,7 +1205,7 @@ function drawFixedDoors(){
     ctx.strokeRect(p.x, p.y, w, h);
     ctx.setLineDash([]);
     if(state.zoom > 16){
-      ctx.fillStyle = '#e7ebf0';
+      ctx.fillStyle = cssVar('--text');
       ctx.font = `bold ${Math.min(11,state.zoom*0.35)}px monospace`;
       ctx.textAlign = 'center';
       const label = d.code || (d.kind === 'incoming' ? 'IN' : 'OUT');
@@ -941,19 +1221,19 @@ function drawConnectionMarker(d, conn){
   const cx = cp.x + state.zoom/2, cy = cp.y + state.zoom/2;
 
   ctx.save();
-  ctx.strokeStyle = '#3ecf7e';
+  ctx.strokeStyle = cssVar('--accent-green');
   ctx.lineWidth = 2;
   ctx.beginPath();
   ctx.arc(cx, cy, Math.max(6, state.zoom*0.32), 0, Math.PI*2);
   ctx.stroke();
-  ctx.fillStyle = '#3ecf7e';
+  ctx.fillStyle = cssVar('--accent-green');
   ctx.beginPath();
   ctx.arc(cx, cy, 2.5, 0, Math.PI*2);
   ctx.fill();
 
   if(state.zoom > 15){
     ctx.font = `bold 9px monospace`;
-    ctx.fillStyle = '#3ecf7e';
+    ctx.fillStyle = cssVar('--accent-green');
     ctx.textAlign = 'center';
     ctx.fillText('BELT HERE', cx, cy - state.zoom*0.55);
     ctx.textAlign = 'left';
@@ -970,9 +1250,9 @@ function drawObstructedTiles(){
     ctx.beginPath();
     ctx.rect(p.x, p.y, s, s);
     ctx.clip();
-    ctx.fillStyle = 'rgba(229,72,77,0.18)';
+    ctx.fillStyle = cssVarAlpha('--accent-red', 0.18);
     ctx.fillRect(p.x, p.y, s, s);
-    ctx.strokeStyle = 'rgba(229,72,77,0.6)';
+    ctx.strokeStyle = cssVarAlpha('--accent-red', 0.6);
     ctx.lineWidth = 1;
     for(let i=-s; i<s*2; i+=6){
       ctx.beginPath();
@@ -981,7 +1261,7 @@ function drawObstructedTiles(){
       ctx.stroke();
     }
     ctx.restore();
-    ctx.strokeStyle = '#e5484d';
+    ctx.strokeStyle = cssVar('--accent-red');
     ctx.lineWidth = 1.5;
     ctx.strokeRect(p.x, p.y, s, s);
   });
@@ -1035,7 +1315,7 @@ function draw(){
   ctx.clip();
 
   // fine grid (belt units)
-  ctx.strokeStyle = '#2a303a';
+  ctx.strokeStyle = cssVar('--line-faint');
   ctx.lineWidth = 1;
   ctx.beginPath();
   for(let c=startCol; c<=endCol; c++){
@@ -1049,7 +1329,7 @@ function draw(){
   ctx.stroke();
 
   // bold grid (floor squares, every 2 belt units) — matches the visible game floor tiles
-  ctx.strokeStyle = '#3a4250';
+  ctx.strokeStyle = cssVar('--line-bold');
   ctx.lineWidth = 1.5;
   ctx.beginPath();
   for(let c=startCol; c<=endCol; c++){
@@ -1067,9 +1347,9 @@ function draw(){
 
   // origin marker
   const ox = state.panX, oy = state.panY;
-  ctx.fillStyle = '#4f8fef';
+  ctx.fillStyle = cssVar('--belt-blue-bright');
   ctx.beginPath(); ctx.arc(ox, oy, 3, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = '#5a6272'; ctx.font = '10px monospace';
+  ctx.fillStyle = cssVar('--text-faint'); ctx.font = '10px monospace';
   ctx.fillText('0,0', ox+6, oy-6);
 
   drawWarehouseBoundary();
@@ -1084,9 +1364,16 @@ function draw(){
 
   drawHighlightedPath();
   if(state.autoRouteMode && state.autoRouteSource) drawAutoRouteSourceMarker();
+  drawLauncherLightHazards();
+  drawLaunchLandingMarker();
+  drawLauncherHazardBadges();
 
   // ghost preview
-  if(state.heldPiece){
+  if(isDrawingBeltPath && beltPathCells.length >= 2){
+    computeBeltPathPieces(beltPathCells).forEach(pc => {
+      drawPiece(PIECE_MAP[pc.id], pc.x, pc.y, pc.rotation, false, true, false, pc.flipped);
+    });
+  } else if(state.heldPiece){
     const p = PIECE_MAP[state.heldPiece];
     const dims = rotatedDims(p, state.heldRotation);
     const blocked = isObstructed(mouseGridX, mouseGridY, dims.w, dims.h);
@@ -1102,7 +1389,12 @@ function portMarkerColor(kind, role){
   return '#e0b13e'; // generic single/multi output (belts, joiners, splitter, diverter)
 }
 
-function drawCornerBeltCurve(p, px, py, w, h, rotation, flipped, ghost){
+// Draws the belt as a thick physical-looking track (dark bed + blue surface)
+// from its actual input edge to output edge, with a direction chevron and
+// colored port dots. Works for straight runs and bridges too, not just
+// corners — a quadratic curve whose control point sits at the piece center
+// degenerates to a straight line whenever in/out are collinear through it.
+function drawBeltTrack(p, px, py, w, h, rotation, flipped, ghost){
   const localPorts = getLocalPorts(p.id, flipped);
   const rotDirs = ROTATION_DIR_MAP[rotation];
   let inDir = null, outDir = null;
@@ -1117,30 +1409,45 @@ function drawCornerBeltCurve(p, px, py, w, h, rotation, flipped, ghost){
   const inX = cx + inDir[0]*w/2, inY = cy + inDir[1]*h/2;
   const outX = cx + outDir[0]*w/2, outY = cy + outDir[1]*h/2;
 
+  // Bridges bulge the track perpendicular to travel direction — a visible
+  // "hop" over a gap — instead of running dead straight like a plain belt.
+  // Bulges toward -perp (screen-up for a horizontal run) so it reads as an
+  // arch/hill, not a sagging valley.
+  const isBridge = p.id === 'belt-bridge';
+  let ctrlX = cx, ctrlY = cy;
+  if(isBridge){
+    const dx = outX-inX, dy = outY-inY;
+    const len = Math.hypot(dx,dy) || 1;
+    const perpX = dy/len, perpY = -dx/len;
+    const bulge = len * 0.22;
+    ctrlX = cx + perpX*bulge;
+    ctrlY = cy + perpY*bulge;
+  }
+
   ctx.save();
   ctx.globalAlpha = ghost ? 0.5 : 1;
 
   // belt bed (dark curved channel)
-  ctx.strokeStyle = '#1a1e24';
+  ctx.strokeStyle = cssVar('--ink-deep-2');
   ctx.lineWidth = Math.max(6, state.zoom*0.5);
   ctx.lineCap = 'round';
   ctx.beginPath();
   ctx.moveTo(inX, inY);
-  ctx.quadraticCurveTo(cx, cy, outX, outY);
+  ctx.quadraticCurveTo(ctrlX, ctrlY, outX, outY);
   ctx.stroke();
 
   // belt surface (lighter blue curve on top)
-  ctx.strokeStyle = '#2f6fd6';
+  ctx.strokeStyle = cssVar('--belt-blue');
   ctx.lineWidth = Math.max(4, state.zoom*0.36);
   ctx.beginPath();
   ctx.moveTo(inX, inY);
-  ctx.quadraticCurveTo(cx, cy, outX, outY);
+  ctx.quadraticCurveTo(ctrlX, ctrlY, outX, outY);
   ctx.stroke();
 
   // direction chevron at the midpoint of the curve, pointing toward output
-  const midX = 0.25*inX + 0.5*cx + 0.25*outX;
-  const midY = 0.25*inY + 0.5*cy + 0.25*outY;
-  const chevronAngle = Math.atan2(outY-cy, outX-cx);
+  const midX = 0.25*inX + 0.5*ctrlX + 0.25*outX;
+  const midY = 0.25*inY + 0.5*ctrlY + 0.25*outY;
+  const chevronAngle = Math.atan2(outY-ctrlY, outX-ctrlX);
   if(state.zoom > 16){
     ctx.translate(midX, midY);
     ctx.rotate(chevronAngle);
@@ -1158,6 +1465,131 @@ function drawCornerBeltCurve(p, px, py, w, h, rotation, flipped, ghost){
   ctx.beginPath(); ctx.arc(inX, inY, Math.max(2.5, state.zoom*0.08), 0, Math.PI*2); ctx.fill();
   ctx.fillStyle = portMarkerColor('out', null);
   ctx.beginPath(); ctx.arc(outX, outY, Math.max(2.5, state.zoom*0.08), 0, Math.PI*2); ctx.fill();
+}
+
+const MULTI_PORT_TRACK_IDS = new Set([
+  'splitter', 'cargo-type-diverter', 'contents-inspection-diverter',
+  'joiner-conveyor', 'joiner-multi',
+]);
+
+// Same thick physical-track look as drawBeltTrack, generalized to pieces with
+// more than one in/out port — draws a straight track segment from each port
+// edge to the piece's center junction, so merges/splits read as one connected
+// belt fixture instead of a rectangle with disconnected dots on it.
+function drawBranchedTrack(p, px, py, w, h, rotation, flipped, ghost){
+  const localPorts = getLocalPorts(p.id, flipped);
+  const rotDirs = ROTATION_DIR_MAP[rotation];
+  const cx = px+w/2, cy = py+h/2;
+  const branches = [];
+  Object.entries(localPorts).forEach(([localDir, val]) => {
+    const [dx,dy] = rotDirs[localDir];
+    const kind = val.startsWith('out') ? 'out' : 'in';
+    const role = val.includes(':') ? val.split(':')[1] : null;
+    branches.push({ ex: cx + dx*w/2, ey: cy + dy*h/2, kind, role });
+  });
+  if(!branches.length) return;
+
+  ctx.save();
+  ctx.globalAlpha = ghost ? 0.5 : 1;
+
+  ctx.strokeStyle = cssVar('--ink-deep-2');
+  ctx.lineWidth = Math.max(6, state.zoom*0.5);
+  ctx.lineCap = 'round';
+  branches.forEach(b => {
+    ctx.beginPath();
+    ctx.moveTo(b.ex, b.ey);
+    ctx.lineTo(cx, cy);
+    ctx.stroke();
+  });
+
+  ctx.strokeStyle = cssVar('--belt-blue');
+  ctx.lineWidth = Math.max(4, state.zoom*0.36);
+  branches.forEach(b => {
+    ctx.beginPath();
+    ctx.moveTo(b.ex, b.ey);
+    ctx.lineTo(cx, cy);
+    ctx.stroke();
+  });
+
+  // direction chevrons along each branch, oriented the way flow actually moves
+  if(state.zoom > 16){
+    branches.forEach(b => {
+      const fromX = b.kind === 'in' ? b.ex : cx, fromY = b.kind === 'in' ? b.ey : cy;
+      const toX   = b.kind === 'in' ? cx : b.ex, toY   = b.kind === 'in' ? cy : b.ey;
+      const midX = fromX*0.4 + toX*0.6, midY = fromY*0.4 + toY*0.6;
+      const angle = Math.atan2(toY-fromY, toX-fromX);
+      ctx.save();
+      ctx.translate(midX, midY);
+      ctx.rotate(angle);
+      ctx.strokeStyle = 'rgba(255,255,255,0.85)';
+      ctx.lineWidth = 1.5;
+      const s = Math.max(3, state.zoom*0.12);
+      ctx.beginPath();
+      ctx.moveTo(-s*0.5,-s); ctx.lineTo(s*0.5,0); ctx.lineTo(-s*0.5,s);
+      ctx.stroke();
+      ctx.restore();
+    });
+  }
+  ctx.restore();
+
+  // port dots at each edge, same color language as everywhere else
+  branches.forEach(b => {
+    ctx.fillStyle = portMarkerColor(b.kind, b.role);
+    ctx.beginPath();
+    ctx.arc(b.ex, b.ey, Math.max(2.5, state.zoom*0.09), 0, Math.PI*2);
+    ctx.fill();
+    ctx.strokeStyle = cssVar('--ink-deep');
+    ctx.lineWidth = 0.75;
+    ctx.stroke();
+  });
+}
+
+// On-canvas icon rendering: piece icons are authored as small stroke-based SVG
+// fragments (data/pieces.json `iconSvg`, 24x24 viewBox). We parse each one once
+// into a Path2D and cache it, rather than re-parsing the markup every frame.
+const iconPathCache = new Map();
+
+function parseSvgAttrs(str){
+  const attrs = {};
+  const re = /([\w:-]+)="([^"]*)"/g;
+  let m;
+  while((m = re.exec(str))) attrs[m[1]] = m[2];
+  return attrs;
+}
+
+function buildIconPath(svgInner){
+  const path = new Path2D();
+  const re = /<(line|circle|rect|path)\b([^>]*)\/>/g;
+  let m;
+  while((m = re.exec(svgInner))){
+    const tag = m[1];
+    const a = parseSvgAttrs(m[2]);
+    if(tag === 'line'){
+      path.moveTo(parseFloat(a.x1), parseFloat(a.y1));
+      path.lineTo(parseFloat(a.x2), parseFloat(a.y2));
+    } else if(tag === 'circle'){
+      path.moveTo(parseFloat(a.cx) + parseFloat(a.r), parseFloat(a.cy));
+      path.arc(parseFloat(a.cx), parseFloat(a.cy), parseFloat(a.r), 0, Math.PI*2);
+    } else if(tag === 'rect'){
+      const x = parseFloat(a.x), y = parseFloat(a.y), w = parseFloat(a.width), h = parseFloat(a.height);
+      const rx = a.rx ? parseFloat(a.rx) : 0;
+      if(rx && path.roundRect) path.roundRect(x, y, w, h, rx);
+      else path.rect(x, y, w, h);
+    } else if(tag === 'path'){
+      path.addPath(new Path2D(a.d));
+    }
+  }
+  return path;
+}
+
+function getIconPath(p){
+  if(!p.iconSvg) return null;
+  let cached = iconPathCache.get(p.id);
+  if(!cached){
+    cached = buildIconPath(p.iconSvg);
+    iconPathCache.set(p.id, cached);
+  }
+  return cached;
 }
 
 function drawPiece(p, gx, gy, rotation, selected, ghost, blocked, flipped){
@@ -1180,8 +1612,12 @@ function drawPiece(p, gx, gy, rotation, selected, ghost, blocked, flipped){
   // single generic rotation arrow — this is what actually answers "which
   // side is which" instead of just showing overall facing direction.
   const ioProfile = IO_PROFILES[p.id];
-  if(p.id === 'belt-corner' && ioProfile && state.zoom > 10){
-    drawCornerBeltCurve(p, px, py, w, h, rotation, flipped, ghost);
+  const isTrackBelt = (p.id === 'belt' || p.id === 'belt-corner' || p.id === 'belt-bridge') && ioProfile;
+  const isBranchedTrack = MULTI_PORT_TRACK_IDS.has(p.id) && ioProfile;
+  if(isTrackBelt && state.zoom > 10){
+    drawBeltTrack(p, px, py, w, h, rotation, flipped, ghost);
+  } else if(isBranchedTrack && state.zoom > 10){
+    drawBranchedTrack(p, px, py, w, h, rotation, flipped, ghost);
   } else if(ioProfile && state.zoom > 12){
     const localPorts = getLocalPorts(p.id, flipped);
     const rotDirs = ROTATION_DIR_MAP[rotation];
@@ -1195,7 +1631,7 @@ function drawPiece(p, gx, gy, rotation, selected, ghost, blocked, flipped){
       ctx.beginPath();
       ctx.arc(edgeX, edgeY, Math.max(2.5, state.zoom*0.09), 0, Math.PI*2);
       ctx.fill();
-      ctx.strokeStyle = '#0b0d10';
+      ctx.strokeStyle = cssVar('--ink-deep');
       ctx.lineWidth = 0.75;
       ctx.stroke();
     });
@@ -1211,7 +1647,7 @@ function drawPiece(p, gx, gy, rotation, selected, ghost, blocked, flipped){
     ctx.translate(ax, ay);
     ctx.rotate(rad);
     ctx.fillStyle = selected ? '#4f8fef' : '#e7ebf0';
-    ctx.strokeStyle = '#0b0d10';
+    ctx.strokeStyle = cssVar('--ink-deep');
     ctx.lineWidth = 1;
     ctx.beginPath();
     const s = Math.min(w,h)*0.16;
@@ -1221,13 +1657,31 @@ function drawPiece(p, gx, gy, rotation, selected, ghost, blocked, flipped){
     ctx.restore();
   }
 
-  if(state.zoom > 18 && !ghost){
+  if(state.zoom > 18 && !ghost && !isTrackBelt && !isBranchedTrack){
     ctx.globalAlpha = 1;
-    ctx.fillStyle = '#e7ebf0';
-    ctx.font = `${Math.min(11, state.zoom*0.4)}px monospace`;
-    ctx.textAlign = 'center';
-    ctx.fillText(p.icon, px+w/2, py+h/2+4);
-    ctx.textAlign = 'left';
+    const iconPath = getIconPath(p);
+    if(iconPath){
+      const cx = px+w/2, cy = py+h/2;
+      const iconSize = Math.min(26, Math.min(w,h)*0.5);
+      const scale = iconSize/24;
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(rotation * Math.PI/180);
+      ctx.scale(scale, scale);
+      ctx.translate(-12, -12);
+      ctx.strokeStyle = cssVar('--text');
+      ctx.lineWidth = 1.8;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.stroke(iconPath);
+      ctx.restore();
+    } else {
+      ctx.fillStyle = cssVar('--text');
+      ctx.font = `${Math.min(11, state.zoom*0.4)}px monospace`;
+      ctx.textAlign = 'center';
+      ctx.fillText(p.icon, px+w/2, py+h/2+4);
+      ctx.textAlign = 'left';
+    }
   }
 
   if(flipped && state.zoom > 12){
@@ -1243,15 +1697,159 @@ function drawPiece(p, gx, gy, rotation, selected, ghost, blocked, flipped){
 /* =====================================================================
    INTERACTION
    ===================================================================== */
-let isPanning = false, panStart = {x:0,y:0}, panOrigin = {x:0,y:0};
-let didDrag = false;
+// Pan and belt-path-drawing are tracked independently (rather than one
+// shared didDrag/isPanning pair) specifically so right-drag can pan WHILE
+// left-drag is simultaneously drawing a belt path — holding both buttons at
+// once lets you scroll the view without ever releasing the path you're
+// drawing. panButton records which button owns the current pan so its own
+// mouseup doesn't get confused with the belt-path's mouseup.
+let isPanning = false, panStart = {x:0,y:0}, panOrigin = {x:0,y:0}, panButton = null;
+let panDidDrag = false;
+
+// Left-drag draws a belt path (auto straight/corner) when a straight or
+// corner belt is held; right-drag pans as an alternative to left-drag-pan,
+// freeing left-drag up for path drawing without losing the ability to pan
+// while holding a belt.
+let isDrawingBeltPath = false;
+let beltDidDrag = false;
+let beltPathCells = []; // [{x,y}, ...] visitation order, self-crossing truncates back
+
+// Ray-casting point-in-polygon test against the fetched warehouse outline.
+// Tests the tile's center so a cell straddling the boundary line reads
+// consistently either in or out. Only wired into the drag-path feature for
+// now (single-click placement has no such check either, pre-existing gap) —
+// a fast drag is much easier to accidentally run past the visible wall line
+// than a deliberate one-tile-at-a-time click.
+function pointInWarehouse(gx, gy){
+  const x = gx + 0.5, y = gy + 0.5;
+  let inside = false;
+  const poly = WAREHOUSE_BOUNDARY;
+  for(let i=0, j=poly.length-1; i<poly.length; j=i++){
+    const xi = poly[i].x, yi = poly[i].y;
+    const xj = poly[j].x, yj = poly[j].y;
+    const intersects = ((yi > y) !== (yj > y)) && (x < (xj-xi)*(y-yi)/(yj-yi) + xi);
+    if(intersects) inside = !inside;
+  }
+  return inside;
+}
+
+// Simple axis-priority "staircase" walk from one grid cell to another, so a
+// fast mousemove that jumps past several cells still fills them in.
+function stepPathTo(from, to){
+  const steps = [];
+  let cx = from.x, cy = from.y;
+  let guard = 0;
+  while((cx !== to.x || cy !== to.y) && guard++ < 500){
+    const dx = to.x-cx, dy = to.y-cy;
+    if(Math.abs(dx) >= Math.abs(dy) && dx !== 0) cx += Math.sign(dx);
+    else if(dy !== 0) cy += Math.sign(dy);
+    else break;
+    steps.push({x:cx, y:cy});
+  }
+  return steps;
+}
+
+// If the path's first tile sits exactly where a door or an existing piece's
+// free output feeds in, that connection's real direction is the true inDir
+// for that tile — not "same as wherever the drag happens to go first". This
+// is what makes a corner appear at the start of a drag when you begin right
+// at a door whose fixed direction differs from your drag direction, instead
+// of always defaulting to a straight belt that ignores what's behind it.
+function findIncomingDirForCell(gx, gy){
+  for(let i=0; i<FIXED_DOORS.length; i++){
+    const d = FIXED_DOORS[i];
+    if(d.kind !== 'incoming') continue;
+    const { conn } = doorBoxAndConnection(d);
+    if(conn.x === gx && conn.y === gy){
+      const port = getDoorPort(d, i);
+      return [port.dx, port.dy];
+    }
+  }
+  for(let idx=0; idx<state.placed.length; idx++){
+    const ports = getPhysicalPorts({ ...state.placed[idx], _idx: idx });
+    for(const port of ports){
+      if(port.kind !== 'out') continue;
+      if(port.x+port.dx === gx && port.y+port.dy === gy) return [port.dx, port.dy];
+    }
+  }
+  return null;
+}
+
+// Turns a raw visited-cell list into placeable pieces: straight where travel
+// direction doesn't change, belt-corner (with the matching rotation/flip)
+// where it does. Endpoints synthesize their missing inDir/outDir from the
+// one neighboring direction they do have, so they come out as a plain
+// straight belt continuing the path rather than a special-cased shape.
+function computeBeltPathPieces(pathCells){
+  if(pathCells.length < 2) return [];
+  const dirs = [];
+  for(let i=0; i<pathCells.length-1; i++){
+    dirs.push([pathCells[i+1].x-pathCells[i].x, pathCells[i+1].y-pathCells[i].y]);
+  }
+  return pathCells.map((cell, i) => {
+    let inDir, outDir;
+    if(i === 0){
+      outDir = dirs[0];
+      inDir = findIncomingDirForCell(cell.x, cell.y) || outDir;
+    }
+    else if(i === pathCells.length-1){ inDir = dirs[i-1]; outDir = inDir; }
+    else { inDir = dirs[i-1]; outDir = dirs[i]; }
+    const straight = sameDir(inDir, outDir);
+    const pieceId = straight ? 'belt' : 'belt-corner';
+    const orientation = resolveBeltOrientation(pieceId, negateDir(inDir), outDir);
+    if(!orientation) return null; // shouldn't happen, but don't crash the layout if it does
+    return { x:cell.x, y:cell.y, id:pieceId, rotation:orientation.rotation, flipped:orientation.flipped };
+  }).filter(Boolean);
+}
+
+function commitBeltPath(pathCells){
+  let placedAny = false;
+  computeBeltPathPieces(pathCells).forEach(pc => {
+    if(!isCellFree(pc.x, pc.y) || !pointInWarehouse(pc.x, pc.y)) return; // re-check at commit time
+    state.placed.push({ id: pc.id, x: pc.x, y: pc.y, rotation: pc.rotation, flipped: pc.flipped });
+    placedAny = true;
+  });
+  if(placedAny){
+    saveLayout();
+    clearTraceResults();
+    updateSummary();
+  }
+  draw();
+}
+
+let isPaintingFloor = false;
+let floorPaintAdding = true;
+
+function paintFloorTile(x, y, adding){
+  const key = x + ',' + y;
+  if(adding) customFloorTileSet.add(key); else customFloorTileSet.delete(key);
+  draw();
+}
 
 canvas.addEventListener('mousedown', (e) => {
-  if(e.button !== 0) return;
-  isPanning = true; didDrag = false;
-  panStart = {x:e.clientX, y:e.clientY};
-  panOrigin = {x:state.panX, y:state.panY};
-  stage.classList.add('panning');
+  if(e.button === 0 && state.floorPaintMode){
+    isPaintingFloor = true;
+    floorPaintAdding = !customFloorTileSet.has(mouseGridX + ',' + mouseGridY);
+    paintFloorTile(mouseGridX, mouseGridY, floorPaintAdding);
+    return;
+  }
+  if(e.button === 0 && (state.heldPiece === 'belt' || state.heldPiece === 'belt-corner') && !state.movingOriginal && !state.autoRouteMode){
+    // Straight or corner belt held: drag draws a path (auto straight/corner)
+    // instead of panning — the path logic picks straight vs. corner per
+    // cell from the drag geometry either way, so it doesn't matter which of
+    // the two you started with. Move mode is excluded so dragging to
+    // reposition an existing belt still behaves like an ordinary drop.
+    isDrawingBeltPath = true;
+    beltDidDrag = false;
+    beltPathCells = [{x: mouseGridX, y: mouseGridY}];
+    return;
+  }
+  if(e.button === 0 || e.button === 2){
+    isPanning = true; panDidDrag = false; panButton = e.button;
+    panStart = {x:e.clientX, y:e.clientY};
+    panOrigin = {x:state.panX, y:state.panY};
+    stage.classList.add('panning');
+  }
 });
 window.addEventListener('mousemove', (e) => {
   const rect = canvas.getBoundingClientRect();
@@ -1259,10 +1857,40 @@ window.addEventListener('mousemove', (e) => {
   const g = toGrid(mx,my);
   mouseGridX = g.x; mouseGridY = g.y;
 
+  if(isPaintingFloor){
+    paintFloorTile(mouseGridX, mouseGridY, floorPaintAdding);
+    return;
+  }
+
+  // Both blocks can run in the same event — right-drag pan while left-drag
+  // is drawing a belt path updates panX/panY here, and the next line's
+  // mouseGridX/mouseGridY (already computed above from the CURRENT pan) is
+  // what the path reads, so the two stay in sync frame-by-frame with no
+  // separate animation loop needed.
+  if(isDrawingBeltPath){
+    const last = beltPathCells[beltPathCells.length-1];
+    if(last.x !== mouseGridX || last.y !== mouseGridY){
+      beltDidDrag = true;
+      // Cursor moved back onto an earlier point in the path — truncate back
+      // to there (lets the user "undo" by dragging backward before release).
+      const backIdx = beltPathCells.findIndex(c => c.x===mouseGridX && c.y===mouseGridY);
+      if(backIdx !== -1){
+        beltPathCells.length = backIdx+1;
+      } else {
+        for(const cell of stepPathTo(last, {x:mouseGridX, y:mouseGridY})){
+          if(beltPathCells.some(c => c.x===cell.x && c.y===cell.y)) break; // would cross itself
+          if(!isCellFree(cell.x, cell.y)) break;
+          if(!pointInWarehouse(cell.x, cell.y)) break;
+          beltPathCells.push(cell);
+        }
+      }
+    }
+  }
+
   if(isPanning){
     const dx = e.clientX - panStart.x, dy = e.clientY - panStart.y;
-    if(Math.abs(dx)>3 || Math.abs(dy)>3) didDrag = true;
-    if(didDrag){
+    if(Math.abs(dx)>3 || Math.abs(dy)>3) panDidDrag = true;
+    if(panDidDrag){
       state.panX = panOrigin.x + dx;
       state.panY = panOrigin.y + dy;
     }
@@ -1270,11 +1898,29 @@ window.addEventListener('mousemove', (e) => {
   draw();
 });
 window.addEventListener('mouseup', (e) => {
-  if(isPanning && !didDrag){
-    handleClick(e);
+  if(isPaintingFloor){
+    isPaintingFloor = false;
+    saveCustomFloor();
+    return;
   }
-  isPanning = false;
-  stage.classList.remove('panning');
+  if(e.button === 0 && isDrawingBeltPath){
+    isDrawingBeltPath = false;
+    if(!beltDidDrag){
+      // No real drag happened — ordinary single click-to-place.
+      placeHeldPiece();
+    } else {
+      commitBeltPath(beltPathCells);
+    }
+    beltPathCells = [];
+  }
+  if(isPanning && e.button === panButton){
+    if(!panDidDrag && panButton === 0){
+      handleClick(e);
+    }
+    isPanning = false;
+    panButton = null;
+    stage.classList.remove('panning');
+  }
 });
 
 function updateModeIndicator(){
@@ -1285,7 +1931,8 @@ function updateModeIndicator(){
   } else if(state.heldPiece){
     const p = PIECE_MAP[state.heldPiece];
     const flipHint = canFlip(state.heldPiece) ? ' · F to flip' : '';
-    hint.textContent = `Placing: ${p.name} — click grid to place another · right-click or Esc to stop · R to rotate${flipHint} before placing`;
+    const dragHint = (state.heldPiece === 'belt' || state.heldPiece === 'belt-corner') ? ' · drag to draw a path (auto corners)' : '';
+    hint.textContent = `Placing: ${p.name} — click grid to place another${dragHint} · right-click or Esc to stop · R to rotate${flipHint} before placing`;
   } else if(state.selectedIdx !== null){
     const inst = state.placed[state.selectedIdx];
     const p = PIECE_MAP[inst.id];
@@ -1360,7 +2007,18 @@ function placeHeldPiece(){
     flashStatus('Can\'t place there — that tile is blocked by the door\'s control panel.');
     return;
   }
-  state.placed.push({ id: p.id, x: mouseGridX, y: mouseGridY, rotation: state.heldRotation, flipped: canFlip(p.id) ? state.heldFlipped : false });
+  state.placed.push({
+    id: p.id, x: mouseGridX, y: mouseGridY, rotation: state.heldRotation,
+    flipped: canFlip(p.id) ? state.heldFlipped : false,
+    ...(p.id === 'launcher' ? { launchPower: 1, launchAngle: 30 } : {}),
+  });
+  if(p.id === 'launcher' && !state.movingOriginal){
+    // Launcher has per-instance controls (power/angle) worth seeing right
+    // away — select it without interrupting "still holding, place another"
+    // mode (hotkeys check state.heldPiece first, so this doesn't break that).
+    state.selectedIdx = state.placed.length - 1;
+    updateInfoPanel();
+  }
   if(state.movingOriginal){
     // Finished a move — select the piece at its new spot and stop holding,
     // rather than staying loaded to stamp down more copies.
@@ -1405,6 +2063,7 @@ function releaseHeldPiece(){
 
 canvas.addEventListener('contextmenu', (e) => {
   e.preventDefault();
+  if(panDidDrag) return; // was a right-drag pan, not a cancel click
   if(state.autoRouteMode){
     if(state.autoRouteSource){
       state.autoRouteSource = null;
@@ -1507,6 +2166,10 @@ window.addEventListener('keydown', (e) => {
     draw();
   }
   if(e.key === 'Escape'){
+    if(document.getElementById('helpBackdrop').classList.contains('open')){
+      closeControlsHelp();
+      return;
+    }
     releaseHeldPiece();
     state.selectedIdx = null;
     state.selectedDoor = null;
@@ -1554,11 +2217,118 @@ document.getElementById('moveBtn').addEventListener('click', () => {
   window.dispatchEvent(new KeyboardEvent('keydown', {key:'m'}));
 });
 
+// Highlights where a placed Launcher's package should land, based on its
+// selected power/angle and the measured landingGapTable (gap = blank tiles
+// between the launcher and a catcher belt that lands the package on it).
+function drawLaunchLandingMarker(){
+  if(state.selectedIdx === null) return;
+  const inst = state.placed[state.selectedIdx];
+  if(inst.id !== 'launcher') return;
+  const piece = PIECE_MAP[inst.id];
+  const power = inst.launchPower || 1;
+  const angle = inst.launchAngle || 30;
+  const row = piece.landingGapTable && piece.landingGapTable[power];
+  const gap = row ? row[angle] : undefined;
+  if(gap === undefined) return;
+
+  const dir = ROTATION_DIR_MAP[inst.rotation].front;
+  const landGx = inst.x + dir[0]*(gap+1);
+  const landGy = inst.y + dir[1]*(gap+1);
+  const pt = toPx(landGx, landGy);
+
+  ctx.save();
+  ctx.strokeStyle = '#e0b13e';
+  ctx.lineWidth = 2.5;
+  ctx.setLineDash([5,4]);
+  ctx.strokeRect(pt.x, pt.y, state.zoom, state.zoom);
+  ctx.setLineDash([]);
+  if(state.zoom > 20){
+    ctx.fillStyle = '#e0b13e';
+    ctx.font = `${Math.min(11, state.zoom*0.28)}px monospace`;
+    ctx.textAlign = 'center';
+    ctx.fillText('est. landing', pt.x + state.zoom/2, pt.y - 4);
+    ctx.textAlign = 'left';
+  }
+  ctx.restore();
+}
+
+// Small red corner-flag badge on every placed Launcher with an active
+// ceiling/light hazard — visible on the grid itself regardless of selection,
+// so it doesn't rely on someone noticing the info-panel warning text.
+function drawLauncherHazardBadges(){
+  if(!LAUNCHER_HAZARDS) return;
+  state.placed.forEach(inst => {
+    if(inst.id !== 'launcher') return;
+    const flags = getLauncherHazardFlags(inst);
+    if(!flags.ceilingHit && !flags.lightRisk) return;
+    const pt = toPx(inst.x, inst.y);
+    const size = Math.max(9, state.zoom*0.32);
+    ctx.save();
+    ctx.fillStyle = '#e5484d';
+    ctx.strokeStyle = cssVar('--ink-deep');
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(pt.x + state.zoom - size, pt.y);
+    ctx.lineTo(pt.x + state.zoom, pt.y);
+    ctx.lineTo(pt.x + state.zoom, pt.y + size);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    if(state.zoom > 16){
+      ctx.fillStyle = '#fff';
+      ctx.font = `bold ${Math.min(11, state.zoom*0.3)}px monospace`;
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'top';
+      ctx.fillText('!', pt.x + state.zoom - 2, pt.y + 1);
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'alphabetic';
+    }
+    ctx.restore();
+  });
+}
+
+// Shows approximate ceiling-light x-positions as vertical hazard lines when
+// the selected Launcher fires parallel to the delivery doors (the only
+// orientation that can cross through them) — a warning aid, not an exact
+// collision line, since positions were measured to the nearest tile.
+function drawLauncherLightHazards(){
+  if(state.selectedIdx === null || !LAUNCHER_HAZARDS) return;
+  const inst = state.placed[state.selectedIdx];
+  if(inst.id !== 'launcher' || !launcherFacingParallelToDoors(inst)) return;
+
+  ctx.save();
+  ctx.strokeStyle = '#e0b13e';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([4,4]);
+  ctx.globalAlpha = 0.6;
+  LAUNCHER_HAZARDS.lightPositionsX.forEach(lx => {
+    const top = toPx(lx, 0);
+    const bottom = toPx(lx, 39);
+    ctx.beginPath();
+    ctx.moveTo(top.x, top.y);
+    ctx.lineTo(bottom.x, bottom.y);
+    ctx.stroke();
+  });
+  ctx.setLineDash([]);
+  if(state.zoom > 14){
+    ctx.globalAlpha = 0.85;
+    ctx.fillStyle = '#e0b13e';
+    ctx.font = `${Math.min(10, state.zoom*0.26)}px monospace`;
+    ctx.textAlign = 'center';
+    LAUNCHER_HAZARDS.lightPositionsX.forEach(lx => {
+      const top = toPx(lx, 0);
+      ctx.fillText('light', top.x, top.y - 4);
+    });
+    ctx.textAlign = 'left';
+  }
+  ctx.restore();
+}
+
 function drawAutoRouteSourceMarker(){
   const center = nodeTileCenter(state.autoRouteSource);
   const pt = toPx(center.x, center.y);
   ctx.save();
-  ctx.strokeStyle = '#4f8fef';
+  ctx.strokeStyle = cssVar('--belt-blue-bright');
   ctx.lineWidth = 3;
   ctx.setLineDash([5,4]);
   ctx.beginPath();
@@ -1719,7 +2489,7 @@ function drawSinglePath(result, dimmed){
 
   ctx.save();
   ctx.globalAlpha = dimmed ? 0.35 : 1;
-  ctx.strokeStyle = '#3ecf7e';
+  ctx.strokeStyle = cssVar('--accent-green');
   ctx.lineWidth = 3;
   ctx.setLineDash([]);
   ctx.beginPath();
@@ -1871,13 +2641,94 @@ function updateInfoPanel(){
     statsHTML += `<div class="stat-row"><span class="stat-label">Currently flipped</span><span class="stat-val">${flipState}</span></div>`;
   }
 
+  let launcherControlsHTML = '';
+  if(piece.id === 'launcher' && state.selectedIdx !== null){
+    const inst = state.placed[state.selectedIdx];
+    const power = inst.launchPower || 1;
+    const angle = inst.launchAngle || 30;
+    const powerOptions = [1,2,3,4,5,6,7]
+      .map(v => `<option value="${v}"${v===power?' selected':''}>${v}</option>`).join('');
+    const angleOptions = [30,35,40,45,50,55,60,65,70]
+      .map(v => `<option value="${v}"${v===angle?' selected':''}>${v}°</option>`).join('');
+    const row = piece.landingGapTable && piece.landingGapTable[power];
+    const gap = row ? row[angle] : undefined;
+    launcherControlsHTML = `
+      <div class="stat-row"><span class="stat-label">Power</span><span class="stat-val"><select onchange="setLauncherPower(this.value)">${powerOptions}</select></span></div>
+      <div class="stat-row"><span class="stat-label">Angle</span><span class="stat-val"><select onchange="setLauncherAngle(this.value)">${angleOptions}</select></span></div>
+      <div class="stat-row"><span class="stat-label">Landing gap</span><span class="stat-val">${gap !== undefined ? gap + ' tile' + (gap===1?'':'s') + ' (measured)' : 'unknown'}</span></div>
+      ${getLauncherHazardWarningHTML(inst, power, angle)}
+    `;
+  }
+
+  const infoIconInner = piece.iconSvg
+    ? `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px; margin-right:4px;">${piece.iconSvg}</svg>`
+    : piece.icon + ' ';
   content.innerHTML = `
     <div class="piece-card">
-      <div class="name">${piece.icon} ${piece.name}</div>
+      <div class="name">${infoIconInner}${piece.name}</div>
       ${statsHTML}
+      ${launcherControlsHTML}
       ${piece.note ? `<div class="note-box">${piece.note}</div>` : ''}
     </div>
   `;
+}
+
+function setLauncherPower(val){
+  if(state.selectedIdx === null) return;
+  state.placed[state.selectedIdx].launchPower = parseInt(val, 10);
+  saveLayout();
+  updateInfoPanel();
+  draw();
+}
+
+function setLauncherAngle(val){
+  if(state.selectedIdx === null) return;
+  state.placed[state.selectedIdx].launchAngle = parseInt(val, 10);
+  saveLayout();
+  updateInfoPanel();
+  draw();
+}
+
+function launcherInLowCeilingZone(inst){
+  const z = LAUNCHER_HAZARDS && LAUNCHER_HAZARDS.lowCeilingZone;
+  if(!z) return false;
+  return inst.x >= z.x && inst.x < z.x+z.w && inst.y >= z.y && inst.y < z.y+z.h;
+}
+
+// Firing along the x-axis (rotation 0 or 180) travels parallel to the
+// delivery-door walls, which run along x — that's the orientation that can
+// cross through the perpendicular ceiling lights in the taller expansion.
+function launcherFacingParallelToDoors(inst){
+  return inst.rotation === 0 || inst.rotation === 180;
+}
+
+// Shared by the info-panel text and the on-grid badge so both agree.
+function getLauncherHazardFlags(inst){
+  const hz = LAUNCHER_HAZARDS;
+  const flags = { ceilingHit: false, lightRisk: false };
+  if(!hz) return flags;
+  const power = inst.launchPower || 1;
+  const angle = inst.launchAngle || 30;
+  if(launcherInLowCeilingZone(inst)){
+    const maxAngle = hz.ceilingMaxAngle[power];
+    if(maxAngle !== undefined && angle > maxAngle) flags.ceilingHit = true;
+  }
+  if(launcherFacingParallelToDoors(inst)) flags.lightRisk = true;
+  return flags;
+}
+
+function getLauncherHazardWarningHTML(inst, power, angle){
+  const hz = LAUNCHER_HAZARDS;
+  if(!hz) return '';
+  const flags = getLauncherHazardFlags(inst);
+  const warnings = [];
+  if(flags.ceilingHit){
+    warnings.push(`This power/angle will hit the low ceiling here — max safe angle at power ${power} in the original 20×20 zone is ${hz.ceilingMaxAngle[power]}°.`);
+  }
+  if(flags.lightRisk){
+    warnings.push(`Firing parallel to the delivery doors risks ceiling-mounted lights around x=${hz.lightPositionsX.join(', ')}. Only confirmed: power 7 needs angle ≤ ${hz.lightClearance.power7MaxAngle}° to clear them — other combos untested.`);
+  }
+  return warnings.length ? `<div class="warning-box">⚠ ${warnings.join(' ')}</div>` : '';
 }
 
 function updateSummary(){
@@ -1932,8 +2783,8 @@ function loadLayout(){
    ===================================================================== */
 async function loadGameData(){
   const [piecesRes, layoutRes] = await Promise.all([
-    fetch('data/pieces.json'),
-    fetch('data/building1-layout.json'),
+    fetch('data/pieces.json', { cache: 'no-store' }),
+    fetch('data/building1-layout.json', { cache: 'no-store' }),
   ]);
   if(!piecesRes.ok || !layoutRes.ok){
     throw new Error('Failed to fetch game data (pieces: ' + piecesRes.status + ', layout: ' + layoutRes.status + ')');
@@ -1946,6 +2797,8 @@ async function loadGameData(){
   KNOWN_ZONE_POLYGONS = layout.knownZonePolygons;
   FIXED_DOORS = layout.fixedDoors;
   WAREHOUSE_BOUNDARY = layout.warehouseBoundary;
+  WEEKLY_SCHEDULE = layout.weeklyTransportSchedule;
+  LAUNCHER_HAZARDS = layout.launcherHazards || null;
   computeDerivedData();
 }
 
@@ -1964,9 +2817,147 @@ function computeDerivedData(){
 }
 
 /* =====================================================================
+   BUFFER STORAGE CALCULATOR — for outbound doors whose transport mode
+   doesn't run every day (e.g. Maritime only ships Tuesdays), figures out
+   the longest gap between ship days and how much rack capacity is needed
+   to buffer packages across it. Uses the confirmed weekly transport
+   schedule + confirmed rack capacities — no package-flow simulation,
+   and the packages/day figure is a manual estimate the user supplies
+   (there's no way to derive real throughput from static layout data).
+   ===================================================================== */
+const STORAGE_RACK_IDS = ['storage-rack-small','storage-rack-medium','storage-rack-large'];
+
+// Which days (from WEEKLY_SCHEDULE) at least one of the door's transport modes runs.
+function activeDaysForDoor(door){
+  if(!door.transportModes || !door.transportModes.length) return null; // no schedule constraint (e.g. Rejected)
+  const active = new Set();
+  DAY_ORDER.forEach(day => {
+    const dayModes = WEEKLY_SCHEDULE[day] || [];
+    if(door.transportModes.some(m => dayModes.includes(m))) active.add(day);
+  });
+  return active;
+}
+
+// Longest run of consecutive non-ship days, cyclically across the week (wraps Sun->Mon).
+function longestGapDays(activeDaySet){
+  if(!activeDaySet || activeDaySet.size === 0) return null; // never ships per current schedule
+  if(activeDaySet.size === 7) return 0;
+  const startIdx = DAY_ORDER.findIndex(d => activeDaySet.has(d));
+  let maxGap = 0, gap = 0;
+  for(let i = 1; i <= 7; i++){
+    const day = DAY_ORDER[(startIdx + i) % 7];
+    if(activeDaySet.has(day)){ maxGap = Math.max(maxGap, gap); gap = 0; }
+    else gap++;
+  }
+  return maxGap;
+}
+
+// For a required buffer capacity, how many of each rack size it'd take, using each size alone.
+function rackOptionsFor(requiredCapacity){
+  return STORAGE_RACK_IDS.map(id => {
+    const p = PIECE_MAP[id];
+    const count = Math.ceil(requiredCapacity / p.capacity);
+    return { id, name: p.name.replace('Storage Rack ',''), count,
+      totalCapacity: count * p.capacity, totalCost: count * p.tiers[0].cost, footprintTiles: count * p.w };
+  });
+}
+
+// Doors like Road/Rail (A1) and Air/Maritime (C2) accept more than one transport
+// mode through one physical door. A package tagged for a specific mode only ships
+// on that mode's active days — sending e.g. a rail-tagged package on a truck-only
+// day errors in-game, it doesn't just ride along with the truck. So a shared door's
+// modes are NOT pooled ("ships if EITHER runs") — each mode gets its own row and
+// its own gap, computed independently, since each is a separate buffering problem.
+const TRANSPORT_MODE_LABEL = { truck:'Truck', train:'Rail', ship:'Maritime', plane:'Air' };
+
+function buildBufferCalculator(){
+  const root = document.getElementById('bufferCalcList');
+  if(!root) return;
+  root.innerHTML = '';
+  const dayAbbrev = { monday:'Mon', tuesday:'Tue', wednesday:'Wed', thursday:'Thu', friday:'Fri', saturday:'Sat', sunday:'Sun' };
+  let rendered = 0;
+
+  FIXED_DOORS.forEach((d, di) => {
+    if(d.kind !== 'outgoing' || !d.transportModes || !d.transportModes.length) return; // skip incoming + Rejected
+    rendered++;
+    const multiMode = d.transportModes.length > 1;
+
+    let blocks = '';
+    d.transportModes.forEach(mode => {
+      const activeDays = activeDaysForDoor({ transportModes:[mode] });
+      const gap = longestGapDays(activeDays);
+      const shipsLabel = DAY_ORDER.filter(day => activeDays.has(day)).map(d2 => dayAbbrev[d2]).join(', ');
+      const gapLabel = gap === 0 ? 'none — ships daily' : `${gap} day${gap===1?'':'s'}`;
+      const key = di + '::' + mode;
+      blocks += `
+        <div style="${multiMode ? 'margin-top:10px; padding-top:10px; border-top:1px solid var(--line-faint);' : ''}">
+          ${multiMode ? `<div style="font-size:11px; font-weight:600; margin-bottom:4px; color:var(--text-dim);">${TRANSPORT_MODE_LABEL[mode] || mode} only</div>` : ''}
+          <div class="stat-row"><span class="stat-label">Ships</span><span class="stat-val">${shipsLabel}</span></div>
+          <div class="stat-row"><span class="stat-label">Longest gap</span><span class="stat-val">${gapLabel}</span></div>
+          <div class="stat-row" style="align-items:center;">
+            <span class="stat-label">Est. packages/day</span>
+            <input type="number" min="0" step="1" class="buf-input" data-key="${key}" placeholder="0"
+              style="width:64px; background:var(--panel); border:1px solid var(--line-bold); color:var(--text); border-radius:4px; padding:4px 6px; font-family:var(--mono); font-size:11px;">
+          </div>
+          <div class="buf-result" id="bufResult-${key}"></div>
+        </div>
+      `;
+    });
+
+    const card = document.createElement('div');
+    card.className = 'piece-card';
+    card.innerHTML = `
+      <div class="name">${d.label}${d.code ? ' ('+d.code+')' : ''}</div>
+      ${multiMode ? `<div class="note-box">Shares one door across ${d.transportModes.map(m => TRANSPORT_MODE_LABEL[m]||m).join(' + ')} — a package errors if it's tagged for a mode that isn't running that day, so each mode is buffered separately below. Most layouts route everything through here as a single mode (usually Truck) rather than mixing.</div>` : ''}
+      ${blocks}
+    `;
+    root.appendChild(card);
+  });
+
+  if(!rendered){
+    root.innerHTML = '<div class="empty-state">No scheduled outbound doors in this layout (only Rejected doors, which ship continuously).</div>';
+  }
+}
+
+function updateBufferResult(key){
+  const input = document.querySelector(`.buf-input[data-key="${key}"]`);
+  const resultEl = document.getElementById(`bufResult-${key}`);
+  if(!input || !resultEl) return;
+  const perDay = parseFloat(input.value);
+  const mode = key.split('::')[1];
+  const gap = longestGapDays(activeDaysForDoor({ transportModes:[mode] }));
+
+  if(!perDay || perDay <= 0){ resultEl.innerHTML = ''; return; }
+  if(gap === null){
+    resultEl.innerHTML = `<div class="note-box" style="border-left-color:var(--accent-red);">This mode never runs per the current schedule — don't route packages here.</div>`;
+    return;
+  }
+  if(gap === 0){
+    resultEl.innerHTML = `<div class="note-box">Ships every day — no extra buffer needed beyond normal flow.</div>`;
+    return;
+  }
+  const required = Math.ceil(perDay * gap);
+  const options = rackOptionsFor(required);
+  resultEl.innerHTML = `
+    <div class="stat-row"><span class="stat-label">Buffer needed</span><span class="stat-val">${required} pkgs</span></div>
+    <table style="width:100%; font-size:10px; font-family:var(--mono); margin-top:4px; border-collapse:collapse;">
+      <tr style="color:var(--text-faint);"><td>Rack</td><td style="text-align:right;">Count</td><td style="text-align:right;">Cost</td><td style="text-align:right;">Tiles</td></tr>
+      ${options.map(o => `<tr><td>${o.name}</td><td style="text-align:right;">${o.count}</td><td style="text-align:right;">$${o.totalCost.toLocaleString()}</td><td style="text-align:right;">${o.footprintTiles}</td></tr>`).join('')}
+    </table>
+  `;
+}
+
+document.addEventListener('input', (e) => {
+  if(e.target.classList && e.target.classList.contains('buf-input')){
+    updateBufferResult(e.target.dataset.key);
+  }
+});
+
+/* =====================================================================
    INIT
    ===================================================================== */
 async function init(){
+  loadTheme();
   try{
     await loadGameData();
   } catch(err){
@@ -1976,8 +2967,10 @@ async function init(){
     return;
   }
   await loadProgress();
+  loadCustomFloor();
   buildPalette();
   updateProgressUI();
+  buildBufferCalculator();
   await loadLayout();
   resizeCanvas();
   updateSummary();

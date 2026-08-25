@@ -25,7 +25,8 @@
         "cost": 100
       }
     ],
-    "valLabel": "sec / tile"
+    "valLabel": "sec / tile",
+    "iconSvg": "<line x1=\"2\" y1=\"6\" x2=\"22\" y2=\"6\"/><line x1=\"2\" y1=\"18\" x2=\"22\" y2=\"18\"/><line x1=\"7\" y1=\"6\" x2=\"3\" y2=\"18\"/><line x1=\"12\" y1=\"6\" x2=\"8\" y2=\"18\"/><line x1=\"17\" y1=\"6\" x2=\"13\" y2=\"18\"/><line x1=\"22\" y1=\"6\" x2=\"18\" y2=\"18\"/>"
   },
   {
     "id": "belt-corner",
@@ -54,7 +55,8 @@
       }
     ],
     "valLabel": "sec / piece",
-    "note": "Matches straight-belt speed at tier 1 — essentially free to turn a corner."
+    "note": "Matches straight-belt speed at tier 1 — essentially free to turn a corner.",
+    "iconSvg": "<path d=\"M5 4v9a7 7 0 0 0 7 7h9\"/><path d=\"M17 16l4 4-4 4\"/>"
   },
   {
     "id": "belt-bridge",
@@ -83,7 +85,8 @@
       }
     ],
     "valLabel": "sec / piece",
-    "note": "Ramps up-and-over a gap — genuinely slower than 3 flat belts, not a bug."
+    "note": "Ramps up-and-over a gap — genuinely slower than 3 flat belts, not a bug.",
+    "iconSvg": "<line x1=\"0\" y1=\"16\" x2=\"2\" y2=\"16\"/><path d=\"M2 16c4-8 16-8 20 0\"/><line x1=\"22\" y1=\"16\" x2=\"24\" y2=\"16\"/><path d=\"M15 8l4 4-4 4\"/>"
   },
   {
     "id": "scanner-weight",
@@ -111,7 +114,8 @@
         "cost": null
       }
     ],
-    "valLabel": "sec / scan"
+    "valLabel": "sec / scan",
+    "iconSvg": "<line x1=\"12\" y1=\"3\" x2=\"12\" y2=\"21\"/><line x1=\"6\" y1=\"8\" x2=\"18\" y2=\"8\"/><path d=\"M5 8l-3 6a3 3 0 0 0 6 0z\"/><path d=\"M19 8l3 6a3 3 0 0 0-6 0z\"/><path d=\"M8 21h8\"/>"
   },
   {
     "id": "scanner-serial",
@@ -139,7 +143,8 @@
         "cost": null
       }
     ],
-    "valLabel": "sec / scan"
+    "valLabel": "sec / scan",
+    "iconSvg": "<line x1=\"4\" y1=\"4\" x2=\"4\" y2=\"20\"/><line x1=\"8\" y1=\"4\" x2=\"8\" y2=\"20\"/><line x1=\"11\" y1=\"4\" x2=\"11\" y2=\"20\"/><line x1=\"15\" y1=\"4\" x2=\"15\" y2=\"20\"/><line x1=\"18\" y1=\"4\" x2=\"18\" y2=\"20\"/><line x1=\"21\" y1=\"4\" x2=\"21\" y2=\"20\"/>"
   },
   {
     "id": "scanner-sticker",
@@ -168,7 +173,8 @@
       }
     ],
     "valLabel": "sec / scan",
-    "note": "Always first in line — it decides if a sticker needs applying before anything else scans. 3 outputs: approved (left), denied (right), no-sticker (back). Only scanner with no visual progress bar — uses sound instead."
+    "note": "Always first in line — it decides if a sticker needs applying before anything else scans. 3 outputs: approved (left), denied (right), no-sticker (back). Only scanner with no visual progress bar — uses sound instead.",
+    "iconSvg": "<path d=\"M20.59 13.41L11 3.83A2 2 0 0 0 9.5 3H4a1 1 0 0 0-1 1v5.5a2 2 0 0 0 .83 1.5l9.58 9.58a2 2 0 0 0 2.83 0l4.41-4.41a2 2 0 0 0-.06-2.76z\"/><circle cx=\"7.5\" cy=\"7.5\" r=\"1.2\"/><path d=\"M9 12.5l2 2 4-4\"/>"
   },
   {
     "id": "scanner-prohibited",
@@ -196,7 +202,8 @@
         "cost": null
       }
     ],
-    "valLabel": "sec / scan"
+    "valLabel": "sec / scan",
+    "iconSvg": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><line x1=\"5.5\" y1=\"5.5\" x2=\"18.5\" y2=\"18.5\"/>"
   },
   {
     "id": "scanner-country",
@@ -224,7 +231,8 @@
         "cost": null
       }
     ],
-    "valLabel": "sec / scan"
+    "valLabel": "sec / scan",
+    "iconSvg": "<line x1=\"5\" y1=\"3\" x2=\"5\" y2=\"21\"/><path d=\"M5 4h14l-3 4 3 4H5z\"/>"
   },
   {
     "id": "scanner-cargo-type",
@@ -253,7 +261,8 @@
       }
     ],
     "valLabel": "sec / scan",
-    "note": "Pairs with the Cargo Type Diverter downstream — this scanner validates, the diverter routes."
+    "note": "Pairs with the Cargo Type Diverter downstream — this scanner validates, the diverter routes.",
+    "iconSvg": "<path d=\"M3 8l9-5 9 5-9 5-9-5z\"/><path d=\"M3 8v9l9 5 9-5V8\"/><line x1=\"12\" y1=\"13\" x2=\"12\" y2=\"22\"/>"
   },
   {
     "id": "scanner-stamp",
@@ -281,7 +290,8 @@
         "cost": null
       }
     ],
-    "valLabel": "sec / scan"
+    "valLabel": "sec / scan",
+    "iconSvg": "<circle cx=\"12\" cy=\"12\" r=\"7\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 2v3\"/><path d=\"M12 19v3\"/><path d=\"M2 12h3\"/><path d=\"M19 12h3\"/>"
   },
   {
     "id": "sticker-applier-approved",
@@ -310,7 +320,8 @@
       }
     ],
     "valLabel": "sec / tile",
-    "note": "Same speed as a straight belt. Applies an approved sticker."
+    "note": "Same speed as a straight belt. Applies an approved sticker.",
+    "iconSvg": "<path d=\"M20.59 13.41L11 3.83A2 2 0 0 0 9.5 3H4a1 1 0 0 0-1 1v5.5a2 2 0 0 0 .83 1.5l9.58 9.58a2 2 0 0 0 2.83 0l4.41-4.41a2 2 0 0 0-.06-2.76z\"/><circle cx=\"7.5\" cy=\"7.5\" r=\"1.2\"/><path d=\"M9 12.5l2 2 4-4\"/>"
   },
   {
     "id": "sticker-applier-deny",
@@ -339,12 +350,13 @@
       }
     ],
     "valLabel": "sec / tile (assumed)",
-    "note": "Same speed as a straight belt. Applies a denied sticker."
+    "note": "Same speed as a straight belt. Applies a denied sticker.",
+    "iconSvg": "<path d=\"M20.59 13.41L11 3.83A2 2 0 0 0 9.5 3H4a1 1 0 0 0-1 1v5.5a2 2 0 0 0 .83 1.5l9.58 9.58a2 2 0 0 0 2.83 0l4.41-4.41a2 2 0 0 0-.06-2.76z\"/><circle cx=\"7.5\" cy=\"7.5\" r=\"1.2\"/><path d=\"M9 10.5l5 5\"/><path d=\"M14 10.5l-5 5\"/>"
   },
   {
     "id": "splitter",
     "name": "Smart Splitter",
-    "cat": "Logic",
+    "cat": "Belts",
     "w": 1,
     "h": 1,
     "color": "#e0b13e",
@@ -368,12 +380,13 @@
       }
     ],
     "valLabel": "sec (approx, near-instant)",
-    "note": "1 input, 3 outputs. Prioritizes sending packages to whichever output line is currently empty/least congested — active load balancing, not simple round-robin. Too fast to time precisely with a stopwatch — treat as effectively instant, not a bottleneck."
+    "note": "1 input, 3 outputs. Prioritizes sending packages to whichever output line is currently empty/least congested — active load balancing, not simple round-robin. Too fast to time precisely with a stopwatch — treat as effectively instant, not a bottleneck.",
+    "iconSvg": "<path d=\"M12 3v7\"/><path d=\"M12 10l-7 11\"/><path d=\"M12 10l7 11\"/>"
   },
   {
     "id": "joiner-conveyor",
     "name": "Joiner (2→1)",
-    "cat": "Logic",
+    "cat": "Belts",
     "w": 1,
     "h": 1,
     "color": "#e0b13e",
@@ -397,12 +410,13 @@
       }
     ],
     "valLabel": "sec / tile",
-    "note": "Same speed as a straight belt."
+    "note": "Same speed as a straight belt.",
+    "iconSvg": "<path d=\"M6 3l6 8\"/><path d=\"M18 3l-6 8\"/><path d=\"M12 11v10\"/>"
   },
   {
     "id": "joiner-multi",
     "name": "Multi Joiner (3→1)",
-    "cat": "Logic",
+    "cat": "Belts",
     "w": 1,
     "h": 1,
     "color": "#e0b13e",
@@ -425,12 +439,13 @@
         "cost": null
       }
     ],
-    "valLabel": "sec / tile (assumed)"
+    "valLabel": "sec / tile (assumed)",
+    "iconSvg": "<path d=\"M4 3l8 9\"/><path d=\"M12 3v9\"/><path d=\"M20 3l-8 9\"/><path d=\"M12 12v9\"/>"
   },
   {
     "id": "cargo-type-diverter",
     "name": "Cargo Type Diverter",
-    "cat": "Logic",
+    "cat": "Belts",
     "w": 1,
     "h": 1,
     "color": "#e0b13e",
@@ -454,12 +469,13 @@
       }
     ],
     "valLabel": "sec / tile",
-    "note": "Routes validated packages toward the matching outbound door automatically. Same speed as a straight belt."
+    "note": "Routes validated packages toward the matching outbound door automatically. Same speed as a straight belt.",
+    "iconSvg": "<path d=\"M12 3v9\"/><path d=\"M12 12l-8 9\"/><path d=\"M12 12v9\"/><path d=\"M12 12l8 9\"/>"
   },
   {
     "id": "contents-inspection-diverter",
     "name": "Contents Inspection Diverter",
-    "cat": "Logic",
+    "cat": "Belts",
     "w": 1,
     "h": 1,
     "color": "#e0b13e",
@@ -483,7 +499,8 @@
       }
     ],
     "valLabel": "sec / tile",
-    "note": "Pre-filters before the Prohibited Contents Scanner — not every package needs that check. Default: needs-scan exits right (toward the scanner), no-scan-needed continues straight through. Same speed and upgrade cost as a straight belt."
+    "note": "Pre-filters before the Prohibited Contents Scanner — not every package needs that check. Default: needs-scan exits right (toward the scanner), no-scan-needed continues straight through. Same speed and upgrade cost as a straight belt.",
+    "iconSvg": "<path d=\"M3 4h18l-7 8v6l-4 2v-8z\"/>"
   },
   {
     "id": "pauser-manual",
@@ -502,7 +519,8 @@
       }
     ],
     "valLabel": "—",
-    "note": "Player-controlled gate, click to open/close."
+    "note": "Player-controlled gate, click to open/close.",
+    "iconSvg": "<rect x=\"7\" y=\"4\" width=\"4\" height=\"16\" rx=\"1\"/><rect x=\"13\" y=\"4\" width=\"4\" height=\"16\" rx=\"1\"/>"
   },
   {
     "id": "pauser-auto",
@@ -521,7 +539,8 @@
       }
     ],
     "valLabel": "—",
-    "note": "Gates flow automatically by day-of-week transport schedule — added in the 2.0 update."
+    "note": "Gates flow automatically by day-of-week transport schedule — added in the 2.0 update.",
+    "iconSvg": "<circle cx=\"12\" cy=\"13\" r=\"8\"/><path d=\"M12 9v4l3 2\"/><path d=\"M9 2h6\"/>"
   },
   {
     "id": "storage-loader",
@@ -540,7 +559,8 @@
       }
     ],
     "valLabel": "sec / tile",
-    "note": "Same speed as a straight belt."
+    "note": "Same speed as a straight belt.",
+    "iconSvg": "<path d=\"M12 3v11\"/><path d=\"M8 10l4 4 4-4\"/><path d=\"M4 19h16\"/>"
   },
   {
     "id": "storage-unloader",
@@ -558,7 +578,8 @@
         "cost": null
       }
     ],
-    "valLabel": "sec (fixed, no upgrade tiers)"
+    "valLabel": "sec (fixed, no upgrade tiers)",
+    "iconSvg": "<path d=\"M12 21V10\"/><path d=\"M8 14l4-4 4 4\"/><path d=\"M4 19h16\"/>"
   },
   {
     "id": "storage-rack-small",
@@ -576,7 +597,9 @@
         "cost": 500
       }
     ],
-    "valLabel": "capacity: 8"
+    "valLabel": "capacity: 8",
+    "capacity": 8,
+    "iconSvg": "<rect x=\"2\" y=\"8\" width=\"20\" height=\"8\" rx=\"1\"/><line x1=\"7\" y1=\"8\" x2=\"7\" y2=\"16\"/><line x1=\"12\" y1=\"8\" x2=\"12\" y2=\"16\"/><line x1=\"17\" y1=\"8\" x2=\"17\" y2=\"16\"/>"
   },
   {
     "id": "storage-rack-medium",
@@ -594,7 +617,9 @@
         "cost": 900
       }
     ],
-    "valLabel": "capacity: 12"
+    "valLabel": "capacity: 12",
+    "capacity": 12,
+    "iconSvg": "<rect x=\"2\" y=\"5\" width=\"20\" height=\"14\" rx=\"1\"/><line x1=\"2\" y1=\"12\" x2=\"22\" y2=\"12\"/><line x1=\"7\" y1=\"5\" x2=\"7\" y2=\"19\"/><line x1=\"12\" y1=\"5\" x2=\"12\" y2=\"19\"/><line x1=\"17\" y1=\"5\" x2=\"17\" y2=\"19\"/>"
   },
   {
     "id": "storage-rack-large",
@@ -612,7 +637,9 @@
         "cost": 1600
       }
     ],
-    "valLabel": "capacity: 16"
+    "valLabel": "capacity: 16",
+    "capacity": 16,
+    "iconSvg": "<rect x=\"2\" y=\"3\" width=\"20\" height=\"18\" rx=\"1\"/><line x1=\"2\" y1=\"9\" x2=\"22\" y2=\"9\"/><line x1=\"2\" y1=\"15\" x2=\"22\" y2=\"15\"/><line x1=\"7\" y1=\"3\" x2=\"7\" y2=\"21\"/><line x1=\"12\" y1=\"3\" x2=\"12\" y2=\"21\"/><line x1=\"17\" y1=\"3\" x2=\"17\" y2=\"21\"/>"
   },
   {
     "id": "belt-speedway",
@@ -625,6 +652,30 @@
     "rotatable": true,
     "locked": true,
     "tiers": [],
-    "valLabel": "Tier 16 — not yet purchased, speed/footprint unverified"
+    "valLabel": "Tier 16 — not yet purchased, speed/footprint unverified",
+    "iconSvg": "<path d=\"M13 2L4 14h6l-1 8 9-12h-6z\"/>"
+  },
+  {
+    "id": "launcher",
+    "name": "Launcher Conveyor",
+    "cat": "Belts",
+    "w": 1,
+    "h": 1,
+    "color": "#2f6fd6",
+    "icon": "↗",
+    "rotatable": true,
+    "tiers": [],
+    "valLabel": "T12 unlock confirmed — footprint unverified (assumed 1x1)",
+    "note": "Launches a package through the air; a separate conveyor elsewhere catches it. The 3 upgrade levels only affect the approach belt's speed before launch, not distance — distance is set entirely by the Power (1-7) and Angle (30–70°, 5° steps) controls, measured 2026-08-23. landingGapTable values are the number of blank tiles between the launcher and a catcher belt that lands the package cleanly on it. Power 1 row is extrapolated from only the 30° and 70° endpoints (both 0) since it barely leaves the launcher at any angle — not individually confirmed per angle. Power 3 / 35° was a marginal catch (barely connects, behavior inconsistent) — treat that one cell as less reliable than the rest. Package always bounces exactly once after first touchdown, landing further out at higher power; footprint still unverified.",
+    "landingGapTable": {
+      "1": { "30": 0, "35": 0, "40": 0, "45": 0, "50": 0, "55": 0, "60": 0, "65": 0, "70": 0 },
+      "2": { "30": 1, "35": 1, "40": 1, "45": 1, "50": 1, "55": 1, "60": 1, "65": 1, "70": 1 },
+      "3": { "30": 3, "35": 4, "40": 4, "45": 4, "50": 3, "55": 3, "60": 3, "65": 2, "70": 2 },
+      "4": { "30": 5, "35": 6, "40": 6, "45": 6, "50": 5, "55": 5, "60": 4, "65": 4, "70": 3 },
+      "5": { "30": 8, "35": 8, "40": 8, "45": 8, "50": 8, "55": 7, "60": 7, "65": 6, "70": 5 },
+      "6": { "30": 11, "35": 12, "40": 12, "45": 11, "50": 11, "55": 10, "60": 9, "65": 8, "70": 6 },
+      "7": { "30": 14, "35": 15, "40": 15, "45": 15, "50": 14, "55": 13, "60": 12, "65": 10, "70": 7 }
+    },
+    "iconSvg": "<path d=\"M2 20h8\"/><path d=\"M10 20L20 6\"/><path d=\"M14 6h6v6\"/>"
   }
 ]

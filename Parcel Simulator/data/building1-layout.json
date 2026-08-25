@@ -2,14 +2,29 @@
   "maxTier": 15,
   "tierData": {
     "1": {
-      "cost": 1150,
       "pieces": [
         "belt",
         "belt-corner"
+      ],
+      "purchases": [
+        {
+          "name": "Industrial Scales",
+          "cost": 150,
+          "required": true
+        },
+        {
+          "name": "Weight License",
+          "cost": 300,
+          "required": true
+        },
+        {
+          "name": "Floor Expansion",
+          "cost": 700,
+          "required": true
+        }
       ]
     },
     "2": {
-      "cost": 1450,
       "pieces": [
         "joiner-conveyor",
         "belt-bridge",
@@ -17,84 +32,234 @@
         "storage-rack-small",
         "scanner-sticker",
         "scanner-weight"
+      ],
+      "purchases": [
+        {
+          "name": "Serial Number Keypad",
+          "cost": 150,
+          "required": true
+        },
+        {
+          "name": "Serial Number Verification License",
+          "cost": 300,
+          "required": true
+        },
+        {
+          "name": "Floor Expansion",
+          "cost": 1000,
+          "required": true
+        },
+        {
+          "name": "Conveyor Deliveries (L1 of 3)",
+          "cost": 1500,
+          "required": false
+        },
+        {
+          "name": "Delivery Speed (L1 of 3)",
+          "cost": 500,
+          "required": false
+        },
+        {
+          "name": "Delivery Size (L1 of 2)",
+          "cost": 500,
+          "required": false
+        }
       ]
     },
     "3": {
-      "cost": 1300,
       "pieces": [
         "scanner-serial"
+      ],
+      "purchases": [
+        {
+          "name": "Floor Expansion",
+          "cost": 1300,
+          "required": true
+        }
       ]
     },
     "4": {
-      "cost": 2250,
       "pieces": [
         "pauser-manual",
         "storage-unloader",
         "storage-rack-medium"
+      ],
+      "purchases": [
+        {
+          "name": "Parcel Opening Toolbox",
+          "cost": 150,
+          "required": true
+        },
+        {
+          "name": "Contents Inspection - Prohibited License",
+          "cost": 500,
+          "required": true
+        },
+        {
+          "name": "Floor Expansion",
+          "cost": 1600,
+          "required": true
+        },
+        {
+          "name": "Delivery Speed (L2 of 3)",
+          "cost": 1000,
+          "required": false
+        }
       ]
     },
     "5": {
-      "cost": 1900,
       "pieces": [
         "scanner-country"
+      ],
+      "purchases": [
+        {
+          "name": "Floor Expansion",
+          "cost": 1900,
+          "required": true
+        }
       ]
     },
     "6": {
-      "cost": 2700,
       "pieces": [
         "contents-inspection-diverter"
+      ],
+      "purchases": [
+        {
+          "name": "Stamp Authentication License",
+          "cost": 500,
+          "required": true
+        },
+        {
+          "name": "Floor Expansion",
+          "cost": 2200,
+          "required": true
+        },
+        {
+          "name": "Export Size (L1 of 2)",
+          "cost": 1000,
+          "required": false
+        }
       ]
     },
     "7": {
-      "cost": 2500,
       "pieces": [
         "scanner-cargo-type",
         "sticker-applier-approved",
         "sticker-applier-deny"
+      ],
+      "purchases": [
+        {
+          "name": "Floor Expansion",
+          "cost": 2500,
+          "required": true
+        }
       ]
     },
     "8": {
-      "cost": 2800,
       "pieces": [
         "storage-rack-large",
         "scanner-stamp",
         "joiner-multi",
         "cargo-type-diverter",
         "splitter"
+      ],
+      "purchases": [
+        {
+          "name": "Floor Expansion",
+          "cost": 2800,
+          "required": true
+        }
       ]
     },
     "9": {
-      "cost": 3100,
       "pieces": [
         "scanner-prohibited"
+      ],
+      "purchases": [
+        {
+          "name": "Floor Expansion",
+          "cost": 3100,
+          "required": true
+        }
       ]
     },
     "10": {
-      "cost": 3400,
-      "pieces": []
+      "pieces": [],
+      "purchases": [
+        {
+          "name": "Floor Expansion",
+          "cost": 3400,
+          "required": true
+        },
+        {
+          "name": "Automatic Exports",
+          "cost": 3000,
+          "required": false
+        }
+      ]
     },
     "11": {
-      "cost": 3700,
-      "pieces": []
+      "pieces": [],
+      "purchases": [
+        {
+          "name": "Floor Expansion",
+          "cost": 3700,
+          "required": true
+        },
+        {
+          "name": "Pallet Build Mode",
+          "cost": 5000,
+          "required": false
+        }
+      ]
     },
     "12": {
-      "cost": 4000,
       "pieces": [
         "launcher"
+      ],
+      "purchases": [
+        {
+          "name": "Floor Expansion",
+          "cost": 4000,
+          "required": true
+        }
       ]
     },
     "13": {
-      "cost": 4300,
-      "pieces": []
+      "pieces": [],
+      "purchases": [
+        {
+          "name": "Floor Expansion",
+          "cost": 4300,
+          "required": true
+        }
+      ]
     },
     "14": {
-      "cost": 4600,
-      "pieces": []
+      "pieces": [],
+      "purchases": [
+        {
+          "name": "Floor Expansion",
+          "cost": 4600,
+          "required": true
+        },
+        {
+          "name": "Flooring",
+          "cost": 5000,
+          "required": false
+        }
+      ]
     },
     "15": {
-      "cost": 4900,
       "pieces": [
         "pauser-auto"
+      ],
+      "purchases": [
+        {
+          "name": "Floor Expansion",
+          "cost": 4900,
+          "required": true
+        }
       ]
     }
   },
@@ -194,6 +359,37 @@
       }
     ]
   },
+  "weeklyTransportSchedule": {
+    "monday": [
+      "truck",
+      "train"
+    ],
+    "tuesday": [
+      "truck",
+      "train",
+      "ship"
+    ],
+    "wednesday": [
+      "truck",
+      "train",
+      "plane"
+    ],
+    "thursday": [
+      "truck",
+      "train"
+    ],
+    "friday": [
+      "truck",
+      "train",
+      "plane"
+    ],
+    "saturday": [
+      "truck"
+    ],
+    "sunday": [
+      "truck"
+    ]
+  },
   "fixedDoors": [
     {
       "kind": "incoming",
@@ -245,7 +441,10 @@
       "code": "B1",
       "wall": "north",
       "connX": 17,
-      "connY": 0
+      "connY": 0,
+      "transportModes": [
+        "plane"
+      ]
     },
     {
       "kind": "outgoing",
@@ -253,7 +452,10 @@
       "code": "C1",
       "wall": "north",
       "connX": 27,
-      "connY": 0
+      "connY": 0,
+      "transportModes": [
+        "ship"
+      ]
     },
     {
       "kind": "outgoing",
@@ -270,7 +472,11 @@
       "code": "A1",
       "wall": "west",
       "connX": 0,
-      "connY": 17
+      "connY": 17,
+      "transportModes": [
+        "truck",
+        "train"
+      ]
     },
     {
       "kind": "outgoing",
@@ -278,7 +484,10 @@
       "code": "A2",
       "wall": "east",
       "connX": 49,
-      "connY": 7
+      "connY": 7,
+      "transportModes": [
+        "truck"
+      ]
     },
     {
       "kind": "outgoing",
@@ -286,7 +495,10 @@
       "code": "B2",
       "wall": "east",
       "connX": 49,
-      "connY": 17
+      "connY": 17,
+      "transportModes": [
+        "train"
+      ]
     },
     {
       "kind": "outgoing",
@@ -294,7 +506,11 @@
       "code": "C2",
       "wall": "east",
       "connX": 49,
-      "connY": 27
+      "connY": 27,
+      "transportModes": [
+        "plane",
+        "ship"
+      ]
     }
   ],
   "warehouseBoundary": [
@@ -322,5 +538,12 @@
       "x": 0,
       "y": 20
     }
-  ]
+  ],
+  "launcherHazards": {
+    "note": "Confirmed 2026-08-23. Two separate overhead hazards for the Launcher Conveyor, distinct from the landingGapTable (which was measured clear of both). (1) Low ceiling in the original 20x20 zone (x:0-19, y:0-19 — matches knownZoneRects tier 2) caps the safe launch angle per power level; angles above the cap hit the ceiling instead of following the normal arc. (2) In the taller expansion, ceiling-mounted light fixtures run perpendicular to the delivery doors, spanning the full depth at each x position — a package launched parallel to the doors (facing along the x-axis) can clip one. Light x-positions are close estimates, not exact-tile precision (this is a warning-level feature, not a collision calculator, since we don't have a height-vs-distance trajectory profile). Only one clearance data point is confirmed (power 7 needs angle <= 50 to clear); lower power/angle combos are untested but presumed safer since their arcs are lower.",
+    "lowCeilingZone": { "x": 0, "y": 0, "w": 20, "h": 20 },
+    "ceilingMaxAngle": { "2": 70, "3": 70, "4": 65, "5": 50, "6": 35, "7": 35 },
+    "lightPositionsX": [22, 26, 31, 35.5, 41, 45.5],
+    "lightClearance": { "power7MaxAngle": 50 }
+  }
 }
