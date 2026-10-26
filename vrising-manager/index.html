@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>V Rising Server Manager · ToobsTube</title>
+<meta name="description" content="A free Windows app for running a V Rising dedicated server: start, stop, restart on a schedule with in-game warnings, back up, and check why players can't connect.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --hull: #0a0d10;
+    --panel: #10151a;
+    --panel-line: #1c242b;
+    --green: #28ec13;
+    --green-dim: #1a9c0c;
+    --purple: #b026ff;
+    --text: #e4e9ec;
+    --text-dim: #6b7480;
+    --text-mid: #9aa3ad;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--hull);
+    background-image:
+      linear-gradient(var(--panel-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--panel-line) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-attachment: fixed;
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---- Top bar ---- */
+  header {
+    border-bottom: 1px solid var(--panel-line);
+    background: rgba(10, 13, 16, 0.85);
+    backdrop-filter: blur(6px);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+  }
+
+  .logo .bolt {
+    color: var(--green);
+    font-size: 20px;
+    filter: drop-shadow(0 0 6px rgba(40,236,19,0.6));
+  }
+
+  nav {
+    display: flex;
+    gap: 28px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-mid);
+  }
+
+  nav a { transition: color 0.15s ease; }
+  nav a:hover { color: var(--green); }
+
+  /* ---- Hero ---- */
+  .hero {
+    padding: 80px 24px 60px;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--green);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px rgba(40,236,19,0.9);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+
+  h1 {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: clamp(32px, 5.5vw, 56px);
+    line-height: 1.08;
+    letter-spacing: -1px;
+    max-width: 860px;
+  }
+
+  h1 span {
+    color: var(--green);
+    text-shadow: 0 0 24px rgba(40,236,19,0.35);
+  }
+
+  .hero-sub {
+    margin-top: 22px;
+    max-width: 620px;
+    font-size: 17px;
+    color: var(--text-mid);
+  }
+
+  .hero-actions {
+    margin-top: 36px;
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .hero-note {
+    margin-top: 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 13px 22px;
+    border-radius: 3px;
+    border: 1px solid var(--panel-line);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.15s ease;
+  }
+
+  .btn-primary {
+    background: var(--green);
+    color: #06170a;
+    border-color: var(--green);
+    font-weight: 700;
+  }
+  .btn-primary:hover { box-shadow: 0 0 20px rgba(40,236,19,0.45); transform: translateY(-1px); }
+
+  .btn-ghost { color: var(--text); }
+  .btn-ghost:hover { border-color: var(--purple); color: var(--purple); }
+
+  /* ---- Screenshots ---- */
+  .shot {
+    border: 1px solid var(--panel-line);
+    border-radius: 4px;
+    background: var(--panel);
+    padding: 8px;
+  }
+
+  .shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+  }
+
+  .shot figcaption {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    padding: 10px 4px 2px;
+  }
+
+  .hero-shot { margin-top: 56px; }
+
+  .shots {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  /* ---- Sections ---- */
+  .section {
+    padding: 70px 24px;
+    border-top: 1px solid var(--panel-line);
+  }
+
+  .section-head { margin-bottom: 36px; }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .section-title {
+    font-family: var(--mono);
+    font-size: 26px;
+    font-weight: 700;
+    margin-top: 6px;
+  }
+
+  /* ---- Feature grid (same look as the homepage systems grid) ---- */
+  .systems {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--panel-line);
+    border: 1px solid var(--panel-line);
+  }
+
+  .system-card {
+    background: var(--panel);
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .system-id {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .system-name {
+    font-family: var(--mono);
+    font-size: 17px;
+    font-weight: 700;
+  }
+
+  .system-desc {
+    color: var(--text-mid);
+    font-size: 14px;
+  }
+
+  .system-card.new .system-id { color: var(--green); }
+
+  /* ---- Install steps ---- */
+  .steps {
+    list-style: none;
+    counter-reset: step;
+    display: grid;
+    gap: 1px;
+    background: var(--panel-line);
+    border: 1px solid var(--panel-line);
+  }
+
+  .steps li {
+    counter-increment: step;
+    background: var(--panel);
+    padding: 20px 26px 20px 72px;
+    position: relative;
+    color: var(--text-mid);
+    font-size: 15px;
+  }
+
+  .steps li::before {
+    content: counter(step, decimal-leading-zero);
+    position: absolute;
+    left: 26px;
+    top: 20px;
+    font-family: var(--mono);
+    font-weight: 700;
+    color: var(--green);
+  }
+
+  .steps strong { color: var(--text); font-weight: 600; }
+
+  code {
+    font-family: var(--mono);
+    font-size: 0.9em;
+    color: var(--text);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--panel-line);
+    border-radius: 2px;
+    padding: 1px 5px;
+  }
+
+  .callout {
+    margin-top: 20px;
+    border: 1px solid rgba(176,38,255,0.4);
+    background: rgba(176,38,255,0.06);
+    border-radius: 3px;
+    padding: 18px 22px;
+    color: var(--text-mid);
+    font-size: 14px;
+  }
+
+  .callout .callout-title {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 6px;
+  }
+
+  .callout + .callout { margin-top: 12px; }
+
+  .callout a, .steps a { color: var(--green); }
+  .callout a:hover, .steps a:hover { text-decoration: underline; }
+
+  /* ---- Companion tool ---- */
+  .companion {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    background: var(--panel);
+    border: 1px solid var(--panel-line);
+    padding: 26px;
+  }
+
+  .companion p { color: var(--text-mid); font-size: 15px; max-width: 640px; margin-top: 6px; }
+
+  /* ---- Footer ---- */
+  footer {
+    border-top: 1px solid var(--panel-line);
+    padding: 40px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+  .footer-links a:hover { color: var(--green); }
+
+  @media (max-width: 600px) {
+    nav { display: none; }
+    .hero { padding: 56px 16px 44px; }
+    .section { padding: 50px 16px; }
+    .wrap { padding: 0 16px; }
+    .shots { grid-template-columns: 1fr; }
+    .steps li { padding: 18px 18px 18px 60px; }
+    .steps li::before { left: 18px; top: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="topbar">
+    <a class="logo" href="/"><span class="bolt">⚡</span>TOOBS<span style="color:var(--purple)">TUBE</span></a>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#install">Install</a>
+      <a href="https://github.com/ToobsTube/V-Rising-Server-Manager" target="_blank" rel="noopener">GitHub</a>
+      <a href="/#systems">All systems</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>SYS-06 · Windows app · <span id="version">v1.1.0</span></div>
+    <h1>Run your V Rising server from <span>one window</span>.</h1>
+    <p class="hero-sub">Start, stop and restart your dedicated server, warn players before it goes down, back up the world, and change settings without digging through config files. Every stop saves the world first, so nobody loses progress.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="https://github.com/ToobsTube/V-Rising-Server-Manager/releases/latest" target="_blank" rel="noopener">Download for Windows</a>
+      <a class="btn btn-ghost" href="https://github.com/ToobsTube/V-Rising-Server-Manager" target="_blank" rel="noopener">View source</a>
+    </div>
+    <div class="hero-note">Free · Windows 10 or 11 · No Python needed</div>
+
+    <figure class="shot hero-shot">
+      <img src="server.png" width="1000" height="720" alt="The V Rising Server Manager window, showing the server running with CPU and RAM use, Start and Stop buttons, and the Server tab with the server folder, name and visibility settings.">
+    </figure>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-label">What it does</div>
+      <div class="section-title">Features</div>
+    </div>
+
+    <div class="systems">
+      <div class="system-card new">
+        <div class="system-id">New in 1.1</div>
+        <div class="system-name">Saves on every stop</div>
+        <div class="system-desc">Stopping the server shuts it down properly, so V Rising saves the world first and players log back in where they left. Scheduled and daily restarts work the same way.</div>
+      </div>
+      <div class="system-card">
+        <div class="system-id">Restarts</div>
+        <div class="system-name">Scheduled &amp; daily restarts</div>
+        <div class="system-desc">Restart in a set number of minutes, or every day at a set time. Players get in-game warnings at 10, 5, 2 and 1 minute out.</div>
+      </div>
+      <div class="system-card">
+        <div class="system-id">Backups</div>
+        <div class="system-name">World backups</div>
+        <div class="system-desc">Back up the save on demand or on a schedule, to any drive or a cloud-synced folder like OneDrive or Google Drive. Choose how many to keep.</div>
+      </div>
+      <div class="system-card new">
+        <div class="system-id">New in 1.1</div>
+        <div class="system-name">Connection Check</div>
+        <div class="system-desc">One click tells you whether the server is answering, how fast it answers from outside, and whether Steam's server list has it. Each result says what to fix.</div>
+      </div>
+      <div class="system-card">
+        <div class="system-id">Settings</div>
+        <div class="system-name">Game settings, no config files</div>
+        <div class="system-desc">Player limits, PvP, day and night length, XP and resource rates, castle decay and more, with sliders and plain-English tooltips.</div>
+      </div>
+      <div class="system-card">
+        <div class="system-id">Setup</div>
+        <div class="system-name">Install &amp; update with SteamCMD</div>
+        <div class="system-desc">Download the dedicated server from scratch or update an existing one from inside the app. It stops the server safely first.</div>
+      </div>
+      <div class="system-card">
+        <div class="system-id">Admin</div>
+        <div class="system-name">Players &amp; admin tools</div>
+        <div class="system-desc">See who's been on, make admins, kick or ban, and send announcements or RCON commands.</div>
+      </div>
+      <div class="system-card">
+        <div class="system-id">Profiles</div>
+        <div class="system-name">More than one server</div>
+        <div class="system-desc">Give each server its own profile, or run one copy of the manager per server at the same time.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="screenshots">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-label">A closer look</div>
+      <div class="section-title">Screenshots</div>
+    </div>
+    <div class="shots">
+      <figure class="shot">
+        <img src="tools.png" width="1000" height="720" loading="lazy" alt="The Tools tab: quick announcement buttons, a scheduled restart countdown, the daily restart time and warning, and the backup folder.">
+        <figcaption>Tools · announcements, restarts and backups</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="network.png" width="1000" height="720" loading="lazy" alt="The Network tab: game and query ports, the public IP hidden with Copy and Show buttons, the local IP, and three green Connection Check results.">
+        <figcaption>Network · Connection Check, with the public IP hidden</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="install">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-label">Getting started</div>
+      <div class="section-title">Install</div>
+    </div>
+
+    <ol class="steps">
+      <li><strong>Download</strong> <code>VRising.Server.Manager.exe</code> from the <a href="https://github.com/ToobsTube/V-Rising-Server-Manager/releases/latest" target="_blank" rel="noopener">latest release on GitHub</a>.</li>
+      <li><strong>Put it in a folder of its own</strong>, for example on your desktop. It saves its settings next to itself, so keep it in the same place when you update.</li>
+      <li><strong>Run it.</strong> If Windows shows "Windows protected your PC", click <strong>More info</strong>, then <strong>Run anyway</strong>.</li>
+      <li><strong>Point it at your server</strong> on the Setup tab, or let it download a fresh server with SteamCMD.</li>
+    </ol>
+
+    <div class="callout">
+      <div class="callout-title">About that Windows warning</div>
+      The app isn't code-signed, so Windows SmartScreen doesn't recognize it and warns you before the first run. That's normal for free community tools. The full source code is <a href="https://github.com/ToobsTube/V-Rising-Server-Manager" target="_blank" rel="noopener">on GitHub</a> if you'd like to check it, or run the Python script instead of the .exe.
+    </div>
+    <div class="callout">
+      <div class="callout-title">In-game warnings need RCON</div>
+      Restart warnings are sent to players through RCON. Turn it on in your server's <code>ServerHostSettings.json</code>, then enter the same password in the manager. <a href="https://github.com/ToobsTube/V-Rising-Server-Manager#enabling-rcon" target="_blank" rel="noopener">How to enable RCON</a>.
+    </div>
+    <div class="callout">
+      <div class="callout-title">Can't see your own server?</div>
+      If you play from the same house as the server, many home routers make it look slow or hide it from the list. Loosen the server list's <strong>Latency</strong> filter, or use Direct Connect to the server PC's local IP with <strong>LAN Server</strong> ticked. Players outside your home aren't affected.
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="companion">
+      <div>
+        <div class="section-label">Also for V Rising servers</div>
+        <div class="section-title">Prospector · Resource Map</div>
+        <p>See where every ore, plant and tree can spawn on your server, with the odds for each spot and what's there right now.</p>
+      </div>
+      <a class="btn btn-ghost" href="/vrising-map/">Open Prospector →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>© 2026 ToobsTube — built between shifts. Not affiliated with Stunlock Studios.</div>
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="https://www.youtube.com/@ToobsTube" target="_blank" rel="noopener">YouTube</a>
+    <a href="https://github.com/ToobsTube/V-Rising-Server-Manager" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</footer>
+
+<script>
+  // Show the newest release's version, so this page doesn't need editing for each release
+  fetch("https://api.github.com/repos/ToobsTube/V-Rising-Server-Manager/releases/latest")
+    .then(r => r.ok ? r.json() : null)
+    .then(rel => { if (rel && rel.tag_name) document.getElementById("version").textContent = rel.tag_name; })
+    .catch(() => {});
+</script>
+
+</body>
+</html>
