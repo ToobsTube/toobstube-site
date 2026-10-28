@@ -24,6 +24,8 @@
   body { background: var(--bg); color: var(--text); font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; display: flex; }
   aside { width: 300px; flex: none; background: var(--panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
   aside header { padding: 14px 16px 10px; border-bottom: 1px solid var(--border); }
+  .home { display: inline-flex; align-items: center; gap: 6px; margin: 0 0 10px; color: var(--muted); text-decoration: none; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; }
+  .home:hover { color: var(--accent); }
   h1 { font-size: 16px; margin: 0 0 2px; }
   .sub { color: var(--muted); font-size: 12px; }
   .scroll { overflow-y: auto; flex: 1; padding: 8px 16px 16px; }
@@ -71,6 +73,7 @@
 <body>
 <aside>
   <header>
+    <a class="home" href="/" title="Back to the ToobsTube homepage">&larr; ToobsTube</a>
     <h1>Resource Map</h1>
     <div class="sub">Load <code>nodes-latest.json</code> or <code>nodes-latest.json.gz</code> from the <code>BepInEx/ResourceMap</code> folder: on your server, or in your mod profile for single player. The <code>.gz</code> posted to Discord works too.</div>
     <div class="sub" style="margin-top:6px">Running a server? Try the <a href="/vrising-manager/" style="color:var(--accent)">V Rising Server Manager</a>.</div>
