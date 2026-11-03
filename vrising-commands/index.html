@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>V Rising Server Commands · ToobsTube</title>
+<meta name="description" content="Searchable cheat sheet of chat commands for a modded V Rising server: Satisvampory, Prospector, Penumbra, AutoCloseDoors and VampireCommandFramework.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --hull: #0a0d10;
+    --panel: #10151a;
+    --panel-line: #1c242b;
+    --green: #28ec13;
+    --green-dim: #1a9c0c;
+    --purple: #b026ff;
+    --text: #e4e9ec;
+    --text-dim: #6b7480;
+    --text-mid: #9aa3ad;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--hull);
+    background-image:
+      linear-gradient(var(--panel-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--panel-line) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-attachment: fixed;
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---- Top bar ---- */
+  header {
+    border-bottom: 1px solid var(--panel-line);
+    background: rgba(10, 13, 16, 0.85);
+    backdrop-filter: blur(6px);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+  }
+
+  .logo .bolt {
+    color: var(--green);
+    font-size: 20px;
+    filter: drop-shadow(0 0 6px rgba(40,236,19,0.6));
+  }
+
+  nav {
+    display: flex;
+    gap: 28px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-mid);
+  }
+
+  nav a { transition: color 0.15s ease; }
+  nav a:hover { color: var(--green); }
+
+  /* ---- Hero ---- */
+  .hero {
+    padding: 80px 24px 50px;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--green);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px rgba(40,236,19,0.9);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+
+  h1 {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: clamp(32px, 5.5vw, 56px);
+    line-height: 1.08;
+    letter-spacing: -1px;
+    max-width: 860px;
+  }
+
+  h1 span {
+    color: var(--green);
+    text-shadow: 0 0 24px rgba(40,236,19,0.35);
+  }
+
+  .hero-sub {
+    margin-top: 22px;
+    max-width: 620px;
+    font-size: 17px;
+    color: var(--text-mid);
+  }
+
+  .notes {
+    margin-top: 28px;
+    list-style: none;
+    display: grid;
+    gap: 8px;
+    max-width: 720px;
+  }
+
+  .notes li {
+    color: var(--text-mid);
+    font-size: 14px;
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .notes li::before {
+    content: "›";
+    position: absolute;
+    left: 4px;
+    color: var(--green);
+    font-family: var(--mono);
+  }
+
+  .hero-note {
+    margin-top: 20px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  /* ---- Search bar ---- */
+  .finder {
+    position: sticky;
+    top: 65px;
+    z-index: 10;
+    background: rgba(10, 13, 16, 0.92);
+    backdrop-filter: blur(6px);
+    border-top: 1px solid var(--panel-line);
+    border-bottom: 1px solid var(--panel-line);
+    padding: 16px 0;
+  }
+
+  .search-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .search {
+    flex: 1;
+    font-family: var(--mono);
+    font-size: 15px;
+    color: var(--text);
+    background: var(--panel);
+    border: 1px solid var(--panel-line);
+    border-radius: 3px;
+    padding: 12px 14px;
+    outline: none;
+    min-width: 0;
+  }
+
+  .search:focus { border-color: var(--green); box-shadow: 0 0 0 1px rgba(40,236,19,0.25); }
+  .search::placeholder { color: var(--text-dim); }
+
+  .count {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+
+  .chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+
+  .chip {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-mid);
+    background: transparent;
+    border: 1px solid var(--panel-line);
+    border-radius: 2px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .chip:hover { color: var(--text); border-color: var(--text-dim); }
+  .chip.on { color: var(--green); border-color: rgba(40,236,19,0.5); background: rgba(40,236,19,0.06); }
+  .chip.admin.on { color: var(--purple); border-color: rgba(176,38,255,0.5); background: rgba(176,38,255,0.06); }
+
+  /* ---- Command groups ---- */
+  .groups { padding: 40px 0 70px; display: grid; gap: 36px; }
+
+  .group-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .group-title {
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .group-mod {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+
+  .tag.start { color: var(--green); border-color: rgba(40,236,19,0.4); background: rgba(40,236,19,0.06); }
+  .tag.admin { color: var(--purple); border-color: rgba(176,38,255,0.4); background: rgba(176,38,255,0.06); }
+
+  .group-note {
+    font-size: 14px;
+    color: var(--text-mid);
+    margin: -4px 0 12px;
+  }
+
+  .rows {
+    border: 1px solid var(--panel-line);
+    background: var(--panel-line);
+    display: grid;
+    gap: 1px;
+  }
+
+  .row {
+    background: var(--panel);
+    display: grid;
+    grid-template-columns: minmax(220px, 340px) 1fr;
+    gap: 6px 24px;
+    padding: 14px 18px;
+    align-items: start;
+  }
+
+  .row:hover { background: #131a20; }
+
+  .cmd {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--green);
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    padding: 0;
+    word-break: break-word;
+    position: relative;
+  }
+
+  .cmd.plain { color: var(--text); cursor: default; }
+  .cmd:not(.plain):hover { text-decoration: underline; }
+
+  .cmd .copied {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-left: 8px;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .desc { font-size: 14px; color: var(--text); }
+  .desc .mod-inline {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-left: 6px;
+  }
+
+  .example {
+    margin-top: 4px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  .example code {
+    font-family: var(--mono);
+    color: var(--text-mid);
+  }
+
+  .empty {
+    display: none;
+    text-align: center;
+    padding: 50px 0;
+    font-family: var(--mono);
+    color: var(--text-dim);
+  }
+
+  /* ---- Mods ---- */
+  .section {
+    padding: 70px 24px;
+    border-top: 1px solid var(--panel-line);
+  }
+
+  .section-head { margin-bottom: 28px; }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .section-title {
+    font-family: var(--mono);
+    font-size: 26px;
+    font-weight: 700;
+    margin-top: 6px;
+  }
+
+  .mods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1px;
+    background: var(--panel-line);
+    border: 1px solid var(--panel-line);
+  }
+
+  .mod {
+    background: var(--panel);
+    padding: 20px;
+  }
+
+  .mod-name { font-family: var(--mono); font-weight: 700; font-size: 15px; }
+  .mod-ver { font-family: var(--mono); font-size: 11px; color: var(--text-dim); margin-left: 6px; }
+  .mod-about { margin-top: 8px; font-size: 14px; color: var(--text-mid); }
+
+  /* ---- Footer ---- */
+  footer {
+    border-top: 1px solid var(--panel-line);
+    padding: 40px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+  .footer-links a:hover { color: var(--green); }
+
+  @media (max-width: 720px) {
+    .row { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    nav { display: none; }
+    .hero { padding: 56px 16px 36px; }
+    .section { padding: 50px 16px; }
+    .wrap { padding: 0 16px; }
+    .topbar { padding: 18px 16px; }
+    .finder { top: 63px; }
+    .count { display: none; }
+    /* One scrolling row of chips, so the sticky search bar stays short on phones */
+    .chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+    .chip { flex: none; }
+  }
+
+  /* ---- Printed cheat sheet ---- */
+  @media print {
+    :root {
+      --panel: #fff;
+      --panel-line: #ccc;
+      --green: #146b0a;
+      --purple: #6a0fa3;
+      --text: #000;
+      --text-mid: #333;
+      --text-dim: #555;
+    }
+    body { background: #fff; }
+    header, .finder, footer, .hero-note, .copied { display: none !important; }
+    .hero { padding: 0 0 16px; }
+    h1 { font-size: 24px; }
+    h1 span { text-shadow: none; }
+    .dot { display: none; }
+    .groups { padding: 10px 0; gap: 16px; }
+    .group { break-inside: avoid; }
+    .row { padding: 6px 10px; grid-template-columns: 260px 1fr; }
+    .section { padding: 16px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="topbar">
+    <a class="logo" href="/"><span class="bolt">⚡</span>TOOBS<span style="color:var(--purple)">TUBE</span></a>
+    <nav>
+      <a href="#commands">Commands</a>
+      <a href="#mods">Mods</a>
+      <a href="/vrising-map/">Resource Map</a>
+      <a href="/#systems">All systems</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>V Rising · Cheat sheet</div>
+    <h1>Server <span>commands</span></h1>
+    <p class="hero-sub">Every chat command on the server, with what it does. Search for a command or describe what you want to do, like "find chest" or "pickup".</p>
+    <ul class="notes" id="notes"></ul>
+    <p class="hero-note">Click a command to copy it. Updated <span id="updated"></span>. Print this page (Ctrl+P) for a paper copy.</p>
+  </div>
+</section>
+
+<div class="finder" id="commands">
+  <div class="wrap">
+    <div class="search-row">
+      <input class="search" id="search" type="search" placeholder="Search commands, e.g. pull, chest, servants…" autocomplete="off" spellcheck="false" aria-label="Search commands">
+      <span class="count" id="count"></span>
+    </div>
+    <div class="chips" id="chips"></div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="groups" id="groups"></div>
+  <div class="empty" id="empty">No commands match that search.</div>
+</main>
+
+<section class="section" id="mods">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-label">Installed on the server</div>
+      <div class="section-title">Mods</div>
+    </div>
+    <div class="mods" id="modlist"></div>
+  </div>
+</section>
+
+<footer>
+  <div>© 2026 ToobsTube — built between shifts. Not affiliated with Stunlock Studios.</div>
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="/vrising-map/">Resource Map</a>
+    <a href="/vrising-manager/">Server Manager</a>
+    <a href="https://www.youtube.com/@ToobsTube" target="_blank" rel="noopener">YouTube</a>
+  </div>
+</footer>
+
+<script>
+  // Command list. Generated from commands.json, so edit that and paste it back in here.
+  const DATA = {
+  "title": "V Rising server commands",
+  "updated": "2026-11-02",
+  "notes": [
+    "Type commands in normal game chat. They all start with a . (dot).",
+    "Item names with spaces need quotes, e.g. \"Iron Ore\".",
+    "Most Satisvampory switches start off. Turn on the ones you want once and they stay on, in every castle."
+  ],
+  "mods": [
+    {
+      "name": "Satisvampory",
+      "version": "1.0.85",
+      "about": "Castle logistics: pickup, quick deposit, clan sharing, conveyors, servants."
+    },
+    {
+      "name": "Prospector",
+      "about": "Finds resources on the map."
+    },
+    {
+      "name": "Penumbra",
+      "about": "Custom merchants that trade everyday resources for in-game currency. No player commands: just visit the merchants."
+    },
+    {
+      "name": "AutoCloseDoors",
+      "about": "Doors close by themselves after a few seconds."
+    },
+    {
+      "name": "PotionDuration",
+      "about": "Potions, brews, elixirs and weapon coatings last 2 hours."
+    },
+    {
+      "name": "VampireCommandFramework",
+      "about": "Makes the . chat commands work."
+    }
+  ],
+  "start_here": [
+    {
+      "command": ".s ss",
+      "description": "Turn on quick deposit: open your inventory and sort twice quickly to put everything into the right chests."
+    },
+    {
+      "command": ".s cr",
+      "description": "Turn on craft-pull: right-click a recipe and missing materials come from your chests."
+    },
+    {
+      "command": ".s auto around",
+      "description": "Auto-pickup only for drops that appear near you, like your own kills."
+    },
+    {
+      "command": ".s asm",
+      "description": "Servants put their hunt loot into your chests."
+    },
+    {
+      "command": ".s help",
+      "description": "Full Satisvampory command list in game."
+    }
+  ],
+  "sections": [
+    {
+      "name": "Help",
+      "mod": "VampireCommandFramework",
+      "commands": [
+        {
+          "command": ".help",
+          "description": "List the mods that have commands."
+        },
+        {
+          "command": ".help <mod>",
+          "description": "Commands for one mod.",
+          "example": ".help Satisvampory"
+        },
+        {
+          "command": ".help-all",
+          "description": "Every command on the server."
+        },
+        {
+          "command": ".!",
+          "description": "Repeat your last command."
+        },
+        {
+          "command": ".! list",
+          "description": "Show your last 10 commands."
+        }
+      ]
+    },
+    {
+      "name": "Pickup",
+      "mod": "Satisvampory",
+      "commands": [
+        {
+          "command": ".s",
+          "description": "Pick up items around you right now."
+        },
+        {
+          "command": ".s auto",
+          "description": "Turn auto-pickup on or off."
+        },
+        {
+          "command": ".s auto around",
+          "description": "Auto-pickup on, only for drops that appear while you're nearby (your kills, not a friend's farm)."
+        },
+        {
+          "command": ".s auto all",
+          "description": "Auto-pickup on, grabs everything you walk past."
+        },
+        {
+          "command": ".s filter",
+          "description": "Show your pickup mode (around or all)."
+        },
+        {
+          "command": ".s radius <1-50>",
+          "description": "How far pickup reaches.",
+          "example": ".s radius 15"
+        },
+        {
+          "command": ".s exclude <item>",
+          "description": "Stop (or start again) picking up an item. With no item, shows your skip list.",
+          "example": ".s exclude cotton"
+        },
+        {
+          "command": ".s bagcap",
+          "description": "Show your pickup limits."
+        },
+        {
+          "command": ".s bagcap <item> <amount>",
+          "description": "Stop picking up an item once you have this many. 0 = never pick it up, -1 = no limit.",
+          "example": ".s bagcap cotton 200"
+        },
+        {
+          "command": ".s bagcapclear",
+          "description": "Remove all your pickup limits."
+        },
+        {
+          "command": ".s notify off",
+          "description": "Quiet pickup: no chat line for each pickup. Use on to turn it back on."
+        }
+      ]
+    },
+    {
+      "name": "Stash, pull and find",
+      "mod": "Satisvampory",
+      "commands": [
+        {
+          "command": ".stash",
+          "description": "Put your inventory (not your hotbar) into the right chests."
+        },
+        {
+          "command": ".s ss",
+          "description": "Turn on quick deposit: open your inventory and sort twice quickly."
+        },
+        {
+          "command": ".pull <item> <amount>",
+          "description": "Take items from any of your castles into your bags.",
+          "example": ".pull plank 200"
+        },
+        {
+          "command": ".pull <group>",
+          "description": "Take one stack of every item in a group.",
+          "example": ".pull seeds"
+        },
+        {
+          "command": ".s cr",
+          "description": "Turn on craft-pull: right-click a recipe and missing materials come from your chests."
+        },
+        {
+          "command": ".fi <item>",
+          "description": "Find which chest has an item.",
+          "example": ".fi \"Iron Ore\""
+        },
+        {
+          "command": ".fc <name>",
+          "description": "Find chests by their name.",
+          "example": ".fc overflow"
+        },
+        {
+          "command": ".s tidy",
+          "description": "Re-sort what's already in your chests (use after renaming chests)."
+        }
+      ]
+    },
+    {
+      "name": "Castle limits",
+      "mod": "Satisvampory",
+      "note": "Stand on your castle.",
+      "commands": [
+        {
+          "command": ".s cap",
+          "description": "Show all your crafting limits."
+        },
+        {
+          "command": ".s cap <item> <amount>",
+          "description": "Stop crafting an item once you have this many across your castles.",
+          "example": ".s cap plank 500"
+        },
+        {
+          "command": ".s capclear <item>",
+          "description": "Remove a crafting limit.",
+          "example": ".s capclear plank"
+        },
+        {
+          "command": ".s reserve",
+          "description": "Show how many of each item a chest keeps (default 10)."
+        },
+        {
+          "command": ".s reserve <amount>",
+          "description": "Change how many of each item a chest keeps. 0 turns it off.",
+          "example": ".s reserve 20"
+        },
+        {
+          "command": ".s reserve <item> <amount>",
+          "description": "Keep a different amount of one item.",
+          "example": ".s reserve plank 50"
+        }
+      ]
+    },
+    {
+      "name": "Castle and conveyors",
+      "mod": "Satisvampory",
+      "commands": [
+        {
+          "command": ".s co",
+          "description": "Turn on conveyors (chests and stations named s1, r1, etc.)."
+        },
+        {
+          "command": ".s conv <item>",
+          "description": "Why a conveyor isn't moving an item.",
+          "example": ".s conv lumber"
+        },
+        {
+          "command": ".s need",
+          "description": "Top 10 things your crafting stations are waiting for."
+        },
+        {
+          "command": ".s item <item>",
+          "description": "Where an item is stored, its limit and total.",
+          "example": ".s item \"Iron Ore\""
+        },
+        {
+          "command": ".s cs",
+          "description": "Clan Share on or off: all your clan's castles act as one storage. One person types it for the whole clan."
+        },
+        {
+          "command": ".s cse",
+          "description": "Keep this castle out of Clan Share (type again to link it back)."
+        },
+        {
+          "command": ".s hf",
+          "description": "Auto-feed this castle heart with Blood Essence (on by default)."
+        },
+        {
+          "command": ".s settings",
+          "description": "Show your current switches."
+        }
+      ]
+    },
+    {
+      "name": "Servants",
+      "mod": "Satisvampory",
+      "commands": [
+        {
+          "command": ".s asm",
+          "description": "Servants put their hunt loot into your chests."
+        },
+        {
+          "command": ".s rh",
+          "description": "List your castles for repeat hunts (servants go back out by themselves)."
+        },
+        {
+          "command": ".s rh <number>",
+          "description": "Turn repeat hunts on for one castle in that list.",
+          "example": ".s rh 2"
+        },
+        {
+          "command": ".s rh all",
+          "description": "Turn repeat hunts on for all your castles."
+        }
+      ]
+    },
+    {
+      "name": "Item short names",
+      "mod": "Satisvampory",
+      "commands": [
+        {
+          "command": "BE / GBE / PBE / ABE",
+          "description": "Blood Essence types."
+        },
+        {
+          "command": "GSS",
+          "description": "Greater Stygian Shard."
+        },
+        {
+          "command": "SGS",
+          "description": "Siege Golem Stone."
+        },
+        {
+          "command": "DSI",
+          "description": "Dark Silver Ingot."
+        },
+        {
+          "command": "OT",
+          "description": "Onyx Tear."
+        }
+      ]
+    },
+    {
+      "name": "Chest names",
+      "mod": "Satisvampory",
+      "note": "Satisvampory sorts items by the name on the chest.",
+      "commands": [
+        {
+          "command": "ore, seeds, flowers, mushrooms, wood, planks, stone, ingots, bones, blood, alchemy, coins, consumables, magic",
+          "description": "Group names: the chest takes everything in that group."
+        },
+        {
+          "command": "Lumber",
+          "description": "An exact item name: the chest takes only that item."
+        },
+        {
+          "command": "wood planks",
+          "description": "Two names with a space: the chest takes either."
+        },
+        {
+          "command": "minerals / weapons / armor",
+          "description": "These words need a chest of their own. Mixed with other words they match almost nothing."
+        },
+        {
+          "command": "General",
+          "description": "Anything without a better chest (blank names count as General too)."
+        },
+        {
+          "command": "overflow",
+          "description": "Last resort when everything else is full."
+        },
+        {
+          "command": "Personal NS",
+          "description": "Anything with NS: the mod never touches this chest."
+        },
+        {
+          "command": "bones+",
+          "description": "A + at the end gives the chest priority over other chests."
+        },
+        {
+          "command": "s1 / r1",
+          "description": "Conveyor tags: s sends on that line, r receives. A station needs both, e.g. r1 s2."
+        }
+      ]
+    },
+    {
+      "name": "Prospector",
+      "mod": "Prospector",
+      "commands": [
+        {
+          "command": ".rmap help",
+          "description": "Show the resource commands you're allowed to use."
+        },
+        {
+          "command": ".rmap find <resource>",
+          "description": "Nearest resource near you (admin-only unless the server allows it).",
+          "example": ".rmap find copper"
+        },
+        {
+          "command": ".rmap mark <resource>",
+          "description": "Same as find, and puts your map marker on it (admin-only unless the server allows it)."
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "admin": true,
+      "commands": [
+        {
+          "command": ".sg s",
+          "mod": "Satisvampory",
+          "description": "Show which Satisvampory features players are allowed to use."
+        },
+        {
+          "command": ".sg rh",
+          "mod": "Satisvampory",
+          "description": "Allow repeat hunts (off by default)."
+        },
+        {
+          "command": ".sg alias add <short> <item>",
+          "mod": "Satisvampory",
+          "description": "Add an item short name.",
+          "example": ".sg alias add ing \"Iron Ingot\""
+        },
+        {
+          "command": ".adminstash <item> <amount>",
+          "mod": "Satisvampory",
+          "description": "Spawn items into this castle's chests."
+        },
+        {
+          "command": ".pen sm [#]",
+          "mod": "Penumbra",
+          "description": "Spawn merchant number # where your mouse is."
+        },
+        {
+          "command": ".pen rm",
+          "mod": "Penumbra",
+          "description": "Remove the merchant you're hovering."
+        },
+        {
+          "command": ".acd enable / .acd disable",
+          "mod": "AutoCloseDoors",
+          "description": "Turn auto-closing doors on or off."
+        },
+        {
+          "command": ".acd time <seconds>",
+          "mod": "AutoCloseDoors",
+          "description": "Change how fast doors close."
+        },
+        {
+          "command": ".rmap dump",
+          "mod": "Prospector",
+          "description": "Write a fresh Prospector map file."
+        },
+        {
+          "command": ".rmap reload",
+          "mod": "Prospector",
+          "description": "Reload Prospector's settings."
+        },
+        {
+          "command": ".version",
+          "mod": "VampireCommandFramework",
+          "description": "List installed mods and their versions."
+        },
+        {
+          "command": ".config dump <mod>",
+          "mod": "VampireCommandFramework",
+          "description": "Show a mod's settings."
+        },
+        {
+          "command": ".config set <mod> <section> <key> <value>",
+          "mod": "VampireCommandFramework",
+          "description": "Change a mod's setting from in game."
+        }
+      ]
+    }
+  ]
+};
+
+  const el = (tag, cls, text) => {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  };
+
+  document.getElementById("updated").textContent = DATA.updated;
+  for (const n of DATA.notes) document.getElementById("notes").appendChild(el("li", null, n));
+
+  for (const m of DATA.mods) {
+    const card = el("div", "mod");
+    const name = el("div", "mod-name", m.name);
+    if (m.version) name.appendChild(el("span", "mod-ver", "v" + m.version));
+    card.append(name, el("div", "mod-about", m.about));
+    document.getElementById("modlist").appendChild(card);
+  }
+
+  // "Start here" is shown as its own group at the top
+  const groups = [
+    { name: "Start here", start: true, note: "The switches most players want on. Type each one once.", commands: DATA.start_here },
+    ...DATA.sections
+  ];
+
+  // Only real chat commands (starting with a dot) get click-to-copy
+  async function copy(btn, text) {
+    try { await navigator.clipboard.writeText(text); } catch { return; }
+    let tip = btn.querySelector(".copied");
+    if (!tip) { tip = el("span", "copied"); btn.appendChild(tip); }
+    tip.textContent = "copied";
+    clearTimeout(btn._t);
+    btn._t = setTimeout(() => tip.remove(), 1200);
+  }
+
+  const rowsIndex = [];
+  const groupsEl = document.getElementById("groups");
+
+  groups.forEach((g, gi) => {
+    const box = el("section", "group");
+    box.dataset.group = gi;
+    const head = el("div", "group-head");
+    head.appendChild(el("h2", "group-title", g.name));
+    if (g.start) head.appendChild(el("span", "tag start", "Start here"));
+    if (g.admin) head.appendChild(el("span", "tag admin", "Admin only"));
+    if (g.mod) head.appendChild(el("span", "group-mod", g.mod));
+    box.appendChild(head);
+    if (g.note) box.appendChild(el("p", "group-note", g.note));
+
+    const rows = el("div", "rows");
+    for (const c of g.commands) {
+      const row = el("div", "row");
+      const isCmd = c.command.startsWith(".");
+      const cmd = el(isCmd ? "button" : "div", isCmd ? "cmd" : "cmd plain", c.command);
+      if (isCmd) {
+        cmd.type = "button";
+        cmd.title = "Copy";
+        // Copy without placeholders like <item>, so it's ready to finish typing in chat
+        const toCopy = c.command.split(" / ")[0].replace(/\s*[<\[][^>\]]*[>\]]/g, "").trim();
+        cmd.addEventListener("click", () => copy(cmd, toCopy));
+      }
+      const right = el("div");
+      const desc = el("div", "desc", c.description);
+      if (c.mod && c.mod !== g.mod) desc.appendChild(el("span", "mod-inline", c.mod));
+      right.appendChild(desc);
+      if (c.example) {
+        const ex = el("div", "example", "Example: ");
+        ex.appendChild(el("code", null, c.example));
+        right.appendChild(ex);
+      }
+      row.append(cmd, right);
+      rows.appendChild(row);
+      // Section names are left out (the chips cover those), so "find chest" doesn't match all of "Stash, pull and find"
+      const hay = [c.command, c.description, c.example, c.mod, g.mod].filter(Boolean).join(" ").toLowerCase();
+      rowsIndex.push({ row, gi, hay, hayTight: hay.replace(/\s+/g, "") });
+    }
+    box.appendChild(rows);
+    groupsEl.appendChild(box);
+  });
+
+  // Section filter chips
+  let activeGroup = null;
+  const chipsEl = document.getElementById("chips");
+  const chips = [];
+  const addChip = (label, gi, admin) => {
+    const b = el("button", "chip" + (admin ? " admin" : ""), label);
+    b.type = "button";
+    b.addEventListener("click", () => { activeGroup = gi; update(); });
+    chipsEl.appendChild(b);
+    chips.push({ b, gi });
+  };
+  addChip("All", null);
+  groups.forEach((g, gi) => addChip(g.name, gi, g.admin));
+
+  const search = document.getElementById("search");
+  const total = rowsIndex.length;
+
+  function update() {
+    const words = search.value.toLowerCase().split(/\s+/).filter(Boolean);
+    let shown = 0;
+    const visibleGroups = new Set();
+    for (const r of rowsIndex) {
+      // Also try without spaces, so "pickup" finds "pick up"
+      const ok = (activeGroup === null || r.gi === activeGroup) && words.every(w => r.hay.includes(w) || r.hayTight.includes(w));
+      r.row.hidden = !ok;
+      if (ok) { shown++; visibleGroups.add(r.gi); }
+    }
+    for (const box of groupsEl.children) box.hidden = !visibleGroups.has(Number(box.dataset.group));
+    for (const c of chips) c.b.classList.toggle("on", c.gi === activeGroup);
+    document.getElementById("count").textContent = shown === total ? `${total} commands` : `${shown} of ${total}`;
+    document.getElementById("empty").style.display = shown ? "none" : "block";
+  }
+
+  search.addEventListener("input", update);
+  // Press / anywhere to jump to the search box
+  document.addEventListener("keydown", e => {
+    if (e.key === "/" && document.activeElement !== search) { e.preventDefault(); search.focus(); }
+  });
+  update();
+</script>
+
+</body>
+</html>
