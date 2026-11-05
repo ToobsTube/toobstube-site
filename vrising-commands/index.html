@@ -28,6 +28,8 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  [hidden] { display: none !important; }
+
   html { scroll-behavior: smooth; }
 
   body {
@@ -346,6 +348,33 @@
     font-family: var(--mono);
     color: var(--text-mid);
   }
+
+  /* ---- What's in each chest group ---- */
+  .subhead {
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 700;
+    margin: 24px 0 6px;
+  }
+
+  .items-toggle {
+    margin-top: 6px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--green);
+    cursor: pointer;
+  }
+
+  .items {
+    list-style: none;
+    columns: 3 200px;
+    column-gap: 24px;
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--text-mid);
+  }
+
+  .items li { break-inside: avoid; padding: 1px 0; }
 
   .empty {
     display: none;
@@ -955,6 +984,40 @@
   ]
 };
 
+  // What's in each chest group. Generated from chest-naming.json (item-catalog.csv on the server).
+  const CHEST_GROUPS = {
+  "note": "These are the default lists. Groups can be edited per castle: type .s group ore in game to see one for your castle, and .s group restore ore puts it back to normal.",
+  "groups": [
+    {"name": "ore", "count": 7, "holds": "All ores.", "items": ["Clay", "Copper Ore", "Gold Ore", "Iron Ore", "Quartz", "Silver Ore", "Sulphur Ore"]},
+    {"name": "flowers / herbs", "count": 23, "holds": "Flowers and plants.", "items": ["Bleeding Heart", "Bleeding Heart Seed", "Blood Rose", "Blood Rose Seed", "Corrupted Flower", "Corrupted Flower Seed", "Fire Blossom", "Fire Blossom Seed", "Mourning Lily", "Mourning Lily Seed", "Plague Brier", "Plague Brier Seeds", "Plant Fibre", "Pollen", "Radiant Fibre", "Sacred Grape Seed", "Sacred Grapes", "Snow Flower", "Snow Flower Seed", "Sunflower", "Sunflower Seed", "Thistle", "Thistle Seed"]},
+    {"name": "mushrooms", "count": 6, "holds": "Mushrooms.", "items": ["Ghost Shroom", "Ghost Shroom Spores", "Hell's Clarion Spores", "Hell’s Clarion", "Trippy Shroom", "Trippy Spores"]},
+    {"name": "tailoring / thread", "count": 12, "holds": "Cloth, thread and other tailoring materials.", "items": ["Carpet Roll", "Cloth", "Coarse Thread", "Cotton", "Cotton Seed", "Cotton Yarn", "Ghost Yarn", "Imperial Thread", "Shadow Weave", "Silk", "Silkworm", "Wool Thread"]},
+    {"name": "hides / leather", "count": 8, "holds": "Animal hides and leather.", "items": ["Bat Hide", "Bat Leather", "Leather", "Pristine Hide", "Pristine Leather", "Rugged Hide", "Thick Hide", "Thick Leather"]},
+    {"name": "wood", "count": 18, "holds": "Lumber and other raw wood types, plus saplings.", "items": ["Apple Tree Sapling", "Aspen Sapling", "Autum Aspen Sapling", "Autum Birch Sapling", "Birch Sapling", "Cherry Blossom Sapling", "Corrupted Oak", "Cursed Sapling", "Cursed Wood", "Cypress Sapling", "Gloom Wood", "Gloomy Sapling", "Hallow Wood", "Oak Sapling", "Pine Sapling", "Weeping Willow Sapling", "White Cherry Blossom Sapling", "Wood"]},
+    {"name": "planks / plank", "count": 4, "holds": "Planks, sawdust and sculptured wood. Note: Plank (exact item) is just planks; planks (group) is the whole group.", "items": ["Plank", "Reinforced Plank", "Sawdust", "Sculptured Wood"]},
+    {"name": "gems / gem", "count": 27, "holds": "Gems and gem dust.", "items": ["Crude Amethyst", "Crude Emerald", "Crude Miststone", "Crude Ruby", "Crude Sapphire", "Crude Topaz", "Crystal", "Flawless Amethyst", "Flawless Emerald", "Flawless Miststone", "Flawless Ruby", "Flawless Sapphire", "Flawless Topaz", "Gem Dust", "Gemstone", "Perfect Amethyst", "Perfect Emerald", "Perfect Miststone", "Perfect Ruby", "Perfect Sapphire", "Perfect Topaz", "Regular Amethyst", "Regular Emerald", "Regular Miststone", "Regular Ruby", "Regular Sapphire", "Regular Topaz"]},
+    {"name": "alchemy", "count": 26, "holds": "Alchemy ingredients like Grave Dust.", "items": ["Charged Battery", "Clay Mold", "Demon Fragment", "Depleted Battery", "EMP", "Exquisite Heart", "Grave Dust", "Greater Stygian Shard", "Major Explosive Box", "Minor Explosive Box", "Mutant Grease", "Onyx Tear", "Power Core", "Primal Stygian Shard", "Pristine Heart", "Rat", "Resonator", "Scourgestone", "Sludge-filled Canister", "Spectral Dust", "Stygian Shard", "Tainted Heart", "Unsullied Heart", "Vampiric Dust", "Venom Sap", "Witchdust"]},
+    {"name": "blood", "count": 5, "holds": "Blood Essence of every kind (not Blood Jewels).", "items": ["Blood Essence", "Blood Tracking", "Extract Blood Essence", "Greater Blood Essence", "Primal Blood Essence"]},
+    {"name": "bones / bone", "count": 2, "holds": "Bones.", "items": ["Bone", "Fish Bone"]},
+    {"name": "ingots / ingot", "count": 9, "holds": "Copper, iron and other ingots.", "items": ["Copper Ingot", "Copper Wires", "Dark Silver Ingot", "Ember Glass", "Gold Ingot", "Iron Body", "Iron Ingot", "Radium Alloy", "Silver Ingot"]},
+    {"name": "stone", "count": 4, "holds": "Stone and stone bricks.", "items": ["Stone", "Stone Body", "Stone Brick", "Stone Dust"]},
+    {"name": "coins / coin", "count": 4, "holds": "Coins.", "items": ["Book Coin Storage", "Copper Coin", "Goldsun Coin", "Silver Coin"]},
+    {"name": "fish", "count": 10, "holds": "Fish.", "items": ["Blood Snapper", "Corrupted Fish", "Fat Goby", "Fierce Stinger", "Golden River Bass", "Rainbow Trout", "Sage Fish", "Swamp Dweller", "The Fish", "Twilight Snapper"]},
+    {"name": "knowledge", "count": 190, "holds": "Books, plus Documents and Scrolls.", "items": ["Book 'Cordial' Wall Panels", "Book 'Distinguished' Carpet Collection", "Book 'Dux' Carpet Collection", "Book 'Hearth' Wall Panels", "Book 'Stately' Stone Walls", "Book Alchemy Lab Flooring", "Book Amulet of the Arch-Warlock", "Book Amulet of the Blademaster", "Book Amulet of the Crimson Commander", "Book Amulet of the Master Spellweaver", "Book Amulet of the Unyielding Charger", "Book Amulet of the Wicked Prophet", "Book Armor Storage", "Book Artisans Corner", "Book Assortment of Cabinets", "Book Assortment of Castle Chairs", "Book Assortment of Desk Chairs", "Book Assortment of Desks", "Book Assortment of enchanted torches", "Book Assortment of Fine Braziers", "Book Assortment of Fine Candle Stands", "Book Assortment of fine Paintings", "Book Assortment of Great Braziers", "Book Assortment of Royal Curtains", "Book Assortment of Seed Planters", "Book Assortment of Storage Lockers", "Book Assortment of Wide Storage Shelves", "Book Assortment of Windows", "Book Assortment of Workshop Decorations", "Book Banners", "Book Blood Hunter Boots", "Book Blood Hunter Chestguard", "Book Blood Hunter Gloves", "Book Blood Hunter Leggings", "Book Blood Rose Brew", "Book Brew of Ferocity", "Book Cobblestone Paths", "Book Crimson Templar Boots", "Book Crimson Templar Chestguard", "Book Crimson Templar Gloves", "Book Crimson Templar Leggings", "Book Dark Magus Boots", "Book Dark Magus Chestguard", "Book Dark Magus Gloves", "Book Dark Magus Leggings", "Book Decorative Stone Walls", "Book Default Stone", "Book Dread Plate Boots", "Book Dread Plate Chestguard", "Book Dread Plate Gloves", "Book Dread Plate Leggings", "Book Dressing Tables & Folding Walls", "Book Duskwatcher Boots", "Book Duskwatcher Chestguard", "Book Duskwatcher Gloves", "Book Duskwatcher Leggings", "Book Enchanted Brew", "Book Equipment Storage", "Book Fine Dining Table Collection", "Book Fire Resistance Brew", "Book Fireplaces", "Book Fish Storage", "Book Flying Lights", "Book Forge Flooring", "Book Garden Archways & Pergolas", "Book Garden Furniture and Lanterns", "Book Garlic Resistance Potion", "Book Gravel Paths", "Book Grim Knight Boots", "Book Grim Knight Chestguard", "Book Grim Knight Gloves", "Book Grim Knight Leggings", "Book Grim Ranger Boots", "Book Grim Ranger Gloves", "Book Grim Ranger Leggings", "Book Grim Ranger Vest", "Book Hanging Lanterns", "Book Jewel Storage", "Book Jeweller's Chamber Flooring", "Book Lamp Posts", "Book Large Alchemy Storage", "Book Large Consumables Storage", "Book Large Fountain", "Book Large Herb Storage", "Book Large Knowledge Storage", "Book Large Material Storage", "Book Large Tailoring Storage", "Book Large Woodworking Storage", "Book Library Flooring", "Book Maleficer Scholar Boots", "Book Maleficer Scholar Chestguard", "Book Maleficer Scholar Gloves", "Book Maleficer Scholar Leggings", "Book Marauder Boots", "Book Marauder Gloves", "Book Marauder Leggings", "Book Marauder Vest", "Book Material and Gem Storage Tier 1", "Book Material and Gem Storage Tier 2", "Book Merciless Copper Axes", "Book Merciless Copper Crossbow", "Book Merciless Copper Longbow", "Book Merciless Copper Mace", "Book Merciless Copper Spear", "Book Merciless Copper Sword", "Book Merciless Iron Axes", "Book Merciless Iron Claws", "Book Merciless Iron Crossbow", "Book Merciless Iron Daggers", "Book Merciless Iron Greatsword", "Book Merciless Iron Longbow", "Book Merciless Iron Mace", "Book Merciless Iron Pistols", "Book Merciless Iron Reaper", "Book Merciless Iron Slashers", "Book Merciless Iron Spear", "Book Merciless Iron Sword", "Book Merciless Iron Twinblade", "Book Merciless Iron Whip", "Book Minor Sun Resistance Brew", "Book Modest Garden Planters", "Book Noble Fences & Fountains", "Book Pendant of the Dawnrunner", "Book Pendant of the Duskwatcher", "Book Pendant of the Sorcerer", "Book Pendant of the Spellweaver", "Book Pendant of the Warlock", "Book Pendant of the Warrior", "Book Potion of Rage", "Book Prison Flooring", "Book Prison Walls", "Book Ring of the Dawnrunner", "Book Ring of the Duskwatcher", "Book Ring of the Sorcerer", "Book Ring of the Spellweaver", "Book Ring of the Warlock", "Book Ring of the Warrior", "Book Sanguine Axes", "Book Sanguine Claws", "Book Sanguine Crossbow", "Book Sanguine Daggers", "Book Sanguine Greatsword", "Book Sanguine Longbow", "Book Sanguine Mace", "Book Sanguine Pistols", "Book Sanguine Reaper", "Book Sanguine Slashers", "Book Sanguine Spear", "Book Sanguine Sword", "Book Sanguine Twinblade", "Book Sanguine Whip", "Book Shadewalker Boots", "Book Shadewalker Gloves", "Book Shadewalker Leggings", "Book Shadewalker Vest", "Book Shadowmoon Boots", "Book Shadowmoon Chestguard", "Book Shadowmoon Gloves", "Book Shadowmoon Leggings", "Book Silver Resistance Brew", "Book Simple Carpets", "Book Simple Garden Planters", "Book Slim Blood Case", "Book Small Alchemy Storage", "Book Small Consumables Storage", "Book Small Gem Storage Tier 1", "Book Small Gem Storage Tier 2", "Book Small Herb Storage", "Book Small Knowledge Storage", "Book Small Material Storage", "Book Small Tailoring Storage", "Book Small Woodworking Storage", "Book Sofa & Divan Collection", "Book Stone Ornaments", "Book Tailor’s Flooring", "Book Vases and Plants", "Book Warlock  Leggings", "Book Warlock Boots", "Book Warlock Gloves", "Book Warlock Vest", "Book Water Well", "Book Weapon Storage", "Book Wide Blood Case", "Book Witch Potion", "Book Workshop Flooring", "Book Wrangler’s Potion", "Document", "Paper", "Schematic", "Scroll"]},
+    {"name": "minerals / mineral / material / tech", "count": 15, "holds": "Crafting materials like sulphur, whetstones and coal. Needs its own chest (see the must-match-every-word rule).", "items": ["Blood Crystal", "Chitin (2 versions)", "Clay Mold", "Coal", "Copper Wires", "Emery", "Ghost Crystal", "Glass", "Gold Jewelry", "Obsidian", "Oil", "Sulphur", "Tech Scrap", "Whetstone"]},
+    {"name": "consumables / potion", "count": 42, "holds": "Potions, brews and food.", "items": ["Barrel Disguise", "Blood Coating", "Blood Merlot", "Blood Potion (2 versions)", "Blood Rose Brew", "Blood Rose Potion", "Brew of Ferocity", "Chaos Coating", "Dusk Caller", "Elixir of the Bat", "Elixir of the Beast", "Elixir of the Blasphemous", "Elixir of the Crow", "Elixir of the Prowler", "Elixir of the Raven", "Elixir of the Twisted", "Elixir of the Werewolf", "Empty Glass Bottle", "Empty waterskin", "Enchanted Brew", "Filled waterskin", "Fire Resistance Brew", "Frost Coating", "Garlic Resistance Potion", "Holy Resistance Flask", "Holy Resistance Potion", "Illusion Coating", "Irradiant Gruel", "Minor Garlic Resistance Brew", "Minor Sun Resistance Brew", "Mixed Blood Potion", "Potion of Rage", "Silver Resistance Brew", "Silver Resistance Potion", "Storm Coating", "Unholy Coating", "Vermin Salve", "Water-filled Bottle", "Witch Potion", "Wrangler’s Potion"]},
+    {"name": "weapons", "count": 190, "holds": "Finished weapons. Needs its own chest.", "items": ["Ancestral Axes Shards Tier 1 Shattered", "Ancestral Axes Shards Tier 2 Shattered", "Ancestral Claws Shards Tier 1 Shattered", "Ancestral Claws Shards Tier 2 Shattered", "Ancestral Crossbow Shards Tier 1 Shattered", "Ancestral Crossbow Shards Tier 2 Shattered", "Ancestral Daggers Shards Tier 1 Shattered", "Ancestral Daggers Shards Tier 2 Shattered", "Ancestral Greatsword Shards Tier 1 Shattered", "Ancestral Greatsword Shards Tier 2 Shattered", "Ancestral Longbow Shards Tier 1 Shattered", "Ancestral Longbow Shards Tier 2 Shattered", "Ancestral Mace Shards Tier 1 Shattered", "Ancestral Mace Shards Tier 2 Shattered", "Ancestral Pistols Shards Tier 1 Shattered", "Ancestral Pistols Shards Tier 2 Shattered", "Ancestral Reaper Shards Tier 1 Shattered", "Ancestral Reaper Shards Tier 2 Shattered", "Ancestral Slashers Shards Tier 1 Shattered", "Ancestral Slashers Shards Tier 2 Shattered", "Ancestral Spear Shards Tier 1 Shattered", "Ancestral Spear Shards Tier 2 Shattered", "Ancestral Sword Shards Tier 1 Shattered", "Ancestral Sword Shards Tier 2 Shattered", "Ancestral Twinblade Shards Tier 1 Shattered", "Ancestral Twinblade Shards Tier 2 Shattered", "Ancestral Weapon Tier 2", "Ancestral Whip Shards Tier 1 Shattered", "Ancestral Whip Shards Tier 2 Shattered", "Apocalypse Tier 3", "Apocalypse Tier 3 Shattered", "Bone Axes", "Bone Crossbow", "Bone Mace", "Bone Reaper", "Bone Slashers", "Bone Spear", "Bone Sword", "Cloud Dancers Tier 3", "Cloud Dancers Tier 3 Shattered", "Copper Axes", "Copper Crossbow", "Copper Longbow", "Copper Mace", "Copper Reaper", "Copper Slashers", "Copper Spear", "Copper Sword", "Dark Silver Axes", "Dark Silver Claws", "Dark Silver Crossbow", "Dark Silver Daggers", "Dark Silver Greatsword", "Dark Silver Mace", "Dark Silver Pistols", "Dark Silver Reaper", "Dark Silver Slashers", "Dark Silver Spear", "Dark Silver Sword", "Dark Silver Twinblade", "Dark Silver Whip", "Darkmatter Pistols", "Darksilver Longbow", "Fishing Pole", "Hand of Winter Tier 3", "Hand of Winter Tier 3 Shattered", "Iron Axes", "Iron Claws", "Iron Crossbow", "Iron Daggers", "Iron Greatsword", "Iron Longbow", "Iron Mace", "Iron Pistols", "Iron Reaper", "Iron Slashers", "Iron Spear", "Iron Sword", "Iron Twinblade", "Iron Whip", "Lumberjack's Axes", "Merciless Copper Axes", "Merciless Copper Crossbow", "Merciless Copper Longbow", "Merciless Copper Mace", "Merciless Copper Reaper", "Merciless Copper Slashers", "Merciless Copper Spear", "Merciless Copper Sword", "Merciless Iron Axes", "Merciless Iron Axes Tier 1", "Merciless Iron Claws", "Merciless Iron Claws Tier 1", "Merciless Iron Crossbow", "Merciless Iron Crossbow Tier 1", "Merciless Iron Daggers", "Merciless Iron Daggers Tier 1", "Merciless Iron Greatsword", "Merciless Iron Greatsword Tier 1", "Merciless Iron Longbow", "Merciless Iron Longbow Tier 1", "Merciless Iron Mace", "Merciless Iron Mace Tier 1", "Merciless Iron Pistols", "Merciless Iron Pistols Tier 1", "Merciless Iron Reaper", "Merciless Iron Reaper Tier 1", "Merciless Iron Slashers", "Merciless Iron Slashers Tier 1", "Merciless Iron Spear", "Merciless Iron Spear Tier 1", "Merciless Iron Sword", "Merciless Iron Sword Tier 1", "Merciless Iron Twinblade", "Merciless Iron Twinblade Tier 1", "Merciless Iron Whip", "Merciless Iron Whip Tier 1", "Miner's Mace", "Mortira's Lament Tier 3", "Mortira's Lament Tier 3 Shattered", "Oaksong Tier 3", "Oaksong Tier 3 Shattered", "Reinforced Bone Axes", "Reinforced Bone Crossbow", "Reinforced Bone Mace", "Reinforced Bone Reaper", "Reinforced Bone Slashers", "Reinforced Bone Spear", "Reinforced Bone Sword", "Sanguine Axes", "Sanguine Axes Tier 2", "Sanguine Claws", "Sanguine Claws Tier 2", "Sanguine Crossbow", "Sanguine Crossbow Tier 2", "Sanguine Daggers (2 versions)", "Sanguine Daggers Tier 2", "Sanguine Greatsword", "Sanguine Greatsword Tier 2", "Sanguine Longbow", "Sanguine Longbow Tier 2", "Sanguine Mace", "Sanguine Mace Tier 2", "Sanguine Pistols", "Sanguine Pistols Tier 2", "Sanguine Reaper", "Sanguine Reaper Tier 2", "Sanguine Slashers", "Sanguine Slashers Tier 2", "Sanguine Spear", "Sanguine Spear Tier 2", "Sanguine Sword", "Sanguine Sword Tier 2", "Sanguine Twinblade (2 versions)", "Sanguine Twinblade Tier 2", "Sanguine Whip", "Sanguine Whip Tier 2", "Shadow Axes", "Shadow Crossbow", "Shadow Greatsword", "Shadow Longbow", "Shadow Mace", "Shadow Reaper", "Shadow Slashers", "Shadow Spear", "Shadow Sword", "Shadow Whip", "Talons of the Lich Beast Tier 3", "Talons of the Lich Beast Tier 3 Shattered", "The Endbringers Tier 3", "The Endbringers Tier 3 Shattered", "The Fate Dancers Tier 3", "The Fate Dancers Tier 3 Shattered", "The General's Soul Reaper", "The Gravecaller Tier 3", "The Gravecaller Tier 3 Shattered", "The Morning Star Tier 3", "The Morning Star Tier 3 Shattered", "The Red Twins Tier 3", "The Red Twins Tier 3 Shattered", "The Siren's Wail Tier 3", "The Siren's Wail Tier 3 Shattered", "The Thousand Storms Tier 3", "The Thousand Storms Tier 3 Shattered", "The Wraithblades Tier 3", "The Wraithblades Tier 3 Shattered", "Wings of the Fallen Tier 3", "Wings of the Fallen Tier 3 Shattered"]},
+    {"name": "armor", "count": 179, "holds": "Finished armor. Needs its own chest.", "items": ["Alucard's Boots", "Alucard's Cloak", "Alucard's Coat", "Alucard's Gloves", "Alucard's Leggings", "Ashfolk Crown", "Ashfolk Crystal Ice Cloak", "Ashfolk Helmet", "Ashfolk Wildfire Cloak", "Bear Head", "Beatrice's Scarf", "Blood Hunter Boots", "Blood Hunter Chestguard", "Blood Hunter Gloves", "Blood Hunter Leggings", "Bloodstained Cloth", "Boneguard Boots", "Boneguard Chestguard", "Boneguard Gloves", "Boneguard Leggings", "Boneguard Mask", "Bonnet", "Cardinal's Cloak", "Chaos Stitched Drape", "Chemical Soaked Cloak", "Chemical Soaked Drape", "Chemical Soaked Regalia", "Crimson Templar Boots", "Crimson Templar Chestguard", "Crimson Templar Gloves", "Crimson Templar Leggings", "Crimson Ward", "Crown of the Archmage", "Dark Leather Cape", "Dark Magus Boots", "Dark Magus Chestguard", "Dark Magus Gloves", "Dark Magus Leggings", "Dawnthorn Boots", "Dawnthorn Chestguard", "Dawnthorn Gloves", "Dawnthorn Leggings", "Deer Head", "Dracula's Boots", "Dracula's Chestguard", "Dracula's Dread Boots", "Dracula's Dread Chestguard", "Dracula's Dread Gloves", "Dracula's Dread Leggings", "Dracula's Gloves", "Dracula's Grim Boots", "Dracula's Grim Chestguard", "Dracula's Grim Gloves", "Dracula's Grim Leggings", "Dracula's Leggings", "Dracula's Maleficer Boots", "Dracula's Maleficer Chestguard", "Dracula's Maleficer Gloves", "Dracula's Maleficer Leggings", "Dracula's Shadow Boots", "Dracula's Shadow Chestguard", "Dracula's Shadow Gloves", "Dracula's Shadow Leggings", "Dread Plate Boots", "Dread Plate Chestguard", "Dread Plate Gloves", "Dread Plate Leggings", "Duskwatcher Boots", "Duskwatcher Chestguard", "Duskwatcher Gloves", "Duskwatcher Leggings", "Footman’s Helmet", "Glacial Stitched Drape", "Grim Knight Boots", "Grim Knight Chestguard", "Grim Knight Gloves", "Grim Knight Leggings", "Grim Ranger Boots", "Grim Ranger Gloves", "Grim Ranger Leggings", "Grim Ranger Vest", "Hermit's Shawl", "Hollowfang Boots", "Hollowfang Chestguard", "Hollowfang Gloves", "Hollowfang Leggings", "Hunter's Cloak", "Immortal King's Cloak", "Immortal King's Drape", "Immortal King's Greathelm", "Immortal King's Mantle", "Knight’s Helmet", "Maid’s Cap", "Maid’s Scarf", "Maleficer Scholar Boots", "Maleficer Scholar Chestguard", "Maleficer Scholar Gloves", "Maleficer Scholar Leggings", "Manna Shawl", "Marauder Boots", "Marauder Gloves", "Marauder Leggings", "Marauder Vest", "Midnight Ball Gown", "Midnight Nobleman Pants", "Midnight Nobleman Suit", "Militia Helmet", "Mitre", "Necromancer’s Mitre", "Nightlurker Head", "Nightstalker Boots", "Nightstalker Gloves", "Nightstalker Leggings", "Nightstalker Vest", "Opulent Night Leggings", "Opulent Night Raiment", "Opulent Night Sabatons", "Opulent Night Vambraces", "Opulent Night Visage", "Paladin’s Helmet", "Phantom's Veil", "Pilgrim’s Hat", "Plague Doctor Mask", "Plated Boneguard Boots", "Plated Boneguard Chestguard", "Plated Boneguard Gloves", "Plated Boneguard Leggings", "Purple Feathered Cape", "Rag Hand Wraps", "Rag Shoes", "Rag Tunic", "Raged Pants", "Razer Hood", "Razer Serpent Cloak", "Razer Serpent Mantle", "Razer Serpent Wrap", "Royal Mantle of Ashfolk Kings", "Royal Veil of the Jester", "Rusted Helmet", "Scarecrow Mask", "Shadewalker Boots", "Shadewalker Gloves", "Shadewalker Leggings", "Shadewalker Vest", "Shadowmoon Boots", "Shadowmoon Chestguard", "Shadowmoon Gloves", "Shadowmoon Leggings", "Shanoa's Gown", "Shanoa's Leggings", "Shroud of the Forest", "Skull Mask", "Slave Helmet", "Soma Cruz's Boots", "Soma Cruz's Coat", "Soma Cruz's Leggings", "Straw Hat", "Tail of the Archfiend", "Tatters of the Undead", "Thousand-Stich Cloak", "Toki Feathered Cape", "Top Hat", "Traveller's Wrap", "Undead General Helmet (2 versions)", "Vampire Hunter Headgear (2 versions)", "Vampire Hunter's Drape", "Vampire Knight Boots", "Vampire Knight ChestGuard", "Vampire Knight Gloves", "Vampire Knight Leggings", "War-Torn Wine Cloak", "Warlock  Leggings", "Warlock Boots", "Warlock Gloves", "Warlock Vest", "Werewolf Head", "Wolf Head"]},
+    {"name": "jewels / jewel", "count": 154, "holds": "Jewels.", "items": ["Aftershock Jewel Tier 2", "Aftershock Jewel Tier 3", "Aftershock Jewel Tier 4", "Arctic Storm Jewel Tier 2", "Arctic Storm Jewel Tier 3", "Arctic Storm Jewel Tier 4", "Ball Lightning Jewel Tier 2", "Ball Lightning Jewel Tier 3", "Ball Lightning Jewel Tier 4", "Blood Fountain Jewel Tier 2", "Blood Fountain Jewel Tier 3", "Blood Fountain Jewel Tier 4", "Blood Jewel Tier 1", "Blood Jewel Tier 2 Jewel Tier 2", "Blood Jewel Tier 3 Jewel Tier 3", "Blood Jewel Tier 4 Jewel Tier 4", "Blood Rage Jewel Tier 2", "Blood Rage Jewel Tier 3", "Blood Rage Jewel Tier 4", "Blood Rite Jewel Tier 2", "Blood Rite Jewel Tier 3", "Blood Rite Jewel Tier 4", "Bone Explosion Jewel Tier 2", "Bone Explosion Jewel Tier 3", "Bone Explosion Jewel Tier 4", "Carrion Swarm Jewel Tier 2", "Carrion Swarm Jewel Tier 3", "Carrion Swarm Jewel Tier 4", "Chaos Barrier Jewel Tier 2", "Chaos Barrier Jewel Tier 3", "Chaos Barrier Jewel Tier 4", "Chaos Jewel Tier 1", "Chaos Jewel Tier 2 Jewel Tier 2", "Chaos Jewel Tier 3 Jewel Tier 3", "Chaos Jewel Tier 4 Jewel Tier 4", "Chaos Volley Jewel Tier 2", "Chaos Volley Jewel Tier 3", "Chaos Volley Jewel Tier 4", "Cold Snap Jewel Tier 2", "Cold Snap Jewel Tier 3", "Cold Snap Jewel Tier 4", "Corrupted Skull Jewel Tier 2", "Corrupted Skull Jewel Tier 3", "Corrupted Skull Jewel Tier 4", "Crystal Lance Jewel Tier 2", "Crystal Lance Jewel Tier 3", "Crystal Lance Jewel Tier 4", "Curse Jewel Tier 2", "Curse Jewel Tier 3", "Curse Jewel Tier 4", "Cyclone Jewel Tier 2", "Cyclone Jewel Tier 3", "Cyclone Jewel Tier 4", "Death Knight Jewel Tier 2", "Death Knight Jewel Tier 3", "Death Knight Jewel Tier 4", "Discharge Jewel Tier 2", "Discharge Jewel Tier 3", "Discharge Jewel Tier 4", "Frost Barrier Jewel Tier 2", "Frost Barrier Jewel Tier 3", "Frost Barrier Jewel Tier 4", "Frost Bat Jewel Tier 2", "Frost Bat Jewel Tier 3", "Frost Bat Jewel Tier 4", "Frost Jewel Tier 1", "Frost Jewel Tier 2 Jewel Tier 2", "Frost Jewel Tier 3 Jewel Tier 3", "Frost Jewel Tier 4 Jewel Tier 4", "Ice Nova Jewel Tier 2", "Ice Nova Jewel Tier 3", "Ice Nova Jewel Tier 4", "Illusion Jewel Tier 1", "Illusion Jewel Tier 2 Jewel Tier 2", "Illusion Jewel Tier 3 Jewel Tier 3", "Illusion Jewel Tier 4 Jewel Tier 4", "Jewel Jewel Tier 256", "Lightning Curtain Jewel Tier 2", "Lightning Curtain Jewel Tier 3", "Lightning Curtain Jewel Tier 4", "Lightning Tendrils Jewel Tier 2", "Lightning Tendrils Jewel Tier 3", "Lightning Tendrils Jewel Tier 4", "Mist Trance Jewel Tier 2", "Mist Trance Jewel Tier 3", "Mist Trance Jewel Tier 4", "Mosquito Jewel Tier 2", "Mosquito Jewel Tier 3", "Mosquito Jewel Tier 4", "Phantom Aegis Jewel Tier 2", "Phantom Aegis Jewel Tier 3", "Phantom Aegis Jewel Tier 4", "Polarity Shift Jewel Tier 2", "Polarity Shift Jewel Tier 3", "Polarity Shift Jewel Tier 4", "Power Surge Jewel Tier 2", "Power Surge Jewel Tier 3", "Power Surge Jewel Tier 4", "Rain of Chaos Jewel Tier 2", "Rain of Chaos Jewel Tier 3", "Rain of Chaos Jewel Tier 4", "Sanguine Coil Jewel Tier 2", "Sanguine Coil Jewel Tier 3", "Sanguine Coil Jewel Tier 4", "Shadowbolt Jewel Tier 2", "Shadowbolt Jewel Tier 3", "Shadowbolt Jewel Tier 4", "Soulburn Jewel Tier 2", "Soulburn Jewel Tier 3", "Soulburn Jewel Tier 4", "Spectral Wolf Jewel Tier 2", "Spectral Wolf Jewel Tier 3", "Spectral Wolf Jewel Tier 4", "Storm Jewel Tier 1", "Storm Jewel Tier 2 Jewel Tier 2", "Storm Jewel Tier 3 Jewel Tier 3", "Storm Jewel Tier 4 Jewel Tier 4", "Unholy Chains Jewel Tier 2", "Unholy Chains Jewel Tier 3", "Unholy Chains Jewel Tier 4", "Unholy Jewel Tier 1", "Unholy Jewel Tier 2 Jewel Tier 2", "Unholy Jewel Tier 3 Jewel Tier 3", "Unholy Jewel Tier 4 Jewel Tier 4", "Vampiric Curse Jewel Tier 2", "Vampiric Curse Jewel Tier 3", "Vampiric Curse Jewel Tier 4", "Veil of Blood Jewel Tier 2", "Veil of Blood Jewel Tier 3", "Veil of Blood Jewel Tier 4", "Veil of Bones Jewel Tier 2", "Veil of Bones Jewel Tier 3", "Veil of Bones Jewel Tier 4", "Veil of Chaos Jewel Tier 2", "Veil of Chaos Jewel Tier 3", "Veil of Chaos Jewel Tier 4", "Veil of Frost Jewel Tier 2", "Veil of Frost Jewel Tier 3", "Veil of Frost Jewel Tier 4", "Veil of Illusion Jewel Tier 2", "Veil of Illusion Jewel Tier 3", "Veil of Illusion Jewel Tier 4", "Veil of Storm Jewel Tier 2", "Veil of Storm Jewel Tier 3", "Veil of Storm Jewel Tier 4", "Void Jewel Tier 2", "Void Jewel Tier 3", "Void Jewel Tier 4", "Ward of the Damned Jewel Tier 2", "Ward of the Damned Jewel Tier 3", "Ward of the Damned Jewel Tier 4", "Wraith Spear Jewel Tier 2", "Wraith Spear Jewel Tier 3", "Wraith Spear Jewel Tier 4"]},
+    {"name": "magic", "count": 23, "holds": "Rings, amulets and other magic-slot gear.", "items": ["Amulet of the Arch-Warlock", "Amulet of the Blademaster", "Amulet of the Crimson Commander", "Amulet of the Master Spellweaver", "Amulet of the Unyielding Charger", "Amulet of the Wicked Prophet", "Blood Bone Ring", "Blood Key", "Blood Merlot Amulet", "Bone Ring", "Gravedigger Ring", "Pendant of the Dawnrunner", "Pendant of the Duskwatcher", "Pendant of the Sorcerer", "Pendant of the Spellweaver", "Pendant of the Warlock", "Pendant of the Warrior", "Ring of the Dawnrunner", "Ring of the Duskwatcher", "Ring of the Sorcerer", "Ring of the Spellweaver", "Ring of the Warlock", "Ring of the Warrior"]},
+    {"name": "soulshards", "count": 5, "holds": "Soul shards.", "items": ["Soul Shard of Dracula Tier 2", "Soul Shard of Solarus Tier 2", "Soul Shard of the Monster Tier 2", "Soul Shard of the Serpent Tier 2", "Soul Shard of the Winged Horror Tier 2"]},
+    {"name": "bags", "count": 6, "holds": "Bags.", "items": ["Bandit Bag", "Bat Leather Bag", "Leather Bag", "Mountain Peak Bag", "Pristine Leather Bag", "Silver Thread Bag"]},
+    {"name": "saddles", "count": 4, "holds": "Saddles.", "items": ["Darkvenom War Saddle", "Plague Chemist’s Saddle", "Rowdain's Steed", "Vampire Horse Saddle"]},
+    {"name": "relics", "count": 1, "holds": "Scourgestone Pendant.", "items": ["Scourgestone Pendant"]},
+    {"name": "seeds / seed", "count": 12, "holds": "Plant seeds (saplings go in wood). Works as a chest name, but isn't in the .s group list.", "items": ["Bleeding Heart Seed", "Blood Rose Seed", "Book Assortment of Seed Planters", "Corrupted Flower Seed", "Cotton Seed", "Fire Blossom Seed", "Mourning Lily Seed", "Plague Brier Seeds", "Sacred Grape Seed", "Snow Flower Seed", "Sunflower Seed", "Thistle Seed"]}
+  ]
+};
+
   const el = (tag, cls, text) => {
     const e = document.createElement(tag);
     if (cls) e.className = cls;
@@ -990,6 +1053,33 @@
   }
 
   const rowsIndex = [];
+  const chestRows = [];
+
+  function addChestGroups(box, gi) {
+    const head = el("h3", "subhead", "What's in each group");
+    const note = el("p", "group-note", CHEST_GROUPS.note);
+    const rows = el("div", "rows");
+    for (const g of CHEST_GROUPS.groups) {
+      const row = el("div", "row");
+      const right = el("div");
+      right.appendChild(el("div", "desc", g.holds));
+      const details = el("details");
+      details.appendChild(el("summary", "items-toggle", `Show ${g.count} item${g.count === 1 ? "" : "s"}`));
+      const list = el("ul", "items");
+      const items = g.items.map(name => {
+        const li = el("li", null, name);
+        list.appendChild(li);
+        return { li, name: name.toLowerCase() };
+      });
+      details.appendChild(list);
+      right.appendChild(details);
+      row.append(el("div", "cmd plain", g.name), right);
+      rows.appendChild(row);
+      chestRows.push({ row, gi, details, items, hay: (g.name + " " + g.holds).toLowerCase() });
+    }
+    box.append(head, note, rows);
+    chestRows.head = [head, note, rows];
+  }
   const groupsEl = document.getElementById("groups");
 
   groups.forEach((g, gi) => {
@@ -1031,6 +1121,7 @@
       rowsIndex.push({ row, gi, hay, hayTight: hay.replace(/\s+/g, "") });
     }
     box.appendChild(rows);
+    if (g.name === "Chest names") addChestGroups(box, gi);
     groupsEl.appendChild(box);
   });
 
@@ -1061,10 +1152,29 @@
       r.row.hidden = !ok;
       if (ok) { shown++; visibleGroups.add(r.gi); }
     }
+    // A search for an item opens its group and shows just the matching items
+    let shownChest = 0;
+    for (const r of chestRows) {
+      const inGroup = (activeGroup === null || r.gi === activeGroup);
+      let itemHits = 0;
+      for (const it of r.items) {
+        const hit = words.length > 0 && words.every(w => it.name.includes(w));
+        it.li.hidden = words.length > 0 && !hit;
+        if (hit) itemHits++;
+      }
+      const named = words.every(w => r.hay.includes(w));
+      if (named && !itemHits) for (const it of r.items) it.li.hidden = false;
+      const ok = inGroup && (named || itemHits > 0);
+      r.row.hidden = !ok;
+      r.details.open = ok && itemHits > 0;
+      if (ok) { shownChest++; visibleGroups.add(r.gi); }
+    }
+    for (const part of chestRows.head) part.hidden = !shownChest;
     for (const box of groupsEl.children) box.hidden = !visibleGroups.has(Number(box.dataset.group));
     for (const c of chips) c.b.classList.toggle("on", c.gi === activeGroup);
-    document.getElementById("count").textContent = shown === total ? `${total} commands` : `${shown} of ${total}`;
-    document.getElementById("empty").style.display = shown ? "none" : "block";
+    document.getElementById("count").textContent = shown === total ? `${total} commands`
+      : !shown && shownChest ? `${shownChest} chest group${shownChest === 1 ? "" : "s"}` : `${shown} of ${total}`;
+    document.getElementById("empty").style.display = shown || shownChest ? "none" : "block";
   }
 
   search.addEventListener("input", update);
