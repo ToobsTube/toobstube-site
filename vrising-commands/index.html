@@ -376,6 +376,8 @@
   .row[id] { scroll-margin-top: 280px; }
   .row.flash { outline: 1px solid var(--green); outline-offset: -1px; }
 
+  .group-commands { display: grid; justify-items: start; gap: 4px; margin-top: 8px; }
+
   .rule-title { font-weight: 600; margin-bottom: 2px; }
   .rule-link { color: var(--green); text-decoration: underline; }
   .chest-name { font-family: var(--mono); color: var(--text-mid); }
@@ -1010,7 +1012,7 @@
   // Chest naming guide. This is chest-naming.json as is, so edit that and paste it back in here.
   const CHEST_GUIDE = {
   "title": "Naming your chests (Satisvampory)",
-  "updated": "2026-11-04",
+  "updated": "2026-11-06",
   "mod_version": "Satisvampory 1.0.85",
   "intro": "Satisvampory decides where items go by the name on the chest. Rename a chest like normal in game. You don't have to name everything: start with a few and add more as you go.",
 
@@ -1053,9 +1055,9 @@
     "intro": "Built-in group names. A chest with one of these names takes everything in the group. Plural and singular both work where shown.",
     "items": [
       { "name": "ore", "count": 7, "holds": "All ores.", "items": ["Clay", "Copper Ore", "Gold Ore", "Iron Ore", "Quartz", "Silver Ore", "Sulphur Ore"] },
-      { "name": "flowers / herbs", "count": 23, "holds": "Flowers and plants.", "items": ["Bleeding Heart", "Bleeding Heart Seed", "Blood Rose", "Blood Rose Seed", "Corrupted Flower", "Corrupted Flower Seed", "Fire Blossom", "Fire Blossom Seed", "Mourning Lily", "Mourning Lily Seed", "Plague Brier", "Plague Brier Seeds", "Plant Fibre", "Pollen", "Radiant Fibre", "Sacred Grape Seed", "Sacred Grapes", "Snow Flower", "Snow Flower Seed", "Sunflower", "Sunflower Seed", "Thistle", "Thistle Seed"] },
+      { "name": "flowers / herbs", "count": 24, "holds": "Flowers, plants and their seeds. Cotton Seed was moved here from tailoring on this server's main castles: on other players' castles, the owner needs to type the commands below.", "commands": [".s group flowers add \"Cotton Seed\"", ".s group tailoring remove \"Cotton Seed\""], "items": ["Bleeding Heart", "Bleeding Heart Seed", "Blood Rose", "Blood Rose Seed", "Corrupted Flower", "Corrupted Flower Seed", "Cotton Seed", "Fire Blossom", "Fire Blossom Seed", "Mourning Lily", "Mourning Lily Seed", "Plague Brier", "Plague Brier Seeds", "Plant Fibre", "Pollen", "Radiant Fibre", "Sacred Grape Seed", "Sacred Grapes", "Snow Flower", "Snow Flower Seed", "Sunflower", "Sunflower Seed", "Thistle", "Thistle Seed"] },
       { "name": "mushrooms", "count": 6, "holds": "Mushrooms.", "items": ["Ghost Shroom", "Ghost Shroom Spores", "Hell's Clarion Spores", "Hell’s Clarion", "Trippy Shroom", "Trippy Spores"] },
-      { "name": "tailoring / thread", "count": 12, "holds": "Cloth, thread and other tailoring materials.", "items": ["Carpet Roll", "Cloth", "Coarse Thread", "Cotton", "Cotton Seed", "Cotton Yarn", "Ghost Yarn", "Imperial Thread", "Shadow Weave", "Silk", "Silkworm", "Wool Thread"] },
+      { "name": "tailoring / thread", "count": 11, "holds": "Cloth, thread and other tailoring materials.", "items": ["Carpet Roll", "Cloth", "Coarse Thread", "Cotton", "Cotton Yarn", "Ghost Yarn", "Imperial Thread", "Shadow Weave", "Silk", "Silkworm", "Wool Thread"] },
       { "name": "hides / leather", "count": 8, "holds": "Animal hides and leather.", "items": ["Bat Hide", "Bat Leather", "Leather", "Pristine Hide", "Pristine Leather", "Rugged Hide", "Thick Hide", "Thick Leather"] },
       { "name": "wood", "count": 18, "holds": "Lumber and other raw wood types, plus saplings.", "items": ["Apple Tree Sapling", "Aspen Sapling", "Autum Aspen Sapling", "Autum Birch Sapling", "Birch Sapling", "Cherry Blossom Sapling", "Corrupted Oak", "Cursed Sapling", "Cursed Wood", "Cypress Sapling", "Gloom Wood", "Gloomy Sapling", "Hallow Wood", "Oak Sapling", "Pine Sapling", "Weeping Willow Sapling", "White Cherry Blossom Sapling", "Wood"] },
       { "name": "planks / plank", "count": 4, "holds": "Planks, sawdust and sculptured wood. Note: Plank (exact item) is just planks; planks (group) is the whole group.", "items": ["Plank", "Reinforced Plank", "Sawdust", "Sculptured Wood"] },
@@ -1080,7 +1082,7 @@
       { "name": "relics", "count": 1, "holds": "Scourgestone Pendant.", "items": ["Scourgestone Pendant"] }
     ],
     "extra_words": [
-      { "name": "seeds / seed", "holds": "Plant seeds (saplings go in wood). Works as a chest name, but isn't in the .s group list.", "items": ["Bleeding Heart Seed", "Blood Rose Seed", "Book Assortment of Seed Planters", "Corrupted Flower Seed", "Cotton Seed", "Fire Blossom Seed", "Mourning Lily Seed", "Plague Brier Seeds", "Sacred Grape Seed", "Snow Flower Seed", "Sunflower Seed", "Thistle Seed"] }
+      { "name": "seeds / seed", "holds": "Plant seeds (saplings go in wood). Works as a chest name, but isn't in the .s group list. It matches items with seed in their name, but most seeds are in the flowers group, and a chest named flowers beats a chest named seeds.", "items": ["Bleeding Heart Seed", "Blood Rose Seed", "Book Assortment of Seed Planters", "Corrupted Flower Seed", "Cotton Seed", "Fire Blossom Seed", "Mourning Lily Seed", "Plague Brier Seeds", "Sacred Grape Seed", "Snow Flower Seed", "Sunflower Seed", "Thistle Seed"] }
     ],
     "tip": "Type .s group in game to list every group, or .s group ore to see what's in one and how much you have. Groups can be edited per castle; .s group restore <name> puts one back to normal."
   },
@@ -1253,6 +1255,17 @@
       const desc = el("div", opts.mono ? "desc chest-name" : "desc");
       if (opts.group) describeGroup(desc, text); else desc.textContent = text;
       right.appendChild(desc);
+      if (opts.commands) {
+        const list = el("div", "group-commands");
+        for (const c of opts.commands) {
+          const btn = el("button", "cmd", c);
+          btn.type = "button";
+          btn.title = "Copy";
+          btn.addEventListener("click", () => copy(btn, c));
+          list.appendChild(btn);
+        }
+        right.appendChild(list);
+      }
       const entry = { row, gi, items: [] };
       if (opts.items) {
         const details = el("details");
@@ -1271,7 +1284,7 @@
       row.appendChild(right);
       if (!section.rows.parentNode) section.wrap.appendChild(section.rows);
       section.rows.appendChild(row);
-      entry.hay = [left, opts.title, text].filter(Boolean).join(" ").toLowerCase();
+      entry.hay = [left, opts.title, text, ...(opts.commands || [])].filter(Boolean).join(" ").toLowerCase();
       entry.hayTight = entry.hay.replace(/\s+/g, "");
       section.entries.push(entry);
       chestRows.push(entry);
@@ -1294,7 +1307,7 @@
     for (const r of guide.naming_rules) addRow(s, r.example, r.meaning, { title: r.title, id: r.title && slug(r.title) });
 
     s = addSection("What's in each group", guide.groups.intro);
-    for (const g of guide.groups.items) addRow(s, g.name, g.holds, { group: true, items: g.items, count: g.count });
+    for (const g of guide.groups.items) addRow(s, g.name, g.holds, { group: true, items: g.items, count: g.count, commands: g.commands });
     for (const g of guide.groups.extra_words) addRow(s, g.name, g.holds, { items: g.items });
     after(s, guide.groups.tip);
 
